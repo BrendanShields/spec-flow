@@ -41,6 +41,61 @@ Create comprehensive implementation plans with architecture decisions and techni
 - `contracts/` - API specifications
 - `quickstart.md` - Test scenarios
 
+## MCP Integration (Confluence)
+
+If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically syncs implementation plan to Confluence:
+
+### Confluence Page Sync
+
+**After plan generation**:
+1. Read existing feature Confluence page (created by `flow:specify`)
+2. Create "Implementation Plan" subpage under feature page
+3. Sync plan artifacts to Confluence:
+
+```javascript
+// Create or update Implementation Plan page
+const planPage = await mcp.confluence.createPage({
+  parentId: featurePageId,
+  title: 'Implementation Plan',
+  body: {
+    architecture: plan.architecture,
+    techStack: plan.techStack,
+    dataModel: plan.dataModel,
+    apiContracts: plan.contracts,
+    timeline: plan.phases
+  }
+});
+```
+
+### Content Sections
+
+**Architecture Decisions**:
+- Sync ADRs from `research.md`
+- Format as Confluence decision tables
+- Link to related JIRA stories
+
+**Data Model**:
+- Sync `data-model.md` with entity diagrams
+- Create interactive entity tables
+- Add relationships visualization
+
+**API Contracts**:
+- Sync OpenAPI/GraphQL schemas from `contracts/`
+- Format as collapsible code blocks
+- Add request/response examples
+
+**Implementation Timeline**:
+- Create Gantt chart from phases
+- Link each phase to JIRA subtasks
+- Show dependencies visually
+
+### Benefits
+
+- Team reviews plan in familiar Confluence interface
+- Architects can comment directly on decisions
+- Historical record of technical choices
+- Linked to JIRA for complete traceability
+
 ## Subagents Used
 
 - **flow-researcher**: Researches best practices and evaluates alternatives

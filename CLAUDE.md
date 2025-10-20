@@ -36,8 +36,8 @@ This is a **Claude Code marketplace plugin** that provides specification-driven 
     ├── checklist-template.md      # Quality validation structure
     └── agent-file-template.md     # Agent context template
 
-.claude/commands/                  # Slash command definitions
-└── speckit.*.md                   # Workflow commands (see below)
+# Note: This project uses Skills (not slash commands)
+# Skills are defined in plugins/flow/.claude/skills/*/SKILL.md
 
 features/                          # Generated per-feature workspaces
 └── [###-feature-name]/           # Auto-created by workflows
@@ -93,11 +93,11 @@ Created during init, stores project preferences:
 
 **Workflow**:
 ```
-/speckit.specify "Quick POC for [idea]" --skip-validation
+flow:specify "Quick POC for [idea]" --skip-validation
   → Creates lightweight spec, no clarification markers
-  → Optional: /speckit.plan --minimal
-  → Optional: /speckit.tasks --simple
-/speckit.implement --skip-checklists
+  → Optional: flow:plan --minimal
+  → Optional: flow:tasks --simple
+flow:implement --skip-checklists
 ```
 
 **Skip**: Constitution, clarify, analyze, checklists
@@ -113,34 +113,34 @@ Created during init, stores project preferences:
 
 **First time** (project setup):
 ```
-/init --type greenfield --integrations none
+flow:init --type greenfield --integrations none
   → Creates .specify/ structure
   → Prompts for constitution preferences
 
-/speckit.constitution
+flow:constitution
   → Interactive: Define your development principles
   → Examples: TDD vs test-later, library structure, etc.
 
-/speckit.specify "Complete project description"
+flow:specify "Complete project description"
   → Creates project-level spec.md
   → All features as prioritized user stories
 
-/speckit.clarify (optional)
+flow:clarify (optional)
   → Refine ambiguities interactively
 
-/speckit.plan
+flow:plan
   → Full technical design
 
-/speckit.tasks
+flow:tasks
   → Dependency-ordered task breakdown
 
-/speckit.implement
+flow:implement
   → Execute incrementally by user story (P1, then P2, then P3...)
 ```
 
 **Adding features later**:
 ```
-/speckit.specify "New feature description"
+flow:specify "New feature description"
   → Creates feature-level spec in features/###-name/
   → Same workflow but scoped to feature
 ```
@@ -155,12 +155,12 @@ Created during init, stores project preferences:
 
 **Initial setup**:
 ```
-/init --type greenfield --integrations jira,confluence
+flow:init --type greenfield --integrations jira,confluence
   → Prompts for JIRA project key
   → Prompts for Confluence root page ID
   → Creates config.json with integration settings
 
-/speckit.constitution
+flow:constitution
   → Team defines non-negotiable principles
   → Examples: Security gates, code review, testing standards
   → Version controlled in .specify/memory/
@@ -168,27 +168,27 @@ Created during init, stores project preferences:
 
 **Per feature workflow**:
 ```
-/speckit.specify "Feature from product team"
+flow:specify "Feature from product team"
   → Creates spec.md
   → Auto-creates JIRA epic
   → Syncs to Confluence under root page
 
-/speckit.clarify
+flow:clarify
   → PM/stakeholder answers clarification questions
   → Updates synced to Confluence
 
-/speckit.plan
+flow:plan
   → Architect reviews plan.md
   → Constitution compliance validated
 
-/speckit.analyze
+flow:analyze
   → Critical for multi-person teams
   → Catches inconsistencies before implementation
 
-/speckit.checklist --type security,compliance
+flow:checklist --type security,compliance
   → Quality gates for regulated industries
 
-/speckit.implement
+flow:implement
   → Branch named: {JIRA-123}-{short-name}
   → Task completion synced to JIRA
 ```
@@ -205,7 +205,7 @@ Created during init, stores project preferences:
 
 **Workflow**:
 ```
-/init --type brownfield
+flow:init --type brownfield
   → Prompts: "Analyze codebase before proceeding?"
 
 [Codebase analysis phase - not yet implemented]
@@ -214,13 +214,13 @@ Created during init, stores project preferences:
   → Extracts implicit architecture patterns
   → Creates baseline spec.md for current system
 
-/speckit.constitution --extract
+flow:constitution --extract
   → Infers constitution from existing patterns
   → Examples: Existing test coverage style, library structure
   → User reviews and approves
 
 [Then proceed with normal feature workflow]
-/speckit.specify "New feature to add"
+flow:specify "New feature to add"
   → Feature spec references existing architecture
   → Constraints from brownfield analysis
 ```
@@ -243,33 +243,33 @@ Created during init, stores project preferences:
 
 **Workflow**:
 ```
-/speckit.specify "New feature description"
+flow:specify "New feature description"
   → Spec references existing components
   → Clarification focuses on integration points
 
-/speckit.clarify
+flow:clarify
   → Questions about compatibility with existing features
   → Integration points with current architecture
 
-/speckit.plan
+flow:plan
   → Validates against existing constitution
   → Identifies reusable existing components
   → Highlights breaking changes
 
-/speckit.analyze
+flow:analyze
   → Critical: checks consistency with existing specs
   → Validates against established patterns
 
-/speckit.tasks
+flow:tasks
   → Tasks consider existing code structure
   → May include refactoring tasks for integration
 
-/speckit.implement
+flow:implement
   → Backward compatibility checks
   → Integration with existing features
 ```
 
-**Key difference**: Constitution is READ-ONLY (use `/speckit.constitution` to amend if needed)
+**Key difference**: Constitution is READ-ONLY (use `flow:constitution` to amend if needed)
 
 ---
 
@@ -282,31 +282,31 @@ Created during init, stores project preferences:
 **Workflow**:
 ```
 [Edit spec.md directly or use:]
-/speckit.specify --update "Revised requirements"
+flow:specify --update "Revised requirements"
   → Updates existing spec.md
   → Preserves completed work
   → Adds new user stories or adjusts priorities
 
-/speckit.clarify
+flow:clarify
   → Only asks about NEW ambiguities
   → Skips already-clarified sections
 
-/speckit.plan --update
+flow:plan --update
   → Regenerates plan.md
   → Highlights WHAT CHANGED
   → Flags impacted components
 
-/speckit.analyze
+flow:analyze
   → Critical: identifies conflicts between old and new
   → Shows orphaned tasks (no longer needed)
   → Shows new gaps (newly required work)
 
-/speckit.tasks --update
+flow:tasks --update
   → Preserves completed tasks [X]
   → Adjusts incomplete tasks [ ]
   → Adds new tasks for changed requirements
 
-/speckit.implement --resume
+flow:implement --resume
   → Continues from last completed task
   → Skips completed work
 ```
@@ -328,19 +328,19 @@ Created during init, stores project preferences:
   → Mark P2/P3 as "Future Scope"
   → Document WHY in spec (deadline, resource constraints)
 
-/speckit.tasks --filter=P1
+flow:tasks --filter=P1
   → Regenerates tasks.md with ONLY P1 user stories
   → Clearly marks deferred work
 
-/speckit.implement --mvp-only
+flow:implement --mvp-only
   → Implements P1 tasks only
   → Skips polish phase
   → Minimal viable implementation
 
 [After deadline / when resources available]
-/speckit.tasks --filter=P2
+flow:tasks --filter=P2
   → Generate tasks for next priority
-/speckit.implement --resume
+flow:implement --resume
   → Continue with P2 implementation
 ```
 
@@ -360,14 +360,14 @@ tasks.md: Comment out "Polish & Cross-Cutting" phase
 
 | Command | Required? | When to Use | Can Skip If... |
 |---------|-----------|-------------|----------------|
-| `/speckit.constitution` | First time only | Project setup, team agreements | POC, well-established team norms |
-| `/speckit.specify` | **Always** | Create spec (project or feature level) | Never - this is the starting point |
-| `/speckit.clarify` | Optional | Ambiguous requirements, stakeholder input needed | Requirements very clear, solo dev |
-| `/speckit.plan` | Recommended | Technical design needed | Trivial implementation, obvious tech choices |
-| `/speckit.analyze` | Optional | Multi-person teams, complex changes | Solo dev, simple feature |
-| `/speckit.tasks` | Recommended | Need structured breakdown | Very simple change (1-2 files) |
-| `/speckit.checklist` | Optional | Quality gates, compliance needs | POC, low-risk changes |
-| `/speckit.implement` | **Always** | Execute the work | Never - this does the implementation |
+| `flow:constitution` | First time only | Project setup, team agreements | POC, well-established team norms |
+| `flow:specify` | **Always** | Create spec (project or feature level) | Never - this is the starting point |
+| `flow:clarify` | Optional | Ambiguous requirements, stakeholder input needed | Requirements very clear, solo dev |
+| `flow:plan` | Recommended | Technical design needed | Trivial implementation, obvious tech choices |
+| `flow:analyze` | Optional | Multi-person teams, complex changes | Solo dev, simple feature |
+| `flow:tasks` | Recommended | Need structured breakdown | Very simple change (1-2 files) |
+| `flow:checklist` | Optional | Quality gates, compliance needs | POC, low-risk changes |
+| `flow:implement` | **Always** | Execute the work | Never - this does the implementation |
 
 ### Command Flags & Modes
 
@@ -483,6 +483,63 @@ The constitution is your **project's development contract**:
 
 ---
 
+## Flow Configuration
+
+### Feature Toggles
+
+The Flow plugin can be configured using variables in this CLAUDE.md file. Skills read these at runtime to adapt their behavior.
+
+```
+FLOW_ATLASSIAN_SYNC=enabled          # Enable JIRA/Confluence integration
+FLOW_JIRA_PROJECT_KEY=PROJ           # Your JIRA project key
+FLOW_CONFLUENCE_ROOT_PAGE_ID=123456  # Confluence parent page ID
+FLOW_BRANCH_PREPEND_JIRA=true        # Prepend JIRA ID to branches
+```
+
+### Workflow Defaults
+
+```
+FLOW_REQUIRE_CONSTITUTION=true       # Enforce constitution check
+FLOW_REQUIRE_ANALYSIS=false          # Run analyze before implement
+FLOW_REQUIRE_CHECKLISTS=false        # Quality gate checklists
+FLOW_TESTS_REQUIRED=false            # Block if tests missing
+```
+
+### Story Format
+
+```
+FLOW_STORY_FORMAT=bdd                # Use BDD (Given/When/Then) format
+```
+
+### How Configuration Works
+
+1. **Skills read CLAUDE.md** - When a skill runs, it reads this file to check configuration
+2. **Simple enable/disable** - Change `enabled` to `disabled` to turn off features
+3. **Version controlled** - Team shares same configuration via git
+4. **Project-specific** - Each project can have different settings
+
+### Setting Up Atlassian Integration
+
+The Flow plugin includes the Atlassian MCP server by default (configured in `plugins/flow/.mcp.json`). To enable integration:
+
+1. **Authenticate with Atlassian**:
+   - The MCP uses SSO authentication
+   - Run any Flow skill that needs Atlassian (e.g., `flow:specify`)
+   - You'll be prompted to authenticate via browser
+
+2. **Configure Flow**:
+   - Set `FLOW_ATLASSIAN_SYNC=enabled` in this section
+   - Set your `FLOW_JIRA_PROJECT_KEY` (e.g., "PROJ")
+   - Set your `FLOW_CONFLUENCE_ROOT_PAGE_ID` (get from Confluence page URL)
+
+3. **Use Flow normally**:
+   - `flow:specify` will create JIRA stories
+   - `flow:plan` will sync to Confluence
+   - `flow:tasks` will create JIRA subtasks
+   - `flow:implement` will update JIRA status
+
+---
+
 ## Atlassian Integration
 
 ### When to Enable
@@ -550,25 +607,25 @@ Checklists are "**Unit Tests for Requirements Writing**":
 2. POC validated, now productionizing
 3. Add rigor incrementally:
 
-/speckit.constitution --create
+flow:constitution --create
   → Define production standards
 
-/speckit.specify --update --add-validation
+flow:specify --update --add-validation
   → Add missing requirements, edge cases
 
-/speckit.clarify
+flow:clarify
   → Fill gaps from quick POC
 
-/speckit.plan --full
+flow:plan --full
   → Proper architecture (replace hacky POC plan)
 
-/speckit.analyze
+flow:analyze
   → Find POC shortcuts that need fixing
 
-/speckit.checklist --type security,performance
+flow:checklist --type security,performance
   → Add production gates
 
-/speckit.implement --refactor
+flow:implement --refactor
   → Rebuild with proper practices
 ```
 
@@ -604,8 +661,8 @@ When your project grows beyond initial scope:
 - Approve proceeding anyway (not recommended)
 
 **"Tasks out of sync with spec"**:
-- Re-run `/speckit.analyze` to identify issues
-- Re-run `/speckit.tasks` to regenerate from updated spec
+- Re-run `flow:analyze` to identify issues
+- Re-run `flow:tasks` to regenerate from updated spec
 
 ---
 
@@ -634,37 +691,37 @@ When your project grows beyond initial scope:
 
 **Simplest possible (POC)**:
 ```bash
-/speckit.specify "Quick test of X" --skip-validation
-/speckit.implement --skip-checklists
+flow:specify "Quick test of X" --skip-validation
+flow:implement --skip-checklists
 ```
 
 **Solo developer (proper)**:
 ```bash
-/init --type greenfield
-/speckit.constitution
-/speckit.specify "Full project description"
-/speckit.plan
-/speckit.tasks
-/speckit.implement
+flow:init --type greenfield
+flow:constitution
+flow:specify "Full project description"
+flow:plan
+flow:tasks
+flow:implement
 ```
 
 **Enterprise (full rigor)**:
 ```bash
-/init --type greenfield --integrations jira,confluence
-/speckit.constitution
-/speckit.specify "Feature from product"
-/speckit.clarify
-/speckit.plan
-/speckit.analyze
-/speckit.checklist --type security,compliance,ux
-/speckit.implement
+flow:init --type greenfield --integrations jira,confluence
+flow:constitution
+flow:specify "Feature from product"
+flow:clarify
+flow:plan
+flow:analyze
+flow:checklist --type security,compliance,ux
+flow:implement
 ```
 
 **Existing project (add feature)**:
 ```bash
-/speckit.specify "New feature description"
-/speckit.clarify
-/speckit.plan
-/speckit.tasks
-/speckit.implement
+flow:specify "New feature description"
+flow:clarify
+flow:plan
+flow:tasks
+flow:implement
 ```

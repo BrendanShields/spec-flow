@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "flow-marketplace",
-  "version": "1.0.0",
-  "description": "AI-powered specification-driven development marketplace with autonomous implementation",
+  "version": "1.1.0",
+  "description": "AI-powered specification-driven development marketplace with autonomous implementation and MCP-based integrations",
   "owner": {
     "name": "Claude Code Community",
     "email": "plugins@claudecode.dev",
@@ -11,10 +11,10 @@
   "plugins": [
     {
       "name": "flow",
-      "description": "Complete AI-powered workflow for specification-driven development with autonomous task execution, intelligent planning, and parallel implementation",
+      "description": "Complete AI-powered workflow for specification-driven development with autonomous task execution, intelligent planning, parallel implementation, and MCP-based integrations for JIRA, Confluence, GitHub, and more",
       "source": "./plugins/flow",
       "category": "development",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Claude Code Marketplace",
         "email": "plugins@claudecode.dev"
@@ -26,7 +26,13 @@
         "planning",
         "implementation",
         "tdd",
-        "agile"
+        "agile",
+        "mcp",
+        "jira",
+        "confluence",
+        "atlassian",
+        "github",
+        "integrations"
       ]
     }
   ]

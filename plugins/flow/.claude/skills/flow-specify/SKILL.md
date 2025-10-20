@@ -108,6 +108,85 @@ If critical ambiguities remain (max 3):
 - [Boundary conditions and error scenarios]
 ```
 
+## MCP Integration (Atlassian)
+
+If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically syncs specification to JIRA and Confluence:
+
+### JIRA Story Creation
+
+**After spec generation**:
+1. Read CLAUDE.md configuration to get:
+   - `FLOW_JIRA_PROJECT_KEY` (e.g., "PROJ")
+   - `FLOW_CONFLUENCE_ROOT_PAGE_ID`
+   - `FLOW_BRANCH_PREPEND_JIRA`
+
+2. Create JIRA Epic:
+   ```javascript
+   // Use Atlassian MCP to create epic
+   const epic = await mcp.jira.createIssue({
+     projectKey: config.FLOW_JIRA_PROJECT_KEY,
+     issueType: 'Epic',
+     summary: featureName,
+     description: featureSummary,
+     labels: [domain, 'flow-generated']
+   });
+   ```
+
+3. Create JIRA Stories from each user story:
+   - Parse user stories from spec.md
+   - For each P1, P2, P3 story:
+     - Fill `jira-story-template.md` with story details
+     - Create JIRA issue using Atlassian MCP
+     - Link to parent epic
+     - Set priority based on P1/P2/P3
+     - Add BDD acceptance criteria
+
+4. Store JIRA IDs in spec:
+   ```markdown
+   ### User Story 1 - User Registration (Priority: P1)
+   <!-- JIRA: PROJ-123 -->
+
+   As a new user...
+   ```
+
+### Confluence Page Sync
+
+**After JIRA stories created**:
+1. Fill `confluence-page.md` template with spec content
+2. Create Confluence page under root page ID:
+   ```javascript
+   const page = await mcp.confluence.createPage({
+     spaceKey: deriveSpaceFromRootPage(rootPageId),
+     parentId: config.FLOW_CONFLUENCE_ROOT_PAGE_ID,
+     title: `${featureNumber} - ${featureName}`,
+     body: confluenceContent
+   });
+   ```
+
+3. Add links:
+   - Link Confluence page to JIRA epic
+   - Add Confluence URL to spec as comment
+   - Add GitHub branch link to Confluence
+
+### Sync Strategy
+
+**Direction**:
+- **Local → JIRA/Confluence** (one-way sync)
+- Local spec.md is source of truth
+- JIRA comments can be read for context (optional)
+
+**Updates**:
+- Re-running `flow:specify --update` updates existing JIRA stories and Confluence page
+- Preserves JIRA comments and metadata
+- Updates description, acceptance criteria, and priorities
+
+**Benefits**:
+- Team visibility in JIRA
+- Formatted documentation in Confluence
+- No manual ticket creation
+- Consistent story format (BDD)
+- Automatic linking between spec, JIRA, and Confluence
+
 ## Domain Detection
 
 Automatically detects and applies patterns for:

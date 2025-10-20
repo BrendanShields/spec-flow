@@ -1,0 +1,109 @@
+{
+  "version": "1.0.0",
+  "description": "Flow MCP extension registry - maps MCP servers to Flow skill enhancements",
+  "knownServers": {
+    "Atlassian": {
+      "package": "mcp-remote@latest",
+      "url": "https://mcp.atlassian.com/v1/sse",
+      "authentication": "SSO",
+      "capabilities": [
+        "jira-search",
+        "jira-create-issue",
+        "jira-update-issue",
+        "jira-add-comment",
+        "confluence-search",
+        "confluence-create-page",
+        "confluence-update-page"
+      ],
+      "enhances": {
+        "flow:init": "Prompt for JIRA project key and Confluence root page ID",
+        "flow:specify": "Create JIRA epic/stories from spec, sync to Confluence",
+        "flow:plan": "Sync implementation plan to Confluence",
+        "flow:tasks": "Create JIRA subtasks from tasks.md",
+        "flow:implement": "Update JIRA subtask status on task completion"
+      },
+      "configuration": {
+        "required": [
+          "FLOW_JIRA_PROJECT_KEY",
+          "FLOW_CONFLUENCE_ROOT_PAGE_ID"
+        ],
+        "optional": [
+          "FLOW_BRANCH_PREPEND_JIRA"
+        ]
+      },
+      "templates": [
+        "jira-story-template.md",
+        "confluence-page.md"
+      ]
+    },
+    "github": {
+      "package": "@modelcontextprotocol/server-github",
+      "capabilities": [
+        "search-repositories",
+        "create-issue",
+        "create-pull-request",
+        "list-issues",
+        "update-issue"
+      ],
+      "enhances": {
+        "flow:tasks": "Sync tasks to GitHub Projects",
+        "flow:implement": "Create PR with spec context automatically"
+      },
+      "configuration": {
+        "required": ["GITHUB_PERSONAL_ACCESS_TOKEN"],
+        "optional": ["FLOW_GITHUB_PROJECT_ID"]
+      },
+      "templates": [
+        "github-pr-template.md"
+      ]
+    },
+    "linear": {
+      "package": "@modelcontextprotocol/server-linear",
+      "capabilities": [
+        "create-issue",
+        "update-issue",
+        "search-issues",
+        "create-comment"
+      ],
+      "enhances": {
+        "flow:specify": "Create Linear issues from user stories",
+        "flow:tasks": "Create Linear sub-issues from tasks",
+        "flow:implement": "Update Linear issue status"
+      },
+      "configuration": {
+        "required": ["LINEAR_API_KEY", "FLOW_LINEAR_TEAM_ID"],
+        "optional": []
+      },
+      "templates": [
+        "linear-issue-template.md"
+      ]
+    },
+    "sentry": {
+      "package": "@modelcontextprotocol/server-sentry",
+      "capabilities": [
+        "list-issues",
+        "get-issue",
+        "create-comment"
+      ],
+      "enhances": {
+        "flow:specify": "Reference Sentry errors in specs",
+        "flow:plan": "Include error patterns in planning"
+      },
+      "configuration": {
+        "required": ["SENTRY_AUTH_TOKEN"],
+        "optional": ["SENTRY_ORGANIZATION"]
+      },
+      "templates": []
+    }
+  },
+  "extensionGuide": {
+    "description": "To add a new MCP server to Flow:",
+    "steps": [
+      "1. Add MCP server configuration to plugins/flow/.mcp.json",
+      "2. Add server entry to this registry with capabilities",
+      "3. Create templates if needed (in plugins/flow/templates/templates/)",
+      "4. Run 'flow:update' to generate skill enhancements",
+      "5. Update CLAUDE.md with any new configuration variables"
+    ]
+  }
+}
