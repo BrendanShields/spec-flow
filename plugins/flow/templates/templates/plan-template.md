@@ -1,13 +1,28 @@
 # Implementation Plan: [FEATURE]
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `[BRANCH-NAME]` (e.g., `PROJ-123-feature-name` or `001-feature-name`)
+**Feature Number**: [###]
+**Date**: [DATE]
+**Spec**: `features/[###-feature-name]/spec.md`
 
 **Note**: This template is filled in by the `flow:plan` skill. See the flow:plan skill documentation for the execution workflow.
 
 ## Summary
 
 [Extract from feature spec: primary requirement + technical approach from research]
+
+## References to Project Artifacts
+
+<!--
+  This plan can reference the following .flow/ artifacts (flat peer model):
+  - Architecture Blueprint: .flow/architecture-blueprint.md (for patterns, tech stack, guidelines)
+  - API Contracts: .flow/contracts/openapi.yaml (if this feature touches APIs)
+  - Data Models: .flow/data-models/entities.md (for entity definitions)
+  - Product Requirements: .flow/product-requirements.md (for context)
+
+  These are peer documents - reference as needed for consistency and guidance.
+  User approval required before modifying any .flow/ artifacts.
+-->
 
 ## Technical Context
 
@@ -27,18 +42,39 @@
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
-## Constitution Check
+## Blueprint Alignment Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+<!--
+  OPTIONAL: Reference .flow/architecture-blueprint.md for guidance
+  This is a peer artifact - not strictly enforced, but helpful for consistency
 
-[Gates determined based on constitution file]
+  Check alignment with:
+  - Core Principles
+  - Architecture Patterns
+  - Technology Stack choices
+  - API Design Guidelines (if applicable)
+  - Data Modeling Guidelines
+  - Security Guidelines
+  - Performance Guidelines
+  - Testing Guidelines
+-->
+
+**Architecture Pattern**: [Does this align with blueprint? e.g., "Follows modular monolith pattern"]
+**Technology Stack**: [Using recommended stack? e.g., "Uses React + Node.js as per blueprint"]
+**API Design**: [If applicable, follows API guidelines? e.g., "REST with OpenAPI, versioning per blueprint"]
+**Data Modeling**: [Follows naming conventions? e.g., "snake_case tables, UUIDs for PKs per blueprint"]
+
+**Deviations from Blueprint**: [If any, note here and get user approval]
+  - [Deviation 1]: [Reason and approval status]
+  - [Deviation 2]: [Reason and approval status]
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```
-specs/[###-feature]/
+features/[###-feature-name]/
+├── spec.md              # Feature specification (flow:specify output)
 ├── plan.md              # This file (flow:plan output)
 ├── research.md          # Phase 0 output (flow:plan)
 ├── data-model.md        # Phase 1 output (flow:plan)
@@ -94,12 +130,58 @@ ios/ or android/
 **Structure Decision**: [Document the selected structure and reference the real
 directories captured above]
 
-## Complexity Tracking
+## Blueprint Deviations & Justifications
 
-*Fill ONLY if Constitution Check has violations that must be justified*
+<!--
+  Fill ONLY if this feature deviates from .flow/architecture-blueprint.md
+  User approval required for blueprint deviations
+-->
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Deviation | Why Needed | Alignment Alternative Rejected Because |
+|-----------|------------|---------------------------------------|
+| [e.g., Using GraphQL instead of REST] | [specific reason] | [why REST insufficient for this case] |
+| [e.g., NoSQL instead of PostgreSQL] | [specific need] | [why PostgreSQL doesn't fit] |
+
+**User Approval**: [User approved deviations? Date and notes]
+
+---
+
+## Proposed Updates to .flow/ Artifacts
+
+<!--
+  If this feature requires updates to project-level artifacts, note them here
+  USER APPROVAL REQUIRED before modifying any .flow/ artifacts
+
+  Potential updates:
+  - .flow/architecture-blueprint.md (if new patterns/decisions)
+  - .flow/contracts/openapi.yaml (if new/modified APIs)
+  - .flow/data-models/entities.md (if new/modified entities)
+  - .flow/product-requirements.md (if requirements change)
+-->
+
+### Proposed Changes
+
+**Architecture Blueprint** (.flow/architecture-blueprint.md):
+- [ ] No changes needed
+- [ ] Proposed changes: [Describe what needs to be added/updated]
+  - Reason: [Why this change is needed]
+  - User approval: [Pending/Approved/Rejected]
+
+**API Contracts** (.flow/contracts/openapi.yaml):
+- [ ] No changes needed
+- [ ] Proposed changes: [New endpoints, modified schemas, etc.]
+  - Endpoints: [List new/modified endpoints]
+  - User approval: [Pending/Approved/Rejected]
+
+**Data Models** (.flow/data-models/entities.md):
+- [ ] No changes needed
+- [ ] Proposed changes: [New entities, modified relationships]
+  - Entities: [List new/modified entities]
+  - User approval: [Pending/Approved/Rejected]
+
+**Product Requirements** (.flow/product-requirements.md):
+- [ ] No changes needed
+- [ ] Proposed changes: [Rarely needed from plan level]
+  - Changes: [Describe]
+  - User approval: [Pending/Approved/Rejected]
 

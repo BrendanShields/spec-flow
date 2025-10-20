@@ -19,69 +19,80 @@ This is a **Claude Code marketplace plugin** that provides specification-driven 
 ### Directory Structure
 
 ```
-.specify/                          # Core workflow system
-├── config.json                    # Project configuration (optional)
-├── memory/
-│   └── constitution.md            # Project governance & principles
-├── scripts/bash/                  # Workflow automation scripts
-│   ├── common.sh                  # Shared utilities
-│   ├── create-new-feature.sh      # Feature branch initialization
-│   ├── setup-plan.sh              # Planning phase setup
-│   ├── check-prerequisites.sh     # Validation & context gathering
-│   └── update-agent-context.sh    # AI agent context management
-└── templates/                     # Document templates
-    ├── spec-template.md           # Feature specification structure
-    ├── plan-template.md           # Implementation plan structure
-    ├── tasks-template.md          # Task breakdown structure
-    ├── checklist-template.md      # Quality validation structure
-    └── agent-file-template.md     # Agent context template
+.flow/                             # Project-level artifacts (flat peer model)
+├── product-requirements.md        # Project-level PRD (WHAT to build)
+├── architecture-blueprint.md      # Technical standards (HOW to build)
+├── contracts/                     # Interface contracts (if API project)
+│   └── openapi.yaml              # API specifications
+├── data-models/
+│   └── entities.md               # Domain entity definitions
+├── scripts/                       # Workflow automation scripts
+│   ├── common.sh                 # Shared utilities
+│   ├── create-new-feature.sh     # Feature branch initialization
+│   └── check-prerequisites.sh    # Validation & context gathering
+├── templates/                     # Document templates
+│   ├── spec-template.md
+│   ├── plan-template.md
+│   ├── tasks-template.md
+│   ├── product-requirements-template.md
+│   ├── architecture-blueprint-template.md
+│   ├── openapi-template.yaml
+│   ├── jira-story-template.md
+│   └── confluence-page.md
+└── extensions.json                # MCP integration configs
 
 # Note: This project uses Skills (not slash commands)
 # Skills are defined in plugins/flow/.claude/skills/*/SKILL.md
 
 features/                          # Generated per-feature workspaces
 └── [###-feature-name]/           # Auto-created by workflows
-    ├── spec.md                    # Feature specification
+    ├── spec.md                    # Feature specification (with JIRA frontmatter)
     ├── plan.md                    # Implementation plan
     ├── tasks.md                   # Task breakdown
     ├── research.md                # Technical decisions
     ├── data-model.md              # Entity definitions
-    ├── contracts/                 # API contracts
+    ├── contracts/                 # API contracts (feature-specific)
     └── checklists/                # Quality gates
 ```
 
-### Configuration File (`.specify/config.json`)
+### Artifact Roles & Relationships (Flat Peer Model)
 
-Created during init, stores project preferences:
+All `.flow/` artifacts are **peers** - no strict hierarchy or enforcement:
 
-```json
-{
-  "projectType": "greenfield|brownfield",
-  "integrations": {
-    "jira": {
-      "enabled": true,
-      "projectKey": "PROJ",
-      "apiUrl": "https://company.atlassian.net"
-    },
-    "confluence": {
-      "enabled": true,
-      "spaceKey": "PROJ",
-      "rootPageId": "123456"
-    }
-  },
-  "branchNaming": {
-    "prependJiraId": true,
-    "format": "{jiraId}-{shortName}"
-  },
-  "workflowDefaults": {
-    "requireConstitution": true,
-    "requireClarification": false,
-    "requireAnalysis": true,
-    "requireChecklists": true,
-    "testsRequired": false
-  }
-}
+| Artifact | Purpose | Authority | JIRA Sync? |
+|----------|---------|-----------|------------|
+| `product-requirements.md` | Project vision & user stories | Local file | Yes (bidirectional, ask first) |
+| `architecture-blueprint.md` | Technical standards & patterns | Local file | No (dev-only) |
+| `contracts/openapi.yaml` | API contracts | Local file | No (dev-only) |
+| `data-models/entities.md` | Domain entities | Local file | No (dev-only) |
+| `features/###/spec.md` | Feature specification | Local file | Yes (bidirectional, ask first) |
+| `features/###/plan.md` | Implementation plan | Local file | Confluence optional |
+
+**Key Principles**:
+- **Flat model**: No strict hierarchy - features CAN reference .flow/ artifacts for guidance
+- **No automatic cascade**: Changing PRD doesn't auto-update features
+- **Manual consistency**: Developers ensure alignment (tools help detect issues)
+- **User approval**: ALL changes to .flow/ require explicit user confirmation
+- **Bidirectional JIRA**: Can start from JIRA or local, sync in both directions
+
+### Configuration (CLAUDE.md)
+
+Configuration stored in this file (CLAUDE.md) as simple variables (see Flow Configuration section below):
+
 ```
+FLOW_ATLASSIAN_SYNC=enabled
+FLOW_JIRA_PROJECT_KEY=PROJ
+FLOW_CONFLUENCE_ROOT_PAGE_ID=123456
+FLOW_BRANCH_PREPEND_JIRA=true
+FLOW_REQUIRE_BLUEPRINT=false
+FLOW_REQUIRE_ANALYSIS=false
+```
+
+**Benefits**:
+- Simple text format (no JSON parsing)
+- Version controlled
+- Team shares same config
+- Easy to enable/disable features
 
 ## Persona-Based Workflows
 
@@ -114,12 +125,12 @@ flow:implement --skip-checklists
 **First time** (project setup):
 ```
 flow:init --type greenfield --integrations none
-  → Creates .specify/ structure
-  → Prompts for constitution preferences
+  → Creates .flow/ structure
+  → Prompts for blueprint preferences
 
-flow:constitution
-  → Interactive: Define your development principles
-  → Examples: TDD vs test-later, library structure, etc.
+flow:blueprint
+  → Interactive: Define your architecture and development principles
+  → Examples: TDD vs test-later, architecture patterns, tech stack, etc.
 
 flow:specify "Complete project description"
   → Creates project-level spec.md
@@ -160,10 +171,10 @@ flow:init --type greenfield --integrations jira,confluence
   → Prompts for Confluence root page ID
   → Creates config.json with integration settings
 
-flow:constitution
-  → Team defines non-negotiable principles
-  → Examples: Security gates, code review, testing standards
-  → Version controlled in .specify/memory/
+flow:blueprint
+  → Team defines architecture and principles
+  → Examples: Architecture patterns, security gates, code review, testing standards
+  → Version controlled in .flow/architecture-blueprint.md
 ```
 
 **Per feature workflow**:
@@ -440,7 +451,7 @@ User stories MUST be prioritized as P1, P2, P3... where:
 
 ### Bash Script Conventions
 
-All `.specify/scripts/bash/*.sh` scripts:
+All `.flow/scripts/*.sh` scripts:
 - Use `--json` flag for parseable output
 - Run from repository root
 - Return JSON with keys: FEATURE_DIR, SPEC_FILE, BRANCH_NAME, etc.
@@ -458,28 +469,39 @@ All `.specify/scripts/bash/*.sh` scripts:
 PROJ-123-short-feature-name
 ```
 
-Format specified in `.specify/config.json`
+**Directory Naming**: Always sequential `features/###-name/` (JIRA ID in frontmatter)
+**Git Branch Naming**: Prepends JIRA ID if linked: `PROJ-123-name`
 
 ---
 
-## Constitution Philosophy
+## Architecture Blueprint Philosophy
 
-The constitution is your **project's development contract**:
+The architecture blueprint (`.flow/architecture-blueprint.md`) defines **HOW** you build:
 
-- **POC**: Skip it (throwaway code)
-- **Solo greenfield**: Your personal coding principles
-- **Team greenfield**: Team agreements and non-negotiables
-- **Brownfield**: Extract from existing patterns, document reality
+- **POC**: Skip or use minimal version (throwaway code)
+- **Solo greenfield**: Your personal architecture decisions and standards
+- **Team greenfield**: Team agreements on patterns, stack, and practices
+- **Brownfield**: Document existing architecture first, then evolve
 
-**When to update**: Only when team agrees to change core principles
-**Authority**: Constitution violations are CRITICAL errors
-**Scope**: Development practices, not business requirements
+**Scope**: Broader than old "constitution" concept:
+- Core development principles (was constitution)
+- Architecture patterns (NEW)
+- Technology stack standards (NEW)
+- API design guidelines (NEW)
+- Data modeling guidelines (NEW)
+- Security, performance, testing guidelines (NEW)
 
-**Example principles**:
-- "TDD mandatory" vs "Tests required but not TDD"
-- "Library-first architecture" vs "Monolith first"
-- "No external dependencies without approval"
-- "All APIs must be versioned from day one"
+**Relationship to features**:
+- Flat peer model - features CAN reference for guidance
+- NOT strictly enforced - manual consistency
+- Deviations require user approval and documentation
+
+**Example content**:
+- "Modular monolith architecture"
+- "React + Node.js stack"
+- "REST APIs with OpenAPI 3.0, URI versioning"
+- "PostgreSQL with UUID primary keys"
+- "TDD recommended" vs "Tests required but not TDD"
 
 ---
 
@@ -499,7 +521,7 @@ FLOW_BRANCH_PREPEND_JIRA=true        # Prepend JIRA ID to branches
 ### Workflow Defaults
 
 ```
-FLOW_REQUIRE_CONSTITUTION=true       # Enforce constitution check
+FLOW_REQUIRE_BLUEPRINT=false         # Enforce blueprint check (flat model - not enforced)
 FLOW_REQUIRE_ANALYSIS=false          # Run analyze before implement
 FLOW_REQUIRE_CHECKLISTS=false        # Quality gate checklists
 FLOW_TESTS_REQUIRED=false            # Block if tests missing
@@ -556,19 +578,28 @@ The Flow plugin includes the Atlassian MCP server by default (configured in `plu
 - POC / experimental work
 - No organizational JIRA/Confluence instance
 
-### How It Works
+### How It Works (Bidirectional Hybrid)
 
-1. **Spec creation** → Creates JIRA epic/story
-2. **User stories** → Individual JIRA issues
-3. **Tasks** → JIRA subtasks
-4. **Branch creation** → Prepends JIRA ID
-5. **Documentation** → Synced to Confluence pages
-6. **Task completion** → Updates JIRA status
+**Two Entry Points**:
+1. **Start from JIRA**: `flow:specify "https://jira.../PROJ-123"` pulls JIRA story into local spec
+2. **Start from Local**: `flow:specify "Feature description"` can create JIRA story (asks first)
 
-**Sync direction**:
-- Spec → JIRA/Confluence (primary)
-- JIRA comments → Local notes (secondary)
-- Local repo is source of truth
+**Bidirectional Sync**:
+- Can update in either direction
+- User approval ALWAYS required before syncing TO JIRA
+- Local file is source of truth, JIRA is visibility/tracking layer
+
+**Traceability**:
+- JIRA ID stored in `spec.md` frontmatter: `jira_id: PROJ-123`
+- Git branch prepends JIRA ID: `PROJ-123-feature-name`
+- Directory stays sequential: `features/001-feature-name/`
+
+**What Syncs**:
+- `flow:specify` → Create/update JIRA stories (asks first)
+- `flow:plan` → Sync to Confluence (optional)
+- `flow:tasks` → Create JIRA subtasks (optional)
+- `flow:sync --to-jira` → Push local changes to JIRA (asks first)
+- `flow:sync --from-jira PROJ-123` → Pull JIRA changes (shows diff, asks first)
 
 ---
 

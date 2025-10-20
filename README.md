@@ -1,10 +1,10 @@
 # Claude Code Marketplace
 
-A next-generation plugin marketplace for Claude Code that leverages AI-powered Skills, autonomous Subagents, and intelligent Hooks to revolutionize development workflows.
+An internal marketplace for Claude Code plugins.
 
 ## 🚀 Overview
 
-The Claude Code Marketplace is a **Skills-first** architecture that replaces traditional command-based interactions with intelligent, context-aware Skills powered by AI. No backward compatibility baggage - pure innovation.
+The Claude Code Marketplace is a **Skills-first** architecture that replaces traditional command-based interactions with intelligent, context-aware Skills powered by AI. No backward compatibility baggage - just add a new skill and the flow will adapt.
 
 ### Key Innovations
 
@@ -52,13 +52,53 @@ graph TD
     style F fill:#B2DFDB
 ```
 
+### Updated Architecture (v2.0)
+
+Flow now uses a **blueprint-first, flat artifact model** with optional JIRA integration:
+
+#### Directory Structure
+```
+.flow/                          # Project-level artifacts (flat peer model)
+├── product-requirements.md     # Project-level PRD (WHAT to build)
+├── architecture-blueprint.md   # Technical standards (HOW to build)
+├── contracts/openapi.yaml      # API contracts (if API project)
+└── data-models/entities.md     # Domain entities
+
+features/001-feature-name/      # Sequential naming
+├── spec.md                     # Feature spec (with JIRA frontmatter)
+├── plan.md                     # Implementation plan
+└── tasks.md                    # Task breakdown
+```
+
+#### Key Concepts
+- **Flat Peer Model**: All `.flow/` artifacts are peers - no strict hierarchy
+- **Blueprint**: Architecture and guidance
+- **JIRA Integration**: Bidirectional sync - start from JIRA or local
+- **User Approval**: Always asks before syncing TO JIRA or modifying `.flow/` files
+- **Traceability**: JIRA ID in frontmatter, prepended to git branch
+
+#### JIRA Integration Workflows
+```bash
+# Start from JIRA story
+flow:specify "https://jira.company.com/browse/PROJ-123"
+
+# Start locally, optionally create JIRA story
+flow:specify "Add user authentication"  # Asks: Create JIRA story?
+
+# Bidirectional sync
+flow:sync --to-jira      # Push local changes to JIRA (asks first)
+flow:sync --from-jira PROJ-123  # Pull JIRA updates (shows diff, asks)
+```
+
 ### Flow Skills
 
 | Skill | AI Features | Subagents Used |
 |-------|-------------|----------------|
-| `flow:specify` | Domain detection, requirement inference, smart defaults | flow-researcher |
-| `flow:plan` | Architecture decisions, technology evaluation | flow-researcher, flow-analyzer |
+| `flow:specify` | Domain detection, requirement inference, smart defaults, JIRA sync | flow-researcher |
+| `flow:blueprint` | Architecture definition (replaces flow:constitution) | - |
+| `flow:plan` | Architecture decisions, technology evaluation, contract updates | flow-researcher, flow-analyzer |
 | `flow:implement` | Parallel execution, error recovery, progress tracking | flow-implementer |
+| `flow:sync` | Bidirectional JIRA synchronization | - |
 | `flow:analyze` | Pattern extraction, consistency validation | flow-analyzer |
 
 ### Example: From Idea to Implementation
@@ -181,7 +221,7 @@ Executing User Story 1 (P1)
 [T013] Creating Auth service...       ██░░░ 40%
 [T014] Setting up database...         ████░ 80%
 [T015] Creating API endpoints...      █░░░░ 20%
-[T016] Writing tests...              ███░░ 60%
+[T016] Writing tests...               ███░░ 60%
 
 Completed: 9/20 tasks
 Time saved: 67% vs sequential execution

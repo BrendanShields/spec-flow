@@ -1,5 +1,4 @@
 # Flow Plugin - Local Configuration & Secrets
-.specify/config.local.json
 .flow/config.local.json
 *.local.json
 

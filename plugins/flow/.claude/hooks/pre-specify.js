@@ -18,14 +18,15 @@ module.exports = async function preSpecify(context) {
     });
   }
 
-  // 2. Check constitution requirements
-  if (config.workflow.constitution === 'required' && !options.skipValidation) {
-    const hasConstitution = await checkConstitution(projectPath);
+  // 2. Check blueprint requirements (optional in flat model)
+  if (config.workflow.requireBlueprint && !options.skipValidation) {
+    const hasBlueprint = await checkBlueprint(projectPath);
 
-    if (!hasConstitution) {
-      throw new Error(
-        'Constitution required but not found. Run flow:constitution first or set constitution to "optional" in config.'
-      );
+    if (!hasBlueprint) {
+      context.warnings.push({
+        type: 'warning',
+        text: 'Architecture blueprint not found. Consider running flow:blueprint to define architecture standards.'
+      });
     }
   }
 
@@ -115,14 +116,14 @@ async function detectProjectType(projectPath) {
   return true; // It's a greenfield project
 }
 
-async function checkConstitution(projectPath) {
-  const constitutionPaths = [
-    '.specify/memory/constitution.md',
-    '.flow/constitution.md',
-    'CONSTITUTION.md'
+async function checkBlueprint(projectPath) {
+  const blueprintPaths = [
+    '.flow/architecture-blueprint.md',
+    '.specify/memory/constitution.md', // Legacy support
+    'ARCHITECTURE.md'
   ];
 
-  for (const path of constitutionPaths) {
+  for (const path of blueprintPaths) {
     if (await fileExists(`${projectPath}/${path}`)) {
       return true;
     }

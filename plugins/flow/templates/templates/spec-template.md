@@ -1,9 +1,33 @@
+---
+feature: [###]
+name: [feature-name]
+jira_id: [JIRA-ID or null]
+jira_url: [JIRA URL or null]
+created: [DATE]
+last_synced: [DATE or null]
+sync_direction: [bidirectional/local-only]
+---
+
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
+**Feature Branch**: `[BRANCH-NAME]` (e.g., `PROJ-123-feature-name` or `001-feature-name`)
+**Feature Number**: [###]
+**JIRA Story**: [JIRA-ID](JIRA-URL) (if linked)
+**Created**: [DATE]
+**Status**: Draft
 **Input**: User description: "$ARGUMENTS"
+
+## References to Project Artifacts
+
+<!--
+  This feature can reference the following .flow/ artifacts (flat peer model):
+  - Product Requirements: .flow/product-requirements.md
+  - Architecture Blueprint: .flow/architecture-blueprint.md
+  - API Contracts: .flow/contracts/openapi.yaml (if API project)
+  - Data Models: .flow/data-models/entities.md
+
+  These are peer documents - reference as needed for context and guidance.
+-->
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -113,4 +137,28 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+
+---
+
+## JIRA Integration Notes
+
+<!--
+  If Atlassian integration is enabled:
+
+  BIDIRECTIONAL SYNC:
+  - This spec can sync TO JIRA (creates/updates JIRA story)
+  - Can pull FROM JIRA (if started from JIRA URL)
+  - User approval required before syncing TO JIRA
+
+  WORKFLOW:
+  - flow:specify "https://jira.../PROJ-123" → Pulls JIRA story into this spec
+  - flow:specify "Feature description" → Can create JIRA story (asks first)
+  - flow:sync --to-jira → Push local changes to JIRA (asks first)
+  - flow:sync --from-jira PROJ-123 → Pull JIRA changes (shows diff, asks)
+
+  TRACEABILITY:
+  - JIRA ID stored in frontmatter above
+  - Git branch prepends JIRA ID: PROJ-123-feature-name
+  - Directory stays sequential: features/001-feature-name/
+-->
 
