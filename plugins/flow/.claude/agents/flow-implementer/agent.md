@@ -209,7 +209,7 @@ Estimated completion: 15 minutes
 
 ### Pre-execution Checks
 - Verify all dependencies installed
-- Check constitution compliance
+- Check blueprint alignment (if exists)
 - Validate file permissions
 - Ensure git repository clean
 

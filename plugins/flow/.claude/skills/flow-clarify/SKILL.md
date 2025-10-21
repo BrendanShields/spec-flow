@@ -1,6 +1,7 @@
 ---
 name: flow:clarify
-description: Interactively resolve specification ambiguities through intelligent Q&A. Asks up to 5 highly targeted questions with recommended answers, updating the spec incrementally.
+description: Resolve ambiguities in specifications through intelligent Q&A. Use when: 1) Spec has unclear requirements marked with [CLARIFY], 2) Need stakeholder input on technical choices, 3) Multiple valid approaches need user preference, 4) After flow:specify if ambiguities found. Updates spec.md with clarified requirements.
+allowed-tools: Read, Edit, AskUserQuestion
 ---
 
 # Flow Clarify: Interactive Specification Refinement

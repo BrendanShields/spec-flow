@@ -1,6 +1,7 @@
 ---
 name: flow:specify
-description: Generate comprehensive specifications from natural language using AI-powered analysis, domain detection, and intelligent defaults. Use for creating project or feature specifications.
+description: Create detailed specifications from requirements. Use when: 1) Starting new feature development, 2) User says "create/add/build a feature", 3) Converting business requirements to technical specs, 4) Pulling JIRA story into local spec. Creates spec.md with prioritized user stories (P1/P2/P3) and acceptance criteria.
+allowed-tools: Bash, Write, Read, Edit, Task
 ---
 
 # Flow Specify: AI-Powered Specification Generation

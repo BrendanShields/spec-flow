@@ -1,6 +1,7 @@
 ---
 name: flow:update
-description: Detect newly configured MCP servers and extend Flow with new integrations without breaking existing functionality. Self-modifying skill that adapts Flow to your toolchain.
+description: Detect and integrate new MCP servers into Flow. Use when: 1) New MCP server connected and need Flow integration, 2) Extending Flow with Linear/Sentry/custom tools, 3) Auto-adapting workflows to available tools, 4) Checking for new integration capabilities. Self-modifying skill that evolves with your toolchain.
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # Flow Update: Extensibility & MCP Discovery

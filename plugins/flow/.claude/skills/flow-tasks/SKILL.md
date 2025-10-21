@@ -1,6 +1,7 @@
 ---
 name: flow:tasks
-description: Generate dependency-ordered task breakdown organized by user story with parallel execution markers. Creates actionable tasks from specifications and technical plans.
+description: Break down plan into executable tasks with dependencies. Use when: 1) Technical plan complete and ready for implementation, 2) Need structured task list with priorities, 3) Identifying parallel work opportunities, 4) Creating JIRA subtasks. Generates tasks.md with T### IDs and [P] parallelization markers.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # Flow Tasks: User Story-Based Task Generation

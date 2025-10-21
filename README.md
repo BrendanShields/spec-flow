@@ -6,30 +6,39 @@ An internal marketplace for Claude Code plugins.
 
 The Claude Code Marketplace is a **Skills-first** architecture that replaces traditional command-based interactions with intelligent, context-aware Skills powered by AI. No backward compatibility baggage - just add a new skill and the flow will adapt.
 
-### Key Innovations
+### Key Innovations (v3.0 - Production Ready!)
 
-- **🧠 AI-Powered Skills**: Natural language understanding with intelligent defaults
-- **🤖 Autonomous Subagents**: Multi-step tasks executed independently
-- **🪝 Smart Hooks**: Event-driven automation and validation
-- **📊 Parallel Execution**: Maximize efficiency with concurrent processing
-- **🎯 Context-Aware**: Adapts to your project type and domain
+- **🧠 AI-Powered Skills**: Natural language understanding with intent detection
+- **🎯 Intelligent Orchestration**: Complete workflows with `flow:orchestrate`
+- **🔍 Intent Detection**: Claude suggests appropriate skills automatically
+- **💾 Session Continuity**: Resume workflows exactly where you left off
+- **🚀 Progressive Disclosure**: 80% reduction in context usage
+- **🪝 7 Comprehensive Hooks**: Validation, formatting, status tracking
+- **🤖 Restructured Subagents**: Optimized for parallel execution
+- **📊 Real-time Progress**: Track workflow status throughout execution
+- **✨ Auto-formatting**: Code quality without manual intervention
 
 ## ⚡ Quick Start
 
 ```bash
-# List available plugins
-market:list
+# Claude automatically detects your intent and suggests skills!
 
-# Install the Flow plugin
-market:install flow
+# Option 1: Complete automation (NEW!)
+"Build a real-time collaborative document editor"
+# → Claude detects intent and suggests flow:orchestrate
+# → Executes complete workflow automatically
 
-# Initialize a new project
-flow:init
+# Option 2: Traditional skill invocation
+flow:init                # Initialize Flow project
+flow:orchestrate         # Run complete workflow end-to-end
 
-# Generate a specification from natural language
-flow:specify "Build a real-time collaborative document editor like Google Docs"
+# Option 3: Step-by-step execution
+flow:specify "Build a document editor"  # Generate spec
+flow:plan                               # Create technical plan
+flow:tasks                              # Generate task list
+flow:implement                          # Execute implementation
 
-# The AI takes over from here...
+# The AI adapts to your working style!
 ```
 
 ## 🎪 The Flow Plugin: Specification-Driven Development Reimagined
@@ -90,31 +99,56 @@ flow:sync --to-jira      # Push local changes to JIRA (asks first)
 flow:sync --from-jira PROJ-123  # Pull JIRA updates (shows diff, asks)
 ```
 
-### Flow Skills
+### Flow Skills (Enhanced with Smart Triggers!)
 
-| Skill | AI Features | Subagents Used |
-|-------|-------------|----------------|
-| `flow:specify` | Domain detection, requirement inference, smart defaults, JIRA sync | flow-researcher |
-| `flow:blueprint` | Architecture definition (replaces flow:constitution) | - |
-| `flow:plan` | Architecture decisions, technology evaluation, contract updates | flow-researcher, flow-analyzer |
-| `flow:implement` | Parallel execution, error recovery, progress tracking | flow-implementer |
-| `flow:sync` | Bidirectional JIRA synchronization | - |
-| `flow:analyze` | Pattern extraction, consistency validation | flow-analyzer |
+| Skill | When It Triggers Automatically | Key Features |
+|-------|--------------------------------|--------------|
+| `flow:orchestrate` 🆕 | "Build/create complete project" | Executes entire workflow end-to-end |
+| `flow:specify` | "Create/add/build a feature" | Domain detection, JIRA sync, smart defaults |
+| `flow:blueprint` | "Define architecture/tech stack" | Technical standards & patterns |
+| `flow:plan` | "How to implement/technical design" | Architecture decisions, technology evaluation |
+| `flow:implement` | "Build/code/implement this" | Parallel execution, error recovery |
+| `flow:analyze` | "Check consistency/validate" | Cross-artifact validation |
+| `flow:discover` 🆕 | "Understand existing project/backlog" | JIRA analysis, codebase discovery |
+| `flow:metrics` 🆕 | "Show AI vs human code metrics" | Generation analytics, ROI tracking |
 
-### Example: From Idea to Implementation
+**NEW**: Skills now have specific "Use when:" descriptions for better discovery!
 
+### Example: Three Ways to Work
+
+#### 🚀 Method 1: Full Automation (NEW!)
 ```bash
-# One command to rule them all
-flow:specify "Create a SaaS platform for team collaboration with real-time features"
+# Just describe what you want - Claude handles EVERYTHING
+"Create a SaaS platform for team collaboration"
 
-# The AI will:
-# 1. Detect it's a SaaS + real-time project
-# 2. Research best practices (WebSockets vs SSE)
-# 3. Generate complete specifications
-# 4. Ask only critical clarifications (max 3)
-# 5. Create technical plan with architecture
-# 6. Generate parallel task execution plan
-# 7. Implement autonomously with progress tracking
+# Claude will:
+# 1. Detect intent → Suggest flow:orchestrate
+# 2. Run complete workflow automatically
+# 3. Initialize → Blueprint → Specify → Plan → Tasks → Implement
+# 4. Track progress with visual updates
+# 5. Save state for session continuity
+```
+
+#### 🎯 Method 2: Intent-Based (NEW!)
+```bash
+# Natural language - Claude suggests the right skill
+"I need to add user authentication"
+# → Claude suggests: flow:specify
+
+"How should I architect this?"
+# → Claude suggests: flow:plan
+
+"Check if everything is consistent"
+# → Claude suggests: flow:analyze
+```
+
+#### 📝 Method 3: Direct Skills
+```bash
+# Traditional approach - call skills directly
+flow:specify "User authentication with OAuth"
+flow:plan
+flow:tasks
+flow:implement
 ```
 
 ## 🤖 Subagents: Autonomous Execution
@@ -153,32 +187,49 @@ await Promise.all([
 ]);
 ```
 
-## 🪝 Hooks: Intelligent Automation
+## 🪝 Hooks: Comprehensive Automation (7 Hooks!)
 
-### Event-Driven Architecture
+### NEW Hook System Features (8 Hooks!)
 
-```javascript
-// Pre-execution validation
-on('before:flow:specify', async (context) => {
-  await validateProjectSetup(context);
-  await loadDomainTemplates(context);
-  await prepareResearchTasks(context);
-});
+| Hook | Purpose | When It Runs |
+|------|---------|--------------|
+| **detect-intent.js** | Suggests appropriate Flow skills | On every user prompt |
+| **validate-prerequisites.js** | Ensures workflow requirements | Before skill execution |
+| **format-code.js** | Auto-formats all code | After file modifications |
+| **update-workflow-status.js** | Tracks progress | After each skill |
+| **track-metrics.js** 🆕 | Tracks AI vs human code metrics | After file operations |
+| **save-session.js** | Saves workflow state | At session end |
+| **restore-session.js** | Restores previous state | At session start |
+| **aggregate-results.js** | Combines parallel results | After sub-agents |
 
-// Post-execution automation
-on('after:flow:specify', async (context) => {
-  if (hasClarifications(context)) {
-    await trigger('flow:clarify');
-  }
-  await syncWithJira(context);
-  await publishToConfluence(context);
-});
+### Example: Intent Detection in Action
+```bash
+User: "I want to build a new feature"
+System: 🎯 Detected intent: flow:specify
+        Consider using: flow:specify
 
-// Error handling
-on('error:constitution-violation', async (context) => {
-  await blockExecution();
-  await alertUser(context.violation);
-});
+User: "Check if everything looks good"
+System: 🎯 Detected intent: flow:analyze
+        Consider using: flow:analyze
+```
+
+### Example: Session Continuity
+```bash
+# Day 1
+flow:specify "E-commerce platform"
+flow:plan
+# [User exits]
+
+# Day 2
+# [User returns]
+System: 🔄 Session Restored
+        Last session: 18 hours ago
+        Feature: 001-ecommerce
+        Tasks: 5/20 complete (25%)
+
+        📝 Suggestions:
+        • Continue working on: 001-ecommerce
+        • Next workflow step: flow:tasks
 ```
 
 ## 🧠 AI Configuration
@@ -348,21 +399,52 @@ We welcome contributions that push the boundaries of what's possible:
 3. **Skills**: Design AI-enhanced interactions
 4. **Hooks**: Add intelligent automation
 
-## 📚 Resources
+## 📚 Complete Documentation
 
-- [Skills Development Guide](docs/skills-guide.md)
-- [Subagent Architecture](docs/subagents.md)
-- [Hook System](docs/hooks.md)
-- [AI Configuration](docs/ai-config.md)
+### 🚀 Getting Started
+- **[Quick Start Guide](QUICKSTART.md)** - Get building in 60 seconds!
+- **[Flow Plugin Documentation](plugins/flow/README.md)** - Complete Flow reference
+- **[Real-World Examples](plugins/flow/EXAMPLES.md)** - 10 complete project examples
+- **[Improvements & Features](plugins/flow/IMPROVEMENTS.md)** - What's new in v3.0
 
-## 🎉 Get Started
+### 📖 Reference Guides
+- **[CLAUDE.md](CLAUDE.md)** - Project configuration and workflows
+- [Skills Development Guide](docs/skills-guide.md) *(coming soon)*
+- [Subagent Architecture](docs/subagents.md) *(coming soon)*
+- [Hook System](docs/hooks.md) *(coming soon)*
 
+## 🎉 Get Started Now!
+
+### Fastest Start (30 seconds)
 ```bash
-# The future of development starts with one command:
-flow:init && flow:specify "Your idea here"
+# Just type what you want to build:
+"Build a [your idea here]"
+# Claude handles EVERYTHING automatically!
 ```
 
-Welcome to the age of AI-driven development. Let's build something amazing together.
+### Traditional Start
+```bash
+flow:orchestrate  # Complete automation
+# OR
+flow:init && flow:specify "Your idea here"  # Step by step
+```
+
+### 📖 Essential Reading
+1. **[Quick Start Guide](QUICKSTART.md)** - Start here! 60-second guide
+2. **[Flow Documentation](plugins/flow/README.md)** - Complete reference
+3. **[Examples](plugins/flow/EXAMPLES.md)** - Learn from 10 real projects
+
+### 🆕 What's New in v3.1
+- **Intent Detection**: Claude understands natural language
+- **Workflow Orchestration**: Complete automation with one command
+- **JIRA Discovery**: Seamless brownfield onboarding with backlog analysis
+- **Metrics Tracking**: AI vs human code analytics and ROI tracking
+- **Session Management**: Never lose your work
+- **8 Smart Hooks**: Validation, formatting, metrics, and progress tracking
+- **80% Less Context**: Progressive disclosure for efficiency
+- **12 Flow Skills**: Complete lifecycle coverage from discovery to metrics
+
+Welcome to the age of AI-driven development. Let's build something amazing together!
 
 ---
 

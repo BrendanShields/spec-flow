@@ -1,6 +1,7 @@
 ---
 name: flow:analyze
-description: Cross-artifact consistency validation across spec.md, plan.md, and tasks.md. Identifies gaps, conflicts, and constitution violations using the flow-analyzer subagent.
+description: Validate consistency across all Flow artifacts. Use when: 1) Before implementation to catch issues early, 2) After spec/plan changes to verify alignment, 3) Team handoffs requiring validation, 4) Detecting missing requirements or tasks. Performs read-only analysis and reports gaps/conflicts.
+allowed-tools: Read, Task
 ---
 
 # Flow Analyze: Consistency Validation
@@ -16,11 +17,11 @@ Perform read-only analysis to identify inconsistencies before implementation.
 
 ## What This Skill Does
 
-1. **Loads** spec.md, plan.md, tasks.md, constitution.md
+1. **Loads** spec.md, plan.md, tasks.md, architecture-blueprint.md
 2. **Validates** using `flow-analyzer` subagent:
    - Requirement coverage (all requirements have tasks)
    - Task mapping (all tasks map to requirements)
-   - Constitution compliance
+   - Blueprint alignment (if exists)
    - Cross-document consistency
    - Terminology alignment
 3. **Reports** findings with severity levels

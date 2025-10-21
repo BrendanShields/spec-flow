@@ -1,6 +1,7 @@
 ---
 name: flow:init
-description: Initialize a new project with Flow workflow configuration, choosing between greenfield or brownfield, and optionally setting up integrations.
+description: Initialize Flow for specification-driven development. Use when: 1) Starting a new project (greenfield), 2) Adding Flow to existing codebase (brownfield), 3) Setting up JIRA/Confluence integration, 4) Reconfiguring Flow settings. Creates .flow/ directory with templates and configuration.
+allowed-tools: Bash, Write, Read, Edit
 ---
 
 # Flow Init

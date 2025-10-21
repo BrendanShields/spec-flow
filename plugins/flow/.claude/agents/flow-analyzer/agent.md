@@ -1,6 +1,6 @@
 ---
 name: flow-analyzer
-description: Deep codebase analysis with pattern extraction, architecture discovery, and constitution inference. Use PROACTIVELY for brownfield projects and codebase understanding.
+description: Deep codebase analysis with pattern extraction, architecture discovery, and blueprint inference. Use PROACTIVELY for brownfield projects and codebase understanding.
 tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
@@ -29,7 +29,7 @@ An autonomous agent that performs deep codebase analysis, extracting patterns, d
 - **Data Flow**: Request/response patterns, data transformations
 - **Integration Points**: APIs, databases, external services
 
-### 4. Constitution Inference
+### 4. Blueprint Inference
 - **Development Practices**: TDD, CI/CD, code review
 - **Quality Standards**: Test coverage, linting, formatting
 - **Architectural Principles**: DRY, SOLID, KISS detection
@@ -48,7 +48,7 @@ input:
   focus: ["architecture", "patterns", "conventions"]
 output:
   - analysis-report.md
-  - inferred-constitution.md
+  - inferred-blueprint.md
   - architecture-diagram.json
   - pattern-library.json
 ```

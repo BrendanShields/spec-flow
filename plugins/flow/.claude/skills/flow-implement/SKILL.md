@@ -1,6 +1,7 @@
 ---
 name: flow:implement
-description: Autonomously execute implementation tasks with parallel processing, intelligent error recovery, and real-time progress tracking. Use the flow-implementer subagent for maximum efficiency.
+description: Execute all tasks from tasks.md autonomously. Use when: 1) Tasks are ready and want automated implementation, 2) User says "implement/build/code this", 3) Resuming after interruption with --resume, 4) Building specific priority only (--filter=P1). Executes with parallel processing and marks tasks complete.
+allowed-tools: Read, Write, Edit, Bash, Task, Grep, Glob
 ---
 
 # Flow Implement: Autonomous Task Execution

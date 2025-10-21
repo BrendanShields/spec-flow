@@ -1,6 +1,7 @@
 ---
 name: flow:checklist
-description: Generate domain-specific quality checklists that act as "unit tests for requirements". Validates requirement quality, not implementation. Creates checklists for UX, security, API, performance, etc.
+description: Generate quality checklists for requirement validation. Use when: 1) Need UX/security/API/performance gates, 2) Enterprise compliance requirements, 3) Before spec approval/signoff, 4) Testing if requirements are well-written. Creates domain-specific checklists that validate requirement quality.
+allowed-tools: Read, Write, Edit
 ---
 
 # Flow Checklist: Requirements Quality Validation

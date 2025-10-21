@@ -1,6 +1,7 @@
 ---
 name: flow:plan
-description: Generate technical implementation plans with architecture decisions, technology evaluation, and design artifacts using AI-powered research.
+description: Create technical implementation plan from specification. Use when: 1) Spec is complete and need technical design, 2) Determining architecture for feature, 3) Designing components/APIs/data models, 4) Before breaking down into tasks. Creates plan.md with technical decisions and component design.
+allowed-tools: Read, Write, Edit, Task, WebSearch
 ---
 
 # Flow Plan: Technical Planning

@@ -1,6 +1,7 @@
 ---
 name: flow:blueprint
-description: Create or update architecture blueprint defining technical standards, patterns, tech stack, API guidelines, and development principles. Broader scope than the old constitution concept.
+description: Define project architecture and technical standards. Use when: 1) Setting up new project architecture, 2) Team needs to align on tech stack/patterns, 3) Documenting architectural decisions (ADRs), 4) Establishing API/data/security guidelines. Creates architecture-blueprint.md with patterns, stack, and standards.
+allowed-tools: Write, Read, Edit, AskUserQuestion
 ---
 
 # Flow Blueprint: Architecture Definition
@@ -163,8 +164,8 @@ Define and document your project's architecture, technical standards, and develo
 - New: Guidance-based (flat peer model), user approval for deviations
 
 **Relationship to Features**:
-- Old: Features validated against constitution
-- New: Features CAN reference blueprint for guidance, not enforced
+- Features CAN reference blueprint for guidance
+- Flat peer model - not strictly enforced
 
 ## Modes
 
