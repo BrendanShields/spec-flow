@@ -1,125 +1,77 @@
-# Flow Orchestrate: Examples
+# Flow Orchestrate Examples
 
-## Example 1: Complete Greenfield Project
+## 1. Complete Greenfield Project
 
-**User**: "Set up a new e-commerce platform with user authentication, product catalog, and checkout"
+**User**: "Set up a new e-commerce platform"
 
-**Orchestration sequence**:
+**Sequence**:
 ```
-1. flow:init --type greenfield
-   → Creates .flow/ structure
-
-2. flow:blueprint
-   → Interactive: Choose architecture (microservices)
-   → Define tech stack (Node.js, React, PostgreSQL)
-
-3. flow:specify "E-commerce platform with auth, catalog, checkout"
-   → Generates comprehensive spec with P1/P2/P3 stories
-
-4. flow:clarify
-   → Asks: "Payment gateway preference?" → Stripe
-   → Asks: "Inventory tracking needed?" → Yes
-
-5. flow:plan
-   → Creates technical design
-   → API contracts, data models
-
-6. flow:analyze
-   → Validates consistency
-   → All checks pass
-
-7. flow:tasks
-   → Generates 47 tasks across 5 phases
-
-8. flow:implement
-   → Executes all tasks with parallel processing
-   → 12 files created, all tests passing
+flow:init → Creates .flow/ structure
+flow:blueprint → Architecture (microservices) + tech stack (Node/React/PostgreSQL)
+flow:specify → Comprehensive spec with P1/P2/P3 stories
+flow:clarify → Resolves: payment gateway (Stripe), inventory tracking (Yes)
+flow:plan → Technical design, API contracts, data models
+flow:analyze → Validates consistency (all checks pass)
+flow:tasks → Generates 47 tasks across 5 phases
+flow:implement → Executes tasks, creates 12 files, all tests passing
 ```
 
-## Example 2: Add Feature to Existing Project
+**Duration**: ~13 minutes
 
-**User**: "Add real-time notifications to our app"
+## 2. Add Feature to Existing Project
 
-**Orchestration sequence**:
+**User**: "Add real-time notifications"
+
+**Sequence**:
 ```
-1. [Skip init - already initialized]
-
-2. flow:specify "Real-time notifications"
-   → Creates features/002-notifications/spec.md
-
-3. flow:clarify
-   → Asks: "Push notifications too?" → Yes
-   → Asks: "Notification persistence?" → Yes, 30 days
-
-4. flow:plan
-   → WebSocket design
-   → Notification service architecture
-
-5. flow:tasks
-   → 18 tasks generated
-
-6. flow:implement
-   → Implements with 6 parallel tasks
+[Skips init - already initialized]
+flow:specify → Creates features/002-notifications/spec.md
+flow:clarify → Confirms push notifications, 30-day persistence
+flow:plan → WebSocket design + notification service architecture
+flow:tasks → Generates 18 tasks
+flow:implement → Implements with 6 parallel tasks
 ```
 
-## Example 3: Quick POC Mode
+**Duration**: ~8 minutes
 
-**User**: "Quick POC for AI chatbot integration"
+## 3. Quick POC Mode
 
-**Orchestration with POC mode**:
+**User**: "Quick POC for AI chatbot"
+
+**Sequence**:
 ```
-1. flow:init --type greenfield
-
-2. [Skip blueprint - POC mode]
-
-3. flow:specify "AI chatbot" --skip-validation
-   → Minimal spec, no quality checks
-
-4. [Skip clarify - POC mode]
-
-5. flow:plan --minimal
-   → Simple technical approach
-
-6. flow:tasks --simple
-   → 5 basic tasks
-
-7. flow:implement --skip-checklists
-   → Quick implementation
+flow:init
+[Skips blueprint - POC mode]
+flow:specify --skip-validation → Minimal spec
+[Skips clarify - POC mode]
+flow:plan --minimal → Simple technical approach
+flow:tasks --simple → 5 basic tasks
+flow:implement --skip-checklists → Quick implementation
 ```
 
-## Example 4: Resume Interrupted Workflow
+**Duration**: ~3 minutes
+
+## 4. Resume Interrupted Workflow
 
 **User**: "Continue where we left off"
 
-**Orchestration resumes**:
+**Sequence**:
 ```
-Checking state...
-Last completed: flow:plan
-Next step: flow:tasks
-
-Resuming from flow:tasks...
-
-1. flow:tasks
-   → Generate task list
-
-2. flow:implement
-   → Execute implementation
+[Detects state: last completed flow:plan]
+flow:tasks → Generate task list
+flow:implement → Execute implementation
 ```
 
-## Example 5: Selective Orchestration
+## 5. Selective Orchestration
 
 **User**: "Just do the planning phase"
 
-**Partial orchestration**:
+**Sequence**:
 ```
-1. flow:specify
-   → Generate spec
-
-2. flow:clarify
-   → Resolve ambiguities
-
-3. flow:plan
-   → Create technical plan
-
-[Stop as requested]
+flow:specify → Generate spec
+flow:clarify → Resolve ambiguities
+flow:plan → Create technical plan
+[Stops as requested - no implementation]
 ```
+
+For detailed configuration options and advanced usage, see [REFERENCE.md](./REFERENCE.md).

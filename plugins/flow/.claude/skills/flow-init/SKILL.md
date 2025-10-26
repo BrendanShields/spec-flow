@@ -1,400 +1,216 @@
 ---
 name: flow:init
-description: Initialize Flow for specification-driven development. Use when: 1) Starting a new project (greenfield), 2) Adding Flow to existing codebase (brownfield), 3) Setting up JIRA/Confluence integration, 4) Reconfiguring Flow settings. Creates .flow/ directory with templates and configuration.
+description: Initialize Flow for specification-driven development. Use when 1) Starting new project (greenfield), 2) Adding Flow to existing codebase (brownfield), 3) User says "setup/configure/initialize flow", 4) Reconfiguring after adding MCP servers, 5) Setting up JIRA/Confluence integration. Creates .flow/ directory with templates and configuration.
 allowed-tools: Bash, Write, Read, Edit
 ---
 
 # Flow Init
 
-Initialize a Flow project with configuration and structure setup, including MCP-based integrations.
+Initialize Flow project structure with optional MCP integrations (JIRA, Confluence, GitHub, etc.).
 
-## Usage
+## Core Workflow
 
-```
-flow:init
-flow:init --type greenfield
-flow:init --type brownfield
-flow:init --reconfigure
-```
+### 1. MCP Discovery
 
-## What It Does
-
-### Phase 1: MCP Discovery
-1. **Detect Available MCP Servers**
-   - Run `/mcp` command to list connected MCP servers
-   - Check for Atlassian MCP (JIRA/Confluence)
-   - Check for other known integrations (GitHub, Linear, etc.)
-
-### Phase 2: Project Type Selection
-2. **Determine Project Type**
-   - Prompt: "Is this a greenfield or brownfield project?"
-   - Greenfield: New project, full workflow
-   - Brownfield: Existing codebase, adding Flow
-
-### Phase 3: Integration Configuration
-3. **Configure Atlassian Integration** (if detected)
-   ```
-   ✓ Detected: Atlassian MCP (JIRA & Confluence)
-
-   Enable Atlassian integration? [Y/n]
-
-   JIRA Project Key (e.g., PROJ): ___
-   Confluence Root Page ID (from page URL): ___
-   Prepend JIRA ID to branch names? [Y/n]
-   ```
-
-4. **Configure Additional Integrations** (if detected)
-   - GitHub Projects
-   - Linear
-   - Sentry
-   - Custom MCPs
-
-### Phase 4: Directory Structure
-5. **Create .flow/ Structure**
-   ```
-   .flow/
-   ├── product-requirements.md   (skeleton - filled by flow:specify at project level)
-   ├── architecture-blueprint.md (skeleton - filled by flow:blueprint)
-   ├── contracts/                (if API project detected)
-   │   └── openapi.yaml         (from template)
-   ├── data-models/
-   │   └── entities.md          (skeleton)
-   ├── scripts/                  (bash scripts from plugin templates)
-   │   ├── common.sh
-   │   ├── create-new-feature.sh
-   │   └── check-prerequisites.sh
-   ├── templates/                (copied from plugin)
-   │   ├── spec-template.md
-   │   ├── plan-template.md
-   │   ├── tasks-template.md
-   │   ├── product-requirements-template.md
-   │   ├── architecture-blueprint-template.md
-   │   ├── jira-story-template.md
-   │   └── confluence-page.md
-   └── extensions.json           (already exists, MCP integrations)
-   ```
-
-### Phase 5: Configuration Files
-6. **Update CLAUDE.md**
-   - Add Flow Configuration section if not present
-   - Set `FLOW_ATLASSIAN_SYNC=enabled` (if chosen)
-   - Set `FLOW_JIRA_PROJECT_KEY=PROJ`
-   - Set `FLOW_CONFLUENCE_ROOT_PAGE_ID=123456`
-   - Set workflow defaults
-
-7. **Create .gitignore**
-   - Add rules for local config files
-   - Add rules for secrets
-
-### Phase 6: Authentication Guidance
-8. **Guide MCP Authentication**
-   ```
-   ✓ Configuration saved!
-
-   Next steps:
-
-   1. Authenticate with Atlassian MCP:
-      - Run any Flow skill that uses Atlassian (e.g., flow:specify)
-      - You'll be prompted to authenticate via browser
-      - Uses SSO - no API tokens needed!
-
-   2. Create your first specification:
-      flow:specify "Your feature description"
-
-   3. Define your architecture blueprint (recommended):
-      flow:blueprint
-
-   4. Create project-level product requirements (optional):
-      flow:specify "Complete project description"
-   ```
-
-## Execution Logic
-
-### MCP Detection
-
-```javascript
-// Run MCP command to detect available servers
-const mcpOutput = await bash('/mcp');
-
-// Parse connected servers
-const connectedServers = parseMcpOutput(mcpOutput);
-
-// Check against .flow/extensions.json
-const knownIntegrations = {
-  'Atlassian': {
-    detected: connectedServers.includes('Atlassian'),
-    capabilities: ['jira', 'confluence']
-  },
-  'github': {
-    detected: connectedServers.includes('github'),
-    capabilities: ['projects', 'pr']
-  }
-};
+Detect available MCP servers:
+```bash
+/mcp  # Lists connected servers
 ```
 
-### Configuration Storage
+Check for known integrations:
+- **Atlassian MCP**: JIRA + Confluence
+- **GitHub MCP**: Issues, PRs, Projects
+- **Linear MCP**: Issue tracking
+- **Custom MCPs**: User-defined integrations
 
-**CLAUDE.md** (version-controlled):
+### 2. Project Type Selection
+
+**Greenfield**: New project
+- Full .flow/ structure
+- All templates and scripts
+- Architecture blueprint setup
+
+**Brownfield**: Existing codebase
+- Minimal .flow/ structure
+- Focus on feature-level specs
+- Suggest codebase analysis
+
+Prompt: "Is this a greenfield or brownfield project?"
+
+### 3. Integration Configuration
+
+For each detected MCP, prompt for setup:
+
+**Atlassian (if detected)**:
+- JIRA Project Key (e.g., "PROJ")
+- Confluence Root Page ID (from URL)
+- Branch naming preference (prepend JIRA ID?)
+
+**GitHub (if detected)**:
+- GitHub Project ID (optional, from project URL)
+
+**Other MCPs**:
+- Integration-specific configuration
+
+### 4. Directory Structure Creation
+
+Create standard structure:
 ```
+.flow/
+├── product-requirements.md      # Skeleton
+├── architecture-blueprint.md    # Skeleton
+├── contracts/                   # If API project
+│   └── openapi.yaml
+├── data-models/
+│   └── entities.md
+├── scripts/
+│   ├── common.sh
+│   ├── create-new-feature.sh
+│   └── check-prerequisites.sh
+├── templates/
+│   ├── spec-template.md
+│   ├── plan-template.md
+│   ├── tasks-template.md
+│   └── [integration-specific templates]
+└── extensions.json              # MCP registry
+```
+
+Copy templates from:
+```
+plugins/flow/templates/templates/*.md  → .flow/templates/
+plugins/flow/templates/scripts/*.sh    → .flow/scripts/
+```
+
+### 5. Configuration Storage
+
+**Update CLAUDE.md** with Flow configuration:
+```markdown
+## Flow Configuration
+
+### Feature Toggles
 FLOW_ATLASSIAN_SYNC=enabled
 FLOW_JIRA_PROJECT_KEY=PROJ
 FLOW_CONFLUENCE_ROOT_PAGE_ID=123456
 FLOW_BRANCH_PREPEND_JIRA=true
+
+### Workflow Defaults
+FLOW_REQUIRE_BLUEPRINT=false
+FLOW_REQUIRE_ANALYSIS=false
+FLOW_TESTS_REQUIRED=false
 ```
 
-**Benefits**:
-- Simple text format
-- Version controlled
-- Team shares same config
-- Easy to enable/disable features
+**Create .flow/extensions.json** with MCP registry:
+```json
+{
+  "version": "1.0",
+  "knownServers": {
+    "Atlassian": {
+      "package": "@modelcontextprotocol/server-atlassian",
+      "capabilities": ["jira", "confluence"],
+      "enhances": {
+        "flow:specify": "Create/update JIRA stories",
+        "flow:plan": "Sync to Confluence"
+      },
+      "configuredAt": "2025-10-24T12:00:00Z"
+    }
+  }
+}
+```
 
-### Template Copy
+### 6. Completion Message
 
+Provide next steps:
+```
+✓ Flow initialized successfully!
+
+Next steps:
+1. Authenticate with [MCP name] (on first use)
+2. flow:blueprint (define architecture)
+3. flow:specify "Feature description"
+```
+
+## Command-Line Flags
+
+**`--type greenfield|brownfield`**
+Explicitly set project type, skip prompting.
+
+**`--skip-integrations`**
+Skip MCP detection, create minimal local-only setup.
+
+**`--reconfigure`**
+Update existing Flow project configuration.
+- Detects new MCP servers
+- Updates integration settings
+- Preserves existing .flow/ content
+
+## Reading Configuration
+
+Other Flow skills read CLAUDE.md:
 ```javascript
-// Copy templates from plugin to project
-const templates = [
-  'spec-template.md',
-  'plan-template.md',
-  'tasks-template.md',
-  'product-requirements-template.md',
-  'architecture-blueprint-template.md',
-  'openapi-template.yaml',
-  'jira-story-template.md',
-  'confluence-page.md'
-];
+const config = readFlowConfig('CLAUDE.md');
 
-for (const template of templates) {
-  copy(
-    `plugins/flow/templates/templates/${template}`,
-    `.flow/templates/${template}`
-  );
-}
-
-// Copy bash scripts
-const scripts = ['common.sh', 'create-new-feature.sh', 'check-prerequisites.sh'];
-for (const script of scripts) {
-  copy(
-    `plugins/flow/templates/scripts/bash/${script}`,
-    `.flow/scripts/${script}`
-  );
-}
-
-// Create skeleton files
-createFile('.flow/product-requirements.md', '# Product Requirements\n\n(Use flow:specify at project level to fill this in)\n');
-createFile('.flow/architecture-blueprint.md', '# Architecture Blueprint\n\n(Use flow:blueprint to define architecture)\n');
-createFile('.flow/data-models/entities.md', '# Domain Entities\n\n(Generated by flow:plan)\n');
-
-// Create contracts/ directory if API project
-if (isApiProject) {
-  copy(
-    'plugins/flow/templates/templates/openapi-template.yaml',
-    '.flow/contracts/openapi.yaml'
-  );
+if (config.FLOW_ATLASSIAN_SYNC === 'enabled') {
+  const projectKey = config.FLOW_JIRA_PROJECT_KEY;
+  // Use Atlassian MCP...
 }
 ```
 
-## Flags & Options
+## API Project Detection
 
-### `--type greenfield|brownfield`
-Explicitly set project type without prompting.
+If API project (prompt user):
+- Create `.flow/contracts/` directory
+- Copy OpenAPI/GraphQL templates
+- Add API-specific templates
 
-### `--reconfigure`
-Re-run configuration for existing Flow project. Useful when:
-- New MCP servers added
-- Changing integration settings
-- Updating workflow defaults
+## Integration Benefits
 
-### `--skip-integrations`
-Skip MCP detection and integration setup. For:
-- POC/spike projects
-- Solo developers without integrations
-- Quick setup
+**Atlassian**:
+- Auto-create JIRA epics/stories from specs
+- Sync plans to Confluence
+- Update JIRA status during implementation
 
-## Integration-Specific Setup
+**GitHub**:
+- Sync tasks to GitHub Projects
+- Auto-create PRs with context
 
-### Atlassian (JIRA + Confluence)
-
-**What you need**:
-- JIRA project key (e.g., "PROJ")
-- Confluence root page ID (get from page URL)
-
-**How it works**:
-1. Flow configures skills to use Atlassian MCP
-2. First time you use a skill, SSO authentication prompt
-3. Authenticate via browser once
-4. All subsequent calls use authenticated session
-
-**What gets synced**:
-- `flow:specify` → Creates JIRA epic + stories
-- `flow:plan` → Syncs to Confluence pages
-- `flow:tasks` → Creates JIRA subtasks
-- `flow:implement` → Updates JIRA status
-
-### GitHub Projects
-
-**What you need**:
-- GitHub personal access token
-- Project board ID (optional)
-
-**What gets synced**:
-- `flow:tasks` → GitHub project items
-- `flow:implement` → Creates PR automatically
-
-### Linear
-
-**What you need**:
-- Linear API key
-- Team ID
-
-**What gets synced**:
-- `flow:specify` → Linear issues
-- `flow:tasks` → Linear sub-issues
+**Linear**:
+- Create Linear issues from user stories
+- Track sub-issues for tasks
 
 ## Examples
 
-### Basic Greenfield Setup
-```
-User: flow:init
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- Basic greenfield setup
+- Brownfield project addition
+- Enterprise with JIRA/Confluence
+- Reconfiguring after adding MCPs
+- POC/spike minimal setup
+- Troubleshooting common issues
 
-Flow: Detecting available MCP servers...
-Flow: ✓ Found: Atlassian MCP (JIRA & Confluence)
+## Reference
 
-Flow: Is this a greenfield or brownfield project?
-User: greenfield
-
-Flow: Enable Atlassian integration? [Y/n]
-User: Y
-
-Flow: JIRA Project Key (e.g., PROJ):
-User: MYAPP
-
-Flow: Confluence Root Page ID (from page URL):
-User: 789456123
-
-Flow: Prepend JIRA ID to branch names? [Y/n]
-User: Y
-
-Flow: Is this an API project? [Y/n]
-User: Y
-
-Flow: Creating .flow/ directory structure...
-Flow: Copying templates...
-Flow: Creating openapi.yaml for API contracts...
-Flow: Updating CLAUDE.md configuration...
-Flow: ✓ Flow initialized successfully!
-
-Flow: Next steps:
-      1. Authenticate with Atlassian MCP when prompted
-      2. Define architecture: flow:blueprint
-      3. Create project spec: flow:specify "Complete project description"
-      4. Add first feature: flow:specify "First feature description"
-```
-
-### Brownfield Project
-```
-User: flow:init --type brownfield
-
-Flow: Detecting available MCP servers...
-Flow: ✓ Found: Atlassian MCP
-
-Flow: Enable Atlassian integration? [Y/n]
-User: n
-
-Flow: Creating .flow/ directory structure...
-Flow: ✓ Flow initialized (no integrations)
-
-Flow: Next steps:
-      1. Run: flow:blueprint (document existing architecture)
-      2. Run: flow:specify "First feature to add"
-      3. Flow will work with your existing codebase
-```
-
-### Quick Setup (No Integrations)
-```
-User: flow:init --skip-integrations
-
-Flow: Skipping MCP detection...
-Flow: Creating .flow/ directory structure...
-Flow: ✓ Flow initialized (standalone mode)
-
-Flow: Use flow:init --reconfigure to add integrations later
-```
-
-### Reconfigure Existing Project
-```
-User: flow:init --reconfigure
-
-Flow: Detected existing .flow/ directory
-Flow: Detecting new MCP servers...
-Flow: ✓ Found: Atlassian MCP (not configured)
-Flow: ✓ Found: GitHub MCP (new!)
-
-Flow: Enable GitHub Projects integration? [Y/n]
-User: Y
-
-Flow: GitHub Project ID (optional):
-User:
-
-Flow: ✓ Configuration updated!
-Flow: GitHub integration available in flow:tasks and flow:implement
-```
-
-## Implementation Notes
-
-### Reading CLAUDE.md Configuration
-
-Skills should read CLAUDE.md to check if features are enabled:
-
-```javascript
-// Read CLAUDE.md
-const claudeMd = await readFile('CLAUDE.md');
-
-// Parse configuration
-const config = parseFlowConfig(claudeMd);
-
-// Check if Atlassian is enabled
-if (config.FLOW_ATLASSIAN_SYNC === 'enabled') {
-  // Use Atlassian MCP for JIRA/Confluence operations
-  const jiraProjectKey = config.FLOW_JIRA_PROJECT_KEY;
-  const confluenceRootPageId = config.FLOW_CONFLUENCE_ROOT_PAGE_ID;
-
-  // Create JIRA story...
-}
-```
-
-### MCP Authentication
-
-For Atlassian MCP with SSO:
-1. First MCP call triggers authentication
-2. Browser window opens for SSO login
-3. Token stored in Claude Code session
-4. Subsequent calls use authenticated session
-
-No need to manage API tokens manually!
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete flag documentation
+- Directory structure details
+- Configuration file formats
+- MCP detection logic
+- Template copying process
+- Integration-specific setup
+- Advanced configuration options
+- Troubleshooting guide
 
 ## Related Skills
 
-- **flow:specify** - Creates specs (project or feature level), syncs to JIRA if enabled
-- **flow:blueprint** - Defines architecture (replaces flow:constitution with broader scope)
-- **flow:plan** - Creates plans, syncs to Confluence if enabled
-- **flow:tasks** - Creates tasks, syncs to JIRA if enabled
-- **flow:sync** - Bidirectional JIRA synchronization
-- **flow:update** - Adds new MCP integrations to existing Flow project
+- **flow:blueprint**: Define architecture (run after init)
+- **flow:specify**: Create specifications (uses init's templates)
+- **flow:update**: Add MCP integrations later (extends init)
+- **flow:discover**: Analyze brownfield projects (pairs with brownfield init)
 
-## Troubleshooting
+## Validation
 
-### "MCP server not detected"
-- Ensure `.mcp.json` exists in plugin root
-- Check MCP server is installed: `npx mcp-remote@latest`
-- Run `/mcp` to verify server is connected
+Test this skill:
+```bash
+scripts/validate.sh
+```
 
-### "Authentication failed"
-- Clear Claude Code MCP cache
-- Re-run flow:init --reconfigure
-- Check network/firewall for SSO redirects
-
-### "Configuration not persisting"
-- Check CLAUDE.md exists and is writable
-- Verify .gitignore doesn't exclude CLAUDE.md
-- Ensure proper file permissions
-
+Validates: YAML syntax, description format, token count, modular resources, activation patterns.

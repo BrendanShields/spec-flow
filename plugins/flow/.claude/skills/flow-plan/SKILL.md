@@ -1,25 +1,21 @@
 ---
 name: flow:plan
-description: Create technical implementation plan from specification. Use when: 1) Spec is complete and need technical design, 2) Determining architecture for feature, 3) Designing components/APIs/data models, 4) Before breaking down into tasks. Creates plan.md with technical decisions and component design.
+description: Create technical implementation plan from specification. Use when 1) Spec is complete and need technical design, 2) Determining architecture for feature, 3) Designing components/APIs/data models, 4) Before breaking down into tasks, 5) Need research-backed technical decisions and ADRs. Creates plan.md with technical decisions and component design.
 allowed-tools: Read, Write, Edit, Task, WebSearch
 ---
 
-# Flow Plan: Technical Planning
+# Flow Plan
 
-Create comprehensive implementation plans with architecture decisions and technical design.
+Create comprehensive implementation plans with architecture decisions, technical design, and research-backed recommendations.
 
-## What This Skill Does
+## Core Capability
 
-1. Loads specification from `spec.md`
-2. **Researches** technical decisions using `flow-researcher` subagent
-3. Generates implementation plan with:
-   - Architecture patterns
-   - Technology stack recommendations
-   - Data model design
-   - API contracts
-   - Integration patterns
-4. Validates against project constitution
-5. Updates agent context files
+Transforms specifications into actionable technical plans:
+- Loads `spec.md` and analyzes requirements
+- Executes technical research via `flow-researcher` subagent
+- Generates complete implementation design
+- Validates against blueprint (if exists)
+- Creates detailed artifacts for implementation
 
 ## Execution Phases
 
@@ -29,75 +25,77 @@ Create comprehensive implementation plans with architecture decisions and techni
 - Document decisions in `research.md`
 - Create Architecture Decision Records (ADRs)
 
+Uses **flow-researcher** subagent for:
+- Technology stack evaluation
+- Architecture pattern recommendations
+- Best practices research
+- Performance/security strategies
+
 ### Phase 1: Design & Contracts
-- Generate `data-model.md` with entities
-- Create API contracts in `contracts/`
-- Write `quickstart.md` for testing
+- Generate `data-model.md` with entity definitions
+- Create API contracts in `contracts/` (OpenAPI, GraphQL, events)
+- Write `quickstart.md` with test scenarios
+- Define integration patterns
 
 ## Output Artifacts
 
-- `plan.md` - Main implementation plan
-- `research.md` - Technical research and decisions
-- `data-model.md` - Entity definitions
-- `contracts/` - API specifications
-- `quickstart.md` - Test scenarios
+| File | Purpose |
+|------|---------|
+| `plan.md` | Main implementation plan with architecture and phases |
+| `research.md` | Technical research findings and ADRs |
+| `data-model.md` | Database schema and entity relationships |
+| `contracts/` | API specifications (OpenAPI, GraphQL, webhooks) |
+| `quickstart.md` | Test scenarios and cURL examples |
 
 ## MCP Integration (Confluence)
 
-If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically syncs implementation plan to Confluence:
+When `FLOW_ATLASSIAN_SYNC=enabled`, syncs plan to Confluence:
+- Creates "Implementation Plan" subpage under feature
+- Formats ADRs as decision tables
+- Embeds data model with entity diagrams
+- Includes interactive API contract viewers
+- Generates Gantt chart from implementation timeline
 
-### Confluence Page Sync
+See [REFERENCE.md](./REFERENCE.md#mcp-integration-confluence) for detailed sync process.
 
-**After plan generation**:
-1. Read existing feature Confluence page (created by `flow:specify`)
-2. Create "Implementation Plan" subpage under feature page
-3. Sync plan artifacts to Confluence:
+## Blueprint Validation
 
-```javascript
-// Create or update Implementation Plan page
-const planPage = await mcp.confluence.createPage({
-  parentId: featurePageId,
-  title: 'Implementation Plan',
-  body: {
-    architecture: plan.architecture,
-    techStack: plan.techStack,
-    dataModel: plan.dataModel,
-    apiContracts: plan.contracts,
-    timeline: plan.phases
-  }
-});
+If `.flow/architecture-blueprint.md` exists:
+- Validates technology choices against approved stack
+- Ensures API design follows guidelines
+- Confirms data modeling conventions
+- Documents deviations with rationale (requires user approval)
+
+## Examples
+
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- Greenfield API feature planning
+- Brownfield integration planning
+- Microservices architecture design
+- Confluence sync workflow
+- Minimal POC mode planning
+
+## Reference
+
+See [REFERENCE.md](./REFERENCE.md) for:
+- ADR format specification
+- Research process details
+- MCP/Confluence integration
+- Configuration options (`--minimal`, `--update`)
+- Data model guidelines
+- API contract templates
+- Performance and security guidelines
+
+## Related Skills
+
+- **flow-researcher** (subagent): Executes technical research
+- **flow-analyzer** (subagent): Analyzes existing code for brownfield
+- **flow:specify**: Creates specification (run before)
+- **flow:tasks**: Generates tasks from plan (run after)
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
 ```
-
-### Content Sections
-
-**Architecture Decisions**:
-- Sync ADRs from `research.md`
-- Format as Confluence decision tables
-- Link to related JIRA stories
-
-**Data Model**:
-- Sync `data-model.md` with entity diagrams
-- Create interactive entity tables
-- Add relationships visualization
-
-**API Contracts**:
-- Sync OpenAPI/GraphQL schemas from `contracts/`
-- Format as collapsible code blocks
-- Add request/response examples
-
-**Implementation Timeline**:
-- Create Gantt chart from phases
-- Link each phase to JIRA subtasks
-- Show dependencies visually
-
-### Benefits
-
-- Team reviews plan in familiar Confluence interface
-- Architects can comment directly on decisions
-- Historical record of technical choices
-- Linked to JIRA for complete traceability
-
-## Subagents Used
-
-- **flow-researcher**: Researches best practices and evaluates alternatives
-- **flow-analyzer**: Analyzes existing code for brownfield projects

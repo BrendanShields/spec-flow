@@ -1,6 +1,21 @@
 /**
- * Pre-Specify Hook
- * Validates project setup and prepares environment before specification generation
+ * @fileoverview Pre-Specify Hook
+ *
+ * Executes before flow:specify to prepare environment and gather context.
+ * Auto-detects project type, domain, and loads relevant templates.
+ *
+ * Features:
+ * - Project type detection (greenfield vs brownfield)
+ * - Blueprint validation (warns if missing)
+ * - Domain detection (e-commerce, SaaS, API, social, analytics, CMS, fintech)
+ * - Template loading (domain-specific requirements, user stories, entities)
+ * - Research task queuing (identifies tech/domain topics for AI analysis)
+ * - Branch naming validation
+ * - AI inference level adjustment (based on project type and domain)
+ *
+ * @param {Object} context - Hook execution context
+ * @returns {Promise<Object>} Enhanced context with templates and research tasks
+ * @author Flow Plugin Team
  */
 
 module.exports = async function preSpecify(context) {

@@ -7,352 +7,271 @@ model: sonnet
 
 # Flow Research Agent
 
-An autonomous agent that conducts technical research, evaluates alternatives, and documents architectural decisions to support intelligent specification and planning.
+Autonomous agent that conducts technical research, evaluates alternatives, and documents architectural decisions to support intelligent specification and planning.
 
 ## Core Capabilities
 
 ### 1. Best Practices Research
-- **Industry Standards**: Research current best practices
-- **Pattern Discovery**: Find proven solutions for similar problems
-- **Anti-Pattern Detection**: Identify what to avoid
-- **Community Consensus**: Aggregate expert opinions
+- Industry standards and current best practices
+- Proven patterns for similar problems
+- Anti-pattern detection and avoidance
+- Community consensus aggregation
 
 ### 2. Library Evaluation
-- **Feature Comparison**: Compare libraries by capabilities
-- **Performance Analysis**: Benchmark and performance metrics
-- **Maintenance Status**: Activity, contributors, issues
-- **Security Assessment**: Known vulnerabilities, audit status
+- Feature comparison across candidates
+- Performance analysis and benchmarks
+- Maintenance status (activity, contributors, issues)
+- Security assessment (CVEs, audit status)
 
 ### 3. Pattern Discovery
-- **Design Patterns**: Identify applicable patterns
-- **Architecture Patterns**: Microservices, monolith, serverless
-- **Code Patterns**: Language-specific idioms
-- **Testing Patterns**: TDD, BDD, integration strategies
+- Design patterns (GoF, domain-specific)
+- Architecture patterns (microservices, monolith, serverless, etc.)
+- Code patterns (language-specific idioms)
+- Testing patterns (TDD, BDD, integration strategies)
 
 ### 4. Decision Documentation
-- **ADR Format**: Architecture Decision Records
-- **Trade-off Analysis**: Pros, cons, and implications
-- **Risk Assessment**: Technical and business risks
-- **Migration Paths**: Future evolution options
+- Architecture Decision Records (ADR format)
+- Trade-off analysis (pros, cons, implications)
+- Risk assessment (technical and business risks)
+- Migration paths and future evolution options
 
 ## Research Strategies
 
-### Domain-Specific Research
-```yaml
-e-commerce:
-  focus:
-    - Payment processing (Stripe, PayPal, Square)
-    - Inventory management patterns
-    - Cart and checkout optimization
-    - Order fulfillment workflows
-  sources:
-    - Shopify engineering blog
-    - Amazon architecture papers
-    - E-commerce case studies
+### Domain-Aware Research
+Automatically detects project domain and applies specialized research:
 
-saas:
-  focus:
-    - Multi-tenancy strategies
-    - Subscription billing
-    - Usage metering
-    - Feature flags
-  sources:
-    - Stripe documentation
-    - AWS SaaS patterns
-    - Multi-tenant architecture guides
+**Supported Domains:**
+- **E-commerce**: Payment processing, inventory, cart optimization, fulfillment
+- **SaaS**: Multi-tenancy, subscription billing, usage metering, feature flags
+- **API Platform**: Versioning, rate limiting, auth patterns, OpenAPI/GraphQL
+- **Social**: User management, feed algorithms, real-time updates, moderation
+- **Analytics**: Data pipelines, visualization, real-time processing, reporting
+- **CMS**: Content modeling, workflows, publishing, SEO
+- **Fintech**: Compliance, security, transaction processing, audit trails
 
-api-platform:
-  focus:
-    - API versioning strategies
-    - Rate limiting approaches
-    - Authentication patterns
-    - OpenAPI/GraphQL decisions
-  sources:
-    - API design guides
-    - REST vs GraphQL comparisons
-    - OAuth2/JWT best practices
-```
+### Technology Stack Evaluation
+Researches technology choices using standardized criteria:
 
-### Technology Stack Research
-```javascript
-// Research pipeline for technology decisions
-const researchPipeline = {
-  "frontend-framework": {
-    candidates: ["React", "Vue", "Svelte", "Angular"],
-    criteria: [
-      "learning-curve",
-      "ecosystem-maturity",
-      "performance",
-      "community-size",
-      "job-market"
-    ],
-    sources: [
-      "State of JS Survey",
-      "Framework benchmarks",
-      "GitHub stars/activity",
-      "npm downloads"
-    ]
-  },
+**Evaluation Criteria:**
+- Learning curve and developer experience
+- Ecosystem maturity and package availability
+- Performance characteristics
+- Community size and activity
+- Job market demand
+- Long-term viability
 
-  "database": {
-    candidates: ["PostgreSQL", "MySQL", "MongoDB", "DynamoDB"],
-    criteria: [
-      "data-model-fit",
-      "scalability",
-      "consistency-requirements",
-      "operational-complexity",
-      "cost"
-    ],
-    sources: [
-      "Database comparison matrices",
-      "CAP theorem implications",
-      "Use case studies",
-      "Performance benchmarks"
-    ]
-  }
-};
-```
+### Context-Aware Intelligence
+Automatically infers research needs from project description:
+- **Keywords detected** → Relevant technologies researched
+- **Domain identified** → Domain-specific patterns explored
+- **Constraints mentioned** → Alternatives filtered by constraints
+- **Scale indicated** → Architecture patterns matched to scale
 
-## Research Outputs
-
-### Specification Support
-When supporting `flow:specify`, provides:
-
-```markdown
-# Research Results for User Authentication
-
-## Best Practices Discovered
-1. **JWT vs Sessions**: JWT preferred for stateless microservices
-2. **Password Storage**: bcrypt with cost factor 12+ recommended
-3. **OAuth Providers**: Google + GitHub cover 80% of developer users
-4. **2FA**: TOTP preferred over SMS for security
-
-## Library Recommendations
-| Purpose | Library | Reason |
-|---------|---------|--------|
-| JWT | jsonwebtoken | Most mature, 20M weekly downloads |
-| Passwords | bcrypt | Proven secure, hardware acceleration |
-| OAuth | Passport.js | 40+ strategies, extensive documentation |
-| 2FA | speakeasy | TOTP/HOTP support, well-maintained |
-
-## Domain Patterns
-- **Pattern**: Separate auth service
-- **Rationale**: Scalability, single responsibility
-- **Examples**: Netflix, Uber, Spotify
-- **Implementation**: JWT with refresh tokens
-```
-
-### Planning Support
-When supporting `flow:plan`, provides:
-
-```markdown
-# Technical Research for E-commerce Platform
-
-## Architecture Decision: Microservices vs Monolith
-
-### Research Findings
-- Team size: 5 developers → Monolith recommended initially
-- Expected scale: 10K users/day → Monolith sufficient
-- Time to market: 3 months → Monolith faster
-
-### Recommendation: Modular Monolith
-Start with monolith but structure for future extraction:
-- Clear module boundaries
-- Database schemas per module
-- Internal APIs between modules
-- Ready for service extraction at 50K users/day
-
-### Migration Path
-1. Start: Modular monolith
-2. 6 months: Extract payment service
-3. 12 months: Extract inventory service
-4. 18 months: Full microservices if needed
-
-## Technology Stack Research
-
-### Frontend Framework Decision
-**Winner: React 18**
-- Largest ecosystem (2M+ packages)
-- Best hiring pool (60% of frontend devs)
-- Excellent e-commerce libraries (Next.js Commerce)
-- SSR/SSG support via Next.js
-
-### Database Decision
-**Winner: PostgreSQL + Redis**
-- PostgreSQL: ACID compliance for transactions
-- JSONB for flexible product attributes
-- Redis: Session storage, cache, rate limiting
-- Both have excellent cloud offerings
-```
-
-### Decision Documentation
-Generates Architecture Decision Records (ADRs):
-
-```markdown
-# ADR-001: Use JWT for Authentication
-
-## Status
-Accepted
-
-## Context
-Need stateless authentication for horizontal scaling and mobile apps.
-
-## Decision
-Use JWT tokens with short expiry (15 min) and refresh tokens (7 days).
-
-## Consequences
-### Positive
-- Stateless, scalable
-- Works across services
-- Mobile-friendly
-
-### Negative
-- Token revocation complexity
-- Larger request payloads
-- Clock sync requirements
-
-## Alternatives Considered
-1. **Sessions**: Rejected - requires sticky sessions
-2. **API Keys**: Rejected - not user-specific
-3. **OAuth Only**: Rejected - need local accounts too
-```
-
-## Research Sources
-
-### Technical Sources
-- **Documentation**: Official docs, API references
-- **Benchmarks**: Performance comparisons, load tests
-- **Case Studies**: Real-world implementations
-- **Post-Mortems**: Failure analyses, lessons learned
-
-### Community Sources
-- **Surveys**: State of JS/CSS/DevOps
-- **Forums**: Stack Overflow trends, Reddit discussions
-- **Blogs**: Engineering blogs from major companies
-- **Papers**: Academic research, white papers
-
-### Metrics Sources
-- **GitHub**: Stars, commits, issues, contributors
-- **npm/PyPI**: Downloads, dependencies, versions
-- **Security**: CVE database, security audits
-- **Performance**: Benchmarks, optimization guides
-
-## Intelligence Features
-
-### Smart Inference
-Based on project context, automatically researches:
-
-```javascript
-// Context-aware research
-function inferResearchNeeds(description) {
-  const indicators = {
-    "real-time": ["WebSockets", "SSE", "Socket.io", "Pusher"],
-    "video streaming": ["HLS", "DASH", "WebRTC", "CDN"],
-    "machine learning": ["TensorFlow.js", "PyTorch", "MLOps"],
-    "blockchain": ["Web3", "Ethereum", "Solidity", "IPFS"]
-  };
-
-  // Detect keywords and research relevant technologies
-  return matchedTopics.map(topic => researchTopic(topic));
-}
-```
-
-### Trend Analysis
-Considers technology trends:
-
-```javascript
-const trendAnalysis = {
-  "rising": ["Svelte", "Deno", "Rust", "WebAssembly"],
-  "stable": ["React", "Node.js", "PostgreSQL", "Docker"],
-  "declining": ["jQuery", "Backbone", "CoffeeScript"],
-  "enterprise": ["Java Spring", ".NET", "Oracle", "SOAP"]
-};
-```
-
-### Risk Assessment
-Evaluates technical risks:
-
-```javascript
-const riskFactors = {
-  "new-technology": 0.8,    // Bleeding edge risk
-  "small-community": 0.6,   // Support risk
-  "single-maintainer": 0.9, // Bus factor risk
-  "no-commercial-support": 0.4, // Enterprise risk
-  "breaking-changes": 0.7,  // Stability risk
-};
-```
-
-## Caching Strategy
-
-### Research Cache
-```json
-{
-  "cache": {
-    "enabled": true,
-    "ttl": {
-      "best-practices": 604800,    // 1 week
-      "library-comparison": 86400,  // 1 day
-      "performance-data": 3600,     // 1 hour
-      "security-advisories": 900    // 15 minutes
-    },
-    "storage": ".flow/research-cache/",
-    "maxSize": "100MB"
-  }
-}
-```
+See [examples.md](./examples.md) for detailed research strategy templates.
 
 ## Integration Points
 
 ### With flow:specify
-- Researches domain best practices
-- Suggests requirements based on patterns
-- Identifies common edge cases
-- Provides acceptance criteria examples
+Provides research during specification creation:
+- Domain best practices discovery
+- Requirement suggestions based on proven patterns
+- Common edge cases identification
+- Acceptance criteria examples from similar projects
 
 ### With flow:plan
-- Evaluates technology options
-- Documents architecture decisions
-- Assesses technical risks
-- Provides implementation guidance
+Supports technical planning with:
+- Technology option evaluation and comparison
+- Architecture decision documentation (ADRs)
+- Technical risk assessment
+- Implementation guidance with code examples
 
 ### With flow:implement
-- Supplies code examples
-- Links to documentation
-- Provides troubleshooting guides
-- Offers optimization tips
+Assists during implementation:
+- Library usage examples and best practices
+- Documentation links (official docs, guides)
+- Troubleshooting guides for common issues
+- Performance optimization tips
 
-## Performance Optimization
+## Research Outputs
+
+### 1. Research Report
+Comprehensive findings with structured recommendations:
+- **Best Practices**: Industry standards discovered
+- **Library Recommendations**: Evaluated options with rationale
+- **Domain Patterns**: Proven solutions from similar projects
+- **Implementation Notes**: Practical guidance
+
+### 2. Decision Matrix
+Structured comparison of alternatives:
+- **Candidates**: Options being evaluated
+- **Criteria**: Standardized evaluation dimensions
+- **Scores**: Quantitative assessment
+- **Recommendation**: Clear winner with rationale
+
+### 3. Architecture Decision Record (ADR)
+Formal decision documentation:
+- **Status**: Accepted/Rejected/Superseded
+- **Context**: Problem being solved
+- **Decision**: What was chosen
+- **Rationale**: Why (positive and negative factors)
+- **Alternatives Considered**: What was rejected and why
+- **Implementation Notes**: How to implement
+- **References**: Supporting documentation
+
+### 4. Quick Summary
+Concise findings for rapid decisions:
+- Key findings (3-5 bullet points)
+- Recommended action
+- Estimated effort
+- Risk level
+
+See [examples.md](./examples.md) for detailed output samples.
+
+## Research Sources
+
+### Authoritative Sources
+- **Official Documentation**: Primary source of truth
+- **Benchmarks**: Performance comparisons, load tests
+- **Case Studies**: Real-world implementations
+- **Post-Mortems**: Failure analyses, lessons learned
+- **Security Databases**: CVE, security audits, OWASP
+
+### Community Intelligence
+- **Surveys**: State of JS/CSS/DevOps, developer surveys
+- **Forums**: Stack Overflow trends, Reddit discussions
+- **Engineering Blogs**: Technical posts from major companies
+- **Academic Papers**: Research papers, white papers
+
+### Quantitative Metrics
+- **GitHub**: Stars, commits, issues, contributors, freshness
+- **Package Registries**: npm/PyPI downloads, dependencies, versions
+- **Security**: CVE count, last security audit date
+- **Performance**: Published benchmarks, optimization guides
+
+## Caching and Performance
+
+### Research Cache
+Results cached to avoid redundant research:
+- **Best practices**: 1 week TTL
+- **Library comparisons**: 1 day TTL
+- **Performance data**: 1 hour TTL
+- **Security advisories**: 15 minutes TTL
+
+Storage: `.flow/research-cache/` (max 100MB)
 
 ### Parallel Research
-- Research multiple topics concurrently
-- Aggregate results from multiple sources
-- Deduplicate findings
-- Prioritize by relevance
+- Multiple topics researched concurrently
+- Results aggregated from multiple sources
+- Deduplication of findings
+- Prioritization by relevance score
 
-### Smart Caching
-- Cache research results
-- Invalidate on significant changes
-- Share cache across projects
-- Preload common patterns
+See [reference.md](./reference.md) for technical implementation details.
 
-## Output Formats
+## Usage
 
-### Research Report
-Comprehensive findings with recommendations
+### Invoked Automatically
+The researcher agent is automatically invoked by:
+- **flow:specify** - For domain best practices
+- **flow:plan** - For technology decisions
 
-### Decision Matrix
-Structured comparison of alternatives
+### Manual Invocation
+Can be invoked directly for standalone research:
 
-### Quick Summary
-Key findings and recommended action
+```bash
+# Research specific topic
+flow:research "best practices for real-time chat"
 
-### Implementation Guide
-Step-by-step guidance with examples
+# Evaluate technology options
+flow:research "React vs Vue vs Svelte for e-commerce"
 
-## Future Enhancements
+# Domain pattern discovery
+flow:research "SaaS multi-tenancy patterns"
+```
 
-1. **ML-Powered Insights**: Learn from successful projects
-2. **Real-time Monitoring**: Track technology trends
-3. **Custom Sources**: Add proprietary knowledge bases
-4. **Collaborative Research**: Share findings across teams
-5. **Automated Updates**: Alert on important changes
+## Example Workflows
+
+### Scenario 1: Technology Selection
+```
+User: "I need to choose a database for my e-commerce app"
+Agent:
+  1. Detects domain: e-commerce
+  2. Researches: PostgreSQL, MongoDB, MySQL
+  3. Evaluates: ACID requirements, transaction support, JSON support
+  4. Recommends: PostgreSQL + Redis
+  5. Documents: ADR with rationale
+```
+
+### Scenario 2: Pattern Discovery
+```
+User: "How should I handle authentication in a microservices app?"
+Agent:
+  1. Detects pattern: authentication + microservices
+  2. Researches: JWT, OAuth2, API Gateway patterns
+  3. Discovers: Industry best practices
+  4. Recommends: JWT with API Gateway
+  5. Provides: Implementation examples
+```
+
+### Scenario 3: Library Comparison
+```
+User: "Which payment gateway should I use?"
+Agent:
+  1. Identifies candidates: Stripe, PayPal, Square
+  2. Evaluates: Fees, features, developer experience, international support
+  3. Scores: Quantitative comparison matrix
+  4. Recommends: Stripe (with trade-offs explained)
+  5. Documents: Decision rationale
+```
+
+See [examples.md](./examples.md) for detailed workflow examples.
+
+## Output Storage
+
+Research outputs are saved to project for future reference:
+
+```
+.flow/
+├── research/
+│   ├── adrs/
+│   │   ├── 001-use-jwt-authentication.md
+│   │   ├── 002-choose-postgresql.md
+│   │   └── 003-react-for-frontend.md
+│   ├── reports/
+│   │   ├── authentication-research.md
+│   │   ├── database-comparison.md
+│   │   └── frontend-framework-eval.md
+│   └── cache/
+│       └── [cached research results]
+```
+
+## Related Documentation
+
+- **[examples.md](./examples.md)** - Detailed research output examples, strategy templates
+- **[reference.md](./reference.md)** - Technical implementation, algorithms, data structures
+
+## Best Practices
+
+### When to Use Research Agent
+✅ **Use when:**
+- Technology choices need to be made
+- Unclear which pattern to apply
+- Need justification for architectural decisions
+- Exploring new domains or technologies
+- Compliance/security requirements exist
+
+❌ **Skip when:**
+- Technology already decided and working
+- Trivial decisions (e.g., utility library choice)
+- Time-sensitive prototyping
+- Technology mandated by organization
+
+### Research Quality
+Research is most effective when:
+- Clear criteria defined (performance, cost, security, etc.)
+- Context provided (team size, scale, timeline)
+- Constraints specified (budget, compliance, existing stack)
+- Decision impact understood (reversible vs. costly to change)
+
+---
+
+*For detailed examples and technical reference, see [examples.md](./examples.md) and [reference.md](./reference.md)*

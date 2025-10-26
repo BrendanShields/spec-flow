@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && echo \"Git status:\\n$(git status -s 2>/dev/null | head -10)\\n\\nRecent commits:\\n$(git log --oneline -5 2>/dev/null)\\n\\nCurrent branch: $(git branch --show-current 2>/dev/null)\" || true"
+          }
+        ]
+      }
+    ]
+  }
+}

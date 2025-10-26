@@ -93,3 +93,83 @@
 | Completed | Done | Task succeeds |
 | Failed | Blocked | After retries exhausted |
 | Skipped | Won't Do | Dependency failed |
+
+## MCP Integration Details
+
+### Real-time JIRA Updates
+
+When `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically updates JIRA subtask status as tasks complete.
+
+**When task starts**:
+```javascript
+// Mark task as in-progress
+await mcp.jira.updateIssue({
+  issueKey: taskJiraId,
+  update: {
+    status: { name: 'In Progress' },
+    comment: 'Started by Flow autonomous implementation'
+  }
+});
+```
+
+**When task completes successfully**:
+```javascript
+// Mark as Done in tasks.md
+markTaskComplete(taskId);
+
+// Update JIRA
+await mcp.jira.updateIssue({
+  issueKey: taskJiraId,
+  update: {
+    status: { name: 'Done' },
+    comment: `Completed by Flow\nFile: ${filePath}\nDuration: ${duration}ms`
+  }
+});
+```
+
+**When task fails**:
+```javascript
+// Keep task pending in tasks.md
+// Update JIRA with error details
+await mcp.jira.addComment({
+  issueKey: taskJiraId,
+  comment: `❌ Task failed after ${retries} attempts\nError: ${error.message}\nRetrying...`
+});
+```
+
+### Progress Visibility
+
+**Team sees real-time progress in JIRA**:
+- Subtasks move from "To Do" → "In Progress" → "Done"
+- Comments show execution details
+- Sprint burndown updates automatically
+- Team can follow along without checking local repo
+
+### Parallel Execution Tracking
+
+**Multiple subtasks in-progress simultaneously**:
+```
+JIRA Board View:
+Story US1: User Authentication
+  ├─ T010: Create User model         [In Progress] @flow-bot
+  ├─ T011: Create Auth service       [In Progress] @flow-bot
+  ├─ T012: Implement login endpoint  [To Do]
+  └─ T013: Add authentication middleware [To Do]
+```
+
+### Benefits
+
+- **Real-time visibility**: Team sees what's being implemented live
+- **Progress tracking**: Sprint burndown updates automatically
+- **Error transparency**: Failed tasks visible in JIRA comments
+- **Audit trail**: Complete history of implementation in JIRA
+- **Integration**: Works with existing JIRA workflows and automations
+
+### JIRA Configuration
+
+Enable status sync in CLAUDE.md:
+```
+FLOW_ATLASSIAN_SYNC=enabled
+FLOW_JIRA_AUTO_TRANSITION=true       # Auto-move through workflow states
+FLOW_JIRA_ADD_COMMENTS=true          # Add implementation details
+```

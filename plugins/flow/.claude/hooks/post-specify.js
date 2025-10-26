@@ -1,6 +1,22 @@
 /**
- * Post-Specify Hook
- * Triggers clarification if needed and updates project tracking after specification
+ * @fileoverview Post-Specify Hook
+ *
+ * Executes after flow:specify to trigger follow-up actions and integrations.
+ * Analyzes specification quality, syncs with external systems, and queues
+ * next workflow steps automatically.
+ *
+ * Features:
+ * - Clarification detection (finds [NEEDS CLARIFICATION] markers)
+ * - Auto-triggers flow:clarify if needed
+ * - JIRA sync (creates/updates stories if enabled)
+ * - Confluence publishing (auto-publishes specs if enabled)
+ * - Quality assessment (completeness, clarity, testability scores)
+ * - Telemetry tracking (usage analytics)
+ * - Auto-checklist generation (if configured)
+ *
+ * @param {Object} context - Hook execution context
+ * @returns {Promise<Object>} Updated context with next actions and metrics
+ * @author Flow Plugin Team
  */
 
 module.exports = async function postSpecify(context) {

@@ -1,235 +1,233 @@
 ---
 name: flow:update
-description: Detect and integrate new MCP servers into Flow. Use when: 1) New MCP server connected and need Flow integration, 2) Extending Flow with Linear/Sentry/custom tools, 3) Auto-adapting workflows to available tools, 4) Checking for new integration capabilities. Self-modifying skill that evolves with your toolchain.
+description: Detect and integrate new MCP servers into Flow. Use when 1) New MCP connected and need Flow integration, 2) User says "add/configure [integration]", 3) Extending Flow with Linear/Sentry/GitHub, 4) Auto-adapting workflows to available tools, 5) Checking for new integration capabilities. Evolves with your toolchain.
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# Flow Update: Extensibility & MCP Discovery
+# Flow Update
 
 Automatically detect and integrate new MCP servers into Flow workflows without code changes.
 
-## When to Use
+## Core Workflow
 
-- Added new MCP servers to your project
-- Want to enable GitHub, Linear, Sentry, or custom MCPs
-- Need to update Flow to use new integrations
-- Exploring available MCP capabilities
+### 1. Scan for MCP Servers
 
-## What This Skill Does
-
-1. **Scans** for MCP servers via `/mcp` command
-2. **Compares** against `.flow/extensions.json` registry
-3. **Identifies** new or unconfigured servers
-4. **Analyzes** capabilities of each MCP
-5. **Suggests** Flow skill enhancements
-6. **Generates** templates for new integrations
-7. **Updates** CLAUDE.md configuration
-8. **Non-breaking** - existing functionality preserved
-
-## Execution Workflow
-
-### Phase 1: MCP Discovery
-
-```javascript
-// Run MCP command to get connected servers
-const mcpServers = await bash('/mcp');
-
-// Parse server list
-const connectedServers = parseMcpOutput(mcpServers);
-
-// Load known extensions registry
-const registry = await readJson('.flow/extensions.json');
-
-// Identify new servers
-const newServers = connectedServers.filter(
-  server => !registry.knownServers[server]
-);
-
-// Identify unconfigured servers
-const unconfigured = connectedServers.filter(
-  server => registry.knownServers[server] && !isConfigured(server)
-);
+Detect all connected MCP servers:
+```bash
+/mcp  # Lists connected servers
 ```
 
-### Phase 2: Capability Analysis
+Compare against `.flow/extensions.json` registry to identify:
+- **New servers**: Never configured
+- **Configured servers**: Already set up
+- **Unconfigured servers**: Known but not enabled
 
-**For each new MCP server**:
-1. Query MCP for capabilities
-2. Match capabilities to Flow skills:
-   - Issue tracking → `flow:specify`, `flow:tasks`
-   - Documentation → `flow:plan`
-   - Version control → `flow:implement`
-   - Monitoring → `flow:specify` (error context)
+### 2. Analyze Capabilities
 
-3. Generate enhancement suggestions
+For each new MCP:
+- Query capabilities (if supported by MCP)
+- Match to Flow skills:
+  - Issue tracking → `flow:specify`, `flow:tasks`, `flow:implement`
+  - Documentation → `flow:plan`, `flow:specify`
+  - Version control → `flow:implement` (PR creation)
+  - Monitoring → `flow:specify` (error context), `flow:discover`
+- Generate enhancement suggestions
 
-### Phase 3: Interactive Configuration
+### 3. Interactive Configuration
 
+Prompt for each new MCP:
+
+**Known MCP** (Atlassian, GitHub, Linear):
 ```
-Flow: Detected new MCP servers!
+✓ Detected: GitHub MCP
 
-┌─────────────────────────────────────────────────────────┐
-│ GitHub MCP                                              │
-├─────────────────────────────────────────────────────────┤
-│ Capabilities:                                           │
-│ • Create/update issues                                  │
-│ • Create pull requests                                  │
-│ • Manage projects                                       │
-│                                                          │
-│ Suggested Flow enhancements:                            │
-│ ✓ flow:tasks - Sync tasks to GitHub Projects          │
-│ ✓ flow:implement - Auto-create PRs with context       │
-│                                                          │
-│ Enable GitHub integration? [Y/n]                        │
-└─────────────────────────────────────────────────────────┘
+Capabilities:
+• Create/update issues
+• Create pull requests
+• Manage projects
 
-User: Y
+Suggested Flow enhancements:
+✓ flow:tasks - Sync to GitHub Projects
+✓ flow:implement - Auto-create PRs
 
-Flow: Configure GitHub integration:
-      GitHub Project ID (optional):
-User:
-
-Flow: ✓ GitHub integration enabled!
-      Updated: CLAUDE.md, .flow/extensions.json
-      Created: plugins/flow/templates/templates/github-pr-template.md
+Enable GitHub integration? [Y/n]
 ```
 
-### Phase 4: Template Generation
+**Unknown MCP**:
+```
+Found new MCP: "custom-tracker"
 
-**For each enabled integration**:
-1. Check if templates exist in registry
-2. Generate templates from patterns:
-   - Issue templates (GitHub, Linear, JIRA)
-   - PR templates (GitHub, GitLab)
-   - Document templates (Notion, Confluence)
+Detected capabilities:
+• create_task
+• update_status
 
-3. Save to `plugins/flow/templates/templates/`
+Which skills should use this MCP?
+[1] flow:specify
+[2] flow:plan
+[3] flow:tasks
+[4] flow:implement
+[5] Custom integration
+```
 
-### Phase 5: Configuration Updates
+### 4. Collect Configuration
+
+**Atlassian**:
+- JIRA Project Key
+- Confluence Root Page ID
+- Branch naming preference
+
+**GitHub**:
+- GitHub Project ID (optional)
+- Auto-PR setting
+
+**Linear**:
+- Linear API Key
+- Linear Team ID
+
+**Sentry**:
+- Sentry Project
+- Error threshold for auto-spec
+
+**Custom MCPs**:
+- MCP-specific required fields
+- Sync mode (one-way, two-way, pull-only)
+- Behavioral options
+
+### 5. Update Configuration
 
 **Update CLAUDE.md**:
 ```markdown
 ## Flow Configuration
 
-### Feature Toggles
+### MCP Integration Toggles
 FLOW_ATLASSIAN_SYNC=enabled
-FLOW_GITHUB_SYNC=enabled             # NEW
-FLOW_GITHUB_PROJECT_ID=PVT_123       # NEW
+FLOW_GITHUB_SYNC=enabled
+FLOW_LINEAR_SYNC=disabled
+FLOW_SENTRY_SYNC=enabled
+
+### Integration-Specific Config
+FLOW_GITHUB_PROJECT_ID=PVT_123
+FLOW_LINEAR_TEAM_ID=TEAM-abc
+FLOW_SENTRY_PROJECT=my-project
 ```
 
 **Update .flow/extensions.json**:
 ```json
 {
+  "version": "1.0",
   "knownServers": {
-    "Atlassian": { ... },
-    "github": {                       // NEW
+    "github": {
       "package": "@modelcontextprotocol/server-github",
       "capabilities": ["issues", "pull-requests", "projects"],
       "enhances": {
         "flow:tasks": "Sync to GitHub Projects",
         "flow:implement": "Auto-create PRs"
       },
-      "configuredAt": "2025-10-20T12:00:00Z"
+      "configuredAt": "2025-10-24T14:30:00Z"
     }
   }
 }
 ```
 
-## MCP Server Patterns
+### 6. Generate Templates
 
-### Issue Tracking MCPs
+Create integration-specific templates:
+- `jira-story-template.md` (Atlassian)
+- `github-pr-template.md` (GitHub)
+- `linear-issue-template.md` (Linear)
+- `custom-[name]-template.md` (Custom MCPs)
 
-**Supported**: JIRA, Linear, GitHub Issues, GitLab Issues
+Save to `.flow/templates/`
 
-**Enhancements**:
-- `flow:specify` - Create issues from user stories
-- `flow:tasks` - Create subtasks/sub-issues
-- `flow:implement` - Update status on completion
+### 7. Completion Message
 
-### Documentation MCPs
+```
+✓ GitHub integration enabled!
 
-**Supported**: Confluence, Notion, GitBook
+Enhanced skills:
+• flow:tasks - Now syncs to GitHub Projects
+• flow:implement - Now creates PRs automatically
 
-**Enhancements**:
-- `flow:specify` - Sync spec to docs
-- `flow:plan` - Publish implementation plans
-- `flow:constitution` - Share governance docs
+Updated:
+  CLAUDE.md
+  .flow/extensions.json
 
-### Version Control MCPs
+Created:
+  .flow/templates/github-pr-template.md
 
-**Supported**: GitHub, GitLab, Bitbucket
+Next: Run flow:tasks to sync existing tasks
+```
 
-**Enhancements**:
-- `flow:implement` - Auto-create PRs
-- `flow:tasks` - Link to commits/branches
-- `flow:analyze` - Check for conflicts
+## Command-Line Flags
 
-### Monitoring MCPs
+**`--reconfigure [MCP_NAME]`**
+Update existing MCP configuration.
+- With MCP name: Reconfigure that specific integration
+- Without: Prompt to select which to reconfigure
 
-**Supported**: Sentry, Datadog, New Relic
+**`--disable [MCP_NAME]`**
+Disable MCP without removing configuration.
+- Sets `FLOW_XXX_SYNC=disabled`
+- Preserves config for re-enabling
 
-**Enhancements**:
-- `flow:specify` - Reference error IDs in specs
-- `flow:plan` - Include error patterns in planning
-- `flow:implement` - Link deployments to tickets
+**`--enable [MCP_NAME]`**
+Re-enable previously disabled MCP.
+- Sets `FLOW_XXX_SYNC=enabled`
+- Uses existing configuration
+
+**`--list`**
+Show all configured MCPs and their status.
+
+## MCP Patterns
+
+### Issue Tracking
+**Examples**: JIRA, Linear, GitHub Issues
+**Enhances**: flow:specify, flow:tasks, flow:implement
+**Config**: Project key, team ID
+
+### Documentation
+**Examples**: Confluence, Notion
+**Enhances**: flow:specify, flow:plan
+**Config**: Space ID, parent page
+
+### Version Control
+**Examples**: GitHub, GitLab
+**Enhances**: flow:implement
+**Config**: Repository, auto-PR settings
+
+### Monitoring
+**Examples**: Sentry, Datadog
+**Enhances**: flow:specify, flow:discover
+**Config**: Project ID, error threshold
 
 ## Custom MCP Integration
 
-### Adding Unknown MCPs
+For unknown MCPs:
+1. Detect capabilities (if introspection supported)
+2. Prompt user for skill mapping
+3. Collect MCP-specific configuration
+4. Generate registry entry
+5. Create templates (if applicable)
 
-**If MCP not in registry**:
-```
-Flow: Found new MCP: "custom-mcp"
-      This server is not in the Flow registry.
-
-      Detected capabilities:
-      • custom_capability_1
-      • custom_capability_2
-
-      Would you like to add this MCP to Flow? [Y/n]
-
-User: Y
-
-Flow: How should Flow use this MCP?
-
-      Which skills should integrate with "custom-mcp"?
-      [1] flow:specify
-      [2] flow:plan
-      [3] flow:tasks
-      [4] flow:implement
-      [5] Custom integration
-
-User: 3,4
-
-Flow: ✓ Created custom integration!
-      • flow:tasks will check for custom-mcp
-      • flow:implement will use custom capabilities
-      • Configuration saved to .flow/extensions.json
-```
-
-### Registry Entry Format
-
+**Registry format**:
 ```json
 {
   "custom-mcp": {
     "package": "npx custom-mcp@latest",
-    "capabilities": ["capability_1", "capability_2"],
+    "capabilities": ["create_task", "update_status"],
     "enhances": {
-      "flow:tasks": "Custom task sync",
-      "flow:implement": "Custom completion hooks"
+      "flow:tasks": "Description",
+      "flow:implement": "Description"
     },
     "configuration": {
-      "required": ["CUSTOM_API_KEY"],
-      "optional": ["CUSTOM_PROJECT_ID"]
-    },
-    "templates": ["custom-template.md"]
+      "required": ["api_key", "project_id"],
+      "optional": ["webhook_url"]
+    }
   }
 }
 ```
 
 ## Non-Breaking Updates
-
-### Backward Compatibility
 
 **Guaranteed**:
 - Existing skills work without new MCPs
@@ -239,150 +237,63 @@ Flow: ✓ Created custom integration!
 
 **Pattern**:
 ```javascript
-// Skills check if MCP is enabled
 if (config.FLOW_GITHUB_SYNC === 'enabled') {
-  // Use GitHub MCP
   await syncToGitHub();
 } else {
-  // Local-only workflow (works as before)
+  // Local workflow (works as before)
   continueLocalWorkflow();
 }
 ```
 
-### Gradual Adoption
+## Gradual Adoption
 
-**Enable one MCP at a time**:
+Enable one MCP at a time:
 1. Run `flow:update`
 2. Enable one integration
 3. Test workflow
 4. Enable next integration
 5. Repeat
 
-**Rollback**:
-- Set `FLOW_XXX_SYNC=disabled` in CLAUDE.md
-- Skills automatically skip MCP calls
-- No code changes needed
+**Rollback**: Set `FLOW_XXX_SYNC=disabled` in CLAUDE.md
 
 ## Examples
 
-### Adding GitHub Projects
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- Adding GitHub Projects
+- Adding Linear
+- Custom MCP integration
+- Multiple MCPs at once
+- Sentry error context
+- Reconfiguring existing MCP
+- Disabling integration
+- Troubleshooting
 
-```
-User: flow:update
+## Reference
 
-Flow: Scanning for MCP servers...
-Flow: ✓ Found: Atlassian (configured)
-Flow: ✓ Found: GitHub (NEW!)
-
-Flow: Enable GitHub Projects integration? [Y/n]
-User: Y
-
-Flow: GitHub Project ID (optional):
-User: PVT_kwDOABCD123
-
-Flow: ✓ GitHub integration enabled!
-
-      Enhanced skills:
-      • flow:tasks - Now syncs to GitHub Projects
-      • flow:implement - Now creates PRs automatically
-
-      Next: Run flow:tasks to sync existing tasks
-```
-
-### Reconfiguring After Adding MCP
-
-```
-User: I just added Linear MCP, update Flow
-
-Flow: Detected Linear MCP!
-
-Flow: Linear capabilities:
-      • Create issues
-      • Update issue status
-      • Add comments
-
-      Suggested enhancements:
-      • Sync user stories to Linear issues
-      • Track tasks as Linear sub-issues
-      • Update status during implementation
-
-      Enable Linear integration? [Y/n]
-User: Y
-
-Flow: Linear API Key:
-User: lin_api_...
-
-Flow: Linear Team ID:
-User: TEAM-abc123
-
-Flow: ✓ Linear configured!
-      Updated CLAUDE.md with configuration
-      Created linear-issue-template.md
-
-      Your next flow:specify will create Linear issues!
-```
-
-## Configuration Reference
-
-### CLAUDE.md Variables
-
-```
-# MCP Integration Toggles
-FLOW_ATLASSIAN_SYNC=enabled
-FLOW_GITHUB_SYNC=enabled
-FLOW_LINEAR_SYNC=disabled
-FLOW_SENTRY_SYNC=enabled
-
-# Integration-Specific Config
-FLOW_GITHUB_PROJECT_ID=PVT_123
-FLOW_LINEAR_TEAM_ID=TEAM-abc
-FLOW_SENTRY_PROJECT=my-project
-```
-
-### Extension Registry
-
-**Location**: `.flow/extensions.json`
-
-**Purpose**:
-- Documents available MCPs
-- Maps capabilities to skills
-- Stores configuration schema
-- Tracks templates
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete flag documentation
+- MCP discovery process
+- Configuration patterns
+- Template generation logic
+- Skill enhancement mapping
+- Custom MCP integration details
+- Backward compatibility guarantees
+- Testing MCP integration
+- Advanced configuration options
 
 ## Related Skills
 
-- **flow:init** - Initial MCP setup during project creation
-- **flow:specify** - Uses MCPs for issue/doc creation
-- **flow:plan** - Uses MCPs for documentation sync
-- **flow:tasks** - Uses MCPs for task management
-- **flow:implement** - Uses MCPs for status updates
+- **flow:init**: Initial MCP setup (run first)
+- **flow:specify**: Enhanced by MCPs (creates JIRA/Linear issues)
+- **flow:plan**: Enhanced by MCPs (syncs to Confluence)
+- **flow:tasks**: Enhanced by MCPs (syncs to GitHub/JIRA)
+- **flow:implement**: Enhanced by MCPs (creates PRs, updates status)
 
-## Troubleshooting
+## Validation
 
-### "No new MCPs detected"
-- Run `/mcp` to verify servers are connected
-- Check `.mcp.json` in project root
-- Verify MCP package is installed
+Test this skill:
+```bash
+scripts/validate.sh
+```
 
-### "MCP capabilities not detected"
-- Some MCPs require authentication first
-- Run a skill that uses the MCP to trigger auth
-- Then run `flow:update` again
-
-### "Template generation failed"
-- Check write permissions in plugins/flow/templates/
-- Verify template patterns in .flow/extensions.json
-- Manually create template if needed
-
-### "Configuration not persisting"
-- Check CLAUDE.md is writable
-- Verify .flow/extensions.json exists
-- Ensure proper JSON formatting
-
-## Future Enhancements
-
-1. **Auto-discovery**: Detect MCP capabilities automatically
-2. **Template marketplace**: Community-contributed templates
-3. **Multi-MCP workflows**: Use multiple MCPs together
-4. **Smart suggestions**: ML-based integration recommendations
-5. **Health checks**: Monitor MCP connectivity and performance
+Validates: YAML syntax, description format, token count, modular resources, activation patterns.

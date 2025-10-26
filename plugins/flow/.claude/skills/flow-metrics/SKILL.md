@@ -1,85 +1,45 @@
 ---
 name: flow:metrics
-description: View and analyze code generation metrics. Use when: 1) Want to see AI vs human code ratio, 2) Track productivity metrics, 3) Analyze code generation patterns, 4) Generate reports on AI assistance effectiveness. Shows comprehensive metrics dashboard.
+description: View and analyze code generation metrics. Use when 1) Want AI vs human code ratio, 2) User says "show/view metrics", 3) Track productivity metrics, 4) Analyze code generation patterns, 5) Generate AI effectiveness reports. Shows comprehensive metrics dashboard.
 allowed-tools: Read, Write, Bash
 ---
 
-# Flow Metrics: Code Generation Analytics
+# Flow Metrics
 
 View comprehensive metrics about AI-generated vs human-modified code, productivity patterns, and generation velocity.
 
-## What This Skill Does
+## Core Workflow
 
-1. **Loads** metrics from `.flow/.metrics.json`
-2. **Analyzes** code generation patterns
-3. **Generates** visual dashboard
-4. **Tracks** productivity trends
-5. **Reports** AI assistance effectiveness
+### 1. Load Metrics
 
-## Metrics Tracked
+Read from `.flow/.metrics.json`:
+```javascript
+{
+  "totals": {
+    "aiGeneratedLines": 9629,
+    "humanWrittenLines": 2716,
+    "aiGeneratedFiles": 45,
+    "humanCreatedFiles": 22
+  },
+  "statistics": {
+    "aiPercentage": 78,
+    "generationVelocity": 234  // lines per hour
+  }
+}
+```
 
-### Code Distribution
-- AI-generated lines vs human-written lines
-- Files created by AI vs humans
-- Modification patterns (AI edits vs human edits)
+### 2. Analyze Patterns
 
-### Productivity Metrics
-- Generation velocity (lines per hour)
-- Peak activity hours
+Calculate:
+- AI vs Human code distribution
+- Generation velocity (lines/hour)
 - Most used Flow skills
 - File type distribution
+- Peak activity hours
 
-### Quality Indicators
-- AI assistance ratio
-- Skill effectiveness
-- Time saved estimates
+### 3. Generate Dashboard
 
-## Usage Modes
-
-### 1. View Current Metrics
-```bash
-flow:metrics
-```
-
-Shows current metrics dashboard with:
-- AI vs Human code percentage
-- Total lines and files
-- Recent activity
-- Top skills used
-
-### 2. Historical Analysis
-```bash
-flow:metrics --history 7d
-```
-
-Shows trends over time:
-- Daily generation rates
-- AI assistance trends
-- Productivity patterns
-
-### 3. Detailed Report
-```bash
-flow:metrics --report
-```
-
-Generates comprehensive report:
-- Full statistics
-- File-by-file breakdown
-- Skill usage analysis
-- Recommendations
-
-### 4. Export Metrics
-```bash
-flow:metrics --export csv
-```
-
-Exports metrics for external analysis:
-- CSV format for spreadsheets
-- JSON for programmatic access
-- Markdown for documentation
-
-## Dashboard Output
-
+Visual output:
 ```
 📊 Code Generation Metrics
 ==========================
@@ -90,7 +50,6 @@ Human Written:   ████░░░░░░░░░░░░░░░░ 22
 
 Statistics:
 - Total Lines: 12,345
-- Total Files: 67
 - AI Generated: 9,629 lines (45 files)
 - Human Written: 2,716 lines (22 files)
 
@@ -101,9 +60,6 @@ Top Skills:
 2. flow:specify - 12 operations
 3. flow:plan - 8 operations
 
-Activity Pattern:
-Most productive hour: 10:00 AM
-
 File Types:
 - .js: 34 files
 - .tsx: 18 files
@@ -112,142 +68,136 @@ File Types:
 AI Effectiveness:
 - Time Saved: ~48 hours
 - Error Rate: 2%
-- Rework Required: 5%
 ```
 
-## Integration with Workflow
+## Usage Modes
 
-### Automatic Tracking
+### 1. Current Metrics (Default)
+
+```bash
+flow:metrics
+```
+
+Shows current dashboard with AI/Human ratios, activity, top skills.
+
+### 2. Historical Analysis
+
+```bash
+flow:metrics --history 7d
+```
+
+Trends over time:
+- Daily generation rates
+- AI assistance trends
+- Productivity patterns
+
+### 3. Detailed Report
+
+```bash
+flow:metrics --report
+```
+
+Comprehensive report:
+- Full statistics
+- File-by-file breakdown
+- Skill usage analysis
+- Recommendations
+
+### 4. Export
+
+```bash
+flow:metrics --export csv
+flow:metrics --export json
+flow:metrics --export markdown
+```
+
+Export for external analysis.
+
+## Metrics Tracked
+
+**Code Distribution**:
+- AI-generated vs human-written lines
+- Files created by AI vs humans
+- Modification patterns
+
+**Productivity**:
+- Generation velocity (lines/hour)
+- Peak activity hours
+- Most used Flow skills
+- File type distribution
+
+**Quality**:
+- AI assistance ratio
+- Skill effectiveness
+- Estimated time saved
+
+## Automatic Tracking
+
 The `track-metrics.js` hook automatically:
 - Tracks every file operation
 - Identifies AI vs human origin
 - Maintains running statistics
 - Generates hourly snapshots
 
-### Manual Metrics Check
-```bash
-# Check metrics after implementation
-flow:implement
-flow:metrics
-
-# View weekly progress
-flow:metrics --history 7d
-
-# Generate report for stakeholders
-flow:metrics --report --format pdf
-```
-
-## Metrics Storage
-
-### File Structure
+Stored in:
 ```
 .flow/
-├── .metrics.json                 # Current metrics
-├── metrics-dashboard.md         # Visual dashboard
-└── metrics-history/             # Historical snapshots
+├── .metrics.json           # Current metrics
+└── metrics-history/        # Historical snapshots
     ├── metrics-2024-10-21T10.json
-    ├── metrics-2024-10-21T11.json
-    └── ...
+    └── metrics-2024-10-21T11.json
 ```
 
-### Data Format
-```json
-{
-  "totals": {
-    "aiGeneratedLines": 9629,
-    "humanWrittenLines": 2716,
-    "aiGeneratedFiles": 45,
-    "humanCreatedFiles": 22
-  },
-  "files": {
-    "src/app.js": {
-      "aiLines": 234,
-      "humanLines": 45,
-      "modifications": [...]
-    }
-  },
-  "statistics": {
-    "aiPercentage": 78,
-    "humanPercentage": 22,
-    "generationVelocity": 234
-  }
-}
+## Configuration
+
+Set in CLAUDE.md:
+```markdown
+FLOW_METRICS_TRACKING=enabled
+FLOW_METRICS_GRANULARITY=file  # file|function|line
+FLOW_METRICS_INCLUDE_TESTS=true
+FLOW_METRICS_AUTO_REPORT=daily  # hourly|daily|weekly
 ```
 
 ## Use Cases
 
-### 1. Team Productivity Tracking
-```bash
-flow:metrics --team --period month
-```
+**Team Productivity**: Track AI adoption and gains
+**ROI Analysis**: Calculate return on investment
+**Code Review**: Identify AI-heavy files for review
+**Skill Optimization**: See which skills provide most value
 
-Track team's AI adoption and productivity gains.
+## Privacy
 
-### 2. ROI Analysis
-```bash
-flow:metrics --roi
-```
-
-Calculate return on investment from AI assistance.
-
-### 3. Code Review Insights
-```bash
-flow:metrics --by-file
-```
-
-See which files are AI-heavy for focused review.
-
-### 4. Skill Optimization
-```bash
-flow:metrics --skill-analysis
-```
-
-Identify which skills provide most value.
-
-## Configuration
-
-```javascript
-{
-  "metrics": {
-    "tracking": {
-      "enabled": true,
-      "granularity": "file",  // file|function|line
-      "includeTests": true,
-      "trackDependencies": false
-    },
-    "reporting": {
-      "autoGenerate": "daily",  // hourly|daily|weekly
-      "format": "markdown",
-      "includeCharts": true
-    },
-    "privacy": {
-      "anonymize": false,
-      "shareMetrics": false
-    }
-  }
-}
-```
-
-## Privacy & Security
-
-- All metrics stored locally in `.flow/` directory
-- No external transmission unless explicitly configured
+- All metrics stored locally in `.flow/`
+- No external transmission
 - File contents not stored, only statistics
 - Can be disabled via configuration
 
-## Tips
+## Examples
 
-### Improve AI Effectiveness
-1. Use clear specifications for better AI generation
-2. Review AI-generated code regularly
-3. Provide feedback through edits
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- Viewing current metrics
+- Historical analysis
+- Export workflows
+- ROI calculation
+- Team dashboards
 
-### Track Progress
-1. Run metrics weekly to track trends
-2. Compare before/after Flow adoption
-3. Share reports with stakeholders
+## Reference
 
-### Optimize Workflow
-1. Identify most effective skills
-2. Focus on high-velocity periods
-3. Balance AI assistance with human review
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete metrics data format
+- Calculation formulas
+- Hook integration details
+- Export formats
+- Privacy controls
+
+## Related Skills
+
+- **flow:implement**: Generates code (tracked by metrics)
+- All Flow skills tracked for usage statistics
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
+```

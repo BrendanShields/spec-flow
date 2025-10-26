@@ -1,8 +1,23 @@
 #!/usr/bin/env node
 
 /**
- * Code Metrics Tracking Hook
- * Tracks AI-generated vs human-modified code metrics
+ * @fileoverview Code Metrics Tracking Hook
+ *
+ * Tracks and analyzes code metrics to understand AI vs human contributions.
+ * This hook monitors file operations and maintains detailed statistics about:
+ * - AI-generated code (via Flow skills and Claude)
+ * - Human-written code
+ * - Modification patterns
+ * - Development velocity
+ * - Skill usage patterns
+ *
+ * Metrics are saved to .flow/.metrics.json with historical snapshots in
+ * .flow/metrics-history/ for trend analysis.
+ *
+ * @requires fs
+ * @requires path
+ * @requires crypto
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');
@@ -43,7 +58,26 @@ const MODIFICATION_TYPES = {
 };
 
 /**
- * Main function to track metrics
+ * Main function to track code generation metrics
+ *
+ * Analyzes file operations from tool execution context and updates metrics
+ * tracking AI vs human contributions, skill usage, and development velocity.
+ *
+ * @async
+ * @param {Object} context - Hook execution context from Claude Code
+ * @param {string} context.tool - Tool name (Write, Edit, etc.)
+ * @param {string} context.command - Command executed (e.g., flow:implement)
+ * @param {string} context.output - Tool output containing file operations
+ * @param {string} context.file_path - Path to the modified file
+ * @returns {Promise<void>}
+ *
+ * @example
+ * await trackMetrics({
+ *   tool: 'Write',
+ *   command: 'flow:implement',
+ *   file_path: 'src/components/Button.tsx',
+ *   output: 'File created successfully...'
+ * });
  */
 async function trackMetrics(context) {
   const metricsPath = path.join(process.cwd(), METRICS_FILE);
@@ -80,7 +114,22 @@ async function trackMetrics(context) {
 }
 
 /**
- * Detect the type of operation from context
+ * Detects the type of file operation and classifies it
+ *
+ * Analyzes context to determine if operation is AI or human-initiated,
+ * extracts file information, and categorizes the modification type.
+ *
+ * @param {Object} context - Hook execution context
+ * @param {string} context.tool - Tool name (Write, Edit)
+ * @param {string} context.command - Command that triggered operation
+ * @param {string} context.output - Tool output
+ * @param {string} context.file_path - Modified file path
+ * @returns {Object|null} Operation details or null if not a tracked operation
+ * @returns {string} return.timestamp - ISO timestamp of operation
+ * @returns {string} return.file - File path
+ * @returns {string} return.type - Operation type (ai_created, human_modified, etc.)
+ * @returns {number} return.lines - Number of lines modified
+ * @returns {string} return.hash - Content hash for change tracking
  */
 function detectOperation(context) {
   const { tool, command, output, file_path } = context;

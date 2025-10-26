@@ -1,8 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * Intent Detection Hook
- * Analyzes user prompts to suggest appropriate Flow skills
+ * @fileoverview Intent Detection Hook
+ *
+ * Analyzes user prompts using pattern matching to suggest appropriate Flow skills.
+ * Helps guide users to the right workflow step based on their natural language input.
+ *
+ * Features:
+ * - Pattern-based intent recognition (regex matching)
+ * - Context-aware suggestions (JIRA URLs, user stories, workflow state)
+ * - Workflow continuation hints (suggests next step based on last completed skill)
+ * - Confidence scoring (high/medium/low/none)
+ *
+ * @requires fs
+ * @requires path
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');
@@ -68,6 +80,24 @@ const CONTEXT_HINTS = {
   hasTechnicalTerms: /\b(api|database|frontend|backend|microservice|component)\b/i
 };
 
+/**
+ * Detects user intent from natural language prompt
+ *
+ * Analyzes prompt against predefined patterns to identify which Flow skills
+ * the user likely wants to use. Also checks workflow state to suggest next steps.
+ *
+ * @async
+ * @param {string} prompt - User's natural language input
+ * @returns {Promise<Object>} Detection results
+ * @returns {string[]} return.detectedIntents - Array of detected skill names
+ * @returns {Object[]} return.suggestions - Additional suggestions with reasons
+ * @returns {string} return.confidence - Confidence level (high/medium/low/none)
+ * @returns {string} return.prompt - Truncated prompt for logging
+ *
+ * @example
+ * const result = await detectIntent("I need to implement a new login feature");
+ * // Returns: { detectedIntents: ['flow:specify'], confidence: 'high', ... }
+ */
 async function detectIntent(prompt) {
   const detectedIntents = [];
   const suggestions = [];

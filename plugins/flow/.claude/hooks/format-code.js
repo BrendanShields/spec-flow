@@ -1,8 +1,23 @@
 #!/usr/bin/env node
 
 /**
- * Code Formatting Hook
- * Auto-formats code after file modifications
+ * @fileoverview Code Formatting Hook
+ *
+ * Auto-formats code files after Write/Edit tool operations using appropriate
+ * formatters (Prettier, Black, gofmt, rustfmt, etc.).
+ *
+ * Features:
+ * - Multi-language support (JS/TS, Python, Go, Rust, Ruby, Java, C/C++, YAML, MD)
+ * - Automatic formatter detection
+ * - Graceful degradation if formatter not installed
+ * - Selective formatting (skips .flow/, node_modules, .git, minified files)
+ * - **Security**: Properly quotes all shell command variables
+ *
+ * @requires child_process
+ * @requires fs
+ * @requires path
+ * @requires util
+ * @author Flow Plugin Team
  */
 
 const { exec } = require('child_process');
@@ -51,7 +66,7 @@ const FORMATTERS = {
 async function hasFormatter(command) {
   try {
     const baseCommand = command.split(' ')[0];
-    await execAsync(`which ${baseCommand}`);
+    await execAsync(`which "${baseCommand}"`);
     return true;
   } catch {
     return false;
@@ -72,7 +87,11 @@ async function formatFile(filePath) {
   }
 
   try {
-    await execAsync(`${formatter} "${filePath}"`);
+    // Split formatter into command and args for safe execution
+    const parts = formatter.split(' ');
+    const command = parts[0];
+    const args = parts.slice(1).join(' ');
+    await execAsync(`"${command}" ${args} "${filePath}"`);
     return { formatted: true };
   } catch (error) {
     return { error: error.message };

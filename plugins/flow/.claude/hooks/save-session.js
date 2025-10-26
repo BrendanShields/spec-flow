@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * Session Save Hook
- * Saves workflow state at end of session for continuity
+ * @fileoverview Session Save Hook
+ *
+ * Saves workflow state at session end for continuity across sessions.
+ * Captures current feature context, pending tasks, recently modified files,
+ * and environment details to enable seamless session restoration.
+ *
+ * Features:
+ * - Feature context preservation (current working feature)
+ * - Task progress tracking (completed vs pending counts)
+ * - Recent file tracking (last hour of modifications)
+ * - Environment capture (Node version, platform, Flow version)
+ * - Automatic cleanup of old session data
+ *
+ * @requires fs
+ * @requires path
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');

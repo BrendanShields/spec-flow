@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * Prerequisite Validation Hook
- * Ensures workflow prerequisites are met before skill execution
+ * @fileoverview Prerequisite Validation Hook
+ *
+ * Ensures workflow prerequisites are met before Flow skill execution.
+ * Prevents users from running skills in the wrong order by checking for
+ * required artifacts (spec.md, plan.md, tasks.md, etc.).
+ *
+ * Features:
+ * - Required file validation (blocks execution if missing)
+ * - Optional file warnings (suggests but doesn't block)
+ * - anyOf validation (requires at least one from a set)
+ * - Helpful suggestions for resolving missing prerequisites
+ * - Supports glob patterns for flexible file locations
+ *
+ * @requires fs
+ * @requires path
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');
@@ -54,6 +68,30 @@ const FILE_PATTERNS = {
   ]
 };
 
+/**
+ * Validates that all prerequisites for a skill are met
+ *
+ * Checks for required files, optional files, and anyOf requirements.
+ * Returns validation results with helpful error messages and suggestions.
+ *
+ * @async
+ * @param {string} skillName - Name of the Flow skill being executed (e.g., 'flow:plan')
+ * @param {Object} context - Hook execution context
+ * @param {string} [context.workingDir] - Working directory (defaults to process.cwd())
+ * @returns {Promise<Object>} Validation results
+ * @returns {boolean} return.valid - Whether all prerequisites are met
+ * @returns {string[]} return.missing - Array of missing required files
+ * @returns {string[]} return.warnings - Array of warning messages for optional files
+ * @returns {string} return.message - Human-readable explanation
+ * @returns {string} return.suggestion - Suggested command to resolve issues
+ *
+ * @example
+ * const result = await validatePrerequisites('flow:plan', { workingDir: '/app' });
+ * if (!result.valid) {
+ *   console.error(result.message);
+ *   console.log(`Suggestion: ${result.suggestion}`);
+ * }
+ */
 async function validatePrerequisites(skillName, context) {
   const prereqs = PREREQUISITES[skillName];
   if (!prereqs) {

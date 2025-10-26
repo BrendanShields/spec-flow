@@ -1,154 +1,121 @@
 ---
 name: flow:tasks
-description: Break down plan into executable tasks with dependencies. Use when: 1) Technical plan complete and ready for implementation, 2) Need structured task list with priorities, 3) Identifying parallel work opportunities, 4) Creating JIRA subtasks. Generates tasks.md with T### IDs and [P] parallelization markers.
+description: Break down plan into executable tasks with dependencies. Use when 1) Technical plan complete and ready for implementation, 2) Need structured task list with priorities, 3) Identifying parallel work opportunities, 4) Creating JIRA subtasks, 5) Organizing work by user stories for incremental delivery. Generates tasks.md with T### IDs and [P] parallelization markers.
 allowed-tools: Read, Write, Edit, Bash
 ---
 
-# Flow Tasks: User Story-Based Task Generation
+# Flow Tasks
 
 Break down implementation into executable, parallel-optimized tasks organized by user story.
 
-## When to Use
+## Core Capability
 
-- After `flow:plan` creates the technical design
-- Ready to create detailed implementation breakdown
-- Need parallel execution strategy
-
-## What This Skill Does
-
-1. **Loads** spec.md and plan.md
-2. **Extracts** user stories with priorities (P1, P2, P3)
-3. **Maps** components to user stories
-4. **Generates** tasks.md with:
-   - Phase 1: Setup (project initialization)
-   - Phase 2: Foundation (blocking prerequisites)
-   - Phase 3+: One phase per user story
-   - Final Phase: Polish & cross-cutting
-5. **Marks** parallelizable tasks with `[P]`
-6. **Creates** dependency graph
+Transforms technical plans into actionable task lists:
+- Loads `spec.md` (user stories) and `plan.md` (components)
+- Maps components to user stories with priorities
+- Generates `tasks.md` with phase organization
+- Identifies parallel execution opportunities
+- Creates JIRA subtasks (if enabled)
 
 ## Task Format
 
 ```
-- [ ] T001 [P] [US1] Description with absolute file path
+- [ ] T### [P] [US#] Description at absolute/file/path
 ```
 
-Components:
-- `T###`: Sequential task ID
-- `[P]`: Parallelizable marker (optional)
-- `[US#]`: User story label
-- Absolute file path required
+| Component | Purpose | Example |
+|-----------|---------|---------|
+| `T###` | Sequential task ID | `T010` |
+| `[P]` | Parallelizable marker (optional) | `[P]` |
+| `[US#]` | User story label | `[US1]` |
+| Description | Action + component | `Create User model` |
+| File path | Absolute path | `at src/models/user.py` |
 
-## Organization Strategy
+## Phase Organization
 
-**By User Story**:
-- Each P1, P2, P3 story gets its own phase
-- All related work grouped together
-- Independently testable increments
-- Can ship stories separately
+### Phase 1: Setup
+Project initialization, dependencies, environment
 
-## Example Output
+### Phase 2: Foundation
+Blocking prerequisites, base models, core utilities
 
+### Phase 3+: User Stories (One per story)
+- Grouped by priority (P1, P2, P3)
+- Independently testable
+- Can ship separately
+- Includes goal, test criteria, tasks
+
+**Example**:
 ```markdown
-## Phase 3: User Story 1 - User Authentication (P1)
+## Phase 3: US1 - User Authentication (P1)
 
 **Goal**: Users can register and log in
-**Independent Test**: Create account → Login → See dashboard
+**Independent Test**: Register → Login → Dashboard
 
 ### Tasks
-- [ ] T010 [P] [US1] Create User model in src/models/user.py
-- [ ] T011 [P] [US1] Create Auth service in src/services/auth.py
-- [ ] T012 [US1] Implement login endpoint in src/api/auth.py
-- [ ] T013 [US1] Add authentication middleware
+- [ ] T010 [P] [US1] Create User model at src/models/user.py
+- [ ] T011 [P] [US1] Create Auth service at src/services/auth.py
+- [ ] T012 [US1] Implement /login at src/api/auth.py
 
 ### Parallel Opportunities
-Tasks T010, T011 can run concurrently (different files)
+T010, T011 (different files, no dependencies)
 ```
 
-## Configuration
+### Final Phase: Polish
+Performance optimization, documentation, deployment prep
 
-```json
-{
-  "workflow": {
-    "testsRequired": false  // Generate test tasks
-  }
-}
-```
+## MCP Integration (JIRA)
 
-## MCP Integration (JIRA Subtasks)
+When `FLOW_ATLASSIAN_SYNC=enabled`, creates JIRA subtasks:
+- Maps tasks to parent JIRA stories (from `spec.md`)
+- Creates subtask for each `[US#]` task
+- Adds labels: `flow-task`, `task-T###`, `parallel-ok`
+- Updates `tasks.md` with JIRA IDs as comments
+- Enables sprint planning, time tracking, burndown charts
 
-If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically creates JIRA subtasks from tasks.md:
+See [REFERENCE.md](./REFERENCE.md#mcp-integration-jira-subtasks) for detailed sync process.
 
-### JIRA Subtask Creation
+## Parallelization
 
-**After tasks.md generation**:
-1. Read spec.md to get JIRA story IDs (created by `flow:specify`)
-2. Parse tasks.md to extract all tasks
-3. For each task marked with `[US#]`:
-   - Match to parent JIRA story via user story number
-   - Create JIRA subtask under parent story
-   - Store JIRA subtask ID in tasks.md as comment
+Tasks marked `[P]` can run concurrently:
+- Different files
+- No shared dependencies
+- Independent user stories
 
-```javascript
-// Parse task line
-const task = "- [ ] T012 [P] [US1] Create User model in src/models/user.py";
-const { id, parallel, userStory, description, filePath } = parseTask(task);
+Sequential tasks (no `[P]`):
+- Same file modifications
+- Dependent data structures
+- Must run in order
 
-// Get parent JIRA story
-const parentStory = jiraStories[userStory]; // e.g., "PROJ-123"
+## Examples
 
-// Create subtask
-const subtask = await mcp.jira.createIssue({
-  projectKey: config.FLOW_JIRA_PROJECT_KEY,
-  issueType: 'Sub-task',
-  parent: parentStory,
-  summary: `${id}: ${description}`,
-  description: `
-    **File**: ${filePath}
-    **Parallel**: ${parallel ? 'Yes' : 'No'}
-    **User Story**: ${userStory}
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- User story-based breakdown
+- JIRA subtask creation workflow
+- Parallel execution planning
+- Dependency chain examples
+- Minimal POC task lists
 
-    Generated by Flow from tasks.md
-  `,
-  labels: ['flow-task', `task-${id}`]
-});
-```
+## Reference
 
-4. Update tasks.md with JIRA IDs:
-```markdown
-- [ ] T012 [P] [US1] Create User model in src/models/user.py
-<!-- JIRA: PROJ-125 -->
-```
-
-### Task Grouping in JIRA
-
-**User Story Organization**:
-- Epic (feature level)
-  - Story 1 (US1)
-    - Subtask T010
-    - Subtask T011
-    - Subtask T012
-  - Story 2 (US2)
-    - Subtask T020
-    - Subtask T021
-
-### Benefits
-
-- **Sprint Planning**: Drag JIRA subtasks into sprints
-- **Team Visibility**: Everyone sees task status in JIRA
-- **Time Tracking**: Log time against subtasks
-- **Dependencies**: JIRA shows blocking relationships
-- **Burndown**: Accurate sprint burndown charts
-
-### Parallel Task Marking
-
-Tasks marked with `[P]` get JIRA label `parallel-ok`:
-- Helps team identify independent work
-- Multiple developers can work simultaneously
-- Sprint planning optimizes for parallel execution
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete task format specification
+- Phase organization details
+- Parallelization rules
+- MCP/JIRA integration
+- Dependency management
+- Configuration options (`--simple`, `--filter`)
+- Validation rules
 
 ## Related Skills
 
-- **flow:plan**: Generate technical plan (run first)
+- **flow:plan**: Generate technical plan (run before)
 - **flow:implement**: Execute tasks (run after)
 - **flow:analyze**: Validate task completeness
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
+```

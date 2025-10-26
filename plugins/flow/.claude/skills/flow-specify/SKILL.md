@@ -1,58 +1,41 @@
 ---
 name: flow:specify
-description: Create detailed specifications from requirements. Use when: 1) Starting new feature development, 2) User says "create/add/build a feature", 3) Converting business requirements to technical specs, 4) Pulling JIRA story into local spec. Creates spec.md with prioritized user stories (P1/P2/P3) and acceptance criteria.
+description: Create detailed specifications from requirements. Use when 1) Starting new feature development, 2) User says "create/add/build feature", 3) Converting requirements to technical specs, 4) Pulling JIRA story into local spec, 5) Need prioritized user stories with acceptance criteria. Creates spec.md with P1/P2/P3 stories.
 allowed-tools: Bash, Write, Read, Edit, Task
 ---
 
-# Flow Specify: AI-Powered Specification Generation
+# Flow Specify
 
-Generate complete, high-quality specifications from natural language descriptions with minimal clarifications needed.
+Generate complete, high-quality specifications from natural language with minimal clarifications needed.
 
-## When to Use
+## Core Workflow
 
-- Starting a new project (greenfield)
-- Adding features to existing projects (brownfield)
-- Documenting requirements from stakeholder descriptions
-- Creating technical specifications from product descriptions
+### 1. Setup & Context
 
-## What This Skill Does
-
-1. **Analyzes** your natural language description
-2. **Detects** project domain (e-commerce, SaaS, API, etc.)
-3. **Researches** best practices using the `flow-researcher` subagent
-4. **Generates** complete specification with:
-   - Prioritized user stories (P1, P2, P3)
-   - Functional requirements
-   - Success criteria
-   - Edge cases
-   - Key entities
-5. **Validates** quality automatically
-6. **Asks** only critical clarifications (max 3)
-
-## Execution Steps
-
-### 1. Setup & Context Loading
-- Generate short branch name (2-4 words, kebab-case)
-- Create feature branch
-- Load project constitution (if exists)
+Generate feature branch and load context:
+- Create short branch name (2-4 words, kebab-case)
+- Load project architecture blueprint (if exists)
 - Detect project domain from description
 - Load domain-specific templates
 
 ### 2. AI-Powered Generation
-**Invoke `flow-researcher` subagent** to:
+
+Invoke `flow-researcher` subagent to:
 - Analyze description for requirements
 - Research similar implementations
 - Apply industry best practices
 - Generate complete specification content
 
 ### 3. Smart Inference
+
 Apply intelligent defaults based on:
-- **Project Type**: Greenfield vs brownfield detection
+- **Project Type**: Greenfield vs brownfield
 - **Domain**: E-commerce, SaaS, API, Real-time, etc.
-- **Patterns**: Common requirements for detected domain
-- **Constitution**: Existing project principles
+- **Patterns**: Common requirements for domain
+- **Blueprint**: Existing project principles (if available)
 
 ### 4. User Story Prioritization
+
 Automatically assign priorities:
 - **P1**: MVP / Core functionality / Critical path
 - **P2**: Important enhancements / Integrations
@@ -64,6 +47,7 @@ Each story includes:
 - Acceptance scenarios (Given-When-Then)
 
 ### 5. Quality Validation
+
 Unless `--skip-validation`:
 - Generate requirements checklist
 - Validate completeness, clarity, testability
@@ -71,6 +55,7 @@ Unless `--skip-validation`:
 - Mark remaining ambiguities for clarification
 
 ### 6. Interactive Clarification
+
 If critical ambiguities remain (max 3):
 - Present question with recommended answer
 - Provide 3-5 options with implications
@@ -111,86 +96,42 @@ If critical ambiguities remain (max 3):
 
 ## MCP Integration (Atlassian)
 
-If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically syncs specification to JIRA and Confluence:
-
-### JIRA Story Creation
+If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md:
 
 **After spec generation**:
-1. Read CLAUDE.md configuration to get:
-   - `FLOW_JIRA_PROJECT_KEY` (e.g., "PROJ")
-   - `FLOW_CONFLUENCE_ROOT_PAGE_ID`
-   - `FLOW_BRANCH_PREPEND_JIRA`
+1. Create JIRA epic for feature
+2. Create JIRA stories from each user story (P1, P2, P3)
+3. Sync to Confluence page under root page ID
+4. Store JIRA IDs in spec.md frontmatter
+5. Link spec, JIRA, and Confluence bidirectionally
 
-2. Create JIRA Epic:
-   ```javascript
-   // Use Atlassian MCP to create epic
-   const epic = await mcp.jira.createIssue({
-     projectKey: config.FLOW_JIRA_PROJECT_KEY,
-     issueType: 'Epic',
-     summary: featureName,
-     description: featureSummary,
-     labels: [domain, 'flow-generated']
-   });
-   ```
+**Bidirectional sync**:
+- Can start from JIRA: `flow:specify "https://jira.../PROJ-123"`
+- Can start from local: Creates JIRA if enabled (asks first)
+- Updates sync in both directions (with approval)
+- Local file is source of truth
 
-3. Create JIRA Stories from each user story:
-   - Parse user stories from spec.md
-   - For each P1, P2, P3 story:
-     - Fill `jira-story-template.md` with story details
-     - Create JIRA issue using Atlassian MCP
-     - Link to parent epic
-     - Set priority based on P1/P2/P3
-     - Add BDD acceptance criteria
+**What syncs**:
+```javascript
+// JIRA epic + stories
+await mcp.jira.createIssue({
+  projectKey: config.FLOW_JIRA_PROJECT_KEY,
+  issueType: 'Epic',
+  summary: featureName,
+  description: featureSummary
+});
 
-4. Store JIRA IDs in spec:
-   ```markdown
-   ### User Story 1 - User Registration (Priority: P1)
-   <!-- JIRA: PROJ-123 -->
-
-   As a new user...
-   ```
-
-### Confluence Page Sync
-
-**After JIRA stories created**:
-1. Fill `confluence-page.md` template with spec content
-2. Create Confluence page under root page ID:
-   ```javascript
-   const page = await mcp.confluence.createPage({
-     spaceKey: deriveSpaceFromRootPage(rootPageId),
-     parentId: config.FLOW_CONFLUENCE_ROOT_PAGE_ID,
-     title: `${featureNumber} - ${featureName}`,
-     body: confluenceContent
-   });
-   ```
-
-3. Add links:
-   - Link Confluence page to JIRA epic
-   - Add Confluence URL to spec as comment
-   - Add GitHub branch link to Confluence
-
-### Sync Strategy
-
-**Direction**:
-- **Local → JIRA/Confluence** (one-way sync)
-- Local spec.md is source of truth
-- JIRA comments can be read for context (optional)
-
-**Updates**:
-- Re-running `flow:specify --update` updates existing JIRA stories and Confluence page
-- Preserves JIRA comments and metadata
-- Updates description, acceptance criteria, and priorities
-
-**Benefits**:
-- Team visibility in JIRA
-- Formatted documentation in Confluence
-- No manual ticket creation
-- Consistent story format (BDD)
-- Automatic linking between spec, JIRA, and Confluence
+// Confluence page
+await mcp.confluence.createPage({
+  parentId: config.FLOW_CONFLUENCE_ROOT_PAGE_ID,
+  title: `${featureNumber} - ${featureName}`,
+  body: confluenceContent
+});
+```
 
 ## Domain Detection
 
-Automatically detects and applies patterns for:
+Automatically detects and applies patterns:
 
 | Domain | Indicators | Auto-Generated |
 |--------|-----------|----------------|
@@ -201,80 +142,59 @@ Automatically detects and applies patterns for:
 | Analytics | dashboard, metrics, charts | Data aggregation, visualizations |
 | Fintech | transaction, kyc, compliance | Security, audit, regulatory |
 
-## Hooks Integration
+## Command Flags
 
-**Pre-specify** (`before:flow:specify`):
-- Validates project initialization
-- Loads domain templates
-- Prepares research context
-- Detects brownfield patterns
+**`--skip-validation`**
+Skip quality checklist (POC mode)
 
-**Post-specify** (`after:flow:specify`):
-- Auto-triggers clarification if needed
-- Updates project index
-- Syncs with JIRA/Confluence (if configured)
-- Records telemetry
+**`--update`**
+Update existing spec instead of creating new
+
+**`--level=project|feature`**
+Explicitly set scope level
 
 ## Configuration
 
-Respects `.claude/flow/config.json`:
-
-```json
-{
-  "ai": {
-    "inferenceLevel": "moderate",  // minimal | moderate | aggressive
-    "autoResearch": true,
-    "domainDetection": true
-  },
-  "quality": {
-    "autoValidation": true,
-    "maxClarifications": 3
-  },
-  "workflow": {
-    "projectType": "greenfield"  // or "brownfield"
-  }
-}
+Respects config in CLAUDE.md:
+```markdown
+FLOW_AI_INFERENCE_LEVEL=moderate  # minimal|moderate|aggressive
+FLOW_AUTO_RESEARCH=true
+FLOW_DOMAIN_DETECTION=true
+FLOW_AUTO_VALIDATION=true
+FLOW_MAX_CLARIFICATIONS=3
 ```
 
 ## Examples
 
-**Quick POC** (aggressive inference):
-```
-User: flow:specify "Test Redis caching for session storage"
-→ Generates minimal spec, no clarifications, ready to implement
-```
+See [examples.md](./examples.md) for:
+- Quick POC (aggressive inference)
+- Enterprise feature (full rigor)
+- Brownfield addition
+- Pulling from JIRA
+- Updating existing spec
 
-**Enterprise Feature** (full rigor):
-```
-User: flow:specify "Payment processing system with PCI compliance"
-→ Detects fintech domain
-→ Researches PCI requirements
-→ Asks 3 critical security questions
-→ Generates comprehensive spec with compliance checklist
-```
+## Reference
 
-**Brownfield Addition**:
-```
-User: flow:specify "Add OAuth2 to existing authentication"
-→ Analyzes existing auth code
-→ Generates spec compatible with current patterns
-→ Highlights integration points
-```
+See [reference.md](./reference.md) for:
+- Hooks integration details
+- Complete configuration options
+- Domain detection patterns
+- MCP sync strategies
+- Subagent invocation details
 
 ## Related Skills
 
-- **flow:clarify**: Resolve specification ambiguities interactively
-- **flow:plan**: Generate technical implementation plan from spec
-- **flow:analyze**: Validate specification consistency
-
-## Tips for Best Results
-
-1. **Be descriptive**: More context = better inference
-2. **Mention domain**: "e-commerce site" helps domain detection
-3. **State priorities**: "MVP should include X, Y later" guides prioritization
-4. **Reference existing**: "Like Stripe's API" provides patterns
-5. **Skip validation for POCs**: Add `--skip-validation` for speed
+- **flow:clarify**: Resolve spec ambiguities (run after if needed)
+- **flow:plan**: Generate technical plan from spec (run next)
+- **flow:analyze**: Validate spec consistency
 
 ## Subagents Used
 
 - **flow-researcher**: Researches best practices, evaluates alternatives, documents decisions
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
+```

@@ -1,42 +1,45 @@
 ---
 name: flow:blueprint
-description: Define project architecture and technical standards. Use when: 1) Setting up new project architecture, 2) Team needs to align on tech stack/patterns, 3) Documenting architectural decisions (ADRs), 4) Establishing API/data/security guidelines. Creates architecture-blueprint.md with patterns, stack, and standards.
+description: Define project architecture and technical standards. Use when 1) Setting up new project architecture, 2) User says "define/document architecture", 3) Team needs tech stack alignment, 4) Documenting architectural decisions (ADRs), 5) Establishing API/data/security guidelines. Creates architecture-blueprint.md.
 allowed-tools: Write, Read, Edit, AskUserQuestion
 ---
 
-# Flow Blueprint: Architecture Definition
+# Flow Blueprint
 
 Define and document your project's architecture, technical standards, and development practices.
 
-## When to Use
+## Core Workflow
 
-- **First time** setting up a new project
-- When team needs to align on architecture and practices
-- When extracting patterns from brownfield projects
-- When updating architecture decisions or standards
+### 1. Interactive Mode (Greenfield)
 
-## What This Skill Does
+Prompts for architecture decisions:
+- **Architecture patterns**: Monolith, microservices, modular monolith
+- **Technology stack**: Frontend, backend, database choices
+- **API design**: REST, GraphQL, versioning strategy
+- **Data modeling**: Naming conventions, primary keys, timestamps
+- **Development principles**: TDD, code review, testing standards
 
-1. **Interactive Mode**:
-   - Prompts for architecture patterns
-   - Prompts for technology stack choices
-   - Prompts for API design guidelines
-   - Prompts for data modeling standards
-   - Prompts for development principles
-   - Suggests based on project type and domain
-   - Documents in `.flow/architecture-blueprint.md`
+Suggests based on project type and domain.
 
-2. **Extract Mode** (brownfield):
-   - Analyzes existing codebase
-   - Infers architecture patterns
-   - Identifies technology stack
-   - Documents discovered conventions
-   - Extracts API patterns if present
+Documents in `.flow/architecture-blueprint.md`
 
-3. **Update Mode**:
-   - Version control (semantic versioning)
-   - Tracks architecture decisions (ADRs)
-   - Updates existing blueprint
+### 2. Extract Mode (Brownfield)
+
+Analyzes existing codebase:
+- Infers architecture patterns from structure
+- Identifies technology stack from dependencies
+- Documents discovered conventions
+- Extracts API patterns if present
+
+Creates baseline blueprint from current state.
+
+### 3. Update Mode
+
+Version control for architecture evolution:
+- Semantic versioning (MAJOR.MINOR.PATCH)
+- Tracks architecture decisions (ADRs)
+- Updates existing blueprint
+- Maintains decision history
 
 ## Blueprint Structure
 
@@ -44,14 +47,14 @@ Define and document your project's architecture, technical standards, and develo
 # Architecture Blueprint: [PROJECT_NAME]
 
 ## Core Principles
-### Principle 1: [Name, e.g., "API-First Design"]
+### Principle 1: [Name]
 **Guideline**: [Description]
 **Rationale**: [Why]
 **Application**: [How applied]
 **Flexibility**: [When deviations allowed]
 
 ## Architecture Patterns
-**Pattern**: [Monolith/Microservices/Modular Monolith/etc.]
+**Pattern**: [Monolith/Microservices/etc.]
 **Rationale**: [Why chosen]
 **Key Characteristics**: [List]
 
@@ -59,13 +62,11 @@ Define and document your project's architecture, technical standards, and develo
 **Frontend**: [Framework, rationale]
 **Backend**: [Framework, rationale]
 **Database**: [Choice, rationale]
-**Infrastructure**: [Hosting, deployment]
 
 ## API Design Guidelines
 **Versioning Strategy**: [e.g., URI versioning]
 **Resource Naming**: [Conventions]
 **Authentication**: [Method]
-**Rate Limiting**: [Strategy]
 
 ## Data Modeling Guidelines
 **Naming Conventions**: [Tables, fields]
@@ -73,7 +74,7 @@ Define and document your project's architecture, technical standards, and develo
 **Timestamps**: [Required fields]
 
 ## Security Guidelines
-[Standards for authentication, data protection, etc.]
+[Standards for authentication, data protection]
 
 ## Performance Guidelines
 [Response time targets, optimization practices]
@@ -99,65 +100,34 @@ Define and document your project's architecture, technical standards, and develo
 **Last Updated**: [DATE]
 ```
 
-## Example Blueprints
+## Command Modes
 
-### For Solo Developer - Greenfield
-```markdown
-## Core Principles
-### I. Simplicity First
-**Guideline**: Start with simplest solution, add complexity only when needed
-**Rationale**: Faster iteration, easier debugging
-**Flexibility**: Complex solutions OK when simple ones proven insufficient
-
-## Architecture Patterns
-**Pattern**: Monolithic architecture with modular design
-**Rationale**: Faster to build and deploy, easier to understand initially
-
-## Technology Stack
-**Frontend**: React + Vite
-**Rationale**: Fast development, great tooling, large ecosystem
-**Backend**: Node.js + Express
-**Rationale**: Same language as frontend, simple to start
-**Database**: PostgreSQL
-**Rationale**: Robust, well-documented, handles growth
-
-## API Design
-**Style**: REST with OpenAPI 3.0
-**Versioning**: URI-based (/v1/, /v2/)
-**Auth**: JWT tokens
+### Interactive Creation
+```bash
+flow:blueprint
 ```
 
-### For Enterprise Team
-```markdown
-## Core Principles
-### I. API-First Design
-**Guideline**: Design and document APIs before implementation
-**Rationale**: Enables parallel frontend/backend development, better contracts
-**Application**: Use OpenAPI specs, review before coding
-**Flexibility**: Internal services may iterate faster
+Prompts for all architecture decisions with recommendations.
 
-### II. Security by Default
-**Guideline**: All endpoints authenticated, all data encrypted
-**Rationale**: Compliance requirements, customer trust
-**Application**: No exceptions without security review
-**Flexibility**: Public read endpoints with rate limiting
-
-## Architecture Patterns
-**Pattern**: Microservices with event-driven communication
-**Rationale**: Team scalability, independent deployment, fault isolation
-
-## API Design Guidelines
-**Versioning**: Semantic versioning with URI path (/v1/, /v2/)
-**Breaking Changes**: 6-month deprecation period minimum
-**Rate Limiting**: Per-client token bucket, 100 req/min default
-**Security**: OAuth2 + JWT, mTLS for service-to-service
+### Extract from Codebase
+```bash
+flow:blueprint --extract
 ```
+
+Analyzes existing code and generates blueprint from discovered patterns.
+
+### Update Existing
+```bash
+flow:blueprint --update
+```
+
+Adds new decisions, increments version, maintains history.
 
 ## Blueprint vs Old Constitution
 
 **Scope Expansion**:
 - Old: Development principles only
-- New: Principles + Architecture + Tech Stack + API Guidelines + Data Guidelines
+- New: Principles + Architecture + Tech Stack + API + Data Guidelines
 
 **Enforcement**:
 - Old: CRITICAL errors, strict enforcement
@@ -166,19 +136,7 @@ Define and document your project's architecture, technical standards, and develo
 **Relationship to Features**:
 - Features CAN reference blueprint for guidance
 - Flat peer model - not strictly enforced
-
-## Modes
-
-```bash
-# Interactive creation
-flow:blueprint
-
-# Extract from existing code (brownfield)
-flow:blueprint --extract
-
-# Update existing
-flow:blueprint --update
-```
+- Manual consistency (tools help detect drift)
 
 ## When to Update
 
@@ -190,20 +148,57 @@ flow:blueprint --update
 
 **Not for**: Individual feature decisions, one-off experiments
 
-## Integration with Other Skills
+## Example Blueprints
 
-- **flow:init**: Creates skeleton blueprint during project setup
-- **flow:specify**: Can reference blueprint for context
-- **flow:plan**: Can check alignment with blueprint (user approval for deviations)
-- **flow:implement**: Can reference blueprint standards
+**Solo Developer**:
+```markdown
+## Core Principles
+### I. Simplicity First
+**Guideline**: Start with simplest solution
+**Rationale**: Faster iteration, easier debugging
+**Flexibility**: Complex solutions OK when simple proven insufficient
+
+## Architecture Patterns
+**Pattern**: Monolithic with modular design
+**Rationale**: Faster to build, easier to understand
+
+## Technology Stack
+**Frontend**: React + Vite
+**Backend**: Node.js + Express
+**Database**: PostgreSQL
+```
+
+**Enterprise Team**:
+```markdown
+## Core Principles
+### I. API-First Design
+**Guideline**: Design APIs before implementation
+**Rationale**: Enables parallel development, better contracts
+**Application**: Use OpenAPI specs, review before coding
+
+### II. Security by Default
+**Guideline**: All endpoints authenticated, all data encrypted
+**Rationale**: Compliance requirements, customer trust
+
+## Architecture Patterns
+**Pattern**: Microservices with event-driven communication
+**Rationale**: Team scalability, independent deployment
+```
+
+## Integration with Flow
+
+**At Initialization**:
+```bash
+flow:init    # Creates skeleton blueprint
+flow:blueprint  # Define architecture
+```
+
+**During Development**:
+- `flow:specify`: Can reference blueprint for context
+- `flow:plan`: Can check alignment (user approval for deviations)
+- `flow:implement`: Can reference blueprint standards
 
 **Note**: Flat peer model - blueprint provides guidance, not strict enforcement
-
-## Related Skills
-
-- **flow:init**: Initialize project with blueprint skeleton
-- **flow:specify**: Create specifications (can reference blueprint)
-- **flow:plan**: Technical planning (can align with blueprint)
 
 ## Versioning
 
@@ -212,10 +207,33 @@ flow:blueprint --update
 - **MINOR**: New patterns/guidelines added
 - **PATCH**: Clarifications, wording fixes
 
-## Flat Peer Model
+## Examples
 
-This blueprint is a **peer artifact** in the `.flow/` directory:
-- Not hierarchically enforced
-- Features CAN reference for guidance
-- Deviations require user approval and documentation
-- Manual consistency (tools help detect drift)
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- Solo developer greenfield setup
+- Enterprise team architecture
+- Brownfield extraction
+- Adding new ADR
+- Version updates
+
+## Reference
+
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete blueprint template
+- ADR format details
+- Versioning guidelines
+- Governance models
+- Integration patterns
+
+## Related Skills
+
+- **flow:init**: Creates blueprint skeleton (run first)
+- **flow:specify**: Can reference blueprint (run after)
+- **flow:plan**: Can align with blueprint
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
+```

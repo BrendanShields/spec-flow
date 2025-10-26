@@ -1,0 +1,28 @@
+# Test Phrases for Skill Builder Activation
+
+## MUST Activate (>95% confidence)
+- "Create a skill for processing CSV files"
+- "I need to build a new skill"
+- "Convert this repetitive task into a skill"
+- "Uplift my existing documentation skill"
+- "Help me create a reusable automation"
+
+## SHOULD Activate (>70% confidence)
+- "This workflow comes up often"
+- "Package this capability for reuse"
+- "I want to improve skill performance"
+- "Make this more token efficient"
+- "Build me a capability"
+
+## MAY Activate (>40% confidence)
+- "Automation needed"
+- "This is repetitive"
+- "Reusable solution"
+- "Domain expertise"
+
+## MUST NOT Activate
+- "Write Python code"
+- "Create a React component"
+- "Debug this error"
+- "Explain this concept"
+- "Search for files"

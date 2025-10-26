@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * Session Restore Hook
- * Restores workflow state from previous session
+ * @fileoverview Session Restore Hook
+ *
+ * Restores workflow state from previous session on startup.
+ * Provides welcome message with context about last session,
+ * pending tasks, and suggested next steps.
+ *
+ * Features:
+ * - Session continuity (restores feature context)
+ * - Time since last session calculation
+ * - Pending task summary
+ * - Workflow continuation suggestions
+ * - Graceful handling of missing/corrupt session files
+ *
+ * @requires fs
+ * @requires path
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');

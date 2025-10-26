@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * Workflow Status Tracking Hook
- * Updates workflow progress after each skill execution
+ * @fileoverview Workflow Status Tracking Hook
+ *
+ * Tracks workflow progress across Flow skill executions.
+ * Maintains state in .flow/.state.json showing current phase, progress percentage,
+ * skill execution history, and estimated time remaining.
+ *
+ * Features:
+ * - Phase tracking (setup → specification → planning → validation → implementation)
+ * - Progress percentage (0-100% based on completed steps)
+ * - Execution history (last 50 operations)
+ * - Time estimation (average time per skill × remaining steps)
+ * - Next step suggestions
+ *
+ * @requires fs
+ * @requires path
+ * @author Flow Plugin Team
  */
 
 const fs = require('fs');

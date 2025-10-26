@@ -1,6 +1,6 @@
 ---
 name: flow:implement
-description: Execute all tasks from tasks.md autonomously. Use when: 1) Tasks are ready and want automated implementation, 2) User says "implement/build/code this", 3) Resuming after interruption with --resume, 4) Building specific priority only (--filter=P1). Executes with parallel processing and marks tasks complete.
+description: Execute all tasks from tasks.md autonomously. Use when 1) Tasks are ready and want automated implementation, 2) User says "implement/build/code this", 3) Resuming after interruption with --resume, 4) Building specific priority only (--filter=P1), 5) Need autonomous code generation with test execution. Executes with parallel processing and marks tasks complete.
 allowed-tools: Read, Write, Edit, Bash, Task, Grep, Glob
 ---
 
@@ -74,86 +74,43 @@ Tasks marked `[P]` execute concurrently when:
 }
 ```
 
-## MCP Integration (JIRA Status Updates)
+## MCP Integration (JIRA)
 
-If `FLOW_ATLASSIAN_SYNC=enabled` in CLAUDE.md, automatically updates JIRA subtask status as tasks complete:
+When `FLOW_ATLASSIAN_SYNC=enabled`, automatically syncs task progress to JIRA:
+- Updates subtask status (To Do → In Progress → Done)
+- Adds implementation comments with file paths and duration
+- Provides real-time visibility for team
+- Tracks parallel execution across multiple subtasks
 
-### Real-time JIRA Updates
+See [reference.md](./reference.md#mcp-integration-details) for detailed integration patterns.
 
-**When task starts**:
-```javascript
-// Mark task as in-progress
-await mcp.jira.updateIssue({
-  issueKey: taskJiraId,
-  update: {
-    status: { name: 'In Progress' },
-    comment: 'Started by Flow autonomous implementation'
-  }
-});
+## Examples
+
+See [examples.md](./examples.md) for:
+- Parallel task execution
+- Error recovery strategies
+- Dependency resolution
+- JIRA integration in action
+
+## Reference
+
+See [reference.md](./reference.md) for:
+- Task format specification
+- Parallelization rules
+- Error recovery strategies
+- Configuration options
+- Performance metrics
+- JIRA status mapping
+
+## Related Skills
+
+- **flow-implementer** (subagent): Executes tasks autonomously
+- **flow:tasks**: Generates implementation tasks
+- **flow:checklist**: Quality gates before implementation
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
 ```
-
-**When task completes successfully**:
-```javascript
-// Mark as Done in tasks.md
-markTaskComplete(taskId);
-
-// Update JIRA
-await mcp.jira.updateIssue({
-  issueKey: taskJiraId,
-  update: {
-    status: { name: 'Done' },
-    comment: `Completed by Flow\nFile: ${filePath}\nDuration: ${duration}ms`
-  }
-});
-```
-
-**When task fails**:
-```javascript
-// Keep task pending in tasks.md
-// Update JIRA with error details
-await mcp.jira.addComment({
-  issueKey: taskJiraId,
-  comment: `❌ Task failed after ${retries} attempts\nError: ${error.message}\nRetrying...`
-});
-```
-
-### Progress Visibility
-
-**Team sees real-time progress in JIRA**:
-- Subtasks move from "To Do" → "In Progress" → "Done"
-- Comments show execution details
-- Sprint burndown updates automatically
-- Team can follow along without checking local repo
-
-### Parallel Execution Tracking
-
-**Multiple subtasks in-progress simultaneously**:
-```
-JIRA Board View:
-Story US1: User Authentication
-  ├─ T010: Create User model         [In Progress] @flow-bot
-  ├─ T011: Create Auth service       [In Progress] @flow-bot
-  ├─ T012: Implement login endpoint  [To Do]
-  └─ T013: Add authentication middleware [To Do]
-```
-
-### Benefits
-
-- **Real-time visibility**: Team sees what's being implemented live
-- **Progress tracking**: Sprint burndown updates automatically
-- **Error transparency**: Failed tasks visible in JIRA comments
-- **Audit trail**: Complete history of implementation in JIRA
-- **Integration**: Works with existing JIRA workflows and automations
-
-### Configuration
-
-Enable status sync in CLAUDE.md:
-```
-FLOW_ATLASSIAN_SYNC=enabled
-FLOW_JIRA_AUTO_TRANSITION=true       # Auto-move through workflow states
-FLOW_JIRA_ADD_COMMENTS=true          # Add implementation details
-```
-
-## Subagents Used
-
-- **flow-implementer**: Executes tasks autonomously with parallel processing and error recovery

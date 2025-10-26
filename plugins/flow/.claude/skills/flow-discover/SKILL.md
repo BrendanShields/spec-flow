@@ -1,313 +1,186 @@
 ---
 name: flow:discover
-description: Analyze JIRA backlog and existing codebase for brownfield onboarding. Use when: 1) Starting work on existing project with JIRA, 2) Need to understand work in progress, 3) Onboarding to established team, 4) Discovering technical debt and patterns. Creates comprehensive project overview and backlog analysis.
+description: Analyze JIRA backlog and codebase for brownfield onboarding. Use when 1) Starting work on existing project, 2) New team member needs project overview, 3) User says "analyze/understand project", 4) Need backlog/tech debt assessment, 5) Sprint planning assistance. Generates comprehensive discovery reports.
 allowed-tools: Read, Bash, Write, WebSearch, Task
 ---
 
-# Flow Discover: Brownfield Project Intelligence
+# Flow Discover
 
-Comprehensive analysis of JIRA backlog, existing codebase, and work in progress for seamless brownfield onboarding.
+Comprehensive analysis of JIRA backlog, codebase, and work-in-progress for brownfield project intelligence.
 
-## When to Use
+## Core Workflow
 
-- **New team member onboarding**: Understand project state and ongoing work
-- **Brownfield project takeover**: Analyze existing backlog and codebase
-- **Technical debt assessment**: Identify accumulated debt and prioritize
-- **Sprint planning**: Understand velocity and capacity from historical data
-- **Architecture documentation**: Generate current state documentation
+### 1. JIRA Backlog Analysis
 
-## What This Skill Does
+Connect to JIRA and extract:
+- **Epics**: High-level features, progress, blocking issues
+- **Stories**: By status (todo, in-progress, blocked, done)
+- **Bugs**: By priority (P1, P2, P3)
+- **Tech Debt**: Items labeled or matching patterns
+- **Velocity**: Sprint history, average points, trends
 
-### Phase 1: JIRA Backlog Analysis
+### 2. Codebase Discovery
 
-1. **Connect to JIRA**
-   - Authenticate with Atlassian MCP
-   - Fetch project metadata
-   - Identify project boards and workflows
+Analyze repository:
+- **Technology Stack**: Languages, frameworks, databases
+- **Architecture**: Pattern detection (microservices, monolith, etc.)
+- **Structure**: Directory organization, module boundaries
+- **Metrics**: Lines of code, test coverage, complexity
 
-2. **Analyze Backlog**
-   ```javascript
-   // Fetch and categorize all issues
-   const backlog = {
-     epics: [],           // High-level features
-     inProgress: [],      // Currently being worked on
-     todo: [],           // Ready for development
-     blocked: [],        // Blocked issues
-     bugs: [],           // Open bugs
-     techDebt: []        // Technical debt items
-   };
-   ```
+### 3. Git History Analysis
 
-3. **Extract Patterns**
-   - Story point distribution
-   - Velocity trends
-   - Common labels/components
-   - Team capacity patterns
+Extract patterns from commits:
+- **Contributors**: Active/inactive developers, expertise areas
+- **Activity**: Peak periods, current phase, commits/week
+- **Hotspots**: Files with high change frequency + complexity
+- **Ownership**: Code responsibility distribution
 
-### Phase 2: Codebase Discovery
+### 4. Work-in-Progress Assessment
 
-4. **Repository Analysis**
-   - Git history analysis
-   - Contributor patterns
-   - Hotspot detection (frequently changed files)
-   - Branch strategies
+Current development state:
+- **Active PRs**: Open pull requests, review status
+- **Active Branches**: Feature branches, age, staleness
+- **Recent Commits**: Activity last 30 days
+- **CI/CD Status**: Pipeline health, deployment frequency
 
-5. **Architecture Extraction**
-   - Technology stack detection
-   - Architecture patterns
-   - Service boundaries
-   - Database schemas
+### 5. Generate Reports
 
-6. **Quality Metrics**
-   - Test coverage
-   - Code complexity
-   - Technical debt markers
-   - Documentation coverage
+Create discovery documentation:
 
-### Phase 3: Work-in-Progress Assessment
-
-7. **Active Development**
-   - Open pull requests
-   - Active branches
-   - Recent commits
-   - CI/CD pipeline status
-
-8. **Team Dynamics**
-   - Active contributors
-   - Code ownership patterns
-   - Review patterns
-   - Communication channels
-
-### Phase 4: Intelligence Report
-
-9. **Generate Comprehensive Report**
-   - Executive summary
-   - Technical overview
-   - Backlog analysis
-   - Risk assessment
-   - Recommendations
-
-## Output Structure
-
-### 1. Project Overview (`discovery/project-overview.md`)
+**discovery/project-overview.md**:
 ```markdown
 # Project Discovery Report
 
 ## Executive Summary
-- Project: [Name]
-- Age: [Duration]
-- Team Size: [Number]
-- Tech Stack: [Technologies]
-- Overall Health: [Score]
+- Project Age, Team Size, Tech Stack, Health Score
 
 ## Key Metrics
-- Total Issues: [Number]
-- In Progress: [Number]
-- Velocity: [Points/Sprint]
-- Tech Debt Ratio: [Percentage]
-```
-
-### 2. Backlog Analysis (`discovery/backlog-analysis.md`)
-```markdown
-# JIRA Backlog Analysis
-
-## Work Distribution
-- Epics: [Count] ([Points])
-- User Stories: [Count] ([Points])
-- Bugs: [Count] (P1: [X], P2: [Y])
-- Tech Debt: [Count] ([Estimated Days])
-
-## Sprint Readiness
-- Ready for Development: [Count]
-- Needs Refinement: [Count]
-- Blocked: [Count]
+- Total Issues, Velocity, Tech Debt Ratio, Coverage
 
 ## Risk Areas
-- Oldest Unresolved: [Issue]
-- Largest Epic: [Epic]
-- Critical Bugs: [List]
+- Critical bugs, overdue epics, blocked items
 ```
 
-### 3. Technical Landscape (`discovery/technical-landscape.md`)
-```markdown
-# Technical Architecture
+**discovery/backlog-analysis.md**:
+- Work distribution by type/priority
+- Sprint readiness (ready vs needs refinement)
+- Aging analysis (oldest unresolved items)
 
-## Codebase Structure
-- Primary Language: [Language] ([%])
-- Total Files: [Count]
-- Lines of Code: [Count]
-- Test Coverage: [%]
+**discovery/technical-landscape.md**:
+- Codebase structure and patterns
+- Integration points (APIs, databases, services)
+- Quality metrics and trends
 
-## Architecture Patterns
-- [Pattern 1]: [Description]
-- [Pattern 2]: [Description]
+**discovery/work-in-progress.md**:
+- Active features being developed
+- Open PRs and branches
+- Team activity (last 30 days)
 
-## Integration Points
-- External APIs: [List]
-- Databases: [List]
-- Services: [List]
+**discovery/onboarding-checklist.md**:
+- Week 1: Critical understanding
+- Week 2: First contributions
+- Month 1: Independent work
+
+## Command-Line Options
+
+**`--focus [AREA]`**
+Analyze specific area only:
+- `backlog`: JIRA analysis only
+- `sprint-planning`: Velocity and capacity
+- `tech-debt`: Technical debt prioritization
+- `architecture`: Codebase patterns only
+- `team`: Contributor analysis
+
+**`--mode [MODE]`**
+- `full`: Complete analysis (default)
+- `update`: Incremental since last run
+- `quick`: Basic metrics only
+
+**`--lookback [DAYS]`**
+Historical period (default: 90 days)
+
+**`--skip-codebase`**
+JIRA only (skip code analysis)
+
+**`--skip-jira`**
+Codebase only (skip JIRA)
+
+## Analysis Algorithms
+
+### Velocity Calculation
+```javascript
+average = sum(completed_points) / num_sprints
+stdDev = sqrt(variance)
+trend = recent_avg vs older_avg
+confidence = stdDev < average * 0.2 ? 'high' : 'medium'
 ```
 
-### 4. Work in Progress (`discovery/work-in-progress.md`)
-```markdown
-# Current Development Activity
-
-## Active Work
-- Features in Development: [List]
-- Open PRs: [Count]
-- Active Branches: [Count]
-
-## Team Activity (Last 30 Days)
-- Commits: [Count]
-- PRs Merged: [Count]
-- Issues Closed: [Count]
+### Hotspot Detection
+```javascript
+risk = (changeFrequency * 0.4) + (complexity * 0.6)
+hotspots = files where risk >= 0.7
 ```
 
-### 5. Onboarding Checklist (`discovery/onboarding-checklist.md`)
-```markdown
-# Onboarding Checklist
+### Tech Debt Identification
+- Code markers: TODO, FIXME, HACK
+- High complexity: Cyclomatic > 15
+- JIRA labels: tech-debt, refactor
+- Title patterns: /refactor|optimize|clean up/i
 
-## Immediate Actions
-- [ ] Review critical bugs: [JIRA Filter]
-- [ ] Understand in-progress epics: [Links]
-- [ ] Review architecture docs: [Location]
-- [ ] Set up development environment
+## Integration with Flow
 
-## First Week
-- [ ] Complete starter task: [JIRA-XXX]
-- [ ] Review recent PRs
-- [ ] Attend team ceremonies
-- [ ] Document learnings
-
-## First Month
-- [ ] Contribute to epic: [Suggestion]
-- [ ] Address tech debt item: [Suggestion]
-- [ ] Improve documentation: [Area]
-```
-
-## Integration with Flow Workflow
-
-### Brownfield Project Flow
+**Brownfield workflow**:
 ```bash
-# 1. Discover existing project state
-flow:discover
-
-# 2. Initialize Flow for brownfield
-flow:init --type brownfield
-
-# 3. Import high-priority items from backlog
-flow:import --from-jira --filter "priority=High AND sprint=current"
-
-# 4. Generate specs for imported items
-flow:specify --batch
-
-# 5. Begin implementation
-flow:implement
+flow:discover                    # Analyze project
+flow:init --type brownfield      # Initialize Flow
+flow:blueprint --extract         # Extract architecture
+flow:specify "First feature"     # Add features
 ```
 
-### Continuous Discovery
+**Continuous discovery**:
 ```bash
-# Weekly discovery updates
-flow:discover --mode update
-
-# Sprint planning assistance
-flow:discover --focus sprint-planning
-
-# Technical debt prioritization
-flow:discover --focus tech-debt
+flow:discover --mode update      # Weekly updates
 ```
 
-## Configuration Options
+## Configuration
 
-```javascript
-{
-  "discovery": {
-    "jira": {
-      "lookbackDays": 90,        // Historical data period
-      "includeSubtasks": true,   // Include subtasks in analysis
-      "analyzeVelocity": true,   // Calculate team velocity
-      "detectPatterns": true     // Pattern recognition
-    },
-    "codebase": {
-      "analyzeGitHistory": true, // Git analysis
-      "detectHotspots": true,    // Frequently changed files
-      "assessQuality": true,     // Code quality metrics
-      "findTechDebt": true       // Technical debt markers
-    },
-    "report": {
-      "format": "markdown",       // Output format
-      "includeVisuals": true,    // Generate charts
-      "actionable": true         // Include recommendations
-    }
-  }
-}
+Set in CLAUDE.md:
+```markdown
+FLOW_DISCOVER_LOOKBACK_DAYS=90
+FLOW_DISCOVER_INCLUDE_TESTS=true
+FLOW_DISCOVER_ANALYZE_GIT=true
+FLOW_DISCOVER_DETECT_HOTSPOTS=true
 ```
 
-## MCP Integration
+## Examples
 
-If Atlassian MCP is configured:
-```javascript
-// Automatic JIRA connection
-const jiraClient = await mcp.connect('atlassian');
+See [EXAMPLES.md](./EXAMPLES.md) for:
+- New team member onboarding
+- Sprint planning assistance
+- Technical debt prioritization
+- Brownfield project takeover
+- Weekly update mode
+- Troubleshooting
 
-// Fetch backlog
-const backlog = await jiraClient.searchIssues({
-  jql: `project = ${FLOW_JIRA_PROJECT_KEY} AND status != Done`,
-  maxResults: 1000,
-  fields: ['summary', 'status', 'priority', 'storyPoints', 'labels']
-});
+## Reference
 
-// Analyze patterns
-const insights = analyzeBacklog(backlog);
+See [REFERENCE.md](./REFERENCE.md) for:
+- Complete option documentation
+- Analysis algorithm details
+- Output file formats
+- Performance optimization
+- Integration patterns
+- Troubleshooting guide
+
+## Related Skills
+
+- **flow:init**: Initialize Flow after discover
+- **flow:blueprint**: Extract architecture from discover data
+- **flow:specify**: Create specs informed by findings
+
+## Validation
+
+Test this skill:
+```bash
+scripts/validate.sh
 ```
-
-## Intelligence Patterns
-
-### Pattern 1: Velocity Analysis
-```javascript
-function analyzeVelocity(sprints) {
-  return {
-    average: calculateAverage(sprints.map(s => s.completed)),
-    trend: calculateTrend(sprints),
-    capacity: estimateCapacity(sprints),
-    predictability: calculatePredictability(sprints)
-  };
-}
-```
-
-### Pattern 2: Tech Debt Detection
-```javascript
-function detectTechDebt(codebase, issues) {
-  const markers = [
-    'TODO', 'FIXME', 'HACK', 'REFACTOR',
-    'technical debt', 'legacy', 'deprecated'
-  ];
-
-  return {
-    codeMarkers: findInCode(codebase, markers),
-    jiraItems: filterTechDebt(issues),
-    hotspots: identifyHighChangeAreas(codebase),
-    complexity: calculateComplexity(codebase)
-  };
-}
-```
-
-### Pattern 3: Team Dynamics
-```javascript
-function analyzeTeamDynamics(commits, reviews) {
-  return {
-    contributors: identifyActiveContributors(commits),
-    expertise: mapExpertiseAreas(commits),
-    collaboration: analyzeReviewPatterns(reviews),
-    bottlenecks: identifyBottlenecks(reviews)
-  };
-}
-```
-
-## Success Metrics
-
-Track discovery effectiveness:
-- **Time to Productivity**: How quickly new team members contribute
-- **Backlog Clarity**: Percentage of well-defined stories
-- **Tech Debt Ratio**: Tech debt vs feature work
-- **Knowledge Transfer**: Documentation completeness
