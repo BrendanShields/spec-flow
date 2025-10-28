@@ -110,15 +110,15 @@ Breaking down the Navi optimization into 84 executable tasks organized by user s
 **Independent Test**: Simplified command structure works correctly
 
 ### Command Cleanup
-- [ ] T060 [US4] Remove CLAUDE-FLOW file (functionality in skills)
-- [ ] T061 [US4] Remove COMMANDS file (covered by .claude/)
-- [ ] T062 [US4] Consolidate duplicate command logic at .claude/commands/
-- [ ] T063 [US4] Create unified /navi router at .claude/commands/navi.md
+- [x] T060 [US4] Remove CLAUDE-FLOW file (functionality in skills)
+- [x] T061 [US4] Remove COMMANDS file (covered by .claude/)
+- [x] T062 [US4] Consolidate duplicate command logic at .claude/commands/
+- [x] T063 [US4] Create unified /navi router at .claude/commands/navi.md
 
 ### Deprecation Handling
-- [ ] T064 [US4] Add deprecation warnings to old commands at .claude/commands/flow-*.md
-- [ ] T065 [US4] Create command alias mapping at __specification__/scripts/aliases.sh
-- [ ] T066 [US4] Document migration path at docs/migration-guide.md
+- [x] T064 [US4] Add deprecation warnings to old commands at .claude/commands/flow-*.md
+- [x] T065 [US4] Create command alias mapping at __specification__/scripts/aliases.sh
+- [x] T066 [US4] Document migration path at docs/migration-guide.md
 
 ---
 

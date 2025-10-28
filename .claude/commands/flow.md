@@ -1,11 +1,16 @@
 ---
 name: flow
-description: Unified Flow workflow command. Use with no args for interactive menu, or with subcommand (init, specify, plan, tasks, implement, validate, status, help). Provides phase-aware navigation through specification-driven development workflow.
+description: DEPRECATED - Use /navi instead. This command redirects to /navi for backward compatibility.
 ---
 
-# Flow - Unified Workflow Command
+# Flow Command (DEPRECATED)
 
-You are handling the `/flow` command. This provides unified access to all Flow workflow phases with interactive menu support.
+⚠️ **DEPRECATION WARNING**: The `/flow` command is deprecated and will be removed in a future version.
+Please use `/navi` instead.
+
+Redirecting to `/navi` with the same arguments...
+
+You should now execute the `/navi` command with the same arguments that were passed to `/flow`.
 
 ## Step 1: Parse Arguments
 
