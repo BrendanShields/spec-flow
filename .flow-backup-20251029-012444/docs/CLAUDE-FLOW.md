@@ -1,10 +1,10 @@
-# Navi Worknavi System - Complete Guide
+# Flow Workflow System - Complete Guide
 
-Navi is a specification-driven development worknavi for Claude Code that helps you ship features faster with better quality.
+Flow is a specification-driven development workflow for Claude Code that helps you ship features faster with better quality.
 
 ## Overview
 
-Navi provides a structured worknavi:
+Flow provides a structured workflow:
 1. **Specify** - Define what to build (user stories, acceptance criteria)
 2. **Plan** - Design how to build it (architecture, components, ADRs)
 3. **Tasks** - Break down into actionable tasks
@@ -13,38 +13,38 @@ Navi provides a structured worknavi:
 
 ## Quick Start
 
-### Initialize Navi
+### Initialize Flow
 
 ```bash
 # Interactive mode (recommended for first time)
-/navi init
+/flow init
 
 # Non-interactive mode
-/navi init --type=brownfield --jira=PROJ --confluence=123456
+/flow init --type=brownfield --jira=PROJ --confluence=123456
 ```
 
 ### Create Your First Feature
 
 ```bash
-/navi specify "User authentication with email/password"
-/navi plan
-/navi tasks
-/navi implement
+/flow specify "User authentication with email/password"
+/flow plan
+/flow tasks
+/flow implement
 ```
 
 ### Check Progress
 
 ```bash
-/navi status     # Current phase and progress
-/navi            # Interactive menu
+/flow status     # Current phase and progress
+/flow            # Interactive menu
 ```
 
 ## Commands Reference
 
-### Worknavi Commands
+### Workflow Commands
 
-**`/navi init`**
-Initialize Navi in your project.
+**`/flow init`**
+Initialize Flow in your project.
 
 Options:
 - `--type=greenfield|brownfield` - Project type
@@ -53,53 +53,53 @@ Options:
 
 Examples:
 ```bash
-/navi init --type=greenfield
-/navi init --type=brownfield --jira=FLOW
-/navi init --type=brownfield --jira=PROJ --confluence=123456
+/flow init --type=greenfield
+/flow init --type=brownfield --jira=FLOW
+/flow init --type=brownfield --jira=PROJ --confluence=123456
 ```
 
-**`/navi specify "Feature description"`**
+**`/flow specify "Feature description"`**
 Create feature specification with prioritized user stories.
 
-Creates: `.navi/features/###-feature-name/spec.md`
+Creates: `.flow/features/###-feature-name/spec.md`
 
-**`/navi plan`**
+**`/flow plan`**
 Create technical implementation plan.
 
-Creates: `.navi/features/###-feature-name/plan.md`
+Creates: `.flow/features/###-feature-name/plan.md`
 
-**`/navi tasks`**
+**`/flow tasks`**
 Break plan into implementation tasks.
 
-Creates: `.navi/features/###-feature-name/tasks.md`
+Creates: `.flow/features/###-feature-name/tasks.md`
 
-**`/navi implement`**
+**`/flow implement`**
 Execute implementation autonomously.
 
 Options:
 - `--resume` - Continue from last checkpoint
 - `--filter=P1` - Implement specific priority only
 
-**`/navi validate`**
-Check worknavi consistency and completeness.
+**`/flow validate`**
+Check workflow consistency and completeness.
 
-**`/navi status`**
+**`/flow status`**
 Show current phase, feature, and progress.
 
-**`/navi help`**
+**`/flow help`**
 Show context-aware help for current phase.
 
 ### Utility Commands
 
-**`/navi`** (no args)
+**`/flow`** (no args)
 Shows interactive menu with phase-aware recommendations.
 
 ## Directory Structure
 
 ```
-.navi/
+.flow/
 ├── config/
-│   └── navi.json              # Configuration (JIRA, Confluence, preferences)
+│   └── flow.json              # Configuration (JIRA, Confluence, preferences)
 │
 ├── state/                     # Session state (git-ignored)
 │   ├── current-session.md     # Active feature and phase
@@ -137,7 +137,7 @@ Shows interactive menu with phase-aware recommendations.
 
 ### Configuration File
 
-Location: `.navi/config/navi.json`
+Location: `.flow/config/flow.json`
 
 ```json
 {
@@ -169,19 +169,19 @@ Location: `.navi/config/navi.json`
 ### Reading Configuration
 
 ```bash
-source .navi/scripts/config.sh
+source .flow/scripts/config.sh
 
 # Get values
-project_type=$(get_navi_config "project.type")
-jira_enabled=$(get_navi_config "integrations.jira.enabled")
-jira_key=$(get_navi_config "integrations.jira.project_key")
+project_type=$(get_flow_config "project.type")
+jira_enabled=$(get_flow_config "integrations.jira.enabled")
+jira_key=$(get_flow_config "integrations.jira.project_key")
 
 # Update values
-set_navi_config "integrations.jira.enabled" "true"
-set_navi_config "integrations.jira.project_key" "NEWPROJ"
+set_flow_config "integrations.jira.enabled" "true"
+set_flow_config "integrations.jira.project_key" "NEWPROJ"
 
 # Validate
-validate_navi_config
+validate_flow_config
 ```
 
 ### Project Types
@@ -200,58 +200,58 @@ validate_navi_config
 
 ### Interactive Mode
 
-**NEW in Feature 002**: Navi now supports interactive visual menus using Claude Code's AskUserQuestion tool.
+**NEW in Feature 002**: Flow now supports interactive visual menus using Claude Code's AskUserQuestion tool.
 
 **Interactive Mode** (`preferences.interactive_mode: true` - default):
-- `/navi` with no arguments shows visual selection menu
+- `/flow` with no arguments shows visual selection menu
 - Click to select next action instead of typing commands
 - Phase-aware options (only shows relevant commands)
 - Automatic skill invocation after selection
-- Disable with: `set_navi_config "preferences.interactive_mode" "false"`
+- Disable with: `set_flow_config "preferences.interactive_mode" "false"`
 
 **Interactive Transitions** (`preferences.interactive_transitions: false` - opt-in):
 - Shows "What's next?" prompts after completing each phase
-- Helps guide users through the worknavi
-- Enable with: `set_navi_config "preferences.interactive_transitions" "true"`
+- Helps guide users through the workflow
+- Enable with: `set_flow_config "preferences.interactive_transitions" "true"`
 
 **Examples**:
 
 ```bash
 # Interactive menu (default)
-/navi
+/flow
 # Shows: Initialize, Specify, Plan, Tasks, Implement, Validate, Status, Help
 # User clicks option → automatically executes
 
 # Interactive with transitions enabled
-/navi specify "User auth"
+/flow specify "User auth"
 # After spec completes, shows: Create Plan, Review Spec, Validate, Exit
-# User clicks "Create Plan" → automatically runs /navi plan
+# User clicks "Create Plan" → automatically runs /flow plan
 
 # Disable interactive mode
-set_navi_config "preferences.interactive_mode" "false"
-/navi  # Now shows text menu instead
+set_flow_config "preferences.interactive_mode" "false"
+/flow  # Now shows text menu instead
 ```
 
 **CLI Arguments Bypass Interactive Prompts**:
-- `/navi specify "Feature"` - Direct execution, no prompts
-- `/navi init --type=brownfield` - Skips interactive prompts
+- `/flow specify "Feature"` - Direct execution, no prompts
+- `/flow init --type=brownfield` - Skips interactive prompts
 - Any command with arguments skips interactive mode
 
-## Worknavi Phases
+## Workflow Phases
 
 ### 1. Initialize (init)
 
-Setup Navi structure and configuration.
+Setup Flow structure and configuration.
 
 **When**: First time in project or reconfiguration needed.
 
 **Creates**:
-- `.navi/` directory structure
+- `.flow/` directory structure
 - Configuration file
 - State and memory files
 - Templates
 
-**Next**: `/navi specify`
+**Next**: `/flow specify`
 
 ### 2. Specify (specify)
 
@@ -259,7 +259,7 @@ Define what to build with user stories and acceptance criteria.
 
 **When**: Starting new feature.
 
-**Creates**: `.navi/features/###-feature-name/spec.md`
+**Creates**: `.flow/features/###-feature-name/spec.md`
 
 **Contains**:
 - User stories (P1/P2/P3 prioritized)
@@ -267,7 +267,7 @@ Define what to build with user stories and acceptance criteria.
 - Technical notes
 - Non-functional requirements
 
-**Next**: `/navi plan`
+**Next**: `/flow plan`
 
 ### 3. Plan (plan)
 
@@ -275,7 +275,7 @@ Design technical implementation approach.
 
 **When**: Spec is complete.
 
-**Creates**: `.navi/features/###-feature-name/plan.md`
+**Creates**: `.flow/features/###-feature-name/plan.md`
 
 **Contains**:
 - Architecture decisions (ADRs)
@@ -284,7 +284,7 @@ Design technical implementation approach.
 - API contracts
 - Implementation phases
 
-**Next**: `/navi tasks`
+**Next**: `/flow tasks`
 
 ### 4. Tasks (tasks)
 
@@ -292,7 +292,7 @@ Break plan into actionable implementation tasks.
 
 **When**: Plan is complete.
 
-**Creates**: `.navi/features/###-feature-name/tasks.md`
+**Creates**: `.flow/features/###-feature-name/tasks.md`
 
 **Contains**:
 - Numbered tasks (T001, T002, etc.)
@@ -301,7 +301,7 @@ Break plan into actionable implementation tasks.
 - Parallel execution markers
 - Acceptance criteria per task
 
-**Next**: `/navi implement`
+**Next**: `/flow implement`
 
 ### 5. Implement (implement)
 
@@ -314,11 +314,11 @@ Execute tasks autonomously with progress tracking.
 - Progress in current-session.md
 - Completion in CHANGES-COMPLETED.md
 
-**Next**: `/navi validate`
+**Next**: `/flow validate`
 
 ### 6. Validate (validate)
 
-Check worknavi consistency and completeness.
+Check workflow consistency and completeness.
 
 **When**: Implementation complete or before commits.
 
@@ -335,12 +335,12 @@ Check worknavi consistency and completeness.
 Enable during init or update config:
 
 ```bash
-/navi init --jira=PROJ
+/flow init --jira=PROJ
 
 # Or update existing config
-source .navi/scripts/config.sh
-set_navi_config "integrations.jira.enabled" "true"
-set_navi_config "integrations.jira.project_key" "PROJ"
+source .flow/scripts/config.sh
+set_flow_config "integrations.jira.enabled" "true"
+set_flow_config "integrations.jira.project_key" "PROJ"
 ```
 
 **Validation**: Project key must match `^[A-Z][A-Z0-9]+(-[0-9]+)?$`
@@ -352,11 +352,11 @@ set_navi_config "integrations.jira.project_key" "PROJ"
 Enable during init or update config:
 
 ```bash
-/navi init --confluence=123456
+/flow init --confluence=123456
 
 # Or update existing config
-set_navi_config "integrations.confluence.enabled" "true"
-set_navi_config "integrations.confluence.root_page_id" "123456"
+set_flow_config "integrations.confluence.enabled" "true"
+set_flow_config "integrations.confluence.root_page_id" "123456"
 ```
 
 **Validation**: Page ID must be numeric only.
@@ -371,33 +371,33 @@ Begin with P1 user stories only. Add P2/P3 later if needed.
 
 ### 2. Validate Often
 
-Run `/navi validate` before:
+Run `/flow validate` before:
 - Committing changes
 - Starting implementation
 - Switching phases
 
 ### 3. Use Checkpoints
 
-Navi auto-checkpoints at phase transitions. Manual checkpoint:
+Flow auto-checkpoints at phase transitions. Manual checkpoint:
 ```bash
 /session save "Before major refactor"
 ```
 
 ### 4. Review ADRs
 
-Check `.navi/memory/DECISIONS-LOG.md` for architecture decisions.
+Check `.flow/memory/DECISIONS-LOG.md` for architecture decisions.
 
 ### 5. Track Progress
 
-Monitor `.navi/memory/WORKFLOW-PROGRESS.md` for velocity and metrics.
+Monitor `.flow/memory/WORKFLOW-PROGRESS.md` for velocity and metrics.
 
 ## Troubleshooting
 
 ### "Config file not found"
 
 ```bash
-# Reinitialize Navi
-/navi init
+# Reinitialize Flow
+/flow init
 ```
 
 ### "Invalid JIRA key format"
@@ -406,14 +406,14 @@ JIRA keys must be uppercase letters/numbers: `PROJ`, `FLOW`, `ABC-123`
 
 ```bash
 # Fix in config
-set_navi_config "integrations.jira.project_key" "VALIDKEY"
+set_flow_config "integrations.jira.project_key" "VALIDKEY"
 ```
 
 ### "Phase detection incorrect"
 
 Check feature directory structure:
 ```bash
-ls -la .navi/features/###-feature-name/
+ls -la .flow/features/###-feature-name/
 # Should contain: spec.md, plan.md, tasks.md
 ```
 
@@ -421,7 +421,7 @@ ls -la .navi/features/###-feature-name/
 
 Ensure scripts are sourced:
 ```bash
-source .navi/scripts/routing.sh
+source .flow/scripts/routing.sh
 detect_current_phase  # Should return phase name
 ```
 
@@ -429,10 +429,10 @@ detect_current_phase  # Should return phase name
 
 ### Custom Templates
 
-Add custom templates to `.navi/templates/`:
+Add custom templates to `.flow/templates/`:
 
 ```bash
-cp your-template.md .navi/templates/
+cp your-template.md .flow/templates/
 # Reference in skills as needed
 ```
 
@@ -441,9 +441,9 @@ cp your-template.md .navi/templates/
 All utilities are bash scripts and can be sourced:
 
 ```bash
-source .navi/scripts/config.sh
-source .navi/scripts/format-output.sh
-source .navi/scripts/routing.sh
+source .flow/scripts/config.sh
+source .flow/scripts/format-output.sh
+source .flow/scripts/routing.sh
 
 # Use functions
 current_phase=$(detect_current_phase)
@@ -455,7 +455,7 @@ format_success_header "Custom Operation"
 Continue from last task:
 
 ```bash
-/navi implement --resume
+/flow implement --resume
 ```
 
 ### Filter by Priority
@@ -463,39 +463,39 @@ Continue from last task:
 Implement only P1 tasks:
 
 ```bash
-/navi implement --filter=P1
+/flow implement --filter=P1
 ```
 
 ## Getting Help
 
-- **Context help**: `/navi help` (shows next steps for current phase)
-- **Status check**: `/navi status` (current phase and progress)
-- **Interactive menu**: `/navi` (shows all options)
-- **Full docs**: This file (`.navi/docs/CLAUDE-FLOW.md`)
-- **Architecture**: `.navi/docs/ARCHITECTURE.md`
-- **Commands**: `.navi/docs/COMMANDS.md`
+- **Context help**: `/flow help` (shows next steps for current phase)
+- **Status check**: `/flow status` (current phase and progress)
+- **Interactive menu**: `/flow` (shows all options)
+- **Full docs**: This file (`.flow/docs/CLAUDE-FLOW.md`)
+- **Architecture**: `.flow/docs/ARCHITECTURE.md`
+- **Commands**: `.flow/docs/COMMANDS.md`
 
 ## Migration from Old Structure
 
-If you have old `.navi-state/` or `.navi-memory/`:
+If you have old `.flow-state/` or `.flow-memory/`:
 
 ```bash
-# Navi automatically migrates on init
-/navi init
+# Flow automatically migrates on init
+/flow init
 
 # Or manually:
-mv .navi-state/* .navi/state/
-mv .navi-memory/* .navi/memory/
-mv features/* .navi/features/
+mv .flow-state/* .flow/state/
+mv .flow-memory/* .flow/memory/
+mv features/* .flow/features/
 ```
 
 ## Contributing
 
-Navi is extensible. Add custom skills in `.claude/skills/navi-*/`.
+Flow is extensible. Add custom skills in `.claude/skills/flow-*/`.
 
 Follow the pattern:
 1. Create skill directory
-2. Add SKILL.md with worknavi
+2. Add SKILL.md with workflow
 3. Update routing if needed
 4. Document in this file
 

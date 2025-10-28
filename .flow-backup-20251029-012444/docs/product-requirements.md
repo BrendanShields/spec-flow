@@ -1,12 +1,12 @@
 # Product Requirements
 
-**Project**: Spec-Navi Marketplace
+**Project**: Spec-Flow Marketplace
 **Last Updated**: 2025-10-28
 **Owner**: Development Team
 
 ## Product Vision
 
-The Spec-Navi marketplace provides a centralized repository of Claude Code plugins, starting with the Navi specification-driven development plugin. The marketplace enables developers to discover, install, and use productivity-enhancing plugins for Claude Code.
+The Spec-Flow marketplace provides a centralized repository of Claude Code plugins, starting with the Flow specification-driven development plugin. The marketplace enables developers to discover, install, and use productivity-enhancing plugins for Claude Code.
 
 ## Target Users
 
@@ -24,7 +24,7 @@ The Spec-Navi marketplace provides a centralized repository of Claude Code plugi
 ## Product Goals
 
 ### MVP Goals
-1. Host Navi plugin with complete documentation
+1. Host Flow plugin with complete documentation
 2. Provide clear plugin structure and guidelines
 3. Enable plugin developers to contribute
 4. Maintain marketplace organization

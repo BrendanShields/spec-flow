@@ -182,7 +182,7 @@ should_prompt_interactive() {
   fi
 
   # Check global flag
-  if [ "$NAVI_NO_INTERACTIVE" = "true" ]; then
+  if [ "$FLOW_NO_INTERACTIVE" = "true" ]; then
     return 1  # Skip prompts
   fi
 

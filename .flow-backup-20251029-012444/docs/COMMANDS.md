@@ -1,17 +1,17 @@
-# Navi Commands - Quick Reference
+# Flow Commands - Quick Reference
 
-Fast lookup for all Navi commands with syntax and examples.
+Fast lookup for all Flow commands with syntax and examples.
 
-## Worknavi Commands
+## Workflow Commands
 
-### /navi
+### /flow
 
-**Unified worknavi command** - Interactive menu or direct routing.
+**Unified workflow command** - Interactive menu or direct routing.
 
 **Syntax**:
 ```bash
-/navi                    # Interactive menu (NEW: visual selection)
-/navi <subcommand> [args]  # Direct execution
+/flow                    # Interactive menu (NEW: visual selection)
+/flow <subcommand> [args]  # Direct execution
 ```
 
 **Interactive Mode** (default, `preferences.interactive_mode: true`):
@@ -23,30 +23,30 @@ Fast lookup for all Navi commands with syntax and examples.
 **Examples**:
 ```bash
 # Interactive visual menu (NEW)
-/navi
+/flow
 # Shows clickable options → user selects → automatically executes
 
 # Direct execution (unchanged)
-/navi init              # Initialize Navi
-/navi specify "feature" # Create specification
-/navi status            # Show progress
+/flow init              # Initialize Flow
+/flow specify "feature" # Create specification
+/flow status            # Show progress
 
 # Disable interactive mode
-set_navi_config "preferences.interactive_mode" "false"
-/navi  # Now shows text menu
+set_flow_config "preferences.interactive_mode" "false"
+/flow  # Now shows text menu
 ```
 
-**Note**: CLI arguments bypass interactive prompts (e.g., `/navi init --type=brownfield` skips prompts)
+**Note**: CLI arguments bypass interactive prompts (e.g., `/flow init --type=brownfield` skips prompts)
 
 ---
 
-### /navi init
+### /flow init
 
-**Initialize Navi** in project with configuration.
+**Initialize Flow** in project with configuration.
 
 **Syntax**:
 ```bash
-/navi init [--type=TYPE] [--jira=KEY] [--confluence=ID]
+/flow init [--type=TYPE] [--jira=KEY] [--confluence=ID]
 ```
 
 **Arguments**:
@@ -61,67 +61,67 @@ set_navi_config "preferences.interactive_mode" "false"
 **Examples**:
 ```bash
 # Interactive mode (NEW: visual prompts)
-/navi init
+/flow init
 # Step 1: Select Greenfield/Brownfield, JIRA yes/no, Confluence yes/no
 # Step 2: Enter keys only if integrations enabled
 
 # Greenfield project
-/navi init --type=greenfield
+/flow init --type=greenfield
 
 # Brownfield with JIRA
-/navi init --type=brownfield --jira=PROJ
+/flow init --type=brownfield --jira=PROJ
 
 # Complete setup (skips all prompts)
-/navi init --type=greenfield --jira=FLOW --confluence=123456
+/flow init --type=greenfield --jira=FLOW --confluence=123456
 ```
 
 **Creates**:
-- `.navi/` directory structure
-- `.navi/config/navi.json`
+- `.flow/` directory structure
+- `.flow/config/flow.json`
 - State and memory files
 
-**Next**: `/navi specify`
+**Next**: `/flow specify`
 
 ---
 
-### /navi specify
+### /flow specify
 
 **Create feature specification** with user stories.
 
 **Syntax**:
 ```bash
-/navi specify "<feature description>"
+/flow specify "<feature description>"
 ```
 
 **Examples**:
 ```bash
-/navi specify "User authentication with OAuth"
-/navi specify "Export data to CSV format"
+/flow specify "User authentication with OAuth"
+/flow specify "Export data to CSV format"
 ```
 
 **Creates**:
-- `.navi/features/###-feature-name/spec.md`
+- `.flow/features/###-feature-name/spec.md`
 
 **Contains**:
 - P1/P2/P3 user stories
 - Acceptance criteria
 - Technical notes
 
-**Next**: `/navi plan`
+**Next**: `/flow plan`
 
 ---
 
-### /navi plan
+### /flow plan
 
 **Create technical plan** from specification.
 
 **Syntax**:
 ```bash
-/navi plan
+/flow plan
 ```
 
 **Creates**:
-- `.navi/features/###-feature-name/plan.md`
+- `.flow/features/###-feature-name/plan.md`
 
 **Contains**:
 - Architecture decisions (ADRs)
@@ -130,21 +130,21 @@ set_navi_config "preferences.interactive_mode" "false"
 - API contracts
 - Implementation phases
 
-**Next**: `/navi tasks`
+**Next**: `/flow tasks`
 
 ---
 
-### /navi tasks
+### /flow tasks
 
 **Break down into tasks** from technical plan.
 
 **Syntax**:
 ```bash
-/navi tasks
+/flow tasks
 ```
 
 **Creates**:
-- `.navi/features/###-feature-name/tasks.md`
+- `.flow/features/###-feature-name/tasks.md`
 
 **Contains**:
 - Numbered tasks (T001, T002, ...)
@@ -153,17 +153,17 @@ set_navi_config "preferences.interactive_mode" "false"
 - Parallel markers [P]
 - Acceptance criteria
 
-**Next**: `/navi implement`
+**Next**: `/flow implement`
 
 ---
 
-### /navi implement
+### /flow implement
 
 **Execute implementation** autonomously.
 
 **Syntax**:
 ```bash
-/navi implement [--resume] [--filter=PRIORITY]
+/flow implement [--resume] [--filter=PRIORITY]
 ```
 
 **Arguments**:
@@ -172,27 +172,27 @@ set_navi_config "preferences.interactive_mode" "false"
 
 **Examples**:
 ```bash
-/navi implement              # Start implementation
-/navi implement --resume     # Continue after interruption
-/navi implement --filter=P1  # P1 tasks only
+/flow implement              # Start implementation
+/flow implement --resume     # Continue after interruption
+/flow implement --filter=P1  # P1 tasks only
 ```
 
 **Updates**:
 - Task checkboxes in tasks.md
-- `.navi/state/current-session.md`
-- `.navi/memory/CHANGES-COMPLETED.md`
+- `.flow/state/current-session.md`
+- `.flow/memory/CHANGES-COMPLETED.md`
 
-**Next**: `/navi validate`
+**Next**: `/flow validate`
 
 ---
 
-### /navi validate
+### /flow validate
 
-**Check worknavi consistency** and completeness.
+**Check workflow consistency** and completeness.
 
 **Syntax**:
 ```bash
-/navi validate
+/flow validate
 ```
 
 **Checks**:
@@ -208,13 +208,13 @@ set_navi_config "preferences.interactive_mode" "false"
 
 ---
 
-### /navi status
+### /flow status
 
 **Show current progress** and phase.
 
 **Syntax**:
 ```bash
-/navi status
+/flow status
 ```
 
 **Displays**:
@@ -228,18 +228,18 @@ set_navi_config "preferences.interactive_mode" "false"
 Phase: implement
 Feature: 001-user-auth
 Progress: 12/22 tasks
-Recommended next: /navi implement
+Recommended next: /flow implement
 ```
 
 ---
 
-### /navi help
+### /flow help
 
 **Context-aware help** for current phase.
 
 **Syntax**:
 ```bash
-/navi help
+/flow help
 ```
 
 **Shows**:
@@ -255,31 +255,31 @@ Recommended next: /navi implement
 ### Read Configuration
 
 ```bash
-source .navi/scripts/config.sh
+source .flow/scripts/config.sh
 
 # Read values
-project_type=$(get_navi_config "project.type")
-jira_enabled=$(get_navi_config "integrations.jira.enabled")
-jira_key=$(get_navi_config "integrations.jira.project_key")
+project_type=$(get_flow_config "project.type")
+jira_enabled=$(get_flow_config "integrations.jira.enabled")
+jira_key=$(get_flow_config "integrations.jira.project_key")
 ```
 
 ### Update Configuration
 
 ```bash
-source .navi/scripts/config.sh
+source .flow/scripts/config.sh
 
 # Update values
-set_navi_config "integrations.jira.enabled" "true"
-set_navi_config "integrations.jira.project_key" "NEWPROJ"
+set_flow_config "integrations.jira.enabled" "true"
+set_flow_config "integrations.jira.project_key" "NEWPROJ"
 
 # Validate
-validate_navi_config
+validate_flow_config
 ```
 
 ### Validate Inputs
 
 ```bash
-source .navi/scripts/config.sh
+source .flow/scripts/config.sh
 
 # Validate JIRA key
 validate_jira_key "PROJ"      # Valid
@@ -298,7 +298,7 @@ validate_confluence_page_id "abc"     # Error
 ### Use in Scripts/Skills
 
 ```bash
-source .navi/scripts/format-output.sh
+source .flow/scripts/format-output.sh
 
 # TLDR box
 tldr_content="Summary of changes"
@@ -329,7 +329,7 @@ format_progress_bar 7 10  # [████████░░] 70% (7/10)
 ### Check Current Phase
 
 ```bash
-source .navi/scripts/routing.sh
+source .flow/scripts/routing.sh
 
 # Detect phase
 current_phase=$(detect_current_phase)
@@ -372,85 +372,85 @@ is_phase_complete "specify" && echo "Spec done"
 ### Configuration
 
 ```
-.navi/config/navi.json           # Main configuration
+.flow/config/flow.json           # Main configuration
 ```
 
 ### State (git-ignored)
 
 ```
-.navi/state/current-session.md   # Active session
-.navi/state/checkpoints/          # Saved checkpoints
+.flow/state/current-session.md   # Active session
+.flow/state/checkpoints/          # Saved checkpoints
 ```
 
 ### Memory (committed)
 
 ```
-.navi/memory/WORKFLOW-PROGRESS.md   # Metrics
-.navi/memory/DECISIONS-LOG.md       # ADRs
-.navi/memory/CHANGES-PLANNED.md     # Upcoming work
-.navi/memory/CHANGES-COMPLETED.md   # History
+.flow/memory/WORKFLOW-PROGRESS.md   # Metrics
+.flow/memory/DECISIONS-LOG.md       # ADRs
+.flow/memory/CHANGES-PLANNED.md     # Upcoming work
+.flow/memory/CHANGES-COMPLETED.md   # History
 ```
 
 ### Features (committed)
 
 ```
-.navi/features/###-name/spec.md     # Specification
-.navi/features/###-name/plan.md     # Technical plan
-.navi/features/###-name/tasks.md    # Implementation tasks
+.flow/features/###-name/spec.md     # Specification
+.flow/features/###-name/plan.md     # Technical plan
+.flow/features/###-name/tasks.md    # Implementation tasks
 ```
 
 ### Scripts
 
 ```
-.navi/scripts/config.sh             # Config utilities
-.navi/scripts/format-output.sh      # Formatting utilities
-.navi/scripts/routing.sh            # Routing utilities
+.flow/scripts/config.sh             # Config utilities
+.flow/scripts/format-output.sh      # Formatting utilities
+.flow/scripts/routing.sh            # Routing utilities
 ```
 
 ### Documentation
 
 ```
-.navi/docs/CLAUDE-FLOW.md           # Complete guide
-.navi/docs/ARCHITECTURE.md          # System design
-.navi/docs/COMMANDS.md              # This file
+.flow/docs/CLAUDE-FLOW.md           # Complete guide
+.flow/docs/ARCHITECTURE.md          # System design
+.flow/docs/COMMANDS.md              # This file
 ```
 
 ---
 
-## Common Worknavis
+## Common Workflows
 
 ### New Feature
 
 ```bash
-/navi specify "Feature description"
-/navi plan
-/navi tasks
-/navi implement
-/navi validate
+/flow specify "Feature description"
+/flow plan
+/flow tasks
+/flow implement
+/flow validate
 ```
 
 ### Resume Work
 
 ```bash
-/navi status                    # Check where you are
-/navi implement --resume        # Continue
+/flow status                    # Check where you are
+/flow implement --resume        # Continue
 ```
 
 ### Check Progress
 
 ```bash
-/navi                          # Interactive menu
-/navi status                   # Detailed status
+/flow                          # Interactive menu
+/flow status                   # Detailed status
 ```
 
 ### Reconfigure
 
 ```bash
-/navi init                     # Reconfigure interactively
+/flow init                     # Reconfigure interactively
 
 # Or update config directly
-source .navi/scripts/config.sh
-set_navi_config "integrations.jira.project_key" "NEWPROJ"
+source .flow/scripts/config.sh
+set_flow_config "integrations.jira.project_key" "NEWPROJ"
 ```
 
 ---
@@ -468,7 +468,7 @@ Future: Add keyboard shortcuts for common operations.
 ### Fast Navigation
 
 ```bash
-alias f='navi'
+alias f='flow'
 f status
 f specify "Quick feature"
 ```
@@ -478,24 +478,24 @@ f specify "Quick feature"
 If using zsh/bash completion:
 ```bash
 # Add to .zshrc or .bashrc
-complete -W "init specify plan tasks implement validate status help" navi
+complete -W "init specify plan tasks implement validate status help" flow
 ```
 
 ### Quick Status
 
 ```bash
 # Add to shell prompt
-NAVI_PHASE=$(detect_current_phase 2>/dev/null || echo "none")
+FLOW_PHASE=$(detect_current_phase 2>/dev/null || echo "none")
 ```
 
 ### Batch Operations
 
 ```bash
 # Multiple features
-/navi specify "Feature 1" && /navi specify "Feature 2"
+/flow specify "Feature 1" && /flow specify "Feature 2"
 
-# Full worknavi
-/navi specify "Quick feature" && /navi plan && /navi tasks
+# Full workflow
+/flow specify "Quick feature" && /flow plan && /flow tasks
 ```
 
 ---
@@ -505,22 +505,22 @@ NAVI_PHASE=$(detect_current_phase 2>/dev/null || echo "none")
 ### "Config file not found"
 
 ```bash
-# Solution: Initialize Navi
-/navi init
+# Solution: Initialize Flow
+/flow init
 ```
 
 ### "Invalid JIRA key format"
 
 ```bash
 # JIRA keys must be: PROJECT or PROJECT-123
-set_navi_config "integrations.jira.project_key" "VALIDKEY"
+set_flow_config "integrations.jira.project_key" "VALIDKEY"
 ```
 
 ### "Phase detection failed"
 
 ```bash
 # Check feature directory
-ls -la .navi/features/###-feature-name/
+ls -la .flow/features/###-feature-name/
 # Should contain: spec.md, plan.md, tasks.md
 ```
 

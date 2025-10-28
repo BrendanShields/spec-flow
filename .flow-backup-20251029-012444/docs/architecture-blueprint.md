@@ -1,12 +1,12 @@
 # Architecture Blueprint
 
-**Project**: Spec-Navi Marketplace
+**Project**: Spec-Flow Marketplace
 **Version**: 1.0
 **Last Updated**: 2025-10-28
 
 ## System Overview
 
-The Spec-Navi marketplace is a structured repository containing Claude Code plugins. Each plugin is self-contained and follows consistent organizational patterns.
+The Spec-Flow marketplace is a structured repository containing Claude Code plugins. Each plugin is self-contained and follows consistent organizational patterns.
 
 ## Architecture Principles
 
@@ -24,7 +24,7 @@ The Spec-Navi marketplace is a structured repository containing Claude Code plug
 ## Directory Structure
 
 ```
-spec-navi/                      # Marketplace root
+spec-flow/                      # Marketplace root
 ├── plugins/                    # Plugin directory
 │   └── {plugin-name}/         # Individual plugin
 │       ├── CLAUDE.md          # Plugin instructions for Claude
@@ -33,7 +33,7 @@ spec-navi/                      # Marketplace root
 │       ├── .claude/           # Skills, commands, agents
 │       └── templates/         # Plugin templates
 │
-├── .navi/                     # Marketplace-level Navi
+├── .flow/                     # Marketplace-level Flow
 │   ├── product-requirements.md
 │   ├── architecture-blueprint.md
 │   └── templates/
@@ -90,7 +90,7 @@ Varies by plugin; each plugin documents its own tech stack.
 - Instructions read from `CLAUDE.md` files
 
 ### File System Integration
-- Plugins create user-facing directories (e.g., `.navi/`, `features/`)
+- Plugins create user-facing directories (e.g., `.flow/`, `features/`)
 - User projects remain separate from plugin code
 - Templates copied from plugin to user projects
 
@@ -103,9 +103,9 @@ Varies by plugin; each plugin documents its own tech stack.
 
 ### Plugin Data
 Each plugin manages its own data:
-- Configuration files (e.g., `.navi/`)
-- State files (e.g., `.navi-state/`)
-- Memory files (e.g., `.navi-memory/`)
+- Configuration files (e.g., `.flow/`)
+- State files (e.g., `.flow-state/`)
+- Memory files (e.g., `.flow-memory/`)
 
 ## Security Considerations
 
@@ -150,7 +150,7 @@ Each plugin documents its own performance characteristics.
 - Documentation coverage
 
 ### Plugin Monitoring
-Each plugin may implement its own metrics (e.g., Navi's `navi:metrics` skill).
+Each plugin may implement its own metrics (e.g., Flow's `flow:metrics` skill).
 
 ## Deployment Architecture
 
@@ -160,7 +160,7 @@ Each plugin may implement its own metrics (e.g., Navi's `navi:metrics` skill).
 3. Claude Code discovers plugins
 
 ### Plugin Installation
-1. User runs plugin initialization (e.g., `/navi-init`)
+1. User runs plugin initialization (e.g., `/flow-init`)
 2. Plugin creates user-facing directories
 3. Plugin ready for use
 

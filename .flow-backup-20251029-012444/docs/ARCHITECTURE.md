@@ -1,12 +1,12 @@
-# Navi Architecture
+# Flow Architecture
 
-Navi is a specification-driven development system built on progressive disclosure and token efficiency principles.
+Flow is a specification-driven development system built on progressive disclosure and token efficiency principles.
 
 ## Design Principles
 
 ### 1. Progressive Disclosure
 - **Root CLAUDE.md**: <50 lines, essential commands only
-- **Detailed docs**: `.navi/docs/` loaded on-demand
+- **Detailed docs**: `.flow/docs/` loaded on-demand
 - **Skills**: Self-contained, reference docs as needed
 
 ### 2. Token Efficiency
@@ -22,9 +22,9 @@ Navi is a specification-driven development system built on progressive disclosur
 ## Directory Structure
 
 ```
-.navi/
+.flow/
 ├── config/              # Configuration layer
-│   └── navi.json        # JSON config (jq-based)
+│   └── flow.json        # JSON config (jq-based)
 │
 ├── state/               # Session layer (transient)
 │   ├── current-session.md
@@ -63,10 +63,10 @@ Navi is a specification-driven development system built on progressive disclosur
 **Purpose**: Manage JSON configuration with validation.
 
 **Functions**:
-- `init_navi_config(type)` - Create default config
-- `get_navi_config(key)` - Read nested values
-- `set_navi_config(key, value)` - Update values
-- `validate_navi_config()` - Validate schema
+- `init_flow_config(type)` - Create default config
+- `get_flow_config(key)` - Read nested values
+- `set_flow_config(key, value)` - Update values
+- `validate_flow_config()` - Validate schema
 - `validate_jira_key(key)` - Validate format
 - `validate_confluence_page_id(id)` - Validate numeric
 
@@ -99,16 +99,16 @@ Navi is a specification-driven development system built on progressive disclosur
 **Purpose**: Phase detection and command routing.
 
 **Functions**:
-- `detect_current_phase()` - Determine worknavi phase
+- `detect_current_phase()` - Determine workflow phase
 - `get_current_feature_dir()` - Find active feature
 - `get_next_suggested_command()` - Recommend next step
-- `route_navi_command(subcmd)` - Route to skill
-- `render_navi_menu()` - Display interactive menu
+- `route_flow_command(subcmd)` - Route to skill
+- `render_flow_menu()` - Display interactive menu
 - `is_phase_complete(phase)` - Check phase status
 
 **Phase Detection Logic**:
 ```
-if no .navi/features/: return "init"
+if no .flow/features/: return "init"
 if no spec.md: return "specify"
 if no plan.md: return "plan"
 if no tasks.md: return "tasks"
@@ -116,20 +116,20 @@ if tasks incomplete: return "implement"
 else: return "complete"
 ```
 
-## Data Navi
+## Data Flow
 
-### Initialization Navi
+### Initialization Flow
 
 ```
-User: /navi init
+User: /flow init
   ↓
-navi:init skill
+flow:init skill
   ↓
 AskUserQuestion (project type, JIRA, Confluence)
   ↓
-config.sh: init_navi_config()
+config.sh: init_flow_config()
   ↓
-config.sh: set_navi_config() for each integration
+config.sh: set_flow_config() for each integration
   ↓
 init-state.sh: create directories & files
   ↓
@@ -138,7 +138,7 @@ format-output.sh: format_complete_success()
 Output: TLDR + Next Steps
 ```
 
-### Worknavi Progression
+### Workflow Progression
 
 ```
 init → specify → plan → tasks → implement → complete
@@ -151,11 +151,11 @@ init → specify → plan → tasks → implement → complete
 ```
 Skill execution
   ↓
-Update .navi/state/current-session.md
+Update .flow/state/current-session.md
   ↓
-Update .navi/memory/WORKFLOW-PROGRESS.md
+Update .flow/memory/WORKFLOW-PROGRESS.md
   ↓
-Log to .navi/memory/DECISIONS-LOG.md (if ADR)
+Log to .flow/memory/DECISIONS-LOG.md (if ADR)
   ↓
 Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 ```
@@ -164,23 +164,23 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 ### ADR-001: Marketplace Root Initialization
 
-**Context**: Navi can be used in marketplace repo itself for development.
+**Context**: Flow can be used in marketplace repo itself for development.
 
-**Decision**: Initialize Navi at marketplace root, not plugin directory.
+**Decision**: Initialize Flow at marketplace root, not plugin directory.
 
 **Rationale**:
-- Test Navi using Navi
+- Test Flow using Flow
 - Self-hosting validates design
-- Easier development worknavi
+- Easier development workflow
 
 **Alternatives**: Plugin-only use
-**Impact**: Marketplace has `.navi/` directory
+**Impact**: Marketplace has `.flow/` directory
 
-### ADR-002: Consolidate Under `.navi/`
+### ADR-002: Consolidate Under `.flow/`
 
-**Context**: Multiple root directories (`.navi-state/`, `.navi-memory/`, `features/`) scattered files.
+**Context**: Multiple root directories (`.flow-state/`, `.flow-memory/`, `features/`) scattered files.
 
-**Decision**: Single `.navi/` directory with subdirectories.
+**Decision**: Single `.flow/` directory with subdirectories.
 
 **Rationale**:
 - Cleaner project root
@@ -195,7 +195,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 **Context**: Need structured configuration for integrations.
 
-**Decision**: Use JSON at `.navi/config/navi.json` with jq.
+**Decision**: Use JSON at `.flow/config/flow.json` with jq.
 
 **Rationale**:
 - `jq` widely available
@@ -206,11 +206,11 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 **Alternatives**: YAML (requires yq), TOML, env vars
 **Impact**: Requires jq installation (with fallback)
 
-### ADR-004: Unified `/navi` Command
+### ADR-004: Unified `/flow` Command
 
-**Context**: Multiple `/navi-*` commands cluttering namespace.
+**Context**: Multiple `/flow-*` commands cluttering namespace.
 
-**Decision**: Single `/navi` command with subcommands.
+**Decision**: Single `/flow` command with subcommands.
 
 **Rationale**:
 - Cleaner command space
@@ -225,7 +225,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 **Context**: Long CLAUDE.md increases token usage every message.
 
-**Decision**: Brief root CLAUDE.md (<50 lines) linking to `.navi/docs/`.
+**Decision**: Brief root CLAUDE.md (<50 lines) linking to `.flow/docs/`.
 
 **Rationale**:
 - Token efficiency (50-70% reduction)
@@ -257,13 +257,13 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 ### ADR-007: Use AskUserQuestion for Interactive Menus
 
-**Context**: `/navi` command currently shows text-only menu, users must type commands.
+**Context**: `/flow` command currently shows text-only menu, users must type commands.
 
-**Decision**: Use AskUserQuestion tool to show visual selection interface for `/navi` menu.
+**Decision**: Use AskUserQuestion tool to show visual selection interface for `/flow` menu.
 
 **Rationale**:
 - Click to select > typing commands for discovery
-- Phase-aware options guide users through worknavi
+- Phase-aware options guide users through workflow
 - Reduces cognitive load for new users
 - Status indicators (✅ done, ➡️ next, ⏳ not ready) provide context
 
@@ -285,7 +285,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 **Rationale**:
 - New users benefit from visual prompts
-- Power users use CLI args (`/navi init --type=brownfield`)
+- Power users use CLI args (`/flow init --type=brownfield`)
 - Any CLI argument presence automatically skips interactive mode
 - Config toggle available: `preferences.interactive_mode: false`
 
@@ -301,7 +301,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 ### ADR-009: Conditional Multi-Step Prompts
 
-**Context**: navi:init needs 5 inputs but AskUserQuestion max is 4 questions per call.
+**Context**: flow:init needs 5 inputs but AskUserQuestion max is 4 questions per call.
 
 **Decision**: Use two-step conditional approach:
 1. Ask 3 core questions (type, JIRA yes/no, Confluence yes/no)
@@ -362,7 +362,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 - Execute in preview mode (complex)
 
 **Impact**:
-- Seamless worknavi progression
+- Seamless workflow progression
 - Must handle errors gracefully
 - Clear communication of what's being executed
 
@@ -370,12 +370,12 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 ### Adding New Skills
 
-1. Create `.claude/skills/navi-{name}/SKILL.md`
+1. Create `.claude/skills/flow-{name}/SKILL.md`
 2. Follow state integration pattern (SKILL-STATE-INTEGRATION.md)
 3. Use utility scripts:
    ```bash
-   source .navi/scripts/config.sh
-   source .navi/scripts/format-output.sh
+   source .flow/scripts/config.sh
+   source .flow/scripts/format-output.sh
    ```
 4. Update routing.sh if new phase needed
 
@@ -383,7 +383,7 @@ Move tasks: CHANGES-PLANNED → CHANGES-COMPLETED
 
 Create custom formatters in scripts:
 ```bash
-source .navi/scripts/format-output.sh
+source .flow/scripts/format-output.sh
 
 custom_format() {
   format_success_header "Custom"
@@ -408,7 +408,7 @@ Add to config.json:
 
 Access in skills:
 ```bash
-custom_enabled=$(get_navi_config "integrations.custom.enabled")
+custom_enabled=$(get_flow_config "integrations.custom.enabled")
 ```
 
 ## Performance Considerations
@@ -443,12 +443,12 @@ Tasks marked `[P]` can run in parallel:
 
 ### Git Ignore
 
-**Ignored** (`.navi/state/`):
+**Ignored** (`.flow/state/`):
 - Session-specific data
 - Temporary checkpoints
 - Local state
 
-**Committed** (`.navi/memory/`, `.navi/features/`):
+**Committed** (`.flow/memory/`, `.flow/features/`):
 - Project history
 - Architecture decisions
 - Feature artifacts
@@ -460,7 +460,7 @@ Never commit:
 - Passwords
 - Personal access tokens
 
-Use `.navi/config/navi.local.json` for secrets (git-ignored).
+Use `.flow/config/flow.local.json` for secrets (git-ignored).
 
 ## Testing Strategy
 
@@ -468,25 +468,25 @@ Use `.navi/config/navi.local.json` for secrets (git-ignored).
 
 Scripts are testable:
 ```bash
-source .navi/scripts/config.sh
-init_navi_config "greenfield"
-validate_navi_config  # Should pass
+source .flow/scripts/config.sh
+init_flow_config "greenfield"
+validate_flow_config  # Should pass
 ```
 
 ### Integration Testing
 
-Test worknavis end-to-end:
+Test workflows end-to-end:
 ```bash
-/navi init --type=greenfield
-/navi specify "Test feature"
-/navi plan
-/navi tasks
+/flow init --type=greenfield
+/flow specify "Test feature"
+/flow plan
+/flow tasks
 # Verify file creation
 ```
 
 ### Validation
 
-Use `/navi validate` to check:
+Use `/flow validate` to check:
 - File consistency
 - Configuration validity
 - State coherence
@@ -515,7 +515,7 @@ Use `/navi validate` to check:
 - Visual progress dashboard
 - Team collaboration features
 - CI/CD integration
-- Custom worknavi phases
+- Custom workflow phases
 
 ---
 
