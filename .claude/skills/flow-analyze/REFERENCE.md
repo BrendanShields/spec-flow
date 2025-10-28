@@ -385,7 +385,7 @@ const results = await executeSubagent('flow-analyzer', {
     spec: readFile('spec.md'),
     plan: readFile('plan.md'),
     tasks: readFile('tasks.md'),
-    blueprint: readFile('__specification__/architecture-blueprint.md')
+    blueprint: readFile('__specification__/architecture.md')
   },
   checks: [
     'coverage',
@@ -455,12 +455,12 @@ Skip specific analysis categories.
 
 **Cause**: Default blueprint rules applied
 
-**Fix**: Create explicit `__specification__/architecture-blueprint.md` or disable blueprint checks
+**Fix**: Create explicit `__specification__/architecture.md` or disable blueprint checks
 
 ## Related Files
 
 - `spec.md` - Requirements (input)
 - `plan.md` - Technical plan (input)
 - `tasks.md` - Task list (input)
-- `__specification__/architecture-blueprint.md` - Blueprint (input)
+- `__specification__/architecture.md` - Blueprint (input)
 - `analysis-report.md` - Generated report (output)

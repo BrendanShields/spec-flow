@@ -416,7 +416,7 @@ const decisions = [
 - [x] flow:implement (480s) - Completed implementation
 
 ## Created Artifacts
-- __specification__/architecture-blueprint.md (v1.0.0)
+- __specification__/architecture.md (v1.0.0)
 - features/001-user-auth/spec.md
 - features/001-user-auth/plan.md
 - features/001-user-auth/tasks.md

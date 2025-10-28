@@ -14,7 +14,7 @@ flow:init --skip-integrations
 Created:
   __specification__/
   ├── product-requirements.md (skeleton)
-  ├── architecture-blueprint.md (skeleton)
+  ├── architecture.md (skeleton)
   ├── scripts/ (bash utilities)
   ├── templates/ (document templates)
   └── data-models/entities.md
@@ -64,7 +64,7 @@ User: Y
 Created:
   __specification__/
   ├── product-requirements.md
-  ├── architecture-blueprint.md
+  ├── architecture.md
   ├── contracts/
   │   └── openapi.yaml (API contract template)
   ├── data-models/entities.md
@@ -117,7 +117,7 @@ Flow: Creating __specification__/ directory structure...
 Created:
   __specification__/
   ├── product-requirements.md (document existing)
-  ├── architecture-blueprint.md (extract from code)
+  ├── architecture.md (extract from code)
   ├── scripts/
   └── templates/
 

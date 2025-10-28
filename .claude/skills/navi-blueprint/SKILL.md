@@ -1,6 +1,6 @@
 ---
 name: flow:blueprint
-description: Define project architecture and technical standards. Use when 1) Setting up new project architecture, 2) User says "define/document architecture", 3) Team needs tech stack alignment, 4) Documenting architectural decisions (ADRs), 5) Establishing API/data/security guidelines. Creates architecture-blueprint.md.
+description: Define project architecture and technical standards. Use when 1) Setting up new project architecture, 2) User says "define/document architecture", 3) Team needs tech stack alignment, 4) Documenting architectural decisions (ADRs), 5) Establishing API/data/security guidelines. Creates architecture.md.
 allowed-tools: Write, Read, Edit, AskUserQuestion
 ---
 
@@ -21,7 +21,7 @@ Prompts for architecture decisions:
 
 Suggests based on project type and domain.
 
-Documents in `__specification__/architecture-blueprint.md`
+Documents in `__specification__/architecture.md`
 
 ### 2. Extract Mode (Brownfield)
 

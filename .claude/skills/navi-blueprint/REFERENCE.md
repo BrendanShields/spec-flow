@@ -134,7 +134,7 @@ flow:analyze  # Checks spec/plan alignment with blueprint
 
 ## Related Files
 
-- `__specification__/architecture-blueprint.md`: The blueprint
+- `__specification__/architecture.md`: The blueprint
 - `__specification__/templates/architecture-blueprint-template.md`: Template
 - `CLAUDE.md`: References blueprint in Flow Configuration
 

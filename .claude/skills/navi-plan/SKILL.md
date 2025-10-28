@@ -60,7 +60,7 @@ See [REFERENCE.md](./REFERENCE.md#mcp-integration-confluence) for detailed sync 
 
 ## Blueprint Validation
 
-If `__specification__/architecture-blueprint.md` exists:
+If `__specification__/architecture.md` exists:
 - Validates technology choices against approved stack
 - Ensures API design follows guidelines
 - Confirms data modeling conventions

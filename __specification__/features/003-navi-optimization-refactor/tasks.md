@@ -89,15 +89,15 @@ Breaking down the Navi optimization into 84 executable tasks organized by user s
 **Independent Test**: Single source of truth for all docs, consistent naming
 
 ### Document Merging
-- [ ] T050 [P] [US3] Merge ARCHITECTURE.md + architecture-blueprint.md → architecture.md at __specification__/docs/architecture.md
-- [ ] T051 [P] [US3] Rename PRODUCT-REQUIREMENTS.md → requirements.md at __specification__/docs/requirements.md
-- [ ] T052 [P] [US3] Rename CLAUDE-FLOW.md content → merge into CLAUDE.md
-- [ ] T053 [P] [US3] Remove redundant COMMANDS.md at __specification__/docs/
+- [x] T050 [P] [US3] Merge ARCHITECTURE.md + architecture-blueprint.md → architecture.md at __specification__/docs/architecture.md
+- [x] T051 [P] [US3] Rename PRODUCT-REQUIREMENTS.md → requirements.md at __specification__/docs/requirements.md
+- [x] T052 [P] [US3] Rename CLAUDE-FLOW.md content → merge into CLAUDE.md
+- [x] T053 [P] [US3] Remove redundant COMMANDS.md at __specification__/docs/
 
 ### Documentation Updates
-- [ ] T054 [US3] Update all uppercase .md filenames to lowercase at __specification__/**/*.md
-- [ ] T055 [P] [US3] Update references to consolidated docs at .claude/skills/*/README.md
-- [ ] T056 [P] [US3] Update template references at __specification__/templates/*.md
+- [x] T054 [US3] Update all uppercase .md filenames to lowercase at __specification__/**/*.md
+- [x] T055 [P] [US3] Update references to consolidated docs at .claude/skills/*/README.md
+- [x] T056 [P] [US3] Update template references at __specification__/templates/*.md
 
 ### Parallel Opportunities
 `T050-T053, T055-T056` (different files, no dependencies)

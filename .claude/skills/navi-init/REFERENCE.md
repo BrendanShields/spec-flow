@@ -71,7 +71,7 @@ flow:init --reconfigure
 ```
 __specification__/
 ├── product-requirements.md      # Project-level PRD (skeleton)
-├── architecture-blueprint.md    # Technical standards (skeleton)
+├── architecture.md    # Technical standards (skeleton)
 ├── data-models/
 │   └── entities.md             # Domain entities
 ├── scripts/

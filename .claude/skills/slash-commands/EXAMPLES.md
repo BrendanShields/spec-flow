@@ -428,7 +428,7 @@ Project structure:
 !`tree -L 2 -I 'node_modules|.git' .`
 
 Architecture guide:
-@ARCHITECTURE.md
+@architecture.md
 
 Please implement this feature:
 1. Create necessary files in appropriate directories
