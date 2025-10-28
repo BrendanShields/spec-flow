@@ -1,17 +1,17 @@
 ---
-name: flow:analyze
-description: Validate consistency across all Flow artifacts. Use when 1) Before implementation to catch issues early, 2) After spec/plan changes to verify alignment, 3) Team handoffs requiring validation, 4) Detecting missing requirements or tasks, 5) Multi-person teams need consistency checks. Performs read-only analysis and reports gaps/conflicts.
+name: navi:analyze
+description: Validate consistency across all Navi artifacts. Use when 1) Before implementation to catch issues early, 2) After spec/plan changes to verify alignment, 3) Team handoffs requiring validation, 4) Detecting missing requirements or tasks, 5) Multi-person teams need consistency checks. Performs read-only analysis and reports gaps/conflicts.
 allowed-tools: Read, Task
 ---
 
-# Flow Analyze
+# Navi Analyze
 
 Perform read-only consistency validation across spec, plan, tasks, and blueprint to catch issues before implementation.
 
 ## Core Capability
 
-Identifies gaps and conflicts using the `flow-analyzer` subagent:
-- Loads all Flow artifacts (spec, plan, tasks, blueprint)
+Identifies gaps and conflicts using the `navi-analyzer` subagent:
+- Loads all Navi artifacts (spec, plan, tasks, blueprint)
 - Validates requirement coverage (forward and backward)
 - Checks blueprint alignment and compliance
 - Detects terminology inconsistencies
@@ -19,6 +19,28 @@ Identifies gaps and conflicts using the `flow-analyzer` subagent:
 - Validates task dependencies and ordering
 - Reports findings with severity levels
 - Suggests specific remediation steps
+
+## Parallel Analysis Operations
+
+**Concurrent Validation Tasks:**
+- [P] Load and parse multiple artifact files simultaneously
+- [P] Validate different document sections in parallel
+- [P] Check terminology across multiple documents concurrently
+- [P] Analyze task dependencies for different user stories
+- [P] Validate blueprint compliance for different components
+- [P] Generate metrics for multiple categories simultaneously
+
+**Integration with Parallel Executor:**
+```bash
+# Create analysis tasks
+echo "coverage|__specification__/scripts/analyze-coverage.sh" > analysis-tasks.txt
+echo "blueprint|__specification__/scripts/check-blueprint.sh" >> analysis-tasks.txt
+echo "terminology|__specification__/scripts/check-terms.sh" >> analysis-tasks.txt
+echo "dependencies|__specification__/scripts/analyze-deps.sh" >> analysis-tasks.txt
+
+# Execute in parallel
+__specification__/scripts/parallel-executor.sh execute analysis-tasks.txt
+```
 
 ## Analysis Categories
 

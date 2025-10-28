@@ -4,70 +4,68 @@ Execute when user types `/help`:
    - Is `__specification__/` or `CLAUDE.md` present?
    - Does `features/` directory exist?
    - What files exist in most recent feature?
+   - Current workflow phase and progress
 
-2. Based on context, provide targeted help:
+2. Based on context, provide simplified, targeted help:
 
 **If no __specification__/ directory:**
 ```
-📚 Getting Started with Flow
+🧭 Getting Started with Navi
 
-You haven't initialized Flow yet.
+You haven't initialized Navi yet.
 
-Start with:
-• flow:init --type=greenfield (new project)
-• flow:init --type=brownfield (existing project)
+Quick Start:
+→ /navi init
 
-Then:
-• flow:specify "Your feature description"
+This sets up Navi in your project.
+After that, just type /navi to continue.
 ```
 
 **If __specification__/ exists but no features:**
 ```
-📚 Flow Help - Ready to Start
+🧭 Navi Ready!
 
-Flow is initialized. Create your first feature:
+What to do next:
+→ /navi specify "Your feature description"
 
-• flow:specify "Feature description"
-  Creates a new feature specification
+Example:
+/navi specify "User authentication with OAuth"
 
-• /status - Check current state
-• /help flow:specify - Detailed help for specify
+Tip: Just type /navi for guided help
 ```
 
 **If in specification phase (only spec.md):**
 ```
-📚 Flow Help - Specification Phase
+🧭 Specification Complete ✓
 
-Current: Specification complete
+Your next step:
+→ /navi plan
 
-Next steps:
-• flow:clarify - Resolve ambiguous requirements
-• flow:plan - Create technical design
-• /status - Check current state
+This will create the technical design.
 ```
 
 **If in planning phase (spec.md + plan.md):**
 ```
-📚 Flow Help - Planning Phase
+🧭 Plan Complete ✓
 
-Current: Technical plan complete
+Your next step:
+→ /navi tasks
 
-Next steps:
-• flow:tasks - Break down into tasks
-• flow:update - Modify specification
-• /status - View progress
+This breaks the plan into tasks.
 ```
 
 **If in implementation (has tasks.md):**
 ```
-📚 Flow Help - Implementation Phase
+⚡ Implementation Progress
 
-Current: {n}/{total} tasks complete
+Tasks: {completed}/{total} complete
 
-Next steps:
-• flow:implement --continue - Continue implementation
-• /status - Check detailed progress
-• /session save - Save checkpoint
+Continue:
+→ /navi implement
+→ /navi implement --parallel (60% faster)
+
+Check progress:
+→ /navi status
 ```
 
 3. Always include these commands:

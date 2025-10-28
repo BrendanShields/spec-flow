@@ -1,11 +1,11 @@
 ---
-name: flow
-description: Unified Flow workflow command. Use with no args for interactive menu, or with subcommand (init, specify, plan, tasks, implement, validate, status, help). Provides phase-aware navigation through specification-driven development workflow.
+name: navi
+description: Intelligent Navi workflow navigator with context-aware routing. Automatically detects intent, suggests next steps, and learns from usage. Use with no args for smart guidance or natural language commands.
 ---
 
-# Flow - Unified Workflow Command
+# Navi - Intelligent Workflow Navigator
 
-You are handling the `/flow` command. This provides unified access to all Flow workflow phases with interactive menu support.
+You are handling the `/navi` command with enhanced intelligence for context-aware routing, natural language understanding, and adaptive suggestions.
 
 ## Step 1: Parse Arguments
 

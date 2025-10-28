@@ -1,10 +1,10 @@
 ---
-name: flow:plan
+name: navi:plan
 description: Create technical implementation plan from specification. Use when 1) Spec is complete and need technical design, 2) Determining architecture for feature, 3) Designing components/APIs/data models, 4) Before breaking down into tasks, 5) Need research-backed technical decisions and ADRs. Creates plan.md with technical decisions and component design.
 allowed-tools: Read, Write, Edit, Task, WebSearch
 ---
 
-# Flow Plan
+# Navi Plan
 
 Create comprehensive implementation plans with architecture decisions, technical design, and research-backed recommendations.
 
@@ -25,11 +25,27 @@ Transforms specifications into actionable technical plans:
 - Document decisions in `research.md`
 - Create Architecture Decision Records (ADRs)
 
-Uses **flow-researcher** subagent for:
+Uses **navi-researcher** subagent for:
 - Technology stack evaluation
 - Architecture pattern recommendations
 - Best practices research
 - Performance/security strategies
+
+**Parallel Research Operations:**
+- [P] Research multiple technology options simultaneously
+- [P] Evaluate different architecture patterns in parallel
+- [P] Search for best practices across multiple domains
+- [P] Analyze security patterns for different components
+- [P] Benchmark performance strategies concurrently
+
+**Integration with Parallel Executor:**
+```bash
+# Extract research topics
+grep -E "^\[RESEARCH\]" spec.md > research-topics.txt
+
+# Execute parallel research
+__specification__/scripts/parallel-executor.sh execute research-tasks.txt
+```
 
 ### Phase 1: Design & Contracts
 - Generate `data-model.md` with entity definitions
@@ -49,7 +65,7 @@ Uses **flow-researcher** subagent for:
 
 ## MCP Integration (Confluence)
 
-When `FLOW_ATLASSIAN_SYNC=enabled`, syncs plan to Confluence:
+When `NAVI_ATLASSIAN_SYNC=enabled`, syncs plan to Confluence:
 - Creates "Implementation Plan" subpage under feature
 - Formats ADRs as decision tables
 - Embeds data model with entity diagrams

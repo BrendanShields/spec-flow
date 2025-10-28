@@ -1,16 +1,16 @@
 ---
-name: flow:implement
+name: navi:implement
 description: Execute all tasks from tasks.md autonomously. Use when 1) Tasks are ready and want automated implementation, 2) User says "implement/build/code this", 3) Resuming after interruption with --resume, 4) Building specific priority only (--filter=P1), 5) Need autonomous code generation with test execution. Executes with parallel processing and marks tasks complete.
 allowed-tools: Read, Write, Edit, Bash, Task, Grep, Glob
 ---
 
-# Flow Implement: Autonomous Task Execution
+# Navi Implement: Autonomous Task Execution
 
 Execute implementation tasks from `tasks.md` with parallel processing and intelligent error handling.
 
 ## When to Use
 
-- After generating tasks with `flow:tasks`
+- After generating tasks with `navi:tasks`
 - Ready to build the actual implementation
 - Want autonomous execution with minimal intervention
 
@@ -18,7 +18,7 @@ Execute implementation tasks from `tasks.md` with parallel processing and intell
 
 1. **Loads** tasks.md and parses task structure
 2. **Validates** prerequisites (checklists, dependencies)
-3. **Executes** tasks using `flow-implementer` subagent:
+3. **Executes** tasks using `navi-implementer` subagent:
    - Parallel execution of independent tasks
    - Dependency resolution
    - Error recovery with retry logic
@@ -40,11 +40,27 @@ Tasks marked `[P]` execute concurrently when:
 - No shared dependencies
 - Different user stories
 
+**Parallel Operations:**
+- [P] Load and parse multiple task files simultaneously
+- [P] Validate prerequisites for independent user stories
+- [P] Execute non-dependent tasks in worker pool
+- [P] Run tests for different components concurrently
+- [P] Update progress tracking for parallel tasks
+
 ```
 ⚡ Running 5 tasks in parallel:
 [T012] Creating User model...      ███░░ 60%
 [T013] Creating Auth service...    ██░░░ 40%
 [T014] Setting up database...      ████░ 80%
+```
+
+**Integration with Parallel Executor:**
+```bash
+# Extract parallel tasks
+__specification__/scripts/parallel-executor.sh extract tasks.md
+
+# Execute with worker pool
+__specification__/scripts/parallel-executor.sh execute parallel-tasks.txt
 ```
 
 ### Error Recovery
@@ -76,7 +92,7 @@ Tasks marked `[P]` execute concurrently when:
 
 ## MCP Integration (JIRA)
 
-When `FLOW_ATLASSIAN_SYNC=enabled`, automatically syncs task progress to JIRA:
+When `NAVI_ATLASSIAN_SYNC=enabled`, automatically syncs task progress to JIRA:
 - Updates subtask status (To Do → In Progress → Done)
 - Adds implementation comments with file paths and duration
 - Provides real-time visibility for team
@@ -104,9 +120,9 @@ See [reference.md](./reference.md) for:
 
 ## Related Skills
 
-- **flow-implementer** (subagent): Executes tasks autonomously
-- **flow:tasks**: Generates implementation tasks
-- **flow:checklist**: Quality gates before implementation
+- **navi-implementer** (subagent): Executes tasks autonomously
+- **navi:tasks**: Generates implementation tasks
+- **navi:checklist**: Quality gates before implementation
 
 ## Validation
 
