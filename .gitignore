@@ -41,3 +41,20 @@ temp/
 # Build outputs
 dist/
 build/
+
+# Flow - Session State (git-ignored, session-specific)
+.flow/state/
+*.session.md
+
+# Flow - Checkpoints (optional, can be committed or ignored)
+# Uncomment to ignore checkpoints:
+# .flow/state/checkpoints/
+
+# Flow - Memory (git-committed for project history)
+# .flow/memory/ should be committed
+
+# Flow - Configuration (committed)
+# .flow/config/, .flow/templates/, .flow/scripts/ should be committed
+
+# Flow - Features (committed)
+# .flow/features/ should be committed

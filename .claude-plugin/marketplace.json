@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "flow-marketplace",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "AI-powered specification-driven development marketplace with autonomous implementation and MCP-based integrations",
   "owner": {
     "name": "Claude Code Community",

@@ -1,0 +1,37 @@
+# Flow Discover Examples
+
+See condensed examples of flow:discover in action for various scenarios.
+
+## Scenario 1: New Team Member Onboarding
+
+```bash
+flow:discover
+```
+
+Generates 5 comprehensive reports in `discovery/` directory for complete project understanding.
+
+## Scenario 2: Sprint Planning
+
+```bash
+flow:discover --focus sprint-planning
+```
+
+Analyzes team velocity and suggests point allocation for next sprint.
+
+## Scenario 3: Technical Debt Prioritization
+
+```bash
+flow:discover --focus tech-debt
+```
+
+Identifies code hotspots and JIRA tech debt items with prioritized recommendations.
+
+## Scenario 4: Weekly Updates
+
+```bash
+flow:discover --mode update
+```
+
+Incremental analysis showing changes since last discovery run.
+
+For detailed examples, see the skill's reference documentation.
