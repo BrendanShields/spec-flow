@@ -55,11 +55,11 @@ detect_current_phase() {
 # Get current feature directory
 get_current_feature_dir() {
   # Check session state for current feature
-  if [ -f ".flow/state/current-session.md" ]; then
-    local feature_id=$(grep "Feature ID:" ".flow/state/current-session.md" | cut -d':' -f2 | tr -d ' ' | head -1)
+  if [ -f "__specification__/state/current-session.md" ]; then
+    local feature_id=$(grep "Feature ID:" "__specification__/state/current-session.md" | cut -d':' -f2 | tr -d ' ' | head -1)
     if [ -n "$feature_id" ] && [ "$feature_id" != "N/A" ]; then
       # Find feature directory
-      local feature_dir=$(find .flow/features -maxdepth 1 -name "*$feature_id*" -type d 2>/dev/null | head -1)
+      local feature_dir=$(find __specification__/features -maxdepth 1 -name "*$feature_id*" -type d 2>/dev/null | head -1)
       if [ -n "$feature_dir" ]; then
         echo "$feature_dir"
         return
@@ -68,9 +68,9 @@ get_current_feature_dir() {
   fi
 
   # Fallback: get most recent feature directory
-  local latest=$(ls -t .flow/features 2>/dev/null | head -1)
+  local latest=$(ls -t __specification__/features 2>/dev/null | head -1)
   if [ -n "$latest" ]; then
-    echo ".flow/features/$latest"
+    echo "__specification__/features/$latest"
   else
     echo "none"
   fi

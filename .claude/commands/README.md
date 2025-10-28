@@ -89,9 +89,9 @@ See `WORKFLOW-EXPANSION-GUIDE.md` for detailed instructions.
 
 Commands should update state files when appropriate:
 
-- `.flow-state/current-session.md` - Current session state
-- `.flow-memory/WORKFLOW-PROGRESS.md` - Progress tracking
-- `.flow-memory/DECISIONS-LOG.md` - Decision history
+- `__specification__-state/current-session.md` - Current session state
+- `__specification__-memory/WORKFLOW-PROGRESS.md` - Progress tracking
+- `__specification__-memory/DECISIONS-LOG.md` - Decision history
 
 See `../skills/SKILL-STATE-INTEGRATION.md` for integration patterns.
 

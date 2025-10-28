@@ -8,13 +8,13 @@ Parse the action from user input:
 
 ## For `/session save`:
 
-1. Create `.flow-state/` directory if needed
+1. Create `__specification__-state/` directory if needed
 2. Gather current state:
    - Active feature from `features/` (most recent directory)
    - Current phase (based on which files exist)
    - Task progress (count [x] vs [ ] in tasks.md)
    - Git branch if available
-3. Create session file at `.flow-state/current-session.md`:
+3. Create session file at `__specification__-state/current-session.md`:
 ```markdown
 # Session State
 Updated: {timestamp}
@@ -26,8 +26,8 @@ Progress: {n}/{total} tasks
 Current Task: {current-task-line}
 Branch: {git-branch}
 ```
-4. Copy to checkpoint: `.flow-state/checkpoints/{timestamp}.md`
-5. If `--name=X` provided, also save as `.flow-state/checkpoints/{name}.md`
+4. Copy to checkpoint: `__specification__-state/checkpoints/{timestamp}.md`
+5. If `--name=X` provided, also save as `__specification__-state/checkpoints/{name}.md`
 6. Output:
 ```
 ✅ Session saved: {timestamp}
@@ -38,11 +38,11 @@ Branch: {git-branch}
 ## For `/session restore`:
 
 1. Find checkpoint:
-   - If `--checkpoint=X`, use `.flow-state/checkpoints/X.md`
-   - Otherwise use most recent `.flow-state/checkpoints/*.md`
+   - If `--checkpoint=X`, use `__specification__-state/checkpoints/X.md`
+   - Otherwise use most recent `__specification__-state/checkpoints/*.md`
 2. Read checkpoint file
 3. Extract feature ID and restore context
-4. Update `.flow-state/current-session.md`
+4. Update `__specification__-state/current-session.md`
 5. Output:
 ```
 📥 Session restored from {timestamp}
@@ -53,7 +53,7 @@ Branch: {git-branch}
 
 ## For `/session list`:
 
-1. List files in `.flow-state/checkpoints/`
+1. List files in `__specification__-state/checkpoints/`
 2. For each, extract timestamp and feature
 3. Output:
 ```
@@ -67,7 +67,7 @@ Use: /session restore --checkpoint={timestamp}
 
 ## For `/session` (no action):
 
-Show current session state if `.flow-state/current-session.md` exists, otherwise:
+Show current session state if `__specification__-state/current-session.md` exists, otherwise:
 ```
 No active session
 

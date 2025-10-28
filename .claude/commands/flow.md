@@ -20,7 +20,7 @@ Extract the subcommand (first argument) if provided:
 Use bash to detect the current workflow phase:
 
 ```bash
-source .flow/scripts/routing.sh
+source __specification__/scripts/routing.sh
 current_phase=$(detect_current_phase)
 echo "Current phase: $current_phase"
 ```
@@ -34,7 +34,7 @@ The phase will be one of: `init`, `specify`, `plan`, `tasks`, `implement`, `comp
 Check if interactive mode is enabled by reading the config:
 
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 if should_prompt_interactive; then
   echo "interactive_mode_enabled"
 else
@@ -114,7 +114,7 @@ After the user selects an option, automatically execute the corresponding skill:
 
 Show text-based menu using bash:
 ```bash
-source .flow/scripts/routing.sh
+source __specification__/scripts/routing.sh
 render_flow_menu
 ```
 
@@ -134,8 +134,8 @@ Route directly to the appropriate skill based on the subcommand:
 
 **Status Command** (inline, don't invoke skill):
 ```bash
-source .flow/scripts/routing.sh
-source .flow/scripts/config.sh
+source __specification__/scripts/routing.sh
+source __specification__/scripts/config.sh
 
 current_phase=$(detect_current_phase)
 feature_dir=$(get_current_feature_dir)
@@ -167,7 +167,7 @@ echo ""
 
 **Help Command** (inline, don't invoke skill):
 ```bash
-source .flow/scripts/routing.sh
+source __specification__/scripts/routing.sh
 
 current_phase=$(detect_current_phase)
 

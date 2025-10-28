@@ -5,11 +5,11 @@ When the user invokes `/flow-status`, execute the following:
 ## Instructions
 
 1. **Check if Flow is initialized**
-   - Look for `.flow/` directory or `CLAUDE.md` file
+   - Look for `__specification__/` directory or `CLAUDE.md` file
    - If not found, inform user to run `flow:init`
 
 2. **Find active feature**
-   - Check `.flow-state/current-session.md` for active feature
+   - Check `__specification__-state/current-session.md` for active feature
    - If not found, look in `features/` for most recent directory
    - If no features exist, report "No active workflow"
 
@@ -76,10 +76,10 @@ Display a structured status report with the following sections:
 ## Integration
 
 This command reads from:
-- `.flow-state/current-session.md` (if exists)
-- `.flow-memory/WORKFLOW-PROGRESS.md` (if exists)
+- `__specification__-state/current-session.md` (if exists)
+- `__specification__-memory/WORKFLOW-PROGRESS.md` (if exists)
 - `features/*/spec.md`, `plan.md`, `tasks.md`
-- `.flow/architecture-blueprint.md`
+- `__specification__/architecture-blueprint.md`
 
 ## Error Handling
 

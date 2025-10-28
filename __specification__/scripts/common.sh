@@ -19,7 +19,7 @@ to_kebab_case() {
 
 # Get current feature from session
 get_current_feature() {
-    local session_file=".flow-state/current-session.md"
+    local session_file="__specification__-state/current-session.md"
     if [ -f "$session_file" ]; then
         grep "Feature ID" "$session_file" | head -1 | cut -d':' -f2 | xargs
     fi
@@ -27,7 +27,7 @@ get_current_feature() {
 
 # Update session timestamp
 update_session_timestamp() {
-    local session_file=".flow-state/current-session.md"
+    local session_file="__specification__-state/current-session.md"
     if [ -f "$session_file" ]; then
         local timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
         sed -i.bak "s/\*\*Updated\*\*: .*/\*\*Updated\*\*: $timestamp/" "$session_file"
@@ -37,7 +37,7 @@ update_session_timestamp() {
 
 # Check if Flow is initialized
 check_flow_initialized() {
-    if [ ! -d ".flow" ] || [ ! -d ".flow-state" ] || [ ! -d ".flow-memory" ]; then
+    if [ ! -d "__specification__" ] || [ ! -d "__specification__-state" ] || [ ! -d "__specification__-memory" ]; then
         echo "Error: Flow not initialized. Run '/flow-init' first."
         return 1
     fi
@@ -75,19 +75,19 @@ validate_file_exists() {
 # Create checkpoint
 create_checkpoint() {
     local checkpoint_name="${1:-auto-checkpoint}"
-    local checkpoint_dir=".flow-state/checkpoints"
+    local checkpoint_dir="__specification__-state/checkpoints"
     mkdir -p "$checkpoint_dir"
 
     local timestamp=$(date -u +"%Y%m%d-%H%M%S")
     local checkpoint_file="$checkpoint_dir/${timestamp}-${checkpoint_name}.md"
 
-    cp ".flow-state/current-session.md" "$checkpoint_file"
+    cp "__specification__-state/current-session.md" "$checkpoint_file"
     echo "Checkpoint created: $checkpoint_file"
 }
 
 # List checkpoints
 list_checkpoints() {
-    local checkpoint_dir=".flow-state/checkpoints"
+    local checkpoint_dir="__specification__-state/checkpoints"
     if [ -d "$checkpoint_dir" ]; then
         ls -1t "$checkpoint_dir"/*.md 2>/dev/null | head -10
     fi
@@ -96,10 +96,10 @@ list_checkpoints() {
 # Restore from checkpoint
 restore_checkpoint() {
     local checkpoint="$1"
-    local checkpoint_dir=".flow-state/checkpoints"
+    local checkpoint_dir="__specification__-state/checkpoints"
 
     if [ -f "$checkpoint_dir/$checkpoint" ]; then
-        cp "$checkpoint_dir/$checkpoint" ".flow-state/current-session.md"
+        cp "$checkpoint_dir/$checkpoint" "__specification__-state/current-session.md"
         echo "Restored from checkpoint: $checkpoint"
         return 0
     else

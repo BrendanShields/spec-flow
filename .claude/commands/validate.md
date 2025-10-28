@@ -1,7 +1,7 @@
 Execute when user types `/validate` or `/validate --fix`:
 
 1. Find active feature:
-   - Check `.flow-state/current-session.md`
+   - Check `__specification__-state/current-session.md`
    - Or use most recent in `features/`
 
 2. If no feature found:

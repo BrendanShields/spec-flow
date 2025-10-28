@@ -17,7 +17,7 @@ Detect all connected MCP servers:
 /mcp  # Lists connected servers
 ```
 
-Compare against `.flow/extensions.json` registry to identify:
+Compare against `__specification__/extensions.json` registry to identify:
 - **New servers**: Never configured
 - **Configured servers**: Already set up
 - **Unconfigured servers**: Known but not enabled
@@ -111,7 +111,7 @@ FLOW_LINEAR_TEAM_ID=TEAM-abc
 FLOW_SENTRY_PROJECT=my-project
 ```
 
-**Update .flow/extensions.json**:
+**Update __specification__/extensions.json**:
 ```json
 {
   "version": "1.0",
@@ -137,7 +137,7 @@ Create integration-specific templates:
 - `linear-issue-template.md` (Linear)
 - `custom-[name]-template.md` (Custom MCPs)
 
-Save to `.flow/templates/`
+Save to `__specification__/templates/`
 
 ### 7. Completion Message
 
@@ -150,10 +150,10 @@ Enhanced skills:
 
 Updated:
   CLAUDE.md
-  .flow/extensions.json
+  __specification__/extensions.json
 
 Created:
-  .flow/templates/github-pr-template.md
+  __specification__/templates/github-pr-template.md
 
 Next: Run flow:tasks to sync existing tasks
 ```

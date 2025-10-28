@@ -194,7 +194,7 @@ After implementation, verify:
 
 ## Progress Tracking
 
-Update `.flow-state/current-session.md` after completing each task.
+Update `__specification__-state/current-session.md` after completing each task.
 
 ---
 

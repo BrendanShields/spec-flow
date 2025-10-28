@@ -1,6 +1,6 @@
 # Flow Workflow System
 
-Flow is a specification-driven development workflow for Claude Code. Quick reference below, [full docs here](.flow/docs/CLAUDE-FLOW.md).
+Flow is a specification-driven development workflow for Claude Code. Quick reference below, [full docs here](__specification__/docs/CLAUDE-FLOW.md).
 
 ## Quick Commands
 
@@ -18,11 +18,11 @@ Flow is a specification-driven development workflow for Claude Code. Quick refer
 
 ## Configuration
 
-**Location**: `.flow/config/flow.json`
+**Location**: `__specification__/config/flow.json`
 
 ```bash
 # Read config
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 project_type=$(get_flow_config "project.type")
 
 # Update config
@@ -38,7 +38,7 @@ set_flow_config "integrations.jira.enabled" "true"
 ## Directory Structure
 
 ```
-.flow/
+__specification__/
 ├── config/          # Configuration (flow.json)
 ├── state/           # Session state (git-ignored)
 ├── memory/          # Progress, decisions, changes (committed)
@@ -48,7 +48,7 @@ set_flow_config "integrations.jira.enabled" "true"
 └── docs/            # Complete documentation
 ```
 
-**See**: [.flow/docs/CLAUDE-FLOW.md](.flow/docs/CLAUDE-FLOW.md) for complete documentation.
+**See**: [__specification__/docs/CLAUDE-FLOW.md](__specification__/docs/CLAUDE-FLOW.md) for complete documentation.
 
 ---
 

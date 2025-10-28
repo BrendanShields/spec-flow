@@ -6,7 +6,7 @@
 
 **Sequence**:
 ```
-flow:init → Creates .flow/ structure
+flow:init → Creates __specification__/ structure
 flow:blueprint → Architecture (microservices) + tech stack (Node/React/PostgreSQL)
 flow:specify → Comprehensive spec with P1/P2/P3 stories
 flow:clarify → Resolves: payment gateway (Stripe), inventory tracking (Yes)

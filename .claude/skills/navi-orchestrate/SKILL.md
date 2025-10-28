@@ -46,14 +46,14 @@ flow:implement --skip-checklists
 ## Execution Phases
 
 ### 1. Project Assessment
-- Check if Flow is initialized (`.flow/` exists)
+- Check if Flow is initialized (`__specification__/` exists)
 - Determine project type (greenfield/brownfield/feature)
 - Identify current workflow position
 - Load saved state if workflow was interrupted
 
 ### 2. Setup
 Execute if needed:
-- `flow:init` - Create `.flow/` structure
+- `flow:init` - Create `__specification__/` structure
 - `flow:blueprint` - Define architecture (greenfield only)
 - `flow:update` - Configure new MCP servers
 
@@ -90,7 +90,7 @@ Execute sequence:
 | `flow:checklist` | POC mode or not configured |
 
 ### Required Steps
-- `flow:init` - Always run if `.flow/` doesn't exist
+- `flow:init` - Always run if `__specification__/` doesn't exist
 - `flow:specify` - Always run if no spec exists
 - `flow:plan` - Always run if no plan exists
 - `flow:tasks` - Always run if no tasks exist
@@ -114,7 +114,7 @@ Next: Clarify ambiguities
 ETA: ~12 minutes
 ```
 
-State saved to `.flow/.orchestration-state.json` for resumption.
+State saved to `__specification__/.orchestration-state.json` for resumption.
 
 ## Interactive Mode
 

@@ -112,7 +112,7 @@ See [REFERENCE.md](./REFERENCE.md) for:
 After successfully creating the task breakdown, check if interactive transitions are enabled:
 
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 
 if should_prompt_transitions; then
   # Show transition prompt using AskUserQuestion

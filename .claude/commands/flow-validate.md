@@ -142,7 +142,7 @@ Summary:
 ❌ FAILED: Does not meet strict criteria
 
 Critical Issues:
-1. Blueprint not defined (.flow/architecture-blueprint.md missing)
+1. Blueprint not defined (__specification__/architecture-blueprint.md missing)
 2. No test coverage requirements in spec
 3. Missing error handling scenarios
 4. No performance criteria defined

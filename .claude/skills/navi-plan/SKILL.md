@@ -60,7 +60,7 @@ See [REFERENCE.md](./REFERENCE.md#mcp-integration-confluence) for detailed sync 
 
 ## Blueprint Validation
 
-If `.flow/architecture-blueprint.md` exists:
+If `__specification__/architecture-blueprint.md` exists:
 - Validates technology choices against approved stack
 - Ensures API design follows guidelines
 - Confirms data modeling conventions
@@ -91,7 +91,7 @@ See [REFERENCE.md](./REFERENCE.md) for:
 After successfully creating the technical plan, check if interactive transitions are enabled:
 
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 
 if should_prompt_transitions; then
   # Show transition prompt using AskUserQuestion

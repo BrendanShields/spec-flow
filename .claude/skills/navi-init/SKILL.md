@@ -1,6 +1,6 @@
 ---
 name: flow:init
-description: Initialize Flow for specification-driven development. Use when 1) Starting new project (greenfield), 2) Adding Flow to existing codebase (brownfield), 3) User says "setup/configure/initialize flow", 4) Reconfiguring after adding MCP servers, 5) Setting up JIRA/Confluence integration. Creates .flow/ directory with templates and configuration.
+description: Initialize Flow for specification-driven development. Use when 1) Starting new project (greenfield), 2) Adding Flow to existing codebase (brownfield), 3) User says "setup/configure/initialize flow", 4) Reconfiguring after adding MCP servers, 5) Setting up JIRA/Confluence integration. Creates __specification__/ directory with templates and configuration.
 allowed-tools: Bash, Write, Read, Edit, AskUserQuestion
 ---
 
@@ -139,7 +139,7 @@ Build questions array dynamically:
 Validate user inputs and re-prompt if invalid:
 
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 
 # Validate JIRA key if provided
 if [ -n "$jira_key" ]; then
@@ -171,7 +171,7 @@ fi
 
 Create JSON configuration file:
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 
 # Initialize with project type
 init_flow_config "$project_type"
@@ -196,9 +196,9 @@ validate_flow_config
 
 Create directory structure:
 ```bash
-# Create all .flow subdirectories
-mkdir -p .flow/{config,state,memory,features,templates,scripts,docs}
-mkdir -p .flow/state/checkpoints
+# Create all __specification__ subdirectories
+mkdir -p __specification__/{config,state,memory,features,templates,scripts,docs}
+mkdir -p __specification__/state/checkpoints
 
 # Initialize state management
 source .claude/commands/lib/init-state.sh
@@ -211,7 +211,7 @@ Copy templates from plugin (if available):
 ```bash
 # Check if plugin templates exist
 if [ -d "plugins/flow/templates" ]; then
-  cp plugins/flow/templates/*.md .flow/templates/ 2>/dev/null || true
+  cp plugins/flow/templates/*.md __specification__/templates/ 2>/dev/null || true
 fi
 
 # Copy script utilities (already created in Phase 1)
@@ -224,7 +224,7 @@ Prepend concise Flow section to root CLAUDE.md:
 ```markdown
 # Flow Workflow System
 
-Flow is initialized. For complete documentation, see [.flow/docs/FLOW-GUIDE.md](.flow/docs/FLOW-GUIDE.md).
+Flow is initialized. For complete documentation, see [__specification__/docs/FLOW-GUIDE.md](__specification__/docs/FLOW-GUIDE.md).
 
 ## Quick Commands
 
@@ -241,7 +241,7 @@ Project: {project_type}
 JIRA: {enabled/disabled} {project_key if enabled}
 Confluence: {enabled/disabled} {page_id if enabled}
 
-Configuration file: `.flow/config/flow.json`
+Configuration file: `__specification__/config/flow.json`
 
 ---
 
@@ -252,18 +252,18 @@ Configuration file: `.flow/config/flow.json`
 
 Use enhanced output formatting:
 ```bash
-source .flow/scripts/format-output.sh
+source __specification__/scripts/format-output.sh
 
 # Success message with TLDR
 tldr_content="Flow initialized successfully!
 • Project type: $project_type
 • JIRA: $([ "$jira_enabled" = "true" ] && echo "Enabled ($jira_key)" || echo "Disabled")
 • Confluence: $([ "$confluence_enabled" = "true" ] && echo "Enabled ($confluence_id)" || echo "Disabled")
-• Config: .flow/config/flow.json"
+• Config: __specification__/config/flow.json"
 
 next_steps="➡️  /flow specify \"Your first feature\"
 ➡️  /flow help (for context-aware guidance)
-➡️  See .flow/docs/ for complete documentation"
+➡️  See __specification__/docs/ for complete documentation"
 
 format_complete_success "Flow Initialized" "$tldr_content" "" "$next_steps"
 ```
@@ -298,7 +298,7 @@ Skips Confluence prompts. Validates numeric format.
 
 ## Configuration File
 
-Settings stored in `.flow/config/flow.json`:
+Settings stored in `__specification__/config/flow.json`:
 ```json
 {
   "version": "2.0",
@@ -330,9 +330,9 @@ Settings stored in `.flow/config/flow.json`:
 - `interactive_mode` (default: `true`) - Enable/disable AskUserQuestion interactive prompts
 - `interactive_transitions` (default: `false`) - Show transition prompts between workflow phases
 
-Other skills read config using `.flow/scripts/config.sh`:
+Other skills read config using `__specification__/scripts/config.sh`:
 ```bash
-source .flow/scripts/config.sh
+source __specification__/scripts/config.sh
 project_type=$(get_flow_config "project.type")
 jira_key=$(get_flow_config "integrations.jira.project_key")
 ```

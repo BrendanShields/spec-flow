@@ -104,9 +104,9 @@ const connectedServers = parseMcpOutput(mcpOutput);
 ### 2. Load Known Registry
 
 ```javascript
-// Read .flow/extensions.json
+// Read __specification__/extensions.json
 const registry = JSON.parse(
-  fs.readFileSync('.flow/extensions.json', 'utf-8')
+  fs.readFileSync('__specification__/extensions.json', 'utf-8')
 );
 
 // Example registry:
@@ -273,9 +273,9 @@ function generateTemplate(mcpName, pattern) {
   // 3. Customize for MCP
   const customized = customizeTemplate(baseTemplate, mcpName);
 
-  // 4. Save to .flow/templates/
+  // 4. Save to __specification__/templates/
   fs.writeFileSync(
-    `.flow/templates/${mcpName}-template.md`,
+    `__specification__/templates/${mcpName}-template.md`,
     customized
   );
 }
@@ -477,7 +477,7 @@ function loadFlowConfig() {
   const config = parseFlowConfig(claudeMd);
 
   const extensions = JSON.parse(
-    fs.readFileSync('.flow/extensions.json', 'utf-8')
+    fs.readFileSync('__specification__/extensions.json', 'utf-8')
   );
 
   return { config, extensions };
@@ -682,7 +682,7 @@ EOF
 grep FLOW_ CLAUDE.md
 
 # View registry
-cat .flow/extensions.json | jq '.knownServers'
+cat __specification__/extensions.json | jq '.knownServers'
 
 # Test MCP connection
 /mcp

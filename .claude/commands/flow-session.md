@@ -114,7 +114,7 @@ Checkpoints are automatically created:
 ## Session State Structure
 
 ```
-.flow-state/
+__specification__-state/
 ├── current-session.md          # Active state
 ├── session-history.md          # Session log
 ├── workflow-state.json         # Machine-readable

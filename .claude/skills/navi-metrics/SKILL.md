@@ -12,7 +12,7 @@ View comprehensive metrics about AI-generated vs human-modified code, productivi
 
 ### 1. Load Metrics
 
-Read from `.flow/.metrics.json`:
+Read from `__specification__/.metrics.json`:
 ```javascript
 {
   "totals": {
@@ -141,7 +141,7 @@ The `track-metrics.js` hook automatically:
 
 Stored in:
 ```
-.flow/
+__specification__/
 ├── .metrics.json           # Current metrics
 └── metrics-history/        # Historical snapshots
     ├── metrics-2024-10-21T10.json
@@ -167,7 +167,7 @@ FLOW_METRICS_AUTO_REPORT=daily  # hourly|daily|weekly
 
 ## Privacy
 
-- All metrics stored locally in `.flow/`
+- All metrics stored locally in `__specification__/`
 - No external transmission
 - File contents not stored, only statistics
 - Can be disabled via configuration

@@ -12,9 +12,9 @@ Invoke the `flow:init` skill to initialize a Flow workflow in your project.
 ## What It Does
 
 Initializes the Flow specification-driven development system in your project:
-1. Creates `.flow/` directory structure
+1. Creates `__specification__/` directory structure
 2. Sets up templates for specs, plans, tasks
-3. Initializes state management (`.flow-state/`, `.flow-memory/`)
+3. Initializes state management (`__specification__-state/`, `__specification__-memory/`)
 4. Configures integration settings (optional)
 
 ## When to Use
@@ -72,7 +72,7 @@ When you run `/flow-init`, this command invokes the `flow:init` skill with the s
 ## What Gets Created
 
 ```
-.flow/
+__specification__/
 ├── product-requirements.md (template)
 ├── architecture-blueprint.md (template)
 ├── templates/
@@ -82,11 +82,11 @@ When you run `/flow-init`, this command invokes the `flow:init` skill with the s
 └── scripts/
     └── common.sh
 
-.flow-state/
+__specification__-state/
 ├── current-session.md
 └── checkpoints/
 
-.flow-memory/
+__specification__-memory/
 ├── WORKFLOW-PROGRESS.md
 ├── DECISIONS-LOG.md
 ├── CHANGES-PLANNED.md
@@ -130,7 +130,7 @@ FLOW_VALIDATE_ON_SAVE=true
 
 **Already initialized?**
 ```
-Error: .flow/ directory already exists
+Error: __specification__/ directory already exists
 
 Solution: Flow is already initialized. Use:
 - /status to check current state
@@ -139,7 +139,7 @@ Solution: Flow is already initialized. Use:
 
 **Permission errors?**
 ```
-Error: Cannot create .flow/ directory
+Error: Cannot create __specification__/ directory
 
 Solution: Check write permissions in current directory
 ```

@@ -458,4 +458,4 @@ If items remain `[ ]`:
 
 - `spec.md` - Specification being validated (input)
 - `checklists/[domain].md` - Generated checklist (output)
-- `.flow/templates/checklist-template.md` - Template for custom checklists
+- `__specification__/templates/checklist-template.md` - Template for custom checklists

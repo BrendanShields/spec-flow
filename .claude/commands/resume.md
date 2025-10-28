@@ -1,8 +1,8 @@
 Execute when user types `/resume`:
 
 1. Check for existing session:
-   - Look for `.flow-state/current-session.md`
-   - If not found, look for most recent checkpoint in `.flow-state/checkpoints/`
+   - Look for `__specification__-state/current-session.md`
+   - If not found, look for most recent checkpoint in `__specification__-state/checkpoints/`
 
 2. If session found:
    - Read session file

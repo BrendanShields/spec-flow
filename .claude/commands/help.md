@@ -1,13 +1,13 @@
 Execute when user types `/help`:
 
 1. Detect current context by checking:
-   - Is `.flow/` or `CLAUDE.md` present?
+   - Is `__specification__/` or `CLAUDE.md` present?
    - Does `features/` directory exist?
    - What files exist in most recent feature?
 
 2. Based on context, provide targeted help:
 
-**If no .flow/ directory:**
+**If no __specification__/ directory:**
 ```
 📚 Getting Started with Flow
 
@@ -21,7 +21,7 @@ Then:
 • flow:specify "Your feature description"
 ```
 
-**If .flow/ exists but no features:**
+**If __specification__/ exists but no features:**
 ```
 📚 Flow Help - Ready to Start
 

@@ -52,11 +52,11 @@ Updated:
     FLOW_GITHUB_PROJECT_ID=PVT_kwDOABCD123
     FLOW_GITHUB_AUTO_PR=true
 
-  .flow/extensions.json:
+  __specification__/extensions.json:
     Added GitHub MCP configuration
 
 Created:
-  .flow/templates/github-pr-template.md
+  __specification__/templates/github-pr-template.md
 
 Enhanced skills:
   • flow:tasks - Now syncs to GitHub Projects
@@ -106,7 +106,7 @@ Updated:
     FLOW_LINEAR_TEAM_ID=TEAM-abc123
 
 Created:
-  .flow/templates/linear-issue-template.md
+  __specification__/templates/linear-issue-template.md
 
 Your next flow:specify will create Linear issues!
 ```
@@ -156,7 +156,7 @@ User: Y
 ✓ Created custom integration!
 
 Updated:
-  .flow/extensions.json:
+  __specification__/extensions.json:
     {
       "company-tracker": {
         "package": "npx company-tracker@latest",
@@ -226,8 +226,8 @@ Summary:
 
 Updated:
   CLAUDE.md: Added 3 integration configs
-  .flow/extensions.json: 6 total MCPs configured
-  .flow/templates/: 3 new templates
+  __specification__/extensions.json: 6 total MCPs configured
+  __specification__/templates/: 3 new templates
 
 Next: flow:specify to use all integrations
 ```
@@ -352,7 +352,7 @@ Updated:
 Preserved:
   • Configuration values (for re-enabling)
   • Templates (for reference)
-  • .flow/extensions.json entry
+  • __specification__/extensions.json entry
 
 To re-enable: flow:update --enable Linear
 ```
@@ -520,12 +520,12 @@ flow:update --disable Linear
 **Solution**:
 ```bash
 # Manual template creation
-cat > .flow/templates/new-integration-template.md <<'EOF'
+cat > __specification__/templates/new-integration-template.md <<'EOF'
 # Template content...
 EOF
 
 # Or copy from plugin
-cp plugins/flow/templates/templates/integration-template.md .flow/templates/
+cp plugins/flow/templates/templates/integration-template.md __specification__/templates/
 ```
 
 ---

@@ -1,11 +1,11 @@
 #!/bin/bash
 # Flow Configuration Management
-# Manages JSON configuration at .flow/config/flow.json
+# Manages JSON configuration at __specification__/config/flow.json
 
 # Initialize config with defaults
 init_flow_config() {
   local type="${1:-brownfield}"
-  local config_dir=".flow/config"
+  local config_dir="__specification__/config"
   local config_file="$config_dir/flow.json"
 
   # Create config directory if needed
@@ -46,7 +46,7 @@ EOF
 # Usage: get_flow_config "project.type"
 get_flow_config() {
   local key="$1"
-  local config_file=".flow/config/flow.json"
+  local config_file="__specification__/config/flow.json"
 
   if [ ! -f "$config_file" ]; then
     echo "Error: Config file not found at $config_file" >&2
@@ -68,7 +68,7 @@ get_flow_config() {
 set_flow_config() {
   local key="$1"
   local value="$2"
-  local config_file=".flow/config/flow.json"
+  local config_file="__specification__/config/flow.json"
 
   if [ ! -f "$config_file" ]; then
     echo "Error: Config file not found at $config_file" >&2
@@ -94,7 +94,7 @@ set_flow_config() {
 
 # Validate config file
 validate_flow_config() {
-  local config_file=".flow/config/flow.json"
+  local config_file="__specification__/config/flow.json"
 
   if [ ! -f "$config_file" ]; then
     echo "Error: Config file not found at $config_file" >&2
@@ -187,7 +187,7 @@ should_prompt_interactive() {
   fi
 
   # Check config
-  local config_file=".flow/config/flow.json"
+  local config_file="__specification__/config/flow.json"
   if [ -f "$config_file" ] && command -v jq &> /dev/null; then
     local interactive=$(jq -r '.preferences.interactive_mode // true' "$config_file" 2>/dev/null)
     if [ "$interactive" = "false" ]; then
@@ -201,7 +201,7 @@ should_prompt_interactive() {
 # Check if phase transition prompts should be shown
 # Returns 0 (true) if transition prompts should be shown, 1 (false) if they should be skipped
 should_prompt_transitions() {
-  local config_file=".flow/config/flow.json"
+  local config_file="__specification__/config/flow.json"
 
   if [ -f "$config_file" ] && command -v jq &> /dev/null; then
     local enabled=$(jq -r '.preferences.interactive_transitions // false' "$config_file" 2>/dev/null)

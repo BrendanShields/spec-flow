@@ -452,4 +452,4 @@ Use when:
 - `spec.md` - Source for user stories and priorities
 - `plan.md` - Source for component breakdown
 - `tasks.md` - Output task list
-- `.flow/architecture-blueprint.md` - Task structure guidance
+- `__specification__/architecture-blueprint.md` - Task structure guidance

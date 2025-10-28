@@ -12,7 +12,7 @@ flow:init --skip-integrations
 ```
 ✓ Flow initialized (standalone mode)
 Created:
-  .flow/
+  __specification__/
   ├── product-requirements.md (skeleton)
   ├── architecture-blueprint.md (skeleton)
   ├── scripts/ (bash utilities)
@@ -62,7 +62,7 @@ User: Y
 ✓ Flow initialized successfully!
 
 Created:
-  .flow/
+  __specification__/
   ├── product-requirements.md
   ├── architecture-blueprint.md
   ├── contracts/
@@ -107,7 +107,7 @@ Flow: ✓ Found: Atlassian MCP
 Flow: Enable Atlassian integration? [Y/n]
 User: n
 
-Flow: Creating .flow/ directory structure...
+Flow: Creating __specification__/ directory structure...
 ```
 
 **Result**:
@@ -115,7 +115,7 @@ Flow: Creating .flow/ directory structure...
 ✓ Flow initialized (no integrations)
 
 Created:
-  .flow/
+  __specification__/
   ├── product-requirements.md (document existing)
   ├── architecture-blueprint.md (extract from code)
   ├── scripts/
@@ -136,7 +136,7 @@ Next steps:
 ```
 User: flow:init --reconfigure
 
-Flow: Detected existing .flow/ directory
+Flow: Detected existing __specification__/ directory
 Flow: Detecting new MCP servers...
 Flow: ✓ Found: Atlassian MCP (already configured)
 Flow: ✓ Found: GitHub MCP (new!)
@@ -157,11 +157,11 @@ Updated:
     FLOW_GITHUB_SYNC=enabled
     FLOW_GITHUB_PROJECT_ID=PVT_kwDOABCD123
 
-  .flow/extensions.json:
+  __specification__/extensions.json:
     Added GitHub MCP configuration
 
 Created:
-  .flow/templates/github-pr-template.md
+  __specification__/templates/github-pr-template.md
 
 GitHub integration now available in:
   • flow:tasks - Sync to GitHub Projects
@@ -180,7 +180,7 @@ Next: Run flow:tasks to sync existing tasks
 User: flow:init --skip-integrations --type greenfield
 
 Flow: Skipping MCP detection...
-Flow: Creating minimal .flow/ structure...
+Flow: Creating minimal __specification__/ structure...
 ```
 
 **Result**:
@@ -188,7 +188,7 @@ Flow: Creating minimal .flow/ structure...
 ✓ Flow initialized (minimal mode)
 
 Created:
-  .flow/
+  __specification__/
   ├── scripts/
   └── templates/
 
@@ -234,7 +234,7 @@ User: 1
 ✓ Flow initialized (API-first mode)
 
 Created:
-  .flow/
+  __specification__/
   ├── contracts/
   │   ├── openapi.yaml (REST API template)
   │   └── README.md (contract documentation)
@@ -252,7 +252,7 @@ Updated:
 
 Next steps:
   1. flow:blueprint (define API architecture)
-  2. Define API contracts in .flow/contracts/openapi.yaml
+  2. Define API contracts in __specification__/contracts/openapi.yaml
   3. flow:specify "First API endpoint"
 ```
 
@@ -290,7 +290,7 @@ User: Y
 ✓ Flow initialized (enterprise mode)
 
 Created:
-  .flow/
+  __specification__/
   ├── compliance/
   │   ├── soc2-checklist.md
   │   └── gdpr-checklist.md
@@ -344,10 +344,10 @@ Each reconfigure run detects new MCPs and offers integration.
 flow:init
 
 # After init, replace templates
-cp team-templates/*.md .flow/templates/
+cp team-templates/*.md __specification__/templates/
 
 # Update template references in scripts
-vim .flow/scripts/create-new-feature.sh
+vim __specification__/scripts/create-new-feature.sh
 ```
 
 ---
@@ -360,16 +360,16 @@ vim .flow/scripts/create-new-feature.sh
 # Project A
 cd packages/api
 flow:init --type greenfield
-# Creates packages/api/.flow/
+# Creates packages/api/__specification__/
 
 # Project B
 cd packages/web
 flow:init --type greenfield
-# Creates packages/web/.flow/
+# Creates packages/web/__specification__/
 
 # Shared config at root
 cd ../..
-ln -s packages/api/.flow/templates .flow-templates
+ln -s packages/api/__specification__/templates __specification__-templates
 ```
 
 ---
@@ -379,8 +379,8 @@ ln -s packages/api/.flow/templates .flow-templates
 ### ❌ Don't: Run init multiple times without --reconfigure
 
 ```bash
-flow:init          # Creates .flow/
-flow:init          # ERROR: .flow/ already exists
+flow:init          # Creates __specification__/
+flow:init          # ERROR: __specification__/ already exists
 ```
 
 **Instead**:
@@ -394,7 +394,7 @@ flow:init --reconfigure    # Updates existing config
 
 ```bash
 # Bad: Commit personal API keys
-git add .flow/config.local.json
+git add __specification__/config.local.json
 
 # Good: .gitignore excludes *.local.json
 ```
@@ -476,7 +476,7 @@ chmod 644 CLAUDE.md
 
 ### Templates Not Copying
 
-**Problem**: .flow/templates/ is empty
+**Problem**: __specification__/templates/ is empty
 
 **Solution**:
 ```bash
@@ -484,8 +484,8 @@ chmod 644 CLAUDE.md
 ls plugins/flow/templates/templates/
 
 # Manual copy if needed
-cp -r plugins/flow/templates/templates/* .flow/templates/
+cp -r plugins/flow/templates/templates/* __specification__/templates/
 
 # Check for file permission issues
-chmod -R 755 .flow/
+chmod -R 755 __specification__/
 ```

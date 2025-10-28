@@ -20,7 +20,7 @@ The help system automatically detects your context:
 
 | Context | Detection | Suggestion |
 |---------|-----------|------------|
-| No `.flow/` directory | New project | Start with `flow:init` |
+| No `__specification__/` directory | New project | Start with `flow:init` |
 | Empty `features/` | Project initialized | Use `flow:specify` to add feature |
 | In `spec.md` | Specification phase | Consider `flow:clarify` or `flow:plan` |
 | In `plan.md` | Planning phase | Move to `flow:tasks` |

@@ -21,7 +21,7 @@ Prompts for architecture decisions:
 
 Suggests based on project type and domain.
 
-Documents in `.flow/architecture-blueprint.md`
+Documents in `__specification__/architecture-blueprint.md`
 
 ### 2. Extract Mode (Brownfield)
 

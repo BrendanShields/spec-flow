@@ -317,7 +317,7 @@ Use when:
 
 ## Blueprint Integration
 
-If `.flow/architecture-blueprint.md` exists:
+If `__specification__/architecture-blueprint.md` exists:
 
 **Validation**:
 - Checks plan adheres to blueprint patterns
@@ -538,7 +538,7 @@ Spec mentions:
 ## Related Files
 
 - `spec.md` - Input specification
-- `.flow/architecture-blueprint.md` - Architecture guidance
+- `__specification__/architecture-blueprint.md` - Architecture guidance
 - `plan.md` - Output implementation plan
 - `research.md` - Research findings and ADRs
 - `data-model.md` - Entity definitions

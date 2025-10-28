@@ -7,13 +7,13 @@
 Explicitly set project type without prompting.
 
 **Greenfield**: New project
-- Creates full .flow/ structure
+- Creates full __specification__/ structure
 - Prompts for architecture blueprint
 - Sets up project-level specs
 - Configures all templates
 
 **Brownfield**: Existing codebase
-- Creates .flow/ structure
+- Creates __specification__/ structure
 - Focuses on feature-level specs
 - Suggests codebase analysis first
 - Simplified initial setup
@@ -41,7 +41,7 @@ Skip MCP detection and integration setup.
 flow:init --skip-integrations
 ```
 
-**Result**: Creates minimal .flow/ structure, no MCP configuration.
+**Result**: Creates minimal __specification__/ structure, no MCP configuration.
 
 ---
 
@@ -60,7 +60,7 @@ Re-run configuration for existing Flow project.
 flow:init --reconfigure
 ```
 
-**Safe**: Preserves existing .flow/ content, only updates configuration.
+**Safe**: Preserves existing __specification__/ content, only updates configuration.
 
 ---
 
@@ -69,7 +69,7 @@ flow:init --reconfigure
 ### Standard Structure (All Projects)
 
 ```
-.flow/
+__specification__/
 ├── product-requirements.md      # Project-level PRD (skeleton)
 ├── architecture-blueprint.md    # Technical standards (skeleton)
 ├── data-models/
@@ -91,7 +91,7 @@ flow:init --reconfigure
 If API project detected (user confirms):
 
 ```
-.flow/
+__specification__/
 └── contracts/
     ├── openapi.yaml            # REST API specification
     └── README.md               # Contract documentation
@@ -108,7 +108,7 @@ Templates added:
 If Atlassian MCP enabled:
 
 ```
-.flow/
+__specification__/
 ├── extensions.json             # MCP registry
 └── templates/
     ├── jira-story-template.md
@@ -122,7 +122,7 @@ If Atlassian MCP enabled:
 If GitHub MCP enabled:
 
 ```
-.flow/
+__specification__/
 └── templates/
     └── github-pr-template.md
 ```
@@ -164,7 +164,7 @@ FLOW_STORY_FORMAT=bdd
 
 ---
 
-### .flow/extensions.json (MCP Registry)
+### __specification__/extensions.json (MCP Registry)
 
 Tracks available MCP servers and their capabilities:
 
@@ -256,46 +256,46 @@ How MCP capabilities map to Flow skills:
 const templateMap = {
   // Document templates
   'plugins/flow/templates/templates/spec-template.md':
-    '.flow/templates/spec-template.md',
+    '__specification__/templates/spec-template.md',
 
   'plugins/flow/templates/templates/plan-template.md':
-    '.flow/templates/plan-template.md',
+    '__specification__/templates/plan-template.md',
 
   'plugins/flow/templates/templates/tasks-template.md':
-    '.flow/templates/tasks-template.md',
+    '__specification__/templates/tasks-template.md',
 
   // Product/architecture templates
   'plugins/flow/templates/templates/product-requirements-template.md':
-    '.flow/templates/product-requirements-template.md',
+    '__specification__/templates/product-requirements-template.md',
 
   'plugins/flow/templates/templates/architecture-blueprint-template.md':
-    '.flow/templates/architecture-blueprint-template.md',
+    '__specification__/templates/architecture-blueprint-template.md',
 
   // API templates (if API project)
   'plugins/flow/templates/templates/openapi-template.yaml':
-    '.flow/contracts/openapi.yaml',
+    '__specification__/contracts/openapi.yaml',
 
   // Integration templates (if enabled)
   'plugins/flow/templates/templates/jira-story-template.md':
-    '.flow/templates/jira-story-template.md',
+    '__specification__/templates/jira-story-template.md',
 
   'plugins/flow/templates/templates/confluence-page.md':
-    '.flow/templates/confluence-page.md',
+    '__specification__/templates/confluence-page.md',
 
   'plugins/flow/templates/templates/github-pr-template.md':
-    '.flow/templates/github-pr-template.md'
+    '__specification__/templates/github-pr-template.md'
 };
 
 // Scripts copied
 const scriptMap = {
   'plugins/flow/templates/scripts/common.sh':
-    '.flow/scripts/common.sh',
+    '__specification__/scripts/common.sh',
 
   'plugins/flow/templates/scripts/create-new-feature.sh':
-    '.flow/scripts/create-new-feature.sh',
+    '__specification__/scripts/create-new-feature.sh',
 
   'plugins/flow/templates/scripts/check-prerequisites.sh':
-    '.flow/scripts/check-prerequisites.sh'
+    '__specification__/scripts/check-prerequisites.sh'
 };
 ```
 
@@ -550,8 +550,8 @@ lsof CLAUDE.md
 ### Issue: Templates Not Copying
 
 **Symptoms**:
-- .flow/templates/ directory empty
-- Scripts missing from .flow/scripts/
+- __specification__/templates/ directory empty
+- Scripts missing from __specification__/scripts/
 
 **Diagnosis**:
 ```bash
@@ -559,26 +559,26 @@ lsof CLAUDE.md
 ls -R plugins/flow/templates/
 
 # Check destination directory
-ls -la .flow/
+ls -la __specification__/
 
 # Check for permission issues
-ls -la .flow/templates/
+ls -la __specification__/templates/
 ```
 
 **Solutions**:
 1. **Manual copy**:
    ```bash
-   mkdir -p .flow/templates
-   cp -r plugins/flow/templates/templates/* .flow/templates/
+   mkdir -p __specification__/templates
+   cp -r plugins/flow/templates/templates/* __specification__/templates/
 
-   mkdir -p .flow/scripts
-   cp plugins/flow/templates/scripts/*.sh .flow/scripts/
-   chmod +x .flow/scripts/*.sh
+   mkdir -p __specification__/scripts
+   cp plugins/flow/templates/scripts/*.sh __specification__/scripts/
+   chmod +x __specification__/scripts/*.sh
    ```
 
 2. **Fix permissions**:
    ```bash
-   chmod -R 755 .flow/
+   chmod -R 755 __specification__/
    ```
 
 3. **Verify plugin path**:
@@ -589,10 +589,10 @@ ls -la .flow/templates/
 
 ---
 
-### Issue: .flow/ Already Exists
+### Issue: __specification__/ Already Exists
 
 **Symptoms**:
-- "Directory .flow/ already exists" error
+- "Directory __specification__/ already exists" error
 - Init refuses to run
 
 **Solutions**:
@@ -603,7 +603,7 @@ ls -la .flow/templates/
 
 2. **Backup and recreate** (if corrupted):
    ```bash
-   mv .flow .flow.backup
+   mv __specification__ __specification__.backup
    flow:init
    # Restore any custom content from backup
    ```
@@ -621,7 +621,7 @@ Override default template locations:
 FLOW_TEMPLATE_PATH=/custom/templates/
 ```
 
-Skills will check custom path first, fall back to `.flow/templates/`.
+Skills will check custom path first, fall back to `__specification__/templates/`.
 
 ---
 
@@ -643,7 +643,7 @@ Different config for dev/staging/prod:
 
 ```bash
 # Local development (not committed)
-.flow/config.local.json
+__specification__/config.local.json
 
 # Shared team config (committed)
 CLAUDE.md

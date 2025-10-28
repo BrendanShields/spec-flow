@@ -1,5 +1,5 @@
-# Flow Plugin - Local Configuration & Secrets
-.flow/config.local.json
+# Navi Plugin - Local Configuration & Secrets
+__specification__/config.local.json
 *.local.json
 
 # Environment Variables
@@ -42,19 +42,22 @@ temp/
 dist/
 build/
 
-# Flow - Session State (git-ignored, session-specific)
-.flow/state/
+# Navi - Session State (git-ignored, session-specific)
+__specification__/state/
 *.session.md
 
-# Flow - Checkpoints (optional, can be committed or ignored)
+# Navi - Checkpoints (optional, can be committed or ignored)
 # Uncomment to ignore checkpoints:
-# .flow/state/checkpoints/
+# __specification__/state/checkpoints/
 
-# Flow - Memory (git-committed for project history)
-# .flow/memory/ should be committed
+# Navi - Memory (git-committed for project history)
+# __specification__/memory/ should be committed
 
-# Flow - Configuration (committed)
-# .flow/config/, .flow/templates/, .flow/scripts/ should be committed
+# Navi - Configuration (committed)
+# __specification__/config/, __specification__/templates/, __specification__/scripts/ should be committed
 
-# Flow - Features (committed)
-# .flow/features/ should be committed
+# Navi - Features (committed)
+# __specification__/features/ should be committed
+
+# Temporary compatibility symlink
+.flow

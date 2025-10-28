@@ -99,9 +99,9 @@ FLOW_METRICS_ANONYMIZE=true
 
 ## Related Files
 
-- `.flow/.metrics.json`: Current metrics
-- `.flow/metrics-history/`: Historical snapshots
-- `.flow/metrics-dashboard.md`: Visual dashboard
+- `__specification__/.metrics.json`: Current metrics
+- `__specification__/metrics-history/`: Historical snapshots
+- `__specification__/metrics-dashboard.md`: Visual dashboard
 
 ## Troubleshooting
 

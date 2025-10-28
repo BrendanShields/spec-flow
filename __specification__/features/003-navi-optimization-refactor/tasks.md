@@ -60,23 +60,23 @@ Breaking down the Navi optimization into 84 executable tasks organized by user s
 **Independent Test**: All functionality works with new directory structure
 
 ### Directory Migration
-- [ ] T030 [US2] Create __specification__ directory structure at __specification__/
-- [ ] T031 [US2] Git move .flow to __specification__ preserving history
-- [ ] T032 [US2] Update gitignore for __specification__ at .gitignore
-- [ ] T033 [US2] Create temporary symlink .flow → __specification__
+- [x] T030 [US2] Create __specification__ directory structure at __specification__/
+- [x] T031 [US2] Git move .flow to __specification__ preserving history
+- [x] T032 [US2] Update gitignore for __specification__ at .gitignore
+- [x] T033 [US2] Create temporary symlink .flow → __specification__
 
 ### Path Updates
-- [ ] T034 [P] [US2] Update paths in all .sh scripts at __specification__/scripts/*.sh
-- [ ] T035 [P] [US2] Update paths in skill definitions at .claude/skills/*/
-- [ ] T036 [P] [US2] Update paths in command definitions at .claude/commands/
-- [ ] T037 [P] [US2] Update paths in CLAUDE.md at CLAUDE.md
-- [ ] T038 [P] [US2] Update paths in templates at __specification__/templates/*.md
+- [x] T034 [P] [US2] Update paths in all .sh scripts at __specification__/scripts/*.sh
+- [x] T035 [P] [US2] Update paths in skill definitions at .claude/skills/*/
+- [x] T036 [P] [US2] Update paths in command definitions at .claude/commands/
+- [x] T037 [P] [US2] Update paths in CLAUDE.md at CLAUDE.md
+- [x] T038 [P] [US2] Update paths in templates at __specification__/templates/*.md
 
 ### Migration Tool
-- [ ] T039 [US2] Implement directory detection in migration tool at scripts/migrate-to-navi.sh
-- [ ] T040 [US2] Implement safe migration with git mv at scripts/migrate-to-navi.sh
-- [ ] T041 [US2] Implement path reference updates at scripts/migrate-to-navi.sh
-- [ ] T042 [US2] Add migration validation checks at scripts/migrate-to-navi.sh
+- [x] T039 [US2] Implement directory detection in migration tool at scripts/migrate-to-navi.sh
+- [x] T040 [US2] Implement safe migration with git mv at scripts/migrate-to-navi.sh
+- [x] T041 [US2] Implement path reference updates at scripts/migrate-to-navi.sh
+- [x] T042 [US2] Add migration validation checks at scripts/migrate-to-navi.sh
 
 ### Parallel Opportunities
 `T034-T038` (different files, independent updates)

@@ -2,7 +2,7 @@
 
 ## Complete Blueprint Template
 
-See `.flow/templates/architecture-blueprint-template.md` for full template.
+See `__specification__/templates/architecture-blueprint-template.md` for full template.
 
 ## ADR Format
 
@@ -121,7 +121,7 @@ if (plan.usesREST && blueprint.requiresGraphQL) {
 
 ## Flat Peer Model
 
-Blueprint is a **peer artifact** in `.flow/`:
+Blueprint is a **peer artifact** in `__specification__/`:
 - Not hierarchically enforced
 - Features CAN reference for guidance
 - Deviations require user approval + documentation
@@ -134,8 +134,8 @@ flow:analyze  # Checks spec/plan alignment with blueprint
 
 ## Related Files
 
-- `.flow/architecture-blueprint.md`: The blueprint
-- `.flow/templates/architecture-blueprint-template.md`: Template
+- `__specification__/architecture-blueprint.md`: The blueprint
+- `__specification__/templates/architecture-blueprint-template.md`: Template
 - `CLAUDE.md`: References blueprint in Flow Configuration
 
 ## Troubleshooting

@@ -6,15 +6,15 @@ This guide explains how Flow skills should integrate with the state management s
 
 Skills should update state files to enable session continuity and progress tracking. The state management system consists of:
 
-- `.flow/state/` - Session state (current feature, phase, task)
-- `.flow/memory/` - Persistent tracking (progress, decisions, changes)
+- `__specification__/state/` - Session state (current feature, phase, task)
+- `__specification__/memory/` - Persistent tracking (progress, decisions, changes)
 
 ## When Skills Should Update State
 
 ### flow:init
 **Updates**: Initialize state management
 ```bash
-# Create .flow/state/ and .flow/memory/ if they don't exist
+# Create __specification__/state/ and __specification__/memory/ if they don't exist
 bash plugins/flow/.claude/commands/lib/init-state.sh
 ```
 
@@ -129,12 +129,12 @@ Progress: {completed}/{total}
 
 ```bash
 # At start of skill
-if [[ -f .flow/state/current-session.md ]]; then
+if [[ -f __specification__/state/current-session.md ]]; then
     # Update existing
-    sed -i "s/^Phase:.*/Phase: {new-phase}/" .flow/state/current-session.md
+    sed -i "s/^Phase:.*/Phase: {new-phase}/" __specification__/state/current-session.md
 else
     # Create new
-    cat > .flow/state/current-session.md << EOF
+    cat > __specification__/state/current-session.md << EOF
 # Session State
 Feature: {feature}
 Phase: {phase}
@@ -147,24 +147,24 @@ fi
 
 ```bash
 # Add decision
-echo "" >> .flow/memory/DECISIONS-LOG.md
-echo "## $(date +%Y-%m-%d): {Decision Title}" >> .flow/memory/DECISIONS-LOG.md
-echo "**Context**: {context}" >> .flow/memory/DECISIONS-LOG.md
-echo "**Decision**: {decision}" >> .flow/memory/DECISIONS-LOG.md
+echo "" >> __specification__/memory/DECISIONS-LOG.md
+echo "## $(date +%Y-%m-%d): {Decision Title}" >> __specification__/memory/DECISIONS-LOG.md
+echo "**Context**: {context}" >> __specification__/memory/DECISIONS-LOG.md
+echo "**Decision**: {decision}" >> __specification__/memory/DECISIONS-LOG.md
 ```
 
 ### Pattern 3: Update Progress Table
 
 ```bash
 # Update feature progress
-if grep -q "{feature-id}" .flow/memory/WORKFLOW-PROGRESS.md; then
+if grep -q "{feature-id}" __specification__/memory/WORKFLOW-PROGRESS.md; then
     # Update existing row
     sed -i "s/| {feature-id} | .* |/| {feature-id} | {date} | {progress} | {phase} |/" \
-        .flow/memory/WORKFLOW-PROGRESS.md
+        __specification__/memory/WORKFLOW-PROGRESS.md
 else
     # Add new row
     echo "| {feature-id} | {date} | {progress} | {phase} |" >> \
-        .flow/memory/WORKFLOW-PROGRESS.md
+        __specification__/memory/WORKFLOW-PROGRESS.md
 fi
 ```
 
@@ -173,8 +173,8 @@ fi
 Use these paths (relative to project root):
 
 ```bash
-FLOW_STATE_DIR=".flow/state"
-FLOW_MEMORY_DIR=".flow/memory"
+FLOW_STATE_DIR="__specification__/state"
+FLOW_MEMORY_DIR="__specification__/memory"
 
 CURRENT_SESSION="$FLOW_STATE_DIR/current-session.md"
 WORKFLOW_PROGRESS="$FLOW_MEMORY_DIR/WORKFLOW-PROGRESS.md"
@@ -187,7 +187,7 @@ CHANGES_COMPLETED="$FLOW_MEMORY_DIR/CHANGES-COMPLETED.md"
 
 1. **Always check if state dirs exist first**
    ```bash
-   [[ -d .flow/state ]] || bash plugins/flow/.claude/commands/lib/init-state.sh
+   [[ -d __specification__/state ]] || bash plugins/flow/.claude/commands/lib/init-state.sh
    ```
 
 2. **Use atomic updates**
@@ -211,8 +211,8 @@ Skills should verify state updates work:
 
 ```bash
 # After skill runs
-test -f .flow/state/current-session.md || echo "ERROR: Session not updated"
-grep -q "{feature-id}" .flow/memory/WORKFLOW-PROGRESS.md || echo "ERROR: Progress not tracked"
+test -f __specification__/state/current-session.md || echo "ERROR: Session not updated"
+grep -q "{feature-id}" __specification__/memory/WORKFLOW-PROGRESS.md || echo "ERROR: Progress not tracked"
 ```
 
 ## Example: Complete flow:specify Integration
@@ -221,7 +221,7 @@ grep -q "{feature-id}" .flow/memory/WORKFLOW-PROGRESS.md || echo "ERROR: Progres
 # In flow-specify skill
 
 # 1. Initialize state if needed
-if [[ ! -d .flow/state ]]; then
+if [[ ! -d __specification__/state ]]; then
     bash plugins/flow/.claude/commands/lib/init-state.sh
 fi
 
@@ -229,7 +229,7 @@ fi
 FEATURE_ID=$(create_feature)  # e.g., "001-user-auth"
 
 # 3. Update current session
-cat > .flow/state/current-session.md << EOF
+cat > __specification__/state/current-session.md << EOF
 # Session State
 Feature: $FEATURE_ID
 Phase: specification
@@ -239,11 +239,11 @@ EOF
 
 # 4. Add to progress tracker
 echo "| $FEATURE_ID | $(date +%Y-%m-%d) | 0/0 | specification |" >> \
-    .flow/memory/WORKFLOW-PROGRESS.md
+    __specification__/memory/WORKFLOW-PROGRESS.md
 
 # 5. Log decision if made
 if [[ -n "$ARCHITECTURE_DECISION" ]]; then
-    cat >> .flow/memory/DECISIONS-LOG.md << EOF
+    cat >> __specification__/memory/DECISIONS-LOG.md << EOF
 
 ## $(date +%Y-%m-%d): $DECISION_TITLE
 **Context**: During specification

@@ -33,7 +33,7 @@ flow:tasks --simple → flow:implement --skip-checklists
 
 ```javascript
 function assessProject() {
-  const hasFlow = checkDirectory('.flow/');
+  const hasFlow = checkDirectory('__specification__/');
   const projectType = hasFlow ? detectType() : null;
   const currentPhase = detectCurrentPhase();
 
@@ -322,7 +322,7 @@ ETA: ~12 minutes remaining
 ### State Persistence
 
 ```javascript
-// State saved to .flow/.orchestration-state.json
+// State saved to __specification__/.orchestration-state.json
 {
   "sessionId": "uuid-1234",
   "startTime": "2024-10-24T10:30:00Z",
@@ -406,7 +406,7 @@ const decisions = [
 - Feature: User Authentication
 
 ## Executed Steps
-- [x] flow:init (10s) - Created .flow/ structure
+- [x] flow:init (10s) - Created __specification__/ structure
 - [x] flow:blueprint (45s) - Defined architecture patterns
 - [x] flow:specify (67s) - Generated specification
 - [x] flow:clarify (23s) - Resolved 3 ambiguities
@@ -416,7 +416,7 @@ const decisions = [
 - [x] flow:implement (480s) - Completed implementation
 
 ## Created Artifacts
-- .flow/architecture-blueprint.md (v1.0.0)
+- __specification__/architecture-blueprint.md (v1.0.0)
 - features/001-user-auth/spec.md
 - features/001-user-auth/plan.md
 - features/001-user-auth/tasks.md
@@ -468,7 +468,7 @@ Choice [1]:
 
 ```javascript
 async function resume() {
-  const state = loadState('.flow/.orchestration-state.json');
+  const state = loadState('__specification__/.orchestration-state.json');
 
   if (!state) {
     throw new Error('No saved state found. Cannot resume.');
@@ -508,17 +508,17 @@ async function resume() {
 - Run skill manually to debug: `flow:plan`
 
 **"State file corrupted"**:
-- Delete `.flow/.orchestration-state.json`
+- Delete `__specification__/.orchestration-state.json`
 - Restart orchestration with `flow:orchestrate`
 
 **"Steps running in wrong order"**:
 - Check for custom configuration overrides
-- Verify `.flow/` directory structure
+- Verify `__specification__/` directory structure
 - Review CLAUDE.md for workflow customizations
 
 **"Can't resume after interruption"**:
 - Ensure `saveState: true` in config
-- Check `.flow/.orchestration-state.json` exists
+- Check `__specification__/.orchestration-state.json` exists
 - Verify file permissions
 
 ### Debug Mode
