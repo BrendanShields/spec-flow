@@ -128,17 +128,17 @@ Breaking down the Navi optimization into 84 executable tasks organized by user s
 **Independent Test**: Measure token usage before/after, verify 30% reduction
 
 ### Prompt Optimization
-- [ ] T070 [P] [US5] Extract common patterns to shared utilities at .claude/shared/
-- [ ] T071 [P] [US5] Implement progressive disclosure in flow-init at .claude/skills/flow-init/README.md
-- [ ] T072 [P] [US5] Implement progressive disclosure in flow-specify at .claude/skills/flow-specify/README.md
-- [ ] T073 [P] [US5] Implement progressive disclosure in flow-plan at .claude/skills/flow-plan/README.md
-- [ ] T074 [P] [US5] Implement progressive disclosure in flow-tasks at .claude/skills/flow-tasks/README.md
-- [ ] T075 [P] [US5] Implement progressive disclosure in flow-implement at .claude/skills/flow-implement/README.md
+- [x] T070 [P] [US5] Extract common patterns to shared utilities at .claude/shared/
+- [x] T071 [P] [US5] Implement progressive disclosure in flow-init at .claude/skills/flow-init/README.md
+- [x] T072 [P] [US5] Implement progressive disclosure in flow-specify at .claude/skills/flow-specify/README.md
+- [x] T073 [P] [US5] Implement progressive disclosure in flow-plan at .claude/skills/flow-plan/README.md
+- [x] T074 [P] [US5] Implement progressive disclosure in flow-tasks at .claude/skills/flow-tasks/README.md
+- [x] T075 [P] [US5] Implement progressive disclosure in flow-implement at .claude/skills/flow-implement/README.md
 
 ### Context Management
-- [ ] T076 [US5] Implement context compression utility at __specification__/scripts/compress-context.sh
-- [ ] T077 [US5] Add lazy loading for detailed instructions at .claude/shared/lazy-loader.md
-- [ ] T078 [US5] Create token usage metrics tracker at __specification__/scripts/measure-tokens.sh
+- [x] T076 [US5] Implement context compression utility at __specification__/scripts/compress-context.sh
+- [x] T077 [US5] Add lazy loading for detailed instructions at .claude/shared/lazy-loader.md
+- [x] T078 [US5] Create token usage metrics tracker at __specification__/scripts/measure-tokens.sh
 
 ### Parallel Opportunities
 `T070-T075` (different skill files, independent optimization)

@@ -1,0 +1,13 @@
+timestamp,skill,tokens,type
+2025-10-29 06:46:52,navi-blueprint,2592,current
+2025-10-29 06:46:52,navi-checklist,5447,current
+2025-10-29 06:46:52,navi-clarify,4971,current
+2025-10-29 06:46:52,navi-discover,3508,current
+2025-10-29 06:46:52,navi-implement,2239,current
+2025-10-29 06:46:52,navi-init,8829,current
+2025-10-29 06:46:52,navi-metrics,1641,current
+2025-10-29 06:46:52,navi-orchestrate,5339,current
+2025-10-29 06:46:52,navi-plan,5303,current
+2025-10-29 06:46:52,navi-specify,2310,current
+2025-10-29 06:46:52,navi-tasks,4866,current
+2025-10-29 06:46:52,navi-update,7747,current
