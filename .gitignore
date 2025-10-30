@@ -59,5 +59,6 @@ __specification__/state/
 # Navi - Features (committed)
 # __specification__/features/ should be committed
 
-# Temporary compatibility symlink
-.specter
+# Specter session state (git-ignored, session-specific)
+.specter-state/current-session.md
+.specter-state/checkpoints/
