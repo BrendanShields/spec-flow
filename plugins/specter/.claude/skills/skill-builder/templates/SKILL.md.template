@@ -1,0 +1,110 @@
+---
+name: {{skill-name}}
+description: {{primary-capability}}. Use when: 1) {{trigger-scenario-1}}, 2) {{trigger-scenario-2}}, 3) {{trigger-scenario-3}}, 4) {{trigger-scenario-4}}, 5) {{trigger-scenario-5}}. {{output-description}}.
+allowed-tools: {{tool-list}}
+---
+
+# {{Skill Display Name}}
+
+{{one-line-purpose-statement}}
+
+## What This Skill Does
+
+- {{capability-1}}
+- {{capability-2}}
+- {{capability-3}}
+- {{capability-4}}
+- {{capability-5}}
+
+## When to Use
+
+- **{{trigger-category-1}}**: {{trigger-description-1}}
+- **{{trigger-category-2}}**: {{trigger-description-2}}
+- **{{trigger-category-3}}**: {{trigger-description-3}}
+- **{{trigger-category-4}}**: {{trigger-description-4}}
+- **{{trigger-category-5}}**: {{trigger-description-5}}
+
+## Execution Flow
+
+### Phase 1: {{phase-1-name}}
+
+#### {{step-1-1-name}}
+```javascript
+// {{step-1-1-description}}
+{{step-1-1-code}}
+```
+
+#### {{step-1-2-name}}
+```javascript
+// {{step-1-2-description}}
+{{step-1-2-code}}
+```
+
+### Phase 2: {{phase-2-name}}
+
+#### {{step-2-1-name}}
+{{step-2-1-description}}
+
+#### {{step-2-2-name}}
+{{step-2-2-description}}
+
+### Phase 3: {{phase-3-name}}
+
+#### {{step-3-1-name}}
+{{step-3-1-description}}
+
+## Configuration Options
+
+```javascript
+{
+  "{{skill-name}}": {
+    "{{config-option-1}}": {{config-value-1}},
+    "{{config-option-2}}": {{config-value-2}},
+    "{{config-option-3}}": {{config-value-3}}
+  }
+}
+```
+
+## Error Handling
+
+### {{error-scenario-1}}
+**Issue**: {{error-description-1}}
+**Resolution**: {{error-solution-1}}
+
+### {{error-scenario-2}}
+**Issue**: {{error-description-2}}
+**Resolution**: {{error-solution-2}}
+
+## Output Format
+
+{{output-format-description}}
+
+```{{output-language}}
+{{output-example}}
+```
+
+## Integration Points
+
+### With Other Skills
+- **{{related-skill-1}}**: {{integration-description-1}}
+- **{{related-skill-2}}**: {{integration-description-2}}
+
+### With External Systems
+- **{{system-1}}**: {{system-integration-1}}
+- **{{system-2}}**: {{system-integration-2}}
+
+## Performance Considerations
+
+- **Expected Duration**: {{duration-estimate}}
+- **Resource Usage**: {{resource-description}}
+- **Scalability**: {{scalability-notes}}
+
+## Security Notes
+
+{{security-considerations}}
+
+## Maintenance
+
+- **Update Frequency**: {{update-schedule}}
+- **Dependencies**: {{dependency-list}}
+- **Monitoring**: {{monitoring-approach}}

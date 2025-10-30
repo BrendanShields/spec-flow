@@ -1,0 +1,48 @@
+{
+  "hooks": [
+    {
+      "event": "UserPromptSubmit",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/detect-intent.js",
+      "description": "Detect user intent and suggest appropriate Specter skills"
+    },
+    {
+      "event": "PreToolUse",
+      "matcher": "Skill",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/validate-prerequisites.js",
+      "description": "Validate workflow prerequisites before skill execution"
+    },
+    {
+      "event": "PostToolUse",
+      "matcher": "Write|Edit",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/format-code.js",
+      "description": "Auto-format code after file modifications"
+    },
+    {
+      "event": "PostToolUse",
+      "matcher": "Skill",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/update-workflow-status.js",
+      "description": "Track workflow progress and update status"
+    },
+    {
+      "event": "SubagentStop",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/aggregate-results.js",
+      "description": "Aggregate results from parallel sub-agent executions"
+    },
+    {
+      "event": "Stop",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/save-session.js",
+      "description": "Save workflow state for session continuity"
+    },
+    {
+      "event": "PostToolUse",
+      "matcher": "Write|Edit",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/track-metrics.js",
+      "description": "Track AI-generated vs human-modified code metrics"
+    },
+    {
+      "event": "SessionStart",
+      "command": "node /Users/dev/dev/tools/spec-specter/plugins/specter/.claude/hooks/restore-session.js",
+      "description": "Restore workflow state from previous session"
+    }
+  ]
+}
