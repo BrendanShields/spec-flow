@@ -60,4 +60,4 @@ __specification__/state/
 # __specification__/features/ should be committed
 
 # Temporary compatibility symlink
-.flow
+.specter

@@ -1,16 +1,16 @@
-# Spec-Flow: Specification-Driven Development for Claude Code
+# Spec-Specter: Specification-Driven Development for Claude Code
 
 Complete workflow system for building features with specifications, plans, and automated task breakdown.
 
 ## ⚡ Quick Start (30 seconds)
 
 ```bash
-/flow-init                              # Initialize Flow
-/flow-specify "Add user authentication" # Create spec
-/flow-implement                         # Build it!
+/specter-init                              # Initialize Specter
+/specter-specify "Add user authentication" # Create spec
+/specter-implement                         # Build it!
 ```
 
-**That's it!** Flow guides you through the rest.
+**That's it!** Specter guides you through the rest.
 
 ## 📚 Documentation Index
 
@@ -18,30 +18,30 @@ Complete workflow system for building features with specifications, plans, and a
 
 | If you want to... | Read this |
 |-------------------|-----------|
-| **Get started in 5 minutes** | [QUICK-START.md](./plugins/flow/docs/QUICK-START.md) |
-| **See all commands** | [COMMANDS-QUICK-REFERENCE.md](./plugins/flow/docs/COMMANDS-QUICK-REFERENCE.md) ⭐ |
-| **Learn everything** | [USER-GUIDE.md](./plugins/flow/docs/USER-GUIDE.md) |
-| **Solve a problem** | [TROUBLESHOOTING.md](./plugins/flow/docs/TROUBLESHOOTING.md) |
-| **Customize Flow** | [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/docs/WORKFLOW-EXPANSION-GUIDE.md) |
+| **Get started in 5 minutes** | [QUICK-START.md](./plugins/specter/docs/QUICK-START.md) |
+| **See all commands** | [COMMANDS-QUICK-REFERENCE.md](./plugins/specter/docs/COMMANDS-QUICK-REFERENCE.md) ⭐ |
+| **Learn everything** | [USER-GUIDE.md](./plugins/specter/docs/USER-GUIDE.md) |
+| **Solve a problem** | [TROUBLESHOOTING.md](./plugins/specter/docs/TROUBLESHOOTING.md) |
+| **Customize Flow** | [WORKFLOW-EXPANSION-GUIDE.md](./plugins/specter/docs/WORKFLOW-EXPANSION-GUIDE.md) |
 
 ### 📖 Complete Documentation
 
 #### User Documentation
-- **[QUICK-START.md](./plugins/flow/docs/QUICK-START.md)** - 5-minute setup guide
-- **[COMMANDS-QUICK-REFERENCE.md](./plugins/flow/docs/COMMANDS-QUICK-REFERENCE.md)** - All commands (print this!)
-- **[USER-GUIDE.md](./plugins/flow/docs/USER-GUIDE.md)** - Complete user manual (800+ lines)
-- **[TROUBLESHOOTING.md](./plugins/flow/docs/TROUBLESHOOTING.md)** - Problem solving guide (500+ lines)
-- **[WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/docs/WORKFLOW-EXPANSION-GUIDE.md)** - Customization guide (750+ lines)
+- **[QUICK-START.md](./plugins/specter/docs/QUICK-START.md)** - 5-minute setup guide
+- **[COMMANDS-QUICK-REFERENCE.md](./plugins/specter/docs/COMMANDS-QUICK-REFERENCE.md)** - All commands (print this!)
+- **[USER-GUIDE.md](./plugins/specter/docs/USER-GUIDE.md)** - Complete user manual (800+ lines)
+- **[TROUBLESHOOTING.md](./plugins/specter/docs/TROUBLESHOOTING.md)** - Problem solving guide (500+ lines)
+- **[WORKFLOW-EXPANSION-GUIDE.md](./plugins/specter/docs/WORKFLOW-EXPANSION-GUIDE.md)** - Customization guide (750+ lines)
 
 #### Project Documentation
-- **[WORK-COMPLETED.md](./plugins/flow/docs/WORK-COMPLETED.md)** - Visual summary of all work
-- **[USER-COMMANDS-COMPLETE.md](./plugins/flow/docs/USER-COMMANDS-COMPLETE.md)** - Command implementation summary
+- **[WORK-COMPLETED.md](./plugins/specter/docs/WORK-COMPLETED.md)** - Visual summary of all work
+- **[USER-COMMANDS-COMPLETE.md](./plugins/specter/docs/USER-COMMANDS-COMPLETE.md)** - Command implementation summary
 
 #### Technical Documentation
-- **[FINAL-SUMMARY.md](./plugins/flow/docs/FINAL-SUMMARY.md)** - Complete project overview
-- **[IMPLEMENTATION-COMPLETE.md](./plugins/flow/docs/IMPLEMENTATION-COMPLETE.md)** - Implementation details
-- **[COMPREHENSIVE-ANALYSIS-REPORT.md](./plugins/flow/docs/COMPREHENSIVE-ANALYSIS-REPORT.md)** - Analysis findings
-- **[All Documentation](./plugins/flow/docs/)** - Complete technical documentation
+- **[FINAL-SUMMARY.md](./plugins/specter/docs/FINAL-SUMMARY.md)** - Complete project overview
+- **[IMPLEMENTATION-COMPLETE.md](./plugins/specter/docs/IMPLEMENTATION-COMPLETE.md)** - Implementation details
+- **[COMPREHENSIVE-ANALYSIS-REPORT.md](./plugins/specter/docs/COMPREHENSIVE-ANALYSIS-REPORT.md)** - Analysis findings
+- **[All Documentation](./plugins/specter/docs/)** - Complete technical documentation
 
 ## 🚀 Essential Commands
 
@@ -55,11 +55,11 @@ Complete workflow system for building features with specifications, plans, and a
 
 ### Workflow
 ```bash
-/flow-init                      # Initialize (once per project)
-/flow-specify "Feature"         # Create specification
-/flow-plan                      # Technical design
-/flow-tasks                     # Break into tasks
-/flow-implement                 # Execute
+/specter-init                      # Initialize (once per project)
+/specter-specify "Feature"         # Create specification
+/specter-plan                      # Technical design
+/specter-tasks                     # Break into tasks
+/specter-implement                 # Execute
 /validate                       # Check consistency
 ```
 
@@ -67,31 +67,31 @@ Complete workflow system for building features with specifications, plans, and a
 
 ### Solo Developer
 ```bash
-/flow-init --type=greenfield
-/flow-blueprint                 # Define architecture
-/flow-specify "Feature"
-/flow-plan
-/flow-tasks
-/flow-implement
+/specter-init --type=greenfield
+/specter-blueprint                 # Define architecture
+/specter-specify "Feature"
+/specter-plan
+/specter-tasks
+/specter-implement
 /session save                   # Before breaks
 ```
 
 ### Team Collaboration
 ```bash
-/flow-init --integrations=jira
-/flow-specify "Feature from PM"
-/flow-clarify                   # PM answers questions
-/flow-plan                      # Architect reviews
-/flow-analyze                   # Check consistency
-/flow-implement
+/specter-init --integrations=jira
+/specter-specify "Feature from PM"
+/specter-clarify                   # PM answers questions
+/specter-plan                      # Architect reviews
+/specter-analyze                   # Check consistency
+/specter-implement
 /session save --name="handoff"  # Share with teammate
 ```
 
 ### Quick POC
 ```bash
-/flow-init
-/flow-specify "POC" --skip-validation
-/flow-implement --skip-checklists
+/specter-init
+/specter-specify "POC" --skip-validation
+/specter-implement --skip-checklists
 # Done!
 ```
 
@@ -99,15 +99,15 @@ Complete workflow system for building features with specifications, plans, and a
 
 ```
 Your Project/
-├── .flow/                      # Configuration
+├── .specter/                      # Configuration
 │   ├── architecture-blueprint.md
 │   └── templates/
 │
-├── .flow-state/                # Session tracking
+├── .specter-state/                # Session tracking
 │   ├── current-session.md
 │   └── checkpoints/
 │
-├── .flow-memory/               # Project memory
+├── .specter-memory/               # Project memory
 │   ├── WORKFLOW-PROGRESS.md
 │   ├── DECISIONS-LOG.md
 │   ├── CHANGES-PLANNED.md
@@ -155,17 +155,17 @@ Your Project/
 ## 🎓 Learning Path
 
 ### Day 1
-1. Read [QUICK-START.md](./plugins/flow/docs/QUICK-START.md) (5 min)
-2. Print [COMMANDS-QUICK-REFERENCE.md](./plugins/flow/docs/COMMANDS-QUICK-REFERENCE.md)
-3. Try: `/flow-init` and `/flow-specify "Test feature"`
+1. Read [QUICK-START.md](./plugins/specter/docs/QUICK-START.md) (5 min)
+2. Print [COMMANDS-QUICK-REFERENCE.md](./plugins/specter/docs/COMMANDS-QUICK-REFERENCE.md)
+3. Try: `/specter-init` and `/specter-specify "Test feature"`
 
 ### Week 1
-1. Read [USER-GUIDE.md](./plugins/flow/docs/USER-GUIDE.md) (sections 1-4)
-2. Bookmark [TROUBLESHOOTING.md](./plugins/flow/docs/TROUBLESHOOTING.md)
+1. Read [USER-GUIDE.md](./plugins/specter/docs/USER-GUIDE.md) (sections 1-4)
+2. Bookmark [TROUBLESHOOTING.md](./plugins/specter/docs/TROUBLESHOOTING.md)
 3. Complete a real feature start-to-finish
 
 ### Week 2+
-1. Read [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/docs/WORKFLOW-EXPANSION-GUIDE.md)
+1. Read [WORKFLOW-EXPANSION-GUIDE.md](./plugins/specter/docs/WORKFLOW-EXPANSION-GUIDE.md)
 2. Create custom commands
 3. Establish team workflows
 
@@ -177,13 +177,13 @@ Your Project/
 ```
 
 **Documentation:**
-- [TROUBLESHOOTING.md](./plugins/flow/docs/TROUBLESHOOTING.md) - Common issues
-- [USER-GUIDE.md](./plugins/flow/docs/USER-GUIDE.md) - Complete guide
+- [TROUBLESHOOTING.md](./plugins/specter/docs/TROUBLESHOOTING.md) - Common issues
+- [USER-GUIDE.md](./plugins/specter/docs/USER-GUIDE.md) - Complete guide
 - GitHub Issues - Report bugs
 
 ## 🔧 Customization
 
-Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/docs/WORKFLOW-EXPANSION-GUIDE.md) to:
+Specter is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/specter/docs/WORKFLOW-EXPANSION-GUIDE.md) to:
 - Create custom commands
 - Add new skills
 - Define team workflows
@@ -200,14 +200,14 @@ Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/do
 ## 🎯 Common Use Cases
 
 ### New Feature Development
-1. `/flow-specify "Feature"`
-2. `/flow-plan`
-3. `/flow-tasks`
-4. `/flow-implement`
+1. `/specter-specify "Feature"`
+2. `/specter-plan`
+3. `/specter-tasks`
+4. `/specter-implement`
 
 ### Resume After Break
 1. `/resume`
-2. `/flow-implement --continue`
+2. `/specter-implement --continue`
 
 ### Team Handoff
 1. `/session save --name="handoff"`
@@ -215,14 +215,14 @@ Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/do
 3. Teammate runs `/session restore --checkpoint=handoff`
 
 ### Requirements Changed
-1. `/flow-update "New requirements"`
-2. `/flow-analyze`
-3. `/flow-tasks --update`
-4. `/flow-implement --continue`
+1. `/specter-update "New requirements"`
+2. `/specter-analyze`
+3. `/specter-tasks --update`
+4. `/specter-implement --continue`
 
 ## 🌟 Best Practices
 
-✅ **Initialize once**: Run `/flow-init` per project
+✅ **Initialize once**: Run `/specter-init` per project
 ✅ **Save frequently**: Use `/session save` before breaks
 ✅ **Check status**: Run `/status` regularly
 ✅ **Validate often**: Run `/validate` after edits
@@ -230,18 +230,18 @@ Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/do
 
 ## 🔗 Quick Links
 
-- [5-Minute Start](./plugins/flow/docs/QUICK-START.md)
-- [Command Reference](./plugins/flow/docs/COMMANDS-QUICK-REFERENCE.md)
-- [User Guide](./plugins/flow/docs/USER-GUIDE.md)
-- [Troubleshooting](./plugins/flow/docs/TROUBLESHOOTING.md)
-- [Customization](./plugins/flow/docs/WORKFLOW-EXPANSION-GUIDE.md)
-- [Technical Docs](./plugins/flow/docs/)
+- [5-Minute Start](./plugins/specter/docs/QUICK-START.md)
+- [Command Reference](./plugins/specter/docs/COMMANDS-QUICK-REFERENCE.md)
+- [User Guide](./plugins/specter/docs/USER-GUIDE.md)
+- [Troubleshooting](./plugins/specter/docs/TROUBLESHOOTING.md)
+- [Customization](./plugins/specter/docs/WORKFLOW-EXPANSION-GUIDE.md)
+- [Technical Docs](./plugins/specter/docs/)
 
 ## 📞 Support
 
 - `/help` - Built-in help system
-- [Troubleshooting Guide](./plugins/flow/docs/TROUBLESHOOTING.md) - Common solutions
-- [User Guide](./plugins/flow/docs/USER-GUIDE.md) - Complete documentation
+- [Troubleshooting Guide](./plugins/specter/docs/TROUBLESHOOTING.md) - Common solutions
+- [User Guide](./plugins/specter/docs/USER-GUIDE.md) - Complete documentation
 - GitHub Issues - Bug reports and feature requests
 
 ---
@@ -250,19 +250,19 @@ Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/do
 
 ```bash
 # 1. Initialize
-/flow-init
+/specter-init
 
 # 2. Create your first feature
-/flow-specify "Your feature description"
+/specter-specify "Your feature description"
 
 # 3. Build it
-/flow-implement
+/specter-implement
 
 # 4. Check progress anytime
 /status
 ```
 
-**That's it!** You're using specification-driven development with Flow.
+**That's it!** You're using specification-driven development with Specter.
 
 ---
 
@@ -270,4 +270,4 @@ Flow is highly customizable. See [WORKFLOW-EXPANSION-GUIDE.md](./plugins/flow/do
 **Commands**: Production Ready ✅  
 **User Experience**: Optimized ✅  
 
-**Start building:** `/flow-init` then `/flow-specify "Your feature"`
+**Start building:** `/specter-init` then `/specter-specify "Your feature"`
