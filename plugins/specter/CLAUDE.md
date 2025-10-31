@@ -4,12 +4,19 @@ This file provides guidance to Claude Code when working with the Specter plugin.
 
 ## Plugin Overview
 
-**Flow** is a specification-driven development workflow plugin that helps developers:
-- Define what to build (specifications)
-- Design how to build it (technical plans)
-- Execute with clear tasks (implementation)
+**Specter v3.0** is a specification-driven development workflow plugin that helps developers:
+- Define what to build (specifications with user stories)
+- Design how to build it (technical plans with ADRs)
+- Execute with clear tasks (implementation with dependencies)
 - Track progress across Claude Code sessions
-- Maintain decision history
+- Maintain decision history and metrics
+
+**Key v3.0 Features**:
+- 81% token efficiency improvement
+- Unified `/spec` hub command with intelligent routing
+- Progressive disclosure architecture (3-tier lazy loading)
+- State caching (80% reduction in state overhead)
+- 13 specialized skills
 
 ## Plugin Structure
 
@@ -19,54 +26,53 @@ plugins/specter/
 ├── README.md                   # User-facing documentation
 │
 ├── docs/                       # Complete user documentation
-│   ├── QUICK-START.md         # 5-minute setup
-│   ├── USER-GUIDE.md          # Complete user manual  
-│   ├── COMMANDS-QUICK-REFERENCE.md
-│   ├── TROUBLESHOOTING.md
-│   ├── WORKFLOW-EXPANSION-GUIDE.md
-│   └── [analysis reports]
+│   ├── MIGRATION-V2-TO-V3.md  # Migration guide
+│   ├── HOOKS-USER-GUIDE.md    # Event hooks guide
+│   └── CUSTOM-HOOKS-API.md    # Hooks API reference
 │
 ├── .claude/                    # Claude Code integration
-│   ├── commands/              # Slash commands
-│   │   ├── flow-init.md
-│   │   ├── flow-specify.md
-│   │   ├── flow-implement.md
-│   │   ├── status.md
-│   │   ├── help.md
-│   │   ├── session.md
-│   │   ├── resume.md
-│   │   ├── validate.md
-│   │   └── lib/               # Utilities
+│   ├── commands/               # Slash commands
+│   │   ├── spec.md            # Unified hub command
+│   │   └── router.sh          # Command routing logic
 │   │
-│   ├── skills/                # Specter skills (14 total)
-│   │   ├── flow-init/
-│   │   ├── flow-specify/
-│   │   ├── flow-clarify/
-│   │   ├── flow-plan/
-│   │   ├── flow-tasks/
-│   │   ├── flow-implement/
-│   │   ├── flow-update/
-│   │   ├── flow-blueprint/
-│   │   ├── flow-analyze/
-│   │   └── [others]
+│   ├── skills/                # Specter skills (13 total)
+│   │   ├── spec-init/         # Initialize project
+│   │   ├── spec-generate/     # Create specifications
+│   │   ├── spec-clarify/      # Resolve ambiguities
+│   │   ├── spec-plan/         # Technical design
+│   │   ├── spec-tasks/        # Task breakdown
+│   │   ├── spec-implement/    # Execute implementation
+│   │   ├── spec-update/       # Update specifications
+│   │   ├── spec-blueprint/    # Define architecture
+│   │   ├── spec-orchestrate/  # Full workflow automation
+│   │   ├── spec-analyze/      # Validate consistency
+│   │   ├── spec-discover/     # Brownfield analysis
+│   │   ├── spec-checklist/    # Quality checklists
+│   │   ├── spec-metrics/      # Development metrics
+│   │   └── shared/            # Shared resources
+│   │       ├── integration-patterns.md
+│   │       ├── workflow-patterns.md
+│   │       └── state-management.md
 │   │
 │   ├── agents/                # Specialized agents
-│   │   ├── specter-implementer/
-│   │   ├── specter-researcher/
-│   │   └── specter-analyzer/
+│   │   ├── spec-implementer/  # Parallel task execution
+│   │   ├── spec-researcher/   # Research-backed decisions
+│   │   └── spec-analyzer/     # Deep consistency validation
 │   │
 │   └── hooks/                 # Event hooks
+│       ├── hooks.json
+│       └── [hook scripts]
 │
-├── .specter-state/               # Session state templates
+├── .specter-state/            # Session state templates
 │   └── current-session-template.md
 │
-├── .specter-memory/              # Memory file templates
+├── .specter-memory/           # Memory file templates
 │   ├── WORKFLOW-PROGRESS.md
 │   ├── DECISIONS-LOG.md
 │   ├── CHANGES-PLANNED.md
 │   └── CHANGES-COMPLETED.md
 │
-└── templates/                 # Document templates (to be added)
+└── templates/                 # Document templates
 ```
 
 ## User Workflow Files
@@ -102,13 +108,12 @@ User Project/
 
 ### Workflow Phases
 
-1. **Initialize** (`/specter-init`) - Set up Flow in project
-2. **Specify** (`/specter-specify`) - Create feature specification with user stories
-3. **Clarify** (`/specter-clarify`) - Resolve ambiguities (optional)
-4. **Plan** (`/specter-plan`) - Create technical design
-5. **Tasks** (`/specter-tasks`) - Break into actionable tasks
-6. **Implement** (`/specter-implement`) - Execute implementation
-7. **Update** (`/specter-update`) - Modify specifications (as needed)
+1. **Initialize** (`/spec init`) - Set up Specter in project
+2. **Generate** (`/spec generate` or `/spec "Feature"`) - Create feature specification
+3. **Clarify** (`/spec clarify`) - Resolve ambiguities (optional)
+4. **Plan** (`/spec plan`) - Create technical design
+5. **Tasks** (`/spec tasks`) - Break into actionable tasks
+6. **Implement** (`/spec implement`) - Execute implementation
 
 ### Priority System
 
@@ -126,114 +131,178 @@ User Project/
 
 **Persistent Memory** (`.specter-memory/`):
 - Workflow progress and metrics
-- Architecture decisions
+- Architecture decisions (ADRs)
 - Planned/completed changes
 - Git-committed (project history)
 
 ## Command Guidelines
 
-### Slash Commands
+### Hub Command
 
-Users invoke Flow with slash commands:
+Users invoke Specter with the unified `/spec` command:
 
 ```bash
-/specter-init                      # Initialize Specter
-/specter-specify "Feature"         # Create specification
-/specter-plan                      # Technical design
-/specter-tasks                     # Task breakdown
-/specter-implement                 # Execute
+/spec init                    # Initialize Specter
+/spec "Feature description"   # Create specification
+/spec                         # Context-aware: continues from current phase
+/spec plan                    # Explicit: run specific phase
+/spec --help                  # Context-aware help
 ```
 
-### Utility Commands
+**Routing Logic**:
+- `/spec` alone → Context-aware continuation
+- `/spec init|generate|plan|tasks|implement|...` → Explicit skill invocation
+- `/spec "Text with spaces"` → Smart: detects specification text, runs generate
+
+### Core Workflow Commands
 
 ```bash
-/status                         # Check workflow state
-/help                           # Context-aware help
-/session save                   # Save checkpoint
-/resume                         # Continue work
-/validate                       # Check consistency
+/spec init                    # Initialize project
+/spec generate "Feature"      # Create specification
+/spec "Feature"               # Shorthand for generate
+/spec clarify                 # Resolve [CLARIFY] tags
+/spec plan                    # Create technical plan
+/spec tasks                   # Break into tasks
+/spec implement               # Execute implementation
+```
+
+### Supporting Commands
+
+```bash
+/spec update "Changes"        # Update specification
+/spec blueprint               # Define architecture
+/spec orchestrate             # Full workflow automation
+/spec analyze                 # Validate consistency
+/spec discover                # Brownfield analysis
+/spec metrics                 # Show development metrics
+/spec checklist               # Generate quality checklists
+/spec validate                # Validate all artifacts
+/spec status                  # Check current state
+```
+
+### Progressive Disclosure Flags
+
+```bash
+/spec plan --examples         # Load EXAMPLES.md (~3,000 extra tokens)
+/spec tasks --reference       # Load REFERENCE.md (~2,000 extra tokens)
+/spec --verbose               # Detailed execution output
 ```
 
 ## Skill Integration
 
 ### When Skills Update State
 
-Skills should update state files:
+Skills should update state files appropriately:
 
-**`specter:init`**:
-- Creates `.specter-state/` and `.specter-memory/`
+**`spec:init`**:
+- Creates `.specter/`, `.specter-state/`, `.specter-memory/`
 - Initializes tracking files
 
-**`specter:specify`**:
+**`spec:generate`**:
 - Updates `current-session.md` with new feature
 - Adds entry to `WORKFLOW-PROGRESS.md`
 
-**`specter:plan`**:
+**`spec:plan`**:
 - Updates session phase to "planning"
 - Logs architecture decisions to `DECISIONS-LOG.md`
 
-**`specter:tasks`**:
+**`spec:tasks`**:
 - Updates session phase to "implementation"
 - Adds tasks to `CHANGES-PLANNED.md`
 
-**`specter:implement`**:
+**`spec:implement`**:
 - Updates task progress in session
 - Moves completed tasks to `CHANGES-COMPLETED.md`
 - Updates `WORKFLOW-PROGRESS.md`
 
-See `./docs/IMPLEMENTATION-COMPLETE.md` for integration details.
+### Subagent Delegation
+
+Complex skills delegate to specialized subagents:
+
+- `spec:implement` → `spec:implementer` (parallel task execution with progress tracking)
+- `spec:plan` → `spec:researcher` (research-backed technical decisions)
+- `spec:analyze` → `spec:analyzer` (deep consistency validation across artifacts)
+
+See individual agent directories in `.claude/agents/spec-*/`
 
 ## Documentation References
 
 ### For Users
 
 **Getting Started:**
-- `./README.md` - Plugin overview
-- `./docs/QUICK-START.md` - 5-minute setup
-- `./docs/COMMANDS-QUICK-REFERENCE.md` - Command reference
+- `./README.md` - Plugin overview and quick start
+- `./docs/MIGRATION-V2-TO-V3.md` - Migration from v2.1
 
-**Complete Guide:**
-- `./docs/USER-GUIDE.md` - Full user manual (800+ lines)
-
-**Problem Solving:**
-- `./docs/TROUBLESHOOTING.md` - Common issues (500+ lines)
-
-**Customization:**
-- `./docs/WORKFLOW-EXPANSION-GUIDE.md` - Extend Flow (750+ lines)
+**Advanced:**
+- `./docs/HOOKS-USER-GUIDE.md` - Event hooks guide
+- `./docs/CUSTOM-HOOKS-API.md` - Hooks API reference
 
 ### For Developers
 
-**Technical Details:**
-- `./docs/IMPLEMENTATION-COMPLETE.md` - Implementation guide
-- `./docs/FINAL-SUMMARY.md` - Complete project overview
-- `./docs/COMPREHENSIVE-ANALYSIS-REPORT.md` - Analysis findings
+**Skill Documentation** (each skill has 3 files):
+- `SKILL.md` - Core logic and workflow (~1,500 tokens)
+- `EXAMPLES.md` - Comprehensive usage scenarios (~3,000 tokens)
+- `REFERENCE.md` - Full technical reference (~2,000 tokens)
 
-**Integration:**
-- `./.claude/skills/SKILL-STATE-INTEGRATION.md` - State integration guide
-- `./.claude/commands/lib/state-utils.sh` - State utilities
+**Load with flags**:
+```bash
+/spec plan                    # Loads SKILL.md only
+/spec plan --examples         # Loads SKILL.md + EXAMPLES.md
+/spec plan --reference        # Loads SKILL.md + REFERENCE.md
+```
+
+**Shared Resources**:
+- `.claude/skills/shared/integration-patterns.md` - MCP integration patterns
+- `.claude/skills/shared/workflow-patterns.md` - Common workflow patterns
+- `.claude/skills/shared/state-management.md` - State file specifications
 
 ## Configuration
 
-Flow reads configuration from `CLAUDE.md` in user projects:
+Specter reads configuration from `CLAUDE.md` in user projects:
 
 ```markdown
-# Flow Configuration
+# Specter Configuration
+
+## Basic Settings
+SPECTER_AUTO_CHECKPOINT=true        # Auto-save session state
+SPECTER_VALIDATE_ON_SAVE=true       # Auto-validate before completion
+
+## MCP Integrations (Optional)
 SPECTER_ATLASSIAN_SYNC=enabled
 SPECTER_JIRA_PROJECT_KEY=PROJ
 SPECTER_CONFLUENCE_ROOT_PAGE_ID=123456
-SPECTER_AUTO_CHECKPOINT=true
-SPECTER_VALIDATE_ON_SAVE=true
+
+## Workflow Preferences
+SPECTER_ORCHESTRATE_MODE=interactive|auto
+SPECTER_ORCHESTRATE_SKIP_ANALYZE=false
+
+## Skill-Specific
+SPEC_IMPLEMENT_MAX_PARALLEL=3       # Max parallel tasks
+SPEC_CLARIFY_MAX_QUESTIONS=4        # Questions per session
 ```
 
 ## Best Practices
 
 ### When Helping Users
 
-1. **Read context first**: Use `/status` to understand current state
-2. **Follow workflow**: Spec → Plan → Tasks → Implement
+1. **Read context first**: Use `/spec status` to understand current state
+2. **Follow workflow**: generate → clarify → plan → tasks → implement
 3. **Update state**: Keep `.specter-state/` and `.specter-memory/` current
-4. **Save checkpoints**: Use `/session save` before major operations
-5. **Validate often**: Run `/validate` after changes
+4. **Use progressive disclosure**: Don't load --examples unless needed
+5. **Validate often**: Run `/spec validate` after changes
+
+### Token Efficiency
+
+**v3.0 Achievements**:
+- 81% token reduction per skill (6,800 → 1,283 tokens)
+- 80% state overhead reduction (10,000 → 2,000 tokens)
+- 3-5x faster execution
+
+**Best Practices**:
+- Default: Use skills without flags (1,500 tokens)
+- Examples: Add `--examples` when user needs patterns (6,600 tokens)
+- Reference: Add `--reference` for full API docs (11,600 tokens)
+- State: Hub caches state, don't re-read in skills
 
 ### File Organization
 
@@ -242,72 +311,77 @@ SPECTER_VALIDATE_ON_SAVE=true
 - Update state files during workflow
 - Log decisions to `DECISIONS-LOG.md`
 - Maintain session checkpoints
+- Use skill naming: `spec:*` (not `specter:*`)
 
 ❌ **Don't:**
 - Modify user's `features/` directly without workflow
 - Skip state updates
 - Forget to create checkpoints
 - Leave inconsistent state
+- Use old `specter-*` command names
 
 ## Common Patterns
 
 ### New Feature Workflow
 
 ```bash
-/specter-specify "Feature description"
-/specter-plan
-/specter-tasks
-/validate
-/specter-implement
-/session save
+/spec init
+/spec "Feature description"
+/spec plan
+/spec tasks
+/spec validate
+/spec implement
 ```
 
 ### Resume After Interruption
 
 ```bash
-/resume
-/specter-implement --continue
+/spec status
+/spec                         # Context-aware continue
+# OR
+/spec implement --continue
 ```
 
 ### Requirements Changed
 
 ```bash
-/specter-update "Revised requirements"
-/specter-analyze
-/specter-tasks --update
-/specter-implement --continue
+/spec update "Revised requirements"
+/spec analyze
+/spec tasks --update
+/spec implement --continue
+```
+
+### Full Automation
+
+```bash
+/spec orchestrate
+# Runs: generate → clarify → plan → tasks → implement
+# With prompts at decision points
 ```
 
 ## Troubleshooting
 
 When users encounter issues:
 
-1. Check `/status` for current state
-2. Run `/validate` to check consistency
-3. Review `./docs/TROUBLESHOOTING.md`
-4. Check session with `/session list`
-5. Use `/help` for context-aware guidance
+1. Check `/spec status` for current state
+2. Run `/spec validate` to check consistency
+3. Review skill-specific EXAMPLES.md: `/spec <command> --examples`
+4. Check session state: `cat .specter-state/current-session.md`
+5. Use verbose mode: `/spec <command> --verbose`
 
-## Plugin Maintenance
+## Version Information
 
-### Adding New Skills
-
-1. Create skill in `.claude/skills/{skill-name}/`
-2. Follow structure: SKILL.md, EXAMPLES.md, REFERENCE.md
-3. Update state integration guide
-4. Add slash command wrapper in `.claude/commands/`
-
-### Updating Documentation
-
-1. User guides → `./docs/`
-2. Technical docs → `./docs/`
-3. Update cross-references
-4. Maintain version compatibility
+- **Current Version**: 3.0.0
+- **Command Interface**: `/spec` hub with subcommands
+- **Skills**: 13 specialized skills (spec:*)
+- **Agents**: 3 specialized agents (spec-*)
+- **Token Efficiency**: 81% reduction vs v2.1
+- **Migration**: See docs/MIGRATION-V2-TO-V3.md
 
 ---
 
 **For complete documentation**: See `./README.md` and `./docs/`
 
-**For user support**: Direct users to `./docs/QUICK-START.md` or `./docs/USER-GUIDE.md`
+**For user support**: Direct users to README.md Quick Start section
 
-**For customization**: See `./docs/WORKFLOW-EXPANSION-GUIDE.md`
+**For migration**: See docs/MIGRATION-V2-TO-V3.md

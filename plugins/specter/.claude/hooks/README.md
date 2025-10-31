@@ -16,8 +16,8 @@ Specter uses **9 specialized hooks** that execute at different lifecycle points 
 |------|------|----------|---------|-----------|
 | **detect-intent.js** | Pre-execution | User input | Suggests Specter skills based on prompt | No |
 | **validate-prerequisites.js** | Pre-execution | Before Specter skills | Checks required artifacts exist | **Yes** (exits 1) |
-| **pre-specify.js** | Pre-skill | Before specter:specify | Prepares environment, loads templates | No |
-| **post-specify.js** | Post-skill | After specter:specify | Triggers clarify, syncs JIRA/Confluence | No |
+| **pre-specify.js** | Pre-skill | Before spec:generate | Prepares environment, loads templates | No |
+| **post-specify.js** | Post-skill | After spec:generate | Triggers clarify, syncs JIRA/Confluence | No |
 | **format-code.js** | Post-tool | After Write/Edit | Auto-formats code files | No |
 | **track-metrics.js** | Post-tool | After file operations | Tracks AI vs human code metrics | No |
 | **update-workflow-status.js** | Post-skill | After any Flow skill | Updates .specter/.state.json | No |
@@ -33,15 +33,15 @@ Session Start
 User Input
   └─> detect-intent.js (suggests skills)
 
-Before Flow Skill (e.g., specter:plan)
+Before Flow Skill (e.g., spec:plan)
   └─> validate-prerequisites.js (checks spec.md exists) [BLOCKS if missing]
-  └─> pre-specify.js (if specter:specify)
+  └─> pre-specify.js (if spec:generate)
 
 Flow Skill Executes
   └─> [Skill runs...]
 
 After Flow Skill
-  └─> post-specify.js (if specter:specify - triggers clarify, JIRA sync)
+  └─> post-specify.js (if spec:generate - triggers clarify, JIRA sync)
   └─> update-workflow-status.js (updates progress)
 
 After Write/Edit Tools
@@ -67,8 +67,8 @@ Session End
 **Example**:
 ```
 User: "I need to implement a new login feature"
-Hook: 🎯 Detected intent: specter:specify
-      Consider using: specter:specify
+Hook: 🎯 Detected intent: spec:generate
+      Consider using: spec:generate
 ```
 
 **Configuration**: None
@@ -87,13 +87,13 @@ Hook: 🎯 Detected intent: specter:specify
 
 **Example**:
 ```bash
-# User runs: specter:plan
+# User runs: spec:plan
 # Hook checks: spec.md exists? ✓
 # Result: Proceeds
 
-# User runs: specter:plan (but no spec.md)
+# User runs: spec:plan (but no spec.md)
 # Hook checks: spec.md exists? ✗
-# Result: BLOCKS with error + suggestion to run specter:specify first
+# Result: BLOCKS with error + suggestion to run spec:generate first
 ```
 
 **Configuration**:
@@ -114,7 +114,7 @@ Edit `PREREQUISITES` object in validate-prerequisites.js to add/modify rules.
 
 **Example**:
 ```
-User: specter:specify "Build an e-commerce checkout flow"
+User: spec:generate "Build an e-commerce checkout flow"
 Hook: ✓ Auto-detected project type: greenfield
       ✓ Detected domain: e-commerce. Loading specialized templates.
       ✓ Queued 3 research tasks for AI analysis
@@ -130,7 +130,7 @@ Hook: ✓ Auto-detected project type: greenfield
 
 **Features**:
 - Clarification detection ([NEEDS CLARIFICATION] markers)
-- Auto-triggers specter:clarify if needed
+- Auto-triggers spec:clarify if needed
 - JIRA sync (creates/updates stories)
 - Confluence publishing (auto-publishes specs)
 - Quality assessment (completeness, clarity, testability scores)
@@ -138,8 +138,8 @@ Hook: ✓ Auto-detected project type: greenfield
 
 **Example**:
 ```
-After specter:specify completes:
-Hook: ✓ Specification created with 3 clarifications needed. Auto-triggering specter:clarify...
+After spec:generate completes:
+Hook: ✓ Specification created with 3 clarifications needed. Auto-triggering spec:clarify...
       ✓ Synced with JIRA: PROJ-123
       ✓ Published to Confluence: https://company.atlassian.net/wiki/...
       ⚠ Specification quality score: 72%. Consider improving completeness and clarity.
@@ -210,7 +210,7 @@ Human Written:   ███████░░░░░░░░░░░░░ 35
 |--------|-------|
 | Total Lines | 12,543 |
 | Generation Velocity | 42 lines/hour |
-| Most Used Skill | specter:implement |
+| Most Used Skill | spec:implement |
 ```
 
 **Configuration**: None
@@ -232,11 +232,11 @@ Human Written:   ███████░░░░░░░░░░░░░ 35
 
 **Example**:
 ```
-After specter:tasks completes:
+After spec:tasks completes:
 Hook: 📊 Workflow Progress: ███████░░░ 70%
       Phase: planning
       Steps: 5/10
-      Next step: specter:analyze or specter:implement
+      Next step: spec:analyze or spec:implement
       Estimated time: ~15 minutes
 ```
 
@@ -290,7 +290,7 @@ Hook: 🔄 Session Restored
       📝 Suggestions:
         • Continue working on: features/001-login-flow
         • Resume implementation: 13 tasks pending (48% complete)
-        • Next workflow step: specter:implement
+        • Next workflow step: spec:implement
 ```
 
 **Configuration**: None
@@ -397,7 +397,7 @@ Hooks receive JSON via stdin:
 ```json
 {
   "tool": "Write",
-  "command": "specter:implement",
+  "command": "spec:implement",
   "output": "File created successfully at: src/Button.tsx",
   "file_path": "src/Button.tsx",
   "context": {
@@ -460,9 +460,9 @@ If `validate-prerequisites.js` blocks execution:
 
 ```
 ❌ validation-error
-   Skill: specter:plan
+   Skill: spec:plan
    Missing: spec.md
-   Suggestion: Run specter:specify first to create a specification
+   Suggestion: Run spec:generate first to create a specification
 ```
 
 **Resolution**: Follow the suggestion (run the prerequisite skill first)

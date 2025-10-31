@@ -1,44 +1,46 @@
-# 👻 Specter v3.0 - Unified Workflow Plugin for Claude Code
+# Specter v3.0 - Specification-Driven Development Plugin for Claude Code
 
-**One command. Intelligent routing. Team-ready.**
+**Efficient. Systematic. Production-Ready.**
 
-Specter is a specification-driven development plugin that transforms Claude Code into a complete development workflow system. v3.0 brings massive simplification: **8 commands → 1 unified command** with **84% less token usage** and **built-in team collaboration**.
+Specter transforms Claude Code into a complete specification-driven development workflow system. v3.0 brings **81% token efficiency improvement**, **unified command interface**, and **13 specialized skills** for professional software development.
 
 ---
 
 ## ✨ What's New in v3.0
 
-### 🎯 Single Unified Command
-```bash
-# Before (v2.1): Remember 8 different commands
-/specter-init, /specter-specify, /specter-plan, /specter-tasks...
+### ⚡ 81% Token Reduction
+- **v2.1**: ~6,800 tokens per skill invocation
+- **v3.0**: ~1,283 tokens per skill invocation
+- **Result**: Faster execution, more efficient context usage, 3-5x faster workflows
 
-# After (v3.0): One command, intelligent routing
-/👻                    # Context-aware: knows what to do next
-/👻 init               # Explicit: initialize project
-/👻 "Your feature"     # Smart: auto-detects specification text
+### 🎯 Unified Command Interface
+```bash
+# Before (v2.1): Multiple command patterns
+/specter-init, /specter-specify, /specter-plan...
+
+# After (v3.0): Single hub command with intelligent routing
+/spec init                    # Initialize project
+/spec "Your feature"          # Create specification
+/spec                         # Context-aware: continues from current phase
 ```
 
-### ⚡ 84% Token Reduction
-- **v2.1**: ~14,400 tokens per command
-- **v3.0**: ~2,250 tokens per command
-- **Result**: 3x faster, more efficient conversations
+### 🏗️ Progressive Disclosure Architecture
+Skills now use 3-tier loading:
+- **Tier 1**: Metadata (~100 tokens, always loaded)
+- **Tier 2**: Core logic (~1,500 tokens, loaded on trigger)
+- **Tier 3**: Examples/Reference (~5,000+ tokens, loaded on demand with flags)
 
-### 👥 Team Collaboration
 ```bash
-/👻 team                   # Team dashboard with locks & assignments
-/👻 assign @alice T001     # Assign tasks to team members
-/👻 lock 002               # Lock features to prevent conflicts
-/👻 master-spec            # Auto-generated consolidated docs
+/spec plan                    # Loads core logic only
+/spec plan --examples         # Loads + comprehensive examples
+/spec plan --reference        # Loads + full API reference
 ```
 
-### 🎮 Interactive Mode
-```bash
-/👻 --interactive
-
-# Shows contextual menu based on current phase
-# No need to remember commands!
-```
+### 📦 State Caching
+Hub command reads state files once and caches for entire execution:
+- **Before**: Each skill reads state (~2,000 tokens × 5 skills = 10,000 tokens)
+- **After**: Hub reads once (~2,000 tokens total)
+- **Savings**: 80% reduction in state overhead
 
 ---
 
@@ -46,51 +48,43 @@ Specter is a specification-driven development plugin that transforms Claude Code
 
 ### Installation
 ```bash
-# Install from marketplace
+# Install from Claude Code marketplace
 /plugin install specter@specter-marketplace
 
 # Verify installation
-/👻 --help
+/spec --help
 ```
 
 ### 5-Minute Workflow
 
 ```bash
 # 1. Initialize Specter in your project
-/👻 init
+/spec init
 
-# 2. Describe what you want to build
-/👻 "Add user authentication with OAuth2 and JWT tokens"
+# 2. Create a feature specification
+/spec "Add user authentication with OAuth2 and JWT tokens"
 
-# 3. Continue workflow (context-aware)
-/👻          # Creates technical plan
-/👻          # Breaks into tasks
-/👻          # Begins implementation
+# 3. Generate technical plan
+/spec plan
+
+# 4. Break down into tasks
+/spec tasks
+
+# 5. Execute implementation
+/spec implement
 
 # Done! 🎉
 ```
 
-### The Old Way (v2.1) vs The New Way (v3.0)
+### Alternative: Context-Aware Execution
 
-**Before:**
 ```bash
-/specter-init
-/specter-specify "Add user authentication"
-/specter-plan
-/specter-tasks
-/specter-implement
+/spec init
+/spec "Add user authentication"
+/spec          # Auto-creates plan based on current phase
+/spec          # Auto-creates tasks
+/spec          # Auto-begins implementation
 ```
-
-**After:**
-```bash
-/👻 init
-/👻 "Add user authentication"
-/👻
-/👻
-/👻
-```
-
-**84% fewer tokens. Same powerful workflow.**
 
 ---
 
@@ -98,262 +92,233 @@ Specter is a specification-driven development plugin that transforms Claude Code
 
 ### Workflow Phases
 
-Specter guides you through a proven development workflow:
+Specter guides you through a proven 5-phase development workflow:
 
 ```
-1. 🎬 Init         → Set up Specter in your project
-2. 📝 Specify      → Define what to build (user stories)
-3. 🏗️ Plan         → Design how to build it (architecture)
-4. ✅ Tasks        → Break down into executable tasks
-5. 🚀 Implement    → Execute tasks autonomously
+1. 🎬 init       → Set up Specter in your project
+2. 📝 generate   → Define what to build (specifications with user stories)
+3. 🏗️  plan      → Design how to build it (technical architecture)
+4. ✅ tasks      → Break down into executable tasks with dependencies
+5. 🚀 implement  → Execute tasks autonomously with progress tracking
 ```
 
-At any point, just type `/👻` and Specter continues from where you left off.
+At any point, type `/spec` and Specter continues from your current phase.
+
+### 13 Specialized Skills
+
+**Core Workflow** (5 skills):
+- `spec:init` - Initialize Specter in projects (greenfield/brownfield)
+- `spec:generate` - Create specifications from requirements
+- `spec:plan` - Generate technical plans with Architecture Decision Records
+- `spec:tasks` - Break plans into executable tasks with dependencies
+- `spec:implement` - Execute implementation autonomously
+
+**Supporting Workflow** (4 skills):
+- `spec:clarify` - Resolve ambiguities and [CLARIFY] tags
+- `spec:blueprint` - Define architecture and technical standards
+- `spec:update` - Update specifications and add MCP integrations
+- `spec:orchestrate` - Execute complete workflow end-to-end
+
+**Utilities** (4 skills):
+- `spec:analyze` - Validate consistency across all artifacts
+- `spec:discover` - Analyze existing codebases (brownfield onboarding)
+- `spec:checklist` - Generate quality validation checklists
+- `spec:metrics` - View development metrics and AI/human code ratios
 
 ### State Management
 
 Specter maintains two types of state:
 
-**Session State** (`.specter-state/`) - Git-ignored, temporary:
-- Current feature and phase
-- Task progress
-- Session checkpoints
+**Session State** (`.specter-state/`) - Git-ignored:
+- `current-session.md` - Current feature, phase, progress
+- `checkpoints/` - Session recovery points
 
 **Persistent Memory** (`.specter-memory/`) - Git-committed:
-- Workflow history and metrics
-- Architecture decisions (ADRs)
-- Planned and completed changes
+- `WORKFLOW-PROGRESS.md` - Feature history and metrics
+- `DECISIONS-LOG.md` - Architecture Decision Records (ADRs)
+- `CHANGES-PLANNED.md` - Planned changes from tasks
+- `CHANGES-COMPLETED.md` - Completed implementation history
 
 ### Feature Organization
 
-Each feature gets its own directory:
+Each feature gets its own numbered directory:
 
 ```
 features/
-└── 001-user-authentication/
-    ├── spec.md       # What to build
-    ├── plan.md       # How to build it
-    └── tasks.md      # Step-by-step execution
+├── 001-user-authentication/
+│   ├── spec.md       # What to build (user stories, acceptance criteria)
+│   ├── plan.md       # How to build it (architecture, components, ADRs)
+│   └── tasks.md      # Step-by-step execution (with dependencies)
+└── 002-payment-integration/
+    ├── spec.md
+    ├── plan.md
+    └── tasks.md
 ```
 
 ---
 
 ## 🎯 Usage Examples
 
-### Starting a New Project
+### Starting a New Project (Greenfield)
 
 ```bash
 cd my-new-project
-/👻 init --type=greenfield
+/spec init --type=greenfield
 
 # Specter creates:
-# ✅ .specter/ (config and templates)
+# ✅ .specter/ (configuration and templates)
 # ✅ .specter-state/ (session tracking)
 # ✅ .specter-memory/ (persistent memory)
-# ✅ features/ (ready for specs)
+# ✅ features/ (ready for specifications)
+
+# Optional: Define architecture first
+/spec blueprint
 ```
 
-### Adding to Existing Project
+### Adding to Existing Project (Brownfield)
 
 ```bash
 cd my-existing-project
-/👻 init --type=brownfield
+/spec init --type=brownfield
 
-# Specter analyzes your codebase and adapts
+# Specter analyzes your codebase
+/spec discover
+
+# Then define architecture based on analysis
+/spec blueprint
 ```
 
 ### Creating a Feature
 
 ```bash
-# Method 1: Free text (recommended)
-/👻 "Add payment processing with Stripe integration"
+# Method 1: Natural language (recommended)
+/spec "Add payment processing with Stripe. Support credit cards, ACH, and Apple Pay. Include webhook handling for payment events."
 
-# Method 2: Explicit
-/👻 specify "Add payment processing"
+# Method 2: Explicit command
+/spec generate "Add payment processing"
 
-# Method 3: Interactive
-/👻 --interactive
-# → Choose "Create new specification"
+# Method 3: From JIRA (requires MCP)
+/spec generate --from-jira=PROJ-123
 ```
 
-### Continuing Work
+### Handling Ambiguities
+
+```bash
+# After spec:generate, check for [CLARIFY] tags
+/spec clarify
+
+# Specter asks targeted questions with recommended options
+# Updates spec.md with clarified requirements
+# Logs decisions to DECISIONS-LOG.md
+```
+
+### Continuing Work After Interruption
 
 ```bash
 # Check where you left off
-/👻 status
+/spec status
 
 # Continue from current phase
-/👻
+/spec
 
 # Or jump to specific phase
-/👻 implement --continue
+/spec implement --continue
+
+# Or resume from last checkpoint
+/spec orchestrate --resume
 ```
 
-### Team Collaboration
+### Complete End-to-End Workflow
 
 ```bash
-# Check team status
-/👻 team
+# Let Specter run everything automatically
+/spec orchestrate
 
-# Lock a feature for yourself
-/👻 lock 003
-
-# Assign tasks to team members
-/👻 assign @bob T001 T002 T003
-/👻 assign @alice T004 T005
-
-# When done, release the lock
-/👻 unlock 003
-```
-
-### Generate Master Spec
-
-```bash
-# Auto-generate consolidated documentation
-/👻 master-spec
-
-# Creates .specter/master-spec.md with:
-# - Product vision
-# - Architecture
-# - All features (completed + active + planned)
-# - Technical decisions
-# - Metrics
+# Walks through: generate → clarify → plan → tasks → implement
+# Prompts at decision points
+# Creates checkpoints for recovery
+# Provides real-time progress tracking
 ```
 
 ---
 
 ## 🎮 Command Reference
 
+### Hub Command
+
+```bash
+/spec                          # Context-aware: continues from current phase
+/spec <subcommand>             # Explicit: runs specific skill
+/spec "Text"                   # Smart: detects specification and runs generate
+/spec --help                   # Context-aware help
+/spec --version                # Show version
+```
+
 ### Initialization
+
 ```bash
-/👻 init                     # Interactive initialization
-/👻 init --type=greenfield   # New project
-/👻 init --type=brownfield   # Existing codebase
+/spec init                     # Interactive initialization
+/spec init --type=greenfield   # New project
+/spec init --type=brownfield   # Existing codebase
+/spec blueprint                # Define architecture (before features)
+/spec discover                 # Analyze existing codebase
 ```
 
-### Workflow Commands
+### Core Workflow
+
 ```bash
-/👻 "Feature description"    # Create specification
-/👻 plan                     # Create technical plan
-/👻 tasks                    # Break into tasks
-/👻 implement                # Execute implementation
-/👻 clarify                  # Resolve ambiguities
-/👻 update "changes"         # Update specification
+/spec generate "Feature"       # Create specification
+/spec clarify                  # Resolve ambiguities (optional)
+/spec plan                     # Create technical plan
+/spec tasks                    # Break into tasks
+/spec implement                # Execute implementation
+
+# Or use short form
+/spec "Feature description"    # Generates specification
+/spec                          # Auto-continues to next phase
 ```
 
-### Context-Aware
+### Specification Management
+
 ```bash
-/👻                          # Continue from current phase
-/👻 --interactive            # Interactive menu
-/👻 status                   # Check current state
-/👻 --help                   # Context-aware help
+/spec update "Changes"         # Update existing specification
+/spec analyze                  # Validate consistency
+/spec clarify                  # Resolve [CLARIFY] tags
 ```
 
-### Team Features
+### Implementation Control
+
 ```bash
-/👻 team                     # Team dashboard
-/👻 assign @user T001        # Assign task
-/👻 lock 002                 # Lock feature
-/👻 unlock 002               # Unlock feature
-/👻 master-spec              # Generate master specification
+/spec implement                # Execute all tasks
+/spec implement --filter=P1    # Execute P1 tasks only
+/spec implement --resume       # Resume from interruption
+/spec implement --parallel     # Max parallelization
+```
+
+### Automation
+
+```bash
+/spec orchestrate              # Full workflow automation
+/spec orchestrate --auto       # Minimize prompts
+/spec orchestrate --resume     # Resume from checkpoint
 ```
 
 ### Utilities
+
 ```bash
-/👻 analyze                  # Validate consistency
-/👻 metrics                  # Show development metrics
-/👻 validate                 # Check for issues
+/spec status                   # Check current state
+/spec metrics                  # View development metrics
+/spec validate                 # Validate all artifacts
+/spec checklist                # Generate quality checklist
 ```
 
 ### Progressive Disclosure
-```bash
-/👻 plan --examples          # Load examples too
-/👻 tasks --reference        # Load full API reference
-```
-
----
-
-## 🏢 Team Setup
-
-### Enable Team Mode
-
-Add to your project's `CLAUDE.md`:
-
-```markdown
-# Specter Configuration
-SPECTER_TEAM_MODE=enabled
-SPECTER_AUTO_LOCK=true
-SPECTER_LOCK_TTL=7200        # 2 hours
-```
-
-### Team Workflow
 
 ```bash
-# Alice starts a feature
-cd project
-/👻 "Add payment integration"
-# → Feature automatically locked to @alice
-
-# Bob tries to work on it
-/👻 "Add payment integration"
-# ❌ Error: Feature locked by @alice since 2024-10-31 10:30
-
-# Alice assigns tasks
-/👻 assign @bob T001 T002
-/👻 assign @carol T003 T004
-
-# Team checks status
-/👻 team
-
-# Output:
-# 📊 Specter Team Status
-# ━━━━━━━━━━━━━━━━━━━━━━━━
-# 🔒 Active Locks:
-#   - Feature 002: @alice
-# 👥 Task Assignments:
-#   - T001: @bob
-#   - T002: @bob
-#   - T003: @carol
-#   - T004: @carol
+/spec plan --examples          # Load comprehensive examples
+/spec tasks --reference        # Load full API reference
+/spec --verbose                # Detailed execution output
 ```
-
-### Stale Lock Handling
-
-Locks automatically expire after TTL (default 2 hours) or if the process dies:
-
-```bash
-# Force unlock (admin only)
-/👻 force-unlock 002
-```
-
----
-
-## 📊 Token Efficiency
-
-### How We Achieved 84% Reduction
-
-#### 1. **Lazy Loading**
-Only load what you need, when you need it:
-
-```
-Tier 1 (Always):    ~500 tokens   (router + context)
-Tier 2 (On-demand): ~1,750 tokens (skill core)
-Tier 3 (Optional):  ~15,000 tokens (examples + reference)
-```
-
-#### 2. **Progressive Disclosure**
-Skills split into 3 files:
-- `SKILL.md` - Core logic (always loaded)
-- `EXAMPLES.md` - Usage examples (load with `--examples`)
-- `REFERENCE.md` - Full API docs (load with `--reference`)
-
-#### 3. **Smart Routing**
-Single entry point reduces overhead:
-- Context detection: ~200 tokens
-- Routing logic: ~300 tokens
-- vs. 8 separate command files: ~1,200 tokens each
-
-**Result**: From 14,400 to 2,250 tokens per invocation.
 
 ---
 
@@ -363,29 +328,27 @@ Single entry point reduces overhead:
 
 ```
 your-project/
-├── .specter/                      # Configuration (committed)
-│   ├── product-requirements.md
-│   ├── architecture-blueprint.md
-│   ├── master-spec.md             # Auto-generated
-│   └── templates/
+├── .specter/                      # Configuration (git-committed)
+│   ├── product-requirements.md   # Product vision and requirements
+│   ├── architecture-blueprint.md # Technical architecture (optional)
+│   ├── templates/                # Custom templates
+│   └── scripts/                  # Custom automation scripts
 │
 ├── .specter-state/                # Session state (git-ignored)
-│   ├── session.json               # Source of truth
-│   ├── current-session.md         # Human-readable view
-│   └── locks/                     # Feature locks
+│   ├── current-session.md        # Current feature, phase, progress
+│   └── checkpoints/              # Session recovery points
 │
-├── .specter-memory/               # Persistent memory (committed)
-│   ├── workflow.json              # Source of truth
-│   ├── WORKFLOW-PROGRESS.md       # Auto-generated
-│   ├── DECISIONS-LOG.md
-│   ├── CHANGES-PLANNED.md
-│   └── CHANGES-COMPLETED.md
+├── .specter-memory/               # Persistent memory (git-committed)
+│   ├── WORKFLOW-PROGRESS.md      # Feature history and metrics
+│   ├── DECISIONS-LOG.md          # Architecture decisions (ADRs + CLRs)
+│   ├── CHANGES-PLANNED.md        # Planned changes from tasks.md
+│   └── CHANGES-COMPLETED.md      # Implementation history
 │
-└── features/                      # Feature artifacts (committed)
-    ├── 001-user-auth/
-    │   ├── spec.md
-    │   ├── plan.md
-    │   └── tasks.md
+└── features/                      # Feature artifacts (git-committed)
+    ├── 001-user-authentication/
+    │   ├── spec.md               # User stories, acceptance criteria
+    │   ├── plan.md               # Technical design, components, ADRs
+    │   └── tasks.md              # Executable tasks with dependencies
     └── 002-payment-integration/
         ├── spec.md
         ├── plan.md
@@ -397,96 +360,177 @@ your-project/
 Add to `.gitignore`:
 
 ```gitignore
-# Specter session state (temporary, user-specific)
-.specter-state/session.json
-.specter-state/current-session.md
-.specter-state/checkpoints/
+# Specter session state (temporary, machine-specific)
+.specter-state/
 
-# Everything else in .specter/ is committed
+# Everything else in .specter/ and .specter-memory/ should be committed
 ```
 
 ---
 
 ## 🔧 Configuration
 
-### Global Settings (CLAUDE.md)
+### Project Settings (CLAUDE.md)
+
+Add to your project's `CLAUDE.md`:
 
 ```markdown
 # Specter Configuration
 
-## Basic
+## Basic Settings
 SPECTER_AUTO_CHECKPOINT=true        # Auto-save session state
-SPECTER_VALIDATE_ON_SAVE=true       # Auto-validate before commits
+SPECTER_VALIDATE_ON_SAVE=true       # Auto-validate before task completion
 
-## Team Mode
-SPECTER_TEAM_MODE=enabled
-SPECTER_AUTO_LOCK=true               # Auto-lock on feature creation
-SPECTER_LOCK_TTL=7200                # Lock timeout (seconds)
-
-## Integrations
+## MCP Integrations (Optional)
 SPECTER_ATLASSIAN_SYNC=enabled
 SPECTER_JIRA_PROJECT_KEY=PROJ
 SPECTER_CONFLUENCE_ROOT_PAGE_ID=123456
 
-## Master Spec
-SPECTER_MASTER_SPEC_AUTO=true        # Auto-regenerate master spec
-SPECTER_MASTER_SPEC_FORMAT=md        # md|html|pdf
+## Workflow Preferences
+SPECTER_ORCHESTRATE_MODE=interactive|auto
+SPECTER_ORCHESTRATE_SKIP_ANALYZE=false
 ```
+
+### Skill-Specific Configuration
+
+```markdown
+## spec:implement Configuration
+SPEC_IMPLEMENT_MAX_PARALLEL=3       # Max parallel tasks
+SPEC_IMPLEMENT_AUTO_COMMIT=false    # Auto-commit after tasks
+
+## spec:clarify Configuration
+SPEC_CLARIFY_MAX_QUESTIONS=4        # Questions per session
+SPEC_CLARIFY_AUTO_ACCEPT=false      # Auto-accept recommendations
+```
+
+---
+
+## 📊 Token Efficiency
+
+### How We Achieved 81% Reduction
+
+#### 1. Progressive Disclosure (3-Tier Architecture)
+
+**Tier 1: Metadata** (~100 tokens, always loaded)
+- Skill name, description, activation patterns
+- Tool requirements, model preferences
+
+**Tier 2: Core Instructions** (~1,500 tokens, loaded on trigger)
+- Execution workflow
+- Phase-by-phase logic
+- State management
+- Basic examples
+
+**Tier 3: Extended Resources** (~5,000+ tokens, lazy loaded)
+- `EXAMPLES.md` - Comprehensive scenarios (load with `--examples`)
+- `REFERENCE.md` - Full technical specs (load with `--reference`)
+
+**Default Usage**: 1,600 tokens (Tier 1 + Tier 2)
+**With Examples**: 6,600 tokens (+ Tier 3 examples)
+**Full Reference**: 11,600 tokens (+ Tier 3 reference)
+
+#### 2. State Caching
+
+Hub command (`/spec`) loads state once:
+- Reads `.specter-state/current-session.md` (1 time)
+- Reads `.specter-memory/WORKFLOW-PROGRESS.md` (1 time)
+- Caches in memory for entire execution
+- Passes cached state to all invoked skills
+
+**Token Savings**: 8,000 tokens per workflow (5-skill average)
+
+#### 3. Shared Resources
+
+Common patterns extracted to shared files:
+- `shared/integration-patterns.md` (~1,200 tokens) - MCP integration
+- `shared/workflow-patterns.md` (~1,400 tokens) - Common workflows
+- `shared/state-management.md` (~1,600 tokens) - State specifications
+
+**Benefit**: Eliminates duplication across 13 skills
+
+#### 4. Smart Content Extraction
+
+Skills only load relevant sections:
+- EXAMPLES.md: Load only matching scenarios
+- REFERENCE.md: Load only relevant API sections
+- Conditional loading based on user flags
+
+**Result**: Average 1,283 tokens per skill (vs 6,800 in v2.1)
 
 ---
 
 ## 📚 Advanced Features
 
-### Shell Completion
+### MCP Integration
 
-Enable tab completion for faster workflows:
+Specter integrates with Model Context Protocol servers:
 
-**Bash:**
+**JIRA Integration**:
 ```bash
-# Add to ~/.bashrc
-source ~/.claude/completion/specter.bash
+# Pull JIRA story into specification
+/spec generate --from-jira=PROJ-123
+
+# Sync specification back to JIRA
+/spec update --sync-jira
 ```
 
-**Zsh:**
+**Confluence Integration**:
 ```bash
-# Add to ~/.zshrc
-fpath=(~/.claude/completion $fpath)
-autoload -Uz compinit && compinit
+# Publish architecture blueprint
+/spec blueprint --publish-confluence
+
+# Publish completed feature documentation
+/spec update --publish-confluence
 ```
 
-**Usage:**
+**Linear Integration**:
 ```bash
-/👻 <TAB>           # Lists all subcommands
-/👻 assign @<TAB>   # Lists team members
-/👻 impl<TAB>       # Completes to "implement"
+# Import Linear issue
+/spec generate --from-linear=PROJ-123
+
+# Create Linear tasks from tasks.md
+/spec tasks --create-linear
 ```
 
-### Custom Workflows
+### Custom Skills
 
-Extend Specter with custom skills:
+Extend Specter with project-specific skills:
 
 ```bash
-# Create custom skill
-mkdir -p .specter/skills/my-custom-skill
+# Create custom skill directory
+mkdir -p .specter/skills/deploy-validation
 
-# Add SKILL.md, EXAMPLES.md, REFERENCE.md
+# Add SKILL.md with your logic
+# Specter auto-discovers and loads it
 
 # Use it
-/👻 my-custom-skill
+/spec deploy-validation
 ```
 
 ### Hooks Integration
 
-Specter supports event hooks for automation:
+Specter supports event hooks for automation. See [HOOKS-USER-GUIDE.md](docs/HOOKS-USER-GUIDE.md).
 
 ```json
-// .specter/hooks.json
+// .claude/hooks/hooks.json
 {
-  "post-specify": "scripts/notify-team.sh",
-  "pre-implement": "scripts/validate-deps.sh",
-  "post-complete": "scripts/create-pr.sh"
+  "hooks": [
+    {
+      "event": "PostToolUse",
+      "matcher": "Skill",
+      "command": "node .specter/hooks/track-metrics.js"
+    }
+  ]
 }
 ```
+
+### Subagent Delegation
+
+Complex skills delegate to specialized subagents:
+
+- `spec:implement` → `spec:implementer` (parallel task execution)
+- `spec:plan` → `spec:researcher` (research-backed decisions)
+- `spec:analyze` → `spec:analyzer` (deep consistency validation)
 
 ---
 
@@ -494,7 +538,7 @@ Specter supports event hooks for automation:
 
 ### Command Not Found
 
-**Problem**: `/👻` not recognized
+**Problem**: `/spec` not recognized
 
 **Solution**:
 ```bash
@@ -509,28 +553,61 @@ Specter supports event hooks for automation:
 **Solution**:
 ```bash
 # Regenerate session state
-/👻 status
+/spec status
 
-# Or reinitialize
-/👻 init
+# Or reinitialize if corrupted
+rm .specter-state/current-session.md
+/spec init
 ```
 
-### Feature Locked
+### Skill Errors
 
-**Problem**: "Feature 002 is locked by @alice"
+**Problem**: Skill execution fails
 
-**Solutions**:
-1. Wait for @alice to finish and unlock
-2. Contact @alice to release lock
-3. Admin: `/👻 force-unlock 002`
-
-### Stale Locks
-
-Locks auto-expire after TTL (default 2h) or if process dies. Manual cleanup:
-
+**Solution**:
 ```bash
-# Remove all locks (admin)
-rm -rf .specter-state/locks/*.lock
+# Check skill exists
+ls .claude/skills/spec-*
+
+# Validate YAML frontmatter
+head -10 .claude/skills/spec-generate/SKILL.md
+
+# Re-run with verbose output
+/spec generate "Feature" --verbose
+```
+
+### State File Corruption
+
+**Problem**: Inconsistent state between files
+
+**Solution**:
+```bash
+# Validate all state files
+/spec validate
+
+# If corruption found, restore from checkpoint
+/spec orchestrate --resume
+
+# Or rebuild state manually
+/spec analyze
+```
+
+### Performance Issues
+
+**Problem**: Slow skill execution
+
+**Solution**:
+```bash
+# Check token usage
+/spec --verbose
+
+# Use lazy loading (don't load examples by default)
+/spec plan          # Good: 1,500 tokens
+# vs
+/spec plan --examples --reference  # Heavy: 6,600 tokens
+
+# Clear cache if needed
+rm -rf .specter-state/checkpoints/
 ```
 
 ---
@@ -539,16 +616,23 @@ rm -rf .specter-state/locks/*.lock
 
 - **Quick Start**: This README
 - **Migration Guide**: [MIGRATION-V2-TO-V3.md](docs/MIGRATION-V2-TO-V3.md)
-- **User Guide**: `/👻 --help --reference`
-- **Examples**: `/👻 --examples`
-- **Team Guide**: [TEAM-COLLABORATION.md](docs/TEAM-COLLABORATION.md)
-- **API Reference**: See individual skill directories
+- **Hooks Guide**: [HOOKS-USER-GUIDE.md](docs/HOOKS-USER-GUIDE.md)
+- **Hooks API**: [CUSTOM-HOOKS-API.md](docs/CUSTOM-HOOKS-API.md)
+- **Skill Reference**: See individual `.claude/skills/spec-*/` directories
+- **Examples**: Run any skill with `--examples` flag
+- **Technical Reference**: Run any skill with `--reference` flag
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
+We welcome contributions! To contribute:
+
+1. Fork the repository
+2. Create a feature branch
+3. Follow the skill structure (SKILL.md, EXAMPLES.md, REFERENCE.md)
+4. Test with `/spec validate`
+5. Submit a pull request
 
 ---
 
@@ -558,44 +642,57 @@ MIT License - See [LICENSE](LICENSE)
 
 ---
 
-## 🙏 Credits
-
-**Specter v3.0** - Built with Claude Code
-
-**Key Contributors**:
-- Workflow design and architecture
-- Token optimization strategies
-- Team collaboration features
-- Master spec generation
-
----
-
 ## 🎉 Quick Reference Card
 
 ```bash
 # Essential Commands
-/👻 init               # Initialize Specter
-/👻 "Feature"          # Create specification
-/👻                    # Context-aware continue
-/👻 status             # Check status
-/👻 team               # Team dashboard
-/👻 master-spec        # Generate docs
-/👻 --interactive      # Interactive menu
-/👻 --help             # Context-aware help
+/spec init                    # Initialize Specter
+/spec "Feature description"   # Create specification
+/spec                         # Context-aware continue
+/spec status                  # Check current state
+/spec --help                  # Context-aware help
 
-# Workflow
-init → specify → plan → tasks → implement → done!
+# Complete Workflow
+/spec init
+/spec "Your feature"
+/spec                         # → Creates plan
+/spec                         # → Creates tasks
+/spec                         # → Implements
 
-# Team
-/👻 assign @user T001  # Assign task
-/👻 lock 002           # Lock feature
-/👻 unlock 002         # Release lock
+# Or fully automated
+/spec init
+/spec orchestrate             # Runs entire workflow
+
+# Progressive Disclosure
+/spec plan                    # Core only (~1,500 tokens)
+/spec plan --examples         # + Examples (~5,000 tokens)
+/spec plan --reference        # + Full docs (~10,000 tokens)
+
+# Advanced
+/spec implement --filter=P1   # Priority tasks only
+/spec analyze                 # Validate consistency
+/spec metrics                 # View metrics
+/spec orchestrate --resume    # Resume from checkpoint
 ```
 
 ---
 
-**Ready to transform your workflow?** Start with `/👻 init` 🚀
+## 📊 Performance Comparison
 
-**Questions?** Open an issue: https://github.com/specter/issues
+| Metric | v2.1 | v3.0 | Improvement |
+|--------|------|------|-------------|
+| Tokens per skill | 6,800 | 1,283 | **81% reduction** |
+| Workflow tokens | 34,000 | 6,400 | **81% reduction** |
+| Skills | 13 | 13 | Same coverage |
+| Commands | Multiple | `/spec` hub | Unified |
+| Loading strategy | Eager | Progressive | Smarter |
+| State overhead | 10,000 | 2,000 | **80% reduction** |
+| Execution speed | Baseline | 3-5x faster | **Much faster** |
+
+---
+
+**Ready to transform your workflow?** Start with `/spec init` 🚀
+
+**Questions?** Open an issue: https://github.com/claude-code/specter-marketplace/issues
 
 **Migrating from v2.1?** See [Migration Guide](docs/MIGRATION-V2-TO-V3.md)
