@@ -214,7 +214,7 @@ Updates `.spec-memory/CHANGES-PLANNED.md` with task entries.
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/feature-artifacts/tasks-template.md` → `features/###-name/tasks.md`
+- `templates/artifacts/tasks-template.md` → `features/###-name/tasks.md`
 
 **Purpose**: Provides structure for task breakdown with IDs, dependencies, priorities, and estimates
 

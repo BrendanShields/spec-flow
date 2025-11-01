@@ -59,7 +59,7 @@ workflow/
 │   ├── skill-index.md
 │   └── phase-reference.md
 └── templates/                  # 5 categories, 11 files
-    ├── feature-artifacts/
+    ├── artifacts/
     ├── project-setup/
     ├── quality/
     ├── integrations/
@@ -135,7 +135,7 @@ workflow/
 
 ✅ **Purpose-Based Categories**
 - **Impact**: Easy discovery by use case
-- **Evidence**: 5 categories (feature-artifacts, project-setup, quality, integrations, internal)
+- **Evidence**: 5 categories (artifacts, project-setup, quality, integrations, internal)
 - **Benefit**: Users find templates quickly, understand when to use
 
 ✅ **Comprehensive Template Documentation**
@@ -300,7 +300,7 @@ workflow/
     "primary": "features/###-name/spec.md",
     "state": [".spec-state/current-session.md", ".spec-memory/WORKFLOW-PROGRESS.md"]
   },
-  "templates": ["templates/feature-artifacts/spec-template.md"],
+  "templates": ["templates/artifacts/spec-template.md"],
   "dependencies": {
     "requires": ["init"],
     "enablesPhase": 3,
@@ -598,7 +598,7 @@ validation/
 {
   "name": "generate",
   "templates": {
-    "uses": ["templates/feature-artifacts/spec-template.md"],
+    "uses": ["templates/artifacts/spec-template.md"],
     "outputs": ["features/###-name/spec.md"],
     "customizable": true,
     "override_path": ".spec/templates/spec-template.md"
@@ -611,7 +611,7 @@ validation/
 ## Templates Used
 
 This function uses:
-- `templates/feature-artifacts/spec-template.md` → `features/###-name/spec.md`
+- `templates/artifacts/spec-template.md` → `features/###-name/spec.md`
 
 To customize template:
 1. Copy to `.spec/templates/spec-template.md`

@@ -8,21 +8,21 @@ Reusable templates for spec workflow artifacts, organized by purpose and use cas
 
 Templates for the main workflow outputs - the three key files generated per feature.
 
-**feature-artifacts/spec-template.md**
+**artifacts/spec-template.md**
 - **Purpose**: Feature specification with user stories
 - **Phase**: Phase 2 (Define Requirements)
 - **Function**: `generate/`
 - **Output**: `features/###-name/spec.md`
 - **Contains**: User stories (P1/P2/P3), acceptance criteria, business context
 
-**feature-artifacts/plan-template.md**
+**artifacts/plan-template.md**
 - **Purpose**: Technical design and architecture decisions
 - **Phase**: Phase 3 (Design Solution)
 - **Function**: `plan/`
 - **Output**: `features/###-name/plan.md`
 - **Contains**: Architecture diagrams, data models, API contracts, ADRs, testing strategy
 
-**feature-artifacts/tasks-template.md**
+**artifacts/tasks-template.md**
 - **Purpose**: Executable task breakdown with dependencies
 - **Phase**: Phase 4 (Build Feature)
 - **Function**: `tasks/`
@@ -98,7 +98,7 @@ Templates used internally by the workflow framework - not typically edited by us
 ```
 templates/
 ├── README.md (this file)
-├── feature-artifacts/       ← Core workflow (3 files)
+├── artifacts/       ← Core workflow (3 files)
 │   ├── spec-template.md
 │   ├── plan-template.md
 │   └── tasks-template.md
@@ -122,15 +122,15 @@ templates/
 - `project-setup/architecture-blueprint-template.md` (via `blueprint/`)
 
 ### Phase 2: Define Requirements
-- `feature-artifacts/spec-template.md` (via `generate/`)
+- `artifacts/spec-template.md` (via `generate/`)
 - `quality/checklist-template.md` (via `checklist/`)
 
 ### Phase 3: Design Solution
-- `feature-artifacts/plan-template.md` (via `plan/`)
+- `artifacts/plan-template.md` (via `plan/`)
 - `integrations/openapi-template.yaml` (optional, for APIs)
 
 ### Phase 4: Build Feature
-- `feature-artifacts/tasks-template.md` (via `tasks/`)
+- `artifacts/tasks-template.md` (via `tasks/`)
 
 ### Phase 5: Track Progress
 - (No templates - uses existing files)
@@ -159,7 +159,7 @@ Templates use placeholder syntax:
 
 To add a new template:
 
-1. Determine category (feature-artifacts, project-setup, quality, integrations, internal)
+1. Determine category (artifacts, project-setup, quality, integrations, internal)
 2. Create template file in appropriate category
 3. Use consistent placeholder syntax
 4. Document in this README
@@ -235,13 +235,13 @@ To use `openapi-template.yaml`:
 **Need to...**
 
 Create feature specification?
-→ `feature-artifacts/spec-template.md`
+→ `artifacts/spec-template.md`
 
 Design technical solution?
-→ `feature-artifacts/plan-template.md`
+→ `artifacts/plan-template.md`
 
 Break down into tasks?
-→ `feature-artifacts/tasks-template.md`
+→ `artifacts/tasks-template.md`
 
 Set up new project?
 → `project-setup/product-requirements-template.md`

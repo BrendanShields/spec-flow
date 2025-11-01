@@ -290,7 +290,7 @@ so that [benefit].
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/feature-artifacts/spec-template.md` → `features/###-name/spec.md`
+- `templates/artifacts/spec-template.md` → `features/###-name/spec.md`
 
 **Purpose**: Provides structure for feature specifications with user stories, acceptance criteria, and requirements
 

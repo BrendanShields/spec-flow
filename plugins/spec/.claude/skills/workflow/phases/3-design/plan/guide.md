@@ -165,7 +165,7 @@ Next steps:
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/feature-artifacts/plan-template.md` → `features/###-name/plan.md`
+- `templates/artifacts/plan-template.md` → `features/###-name/plan.md`
 
 **Purpose**: Provides structure for technical design with architecture decisions, data models, and implementation strategy
 
