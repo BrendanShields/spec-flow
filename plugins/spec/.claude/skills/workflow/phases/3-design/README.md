@@ -12,7 +12,6 @@ Transform requirements into detailed technical design with architecture decision
 **Purpose**: Create technical design from specification
 **Invocation**: `/spec plan`
 **When**: Have approved specification from Phase 2
-**Duration**: 30-90 minutes
 **Output**: `plan.md` with architecture, data models, API contracts, ADRs
 
 **Usage**: Always run to create technical plan - uses researcher agent for best practices
@@ -23,7 +22,6 @@ Transform requirements into detailed technical design with architecture decision
 **Purpose**: Validate consistency across spec/plan/tasks
 **Invocation**: `/spec analyze`
 **When**: Before implementation, after updates, complex features
-**Duration**: 10-20 minutes
 **Output**: Analysis report with CRITICAL/HIGH/MEDIUM/LOW issues
 
 **Usage**: Recommended for complex features (>15 tasks) - catches gaps before implementation

@@ -969,7 +969,7 @@ Cannot create duplicate
 
 ### Slow Execution
 
-**Problem**: Commands taking >5 minutes
+**Problem**: Commands taking longer than expected
 
 **Common Causes**:
 1. Large codebase (discover phase)

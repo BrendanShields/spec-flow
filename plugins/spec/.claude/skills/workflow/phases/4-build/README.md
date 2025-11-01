@@ -12,7 +12,6 @@ Transform technical plan into actionable tasks with clear dependencies, then exe
 **Purpose**: Break down plan into executable tasks
 **Invocation**: `/spec tasks`
 **When**: Technical plan complete from Phase 3
-**Duration**: 20-45 minutes
 **Output**: `tasks.md` with task IDs, priorities, dependencies, parallel markers
 
 **Usage**: Always run to create task breakdown - identifies dependencies and parallel work opportunities
@@ -21,7 +20,6 @@ Transform technical plan into actionable tasks with clear dependencies, then exe
 **Purpose**: Execute implementation tasks with progress tracking
 **Invocation**: `/spec implement`
 **When**: tasks.md exists with defined tasks
-**Duration**: 2-20 hours (varies by feature complexity)
 **Output**: Working feature with passing tests, completed tasks
 
 **Usage**: Always run to execute implementation - delegates to implementer subagent for parallel execution

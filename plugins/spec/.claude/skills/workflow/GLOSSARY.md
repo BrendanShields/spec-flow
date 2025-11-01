@@ -96,7 +96,7 @@
 
 **Exit**: Ready to create first feature
 
-**Duration**: 1-2 hours (one-time per project)
+**Note**: One-time setup per project
 
 ---
 
@@ -113,8 +113,6 @@
 - Resolved ambiguities
 
 **Exit**: Requirements approved, ready for technical design
-
-**Duration**: 30 minutes - 2 hours per feature
 
 ---
 
@@ -133,8 +131,6 @@
 
 **Exit**: Technical approach agreed, ready to task out
 
-**Duration**: 45 minutes - 3 hours per feature
-
 ---
 
 ### Phase 4: Build Feature
@@ -150,8 +146,6 @@
 - Passing tests
 
 **Exit**: All P1 tasks complete, feature functional
-
-**Duration**: 2-20 hours per feature (varies by complexity)
 
 ---
 
@@ -169,7 +163,7 @@
 
 **Exit**: Continuous, no formal exit
 
-**Duration**: Ongoing throughout project
+**Note**: Ongoing throughout project lifecycle
 
 ---
 
@@ -540,9 +534,7 @@ User
 
 **Workflow**: `init → generate → plan → tasks → implement`
 
-**Duration**: Typically faster (no existing code analysis)
-
-**Considerations**: Must establish all standards and patterns
+**Considerations**: Must establish all standards and patterns from scratch
 
 ---
 
@@ -557,9 +549,7 @@ User
 
 **Workflow**: `discover → init → blueprint → generate → plan → tasks → implement`
 
-**Duration**: +2-3 hours for analysis upfront
-
-**Considerations**: Must understand existing architecture before adding features
+**Considerations**: Must understand existing architecture before adding features (requires upfront analysis)
 
 **Special Function**: `discover/` - Analyzes existing codebase
 

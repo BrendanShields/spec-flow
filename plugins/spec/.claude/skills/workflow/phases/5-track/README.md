@@ -12,7 +12,6 @@ Ongoing workflow support for updating specifications, tracking metrics, and auto
 **Purpose**: Update existing specifications with changes
 **Invocation**: `/spec update "Changes description"`
 **When**: Requirements change, add/remove user stories, priority shifts
-**Duration**: 15-45 minutes
 **Output**: Updated `spec.md`, propagated changes to `plan.md` and `tasks.md`
 
 **Usage**: Run anytime requirements change - creates migration plan for breaking changes
@@ -21,7 +20,6 @@ Ongoing workflow support for updating specifications, tracking metrics, and auto
 **Purpose**: View development analytics and progress
 **Invocation**: `/spec metrics`
 **When**: Need progress report, sprint planning, process optimization
-**Duration**: 2-5 minutes
 **Output**: Analytics dashboard, CSV/JSON exports
 
 **Usage**: Run anytime to check progress - no side effects, read-only analysis
@@ -30,7 +28,6 @@ Ongoing workflow support for updating specifications, tracking metrics, and auto
 **Purpose**: Automate complete workflow from spec to implementation
 **Invocation**: `/spec orchestrate`
 **When**: Want full automation, quick prototyping
-**Duration**: 3-25 hours (full feature cycle)
 **Output**: Complete feature (all artifacts + implementation)
 
 **Usage**: Alternative to manual workflow - runs generate→clarify→plan→tasks→implement automatically

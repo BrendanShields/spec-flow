@@ -1,12 +1,12 @@
 # Workflow Quick Start Guide
 
-**Get your first feature built in 5 commands** | ⏱️ 5-30 minutes
+**Get your first feature built in 5 commands**
 
 ---
 
 ## Your First Feature (The Essential Path)
 
-### Step 1: Initialize Your Project (5 minutes)
+### Step 1: Initialize Your Project
 
 ```bash
 /spec init
@@ -24,7 +24,7 @@
 
 ---
 
-### Step 2: Create Your Specification (15-30 minutes)
+### Step 2: Create Your Specification
 
 ```bash
 /spec generate "User authentication with email/password"
@@ -42,7 +42,7 @@
 
 ---
 
-### Step 3: Create Technical Plan (30-60 minutes)
+### Step 3: Create Technical Plan
 
 ```bash
 /spec plan
@@ -63,7 +63,7 @@
 
 ---
 
-### Step 4: Break Into Tasks (15-30 minutes)
+### Step 4: Break Into Tasks
 
 ```bash
 /spec tasks
@@ -81,7 +81,7 @@
 
 ---
 
-### Step 5: Implement (2-20 hours, varies by feature)
+### Step 5: Implement
 
 ```bash
 /spec implement
@@ -122,7 +122,6 @@ You've just completed your first feature using the Spec workflow!
 /spec orchestrate
 ```
 
-**Time**: 3-25 hours (full feature cycle)
 **Best for**: Quick prototyping, straightforward features
 **Note**: Runs generate → clarify → plan → tasks → implement automatically
 
@@ -140,7 +139,6 @@ You've just completed your first feature using the Spec workflow!
 /spec implement
 ```
 
-**Time**: 4-26 hours (with validation steps)
 **Best for**: Complex features, team collaboration
 **Note**: Full control at each phase
 
@@ -149,16 +147,15 @@ You've just completed your first feature using the Spec workflow!
 ### Path C: Brownfield (Existing Codebase)
 
 ```bash
-/spec discover             # Analyze existing code (30-60 min)
+/spec discover             # Analyze existing code
 /spec init
-/spec blueprint            # Document architecture (45-90 min)
+/spec blueprint            # Document architecture
 /spec generate "Feature"
 # ... continue with Path B
 ```
 
-**Time**: +2-3 hours upfront analysis
 **Best for**: Adding Spec to existing project
-**Note**: Discovery informs better architecture decisions
+**Note**: Discovery informs better architecture decisions and provides upfront analysis
 
 ---
 
@@ -166,13 +163,13 @@ You've just completed your first feature using the Spec workflow!
 
 ### Core Commands (Sequential)
 
-| Command | Purpose | Duration | Phase |
-|---------|---------|----------|-------|
-| `/spec init` | Setup project | 15-30 min | 1: Initialize |
-| `/spec generate "..."` | Create spec | 20-45 min | 2: Define |
-| `/spec plan` | Technical design | 30-90 min | 3: Design |
-| `/spec tasks` | Task breakdown | 20-45 min | 4: Build |
-| `/spec implement` | Execute code | 2-20 hours | 4: Build |
+| Command | Purpose | Phase |
+|---------|---------|-------|
+| `/spec init` | Setup project | 1: Initialize |
+| `/spec generate "..."` | Create spec | 2: Define |
+| `/spec plan` | Technical design | 3: Design |
+| `/spec tasks` | Task breakdown | 4: Build |
+| `/spec implement` | Execute code | 4: Build |
 
 ### Supporting Tools (Optional)
 
@@ -323,10 +320,9 @@ Or read: `navigation/workflow-map.md`
 # 2. Feature in one go
 /spec orchestrate
 # When prompted: "User profile page with avatar upload"
-# Wait 4-8 hours, feature complete
+# Workflow completes automatically
 ```
 
-**Time**: ~6 hours total
 **Best for**: Straightforward features
 
 ---
@@ -356,7 +352,6 @@ Or read: `navigation/workflow-map.md`
 /spec implement
 ```
 
-**Time**: ~15 hours total
 **Best for**: Critical features, team collaboration
 
 ---
@@ -382,8 +377,7 @@ Or read: `navigation/workflow-map.md`
 /spec implement
 ```
 
-**Time**: ~18 hours total (includes analysis)
-**Best for**: Existing codebases
+**Best for**: Existing codebases (includes upfront analysis)
 
 ---
 
@@ -473,7 +467,6 @@ Checkpoint protection!
 5. /spec implement                               # Build it
 ```
 
-**Time**: 5-30 minutes reading + 4-26 hours execution
 **Output**: Complete, working feature
 **Next**: Start feature #2!
 
