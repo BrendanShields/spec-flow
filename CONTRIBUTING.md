@@ -26,13 +26,13 @@ Thank you for your interest in contributing to the Claude Plugin Marketplace! Th
 1. Fork the repository on GitHub
 2. Clone your fork:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/specter-marketplace.git
-   cd specter-marketplace
+   git clone https://github.com/YOUR_USERNAME/spec-marketplace.git
+   cd spec-marketplace
    ```
 
 3. Add upstream remote:
    ```bash
-   git remote add upstream https://github.com/claude-code/specter-marketplace.git
+   git remote add upstream https://github.com/claude-code/spec-marketplace.git
    ```
 
 4. Keep your fork updated:
