@@ -5,96 +5,64 @@ description: "Task list for feature implementation"
 # Tasks: [FEATURE NAME]
 
 **Input**: plan.md, spec.md, research.md, data-model.md, contracts/
-**Organization**: Tasks grouped by user story for independent implementation
-**Format**: `[ID] [P?] [Story] Description`
-- [P] = parallel (no dependencies)
-- [Story] = user story label (US1, US2, etc.)
+**Organisation**: Epic → Story → Sub Task hierarchy (no overlaps between epics)
+**Sub Task Naming**: `ST-[Epic#].[Story#].[Sequence]`
 
 ---
 
-## Phase 1: Setup
+## Tracking Guidelines
 
-- [ ] T001 Create project structure per plan
-- [ ] T002 Initialize [language] with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting
-
----
-
-## Phase 2: Foundational (REQUIRED BEFORE USER STORIES)
-
-- [ ] T004 Setup database schema and migrations
-- [ ] T005 [P] Implement auth/authorization framework
-- [ ] T006 [P] Setup API routing and middleware
-- [ ] T007 Create base entities (all stories depend on this)
-- [ ] T008 Configure error handling and logging
-- [ ] T009 Setup environment configuration
-
-**Checkpoint**: Foundation complete → user stories can proceed in parallel
+- **GitHub Issues**: Every story must have a matching GitHub issue with the sub-task checklist below.
+- **External Tracker (e.g., JIRA)**: When configured, mirror the story as a JIRA issue and cross-link IDs. If no external tracker exists, document `External Tracker: None` within the GitHub issue.
+- **Documentation Updates**: On completion of a story, update project-level docs (`.spec-memory/WORKFLOW-PROGRESS.md`, blueprints, PRD) before closing the issue.
 
 ---
 
-## Phase 3: User Story 1 - [Title] (P1) MVP
+## Epic 1: [Name]
 
-**Goal**: [Brief description]
-**Independent Test**: [Verification method]
+**Objective**: [Outcome tied to PRD/Blueprint]
+**Dependencies**: [Shared setup or prerequisites]
 
-**Tests** (optional, write first):
-- [ ] T010 [P] [US1] Contract test in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test in tests/integration/test_[name].py
+### Story 1.1 – [Title] (GitHub #[Issue] | External: [JIRA-123/None])
 
-**Implementation**:
-- [ ] T012 [P] [US1] Create [Entity1] model
-- [ ] T013 [P] [US1] Create [Entity2] model
-- [ ] T014 [US1] Implement [Service] (depends: T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature]
-- [ ] T016 [US1] Add validation and error handling
+**Acceptance Summary**:
+- **Scenario**: [Short name]
+  - **Given** [state]
+  - **When** [action]
+  - **Then** [outcome]
 
-**Checkpoint**: User Story 1 complete and testable independently
+#### Sub Tasks
+- [ ] ST-1.1.1 Prepare environment [dependency notes]
+- [ ] ST-1.1.2 Implement [component/service]
+- [ ] ST-1.1.3 Write tests in `[path]`
+- [ ] ST-1.1.4 Update docs (`docs/[file]`) after verification
 
----
+### Story 1.2 – [Title] (GitHub #[Issue] | External: [JIRA-123/None])
 
-## Phase 4: User Story 2 - [Title] (P2)
+**Acceptance Summary**:
+- **Scenario**: [Short name]
+  - **Given** [state]
+  - **When** [action]
+  - **Then** [outcome]
 
-**Goal**: [Brief description]
-**Tests** (optional):
-- [ ] T017 [P] [US2] Contract test
-- [ ] T018 [P] [US2] Integration test
-
-**Implementation**:
-- [ ] T019 [P] [US2] Create [Entity] model
-- [ ] T020 [US2] Implement [Service]
-- [ ] T021 [US2] Implement [endpoint/feature]
-- [ ] T022 [US2] Integrate with US1 (if needed)
+#### Sub Tasks
+- [ ] ST-1.2.1 …
 
 ---
 
-## Phase 5: User Story 3 - [Title] (P3)
+## Epic 2: [Name]
 
-[Follow Phase 4 pattern]
-
----
-
-## Phase N: Polish
-
-- [ ] TXXX [P] Documentation updates
-- [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization
-- [ ] TXXX Security hardening
-- [ ] TXXX Run quickstart validation
+Repeat the pattern for each additional epic. Ensure foundational work is called out once (e.g., `ST-0.0.x`) and referenced as dependencies by downstream sub tasks rather than duplicating effort.
 
 ---
 
-## Execution Order
+## Completion Checklist
 
-**Setup (Phase 1)** → **Foundational (Phase 2)** → **User Stories (P1→P2→P3 or parallel)**
-
-- [P] tasks can run in parallel (different files)
-- User stories can run in parallel after Phase 2 completes
-- Tests must fail before implementation
-
----
-
-**Key**: Each story independently completable | Validate at each checkpoint
+- [ ] All sub tasks complete with linked commits
+- [ ] Story-level GitHub issues updated and closed
+- [ ] External tracker statuses reconciled (if applicable)
+- [ ] Project-level documentation refreshed
+- [ ] Release notes or changelog entries prepared (if required)
 
 
 

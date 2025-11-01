@@ -20,37 +20,38 @@ References (peer model): Product Requirements | Architecture Blueprint | API Con
 See [_shared/user-story-format.md](_shared/user-story-format.md) for standard format.
 See [_shared/metadata-frontmatter.md](_shared/metadata-frontmatter.md) for header conventions.
 
-## User Stories (Prioritized & Independent)
+## Epics & User Stories
 
-Each story independently testable, developable, deployable (MVP increment).
+Epics are derived from the Product Requirements Document and Architecture Blueprint listed in Project Artifacts. Ensure no two epics target the same capability area; if overlap occurs create a new epic. All stories must have a parent epic and reference the governing documents.
 
-### User Story 1 - [Title] (P1)
+### Epic 1: [Name] (PRD §[section] / Blueprint [ID])
 
-[Description: Plain language user journey]
+**Goal**: [Business or user outcome]
+**Success Metrics**: [Primary indicators]
 
-**Why P1**: [Value and priority justification]
-**Test**: [Independent verification method]
-**Acceptance**:
-1. Given [state] When [action] Then [outcome]
-2. Given [state] When [action] Then [outcome]
+#### Story 1.1 – [Title] (P1)
+**As a** [persona] **I want to** [capability] **So that** [benefit]
 
----
+**GitHub Issue**: #[Issue Number] (auto-generated with sub task checklist)
+**External Tracker**: [JIRA-123 / None]
 
-### User Story 2 - [Title] (P2)
+**Acceptance Criteria**:
+- **Scenario**: [Short name]
+  - **Given** [state]
+  - **When** [action]
+  - **Then** [outcome]
+- **Scenario**: [Short name]
+  - **Given** [state]
+  - **When** [action]
+  - **Then** [outcome]
 
-[Description]
-**Why P2**: [Justification]
-**Test**: [Verification]
-**Acceptance**: Given [state] When [action] Then [outcome]
+**Notes**: [Dependencies, design references]
 
----
+#### Story 1.2 – [Title] (P2)
+[Repeat format]
 
-### User Story 3 - [Title] (P3)
-
-[Description]
-**Why P3**: [Justification]
-**Test**: [Verification]
-**Acceptance**: Given [state] When [action] Then [outcome]
+### Epic 2: [Name] (PRD §[section] / Blueprint [ID])
+[Add additional epics and stories as required. If a story cannot align to an existing epic, create a new epic rather than forcing overlap.]
 
 ---
 
