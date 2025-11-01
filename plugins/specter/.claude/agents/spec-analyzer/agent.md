@@ -1,5 +1,5 @@
 ---
-name: specter-analyzer
+name: spec-analyzer
 description: Deep codebase analysis with pattern extraction, architecture discovery, and blueprint inference. Use PROACTIVELY for brownfield projects and codebase understanding.
 tools: Read, Glob, Grep, Bash
 model: sonnet

@@ -133,8 +133,8 @@ Git Commit: abc1234 "Implement user authentication"
 
 Next Steps:
 - Run /validate to check consistency
-- Run /specter-checklist for quality review
-- Run /specter-metrics for performance baseline
+- Run /spec-checklist for quality review
+- Run /spec-metrics for performance baseline
 ```
 
 ### Progress Output (During Execution)
