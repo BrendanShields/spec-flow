@@ -1,0 +1,72 @@
+#compdef specter /specter 👻 /👻
+
+# Zsh completion for /specter command
+
+_specter() {
+    local -a subcommands flags
+
+    subcommands=(
+        'init:Initialize Specter in project'
+        'plan:Create technical plan'
+        'tasks:Break down into tasks'
+        'implement:Execute implementation'
+        'specify:Create specification'
+        'clarify:Resolve ambiguities'
+        'analyze:Validate consistency'
+        'validate:Validate workflow state'
+        'metrics:Show development metrics'
+        'status:Check workflow status'
+        'team:Show team dashboard'
+        'assign:Assign task to team member'
+        'lock:Lock feature for yourself'
+        'unlock:Release feature lock'
+        'master-spec:Generate master specification'
+        'help:Show help'
+    )
+
+    flags=(
+        '--help[Show help]'
+        '--interactive[Interactive menu mode]'
+        '--examples[Load examples]'
+        '--reference[Load reference documentation]'
+        '--update[Update mode]'
+        '--continue[Continue from where left off]'
+    )
+
+    if (( CURRENT == 2 )); then
+        # First argument: complete subcommands and flags
+        _arguments \
+            '1: :->subcmds' \
+            '*::arg:->args'
+
+        case $state in
+            subcmds)
+                _describe 'subcommand' subcommands
+                _describe 'flag' flags
+                ;;
+        esac
+    else
+        case "${words[2]}" in
+            assign)
+                # Complete with @usernames from git
+                local -a users
+                users=(${(f)"$(git log --format='%an' 2>/dev/null | sort -u | sed 's/^/@/')"})
+                _describe 'user' users
+                ;;
+            lock|unlock)
+                # Complete with feature IDs
+                if [[ -d "features" ]]; then
+                    local -a features
+                    features=(${(f)"$(ls -1 features/ 2>/dev/null | grep -E '^[0-9]+-' | cut -d'-' -f1)"})
+                    _describe 'feature' features
+                fi
+                ;;
+            *)
+                # Default: files
+                _files
+                ;;
+        esac
+    fi
+}
+
+_specter "$@"
