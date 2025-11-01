@@ -285,6 +285,32 @@ so that [benefit].
 - Writes: features/NNN-feature-name/spec.md
 - Updates: current-session.md, WORKFLOW-PROGRESS.md
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Template**:
+- `templates/feature-artifacts/spec-template.md` → `features/###-name/spec.md`
+
+**Purpose**: Provides structure for feature specifications with user stories, acceptance criteria, and requirements
+
+**Customization**:
+1. Copy template to `.spec/templates/spec-template.md` in your project
+2. Modify sections, add/remove fields as needed
+3. generate/ will automatically use your custom template
+
+**Template includes**:
+- Feature overview section
+- Problem statement
+- User story format (P1/P2/P3)
+- Acceptance criteria structure
+- Technical requirements
+- Integration points
+- Out of scope section
+- Open questions ([CLARIFY] tags)
+
+**See also**: `templates/README.md` for complete template documentation
+
 ## Progressive Disclosure
 
 **For Concrete Examples:** See EXAMPLES.md

@@ -209,6 +209,32 @@ US1.3: T006 → T007
 
 Updates `.spec-memory/CHANGES-PLANNED.md` with task entries.
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Template**:
+- `templates/feature-artifacts/tasks-template.md` → `features/###-name/tasks.md`
+
+**Purpose**: Provides structure for task breakdown with IDs, dependencies, priorities, and estimates
+
+**Customization**:
+1. Copy template to `.spec/templates/tasks-template.md` in your project
+2. Modify task format, add custom fields (e.g., assignee, sprint)
+3. tasks/ will automatically use your custom template
+
+**Template includes**:
+- Task ID format (T001, T002, etc.)
+- Task description structure
+- Dependency notation (T002 → T001)
+- Priority markers (P1/P2/P3)
+- Parallel indicators [P]
+- Effort estimation format
+- Acceptance criteria per task
+- Testing requirements
+
+**See also**: `templates/README.md` for complete template documentation
+
 ## Integration Points
 
 **Workflow**: For phase patterns, see `shared/workflow-patterns.md`

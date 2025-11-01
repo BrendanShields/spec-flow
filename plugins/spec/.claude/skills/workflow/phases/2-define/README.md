@@ -9,9 +9,10 @@ Transform feature ideas into structured specifications with prioritized user sto
 ## Core Workflow
 
 ### generate/ ⭐ REQUIRED
-**Purpose**: Create feature specifications with user stories  
-**When**: Starting new feature development  
-**Duration**: 20-45 minutes  
+**Purpose**: Create feature specifications with user stories
+**Invocation**: `/spec generate "Feature description"`
+**When**: Starting new feature development
+**Duration**: 20-45 minutes
 **Output**: `spec.md` with P1/P2/P3 prioritized user stories, acceptance criteria
 
 **Usage**: Always run to create feature specification - foundation for all subsequent phases
@@ -19,17 +20,19 @@ Transform feature ideas into structured specifications with prioritized user sto
 ## Supporting Tools
 
 ### clarify/ 🔧 AS NEEDED
-**Purpose**: Resolve ambiguities and vague requirements  
-**When**: [CLARIFY] tags present or vague terms detected ("fast", "scalable")  
-**Duration**: 10-30 minutes  
+**Purpose**: Resolve ambiguities and vague requirements
+**Invocation**: `/spec clarify`
+**When**: [CLARIFY] tags present or vague terms detected ("fast", "scalable")
+**Duration**: 10-30 minutes
 **Output**: Clarified `spec.md` with decisions logged to DECISIONS-LOG.md
 
 **Usage**: Run when spec contains ambiguities - can run multiple times (4 questions per session)
 
 ### checklist/ 🔧 QUALITY GATE
-**Purpose**: Validate requirement quality and completeness  
-**When**: Enterprise compliance, quality validation needed  
-**Duration**: 15-30 minutes  
+**Purpose**: Validate requirement quality and completeness
+**Invocation**: `/spec checklist`
+**When**: Enterprise compliance, quality validation needed
+**Duration**: 15-30 minutes
 **Output**: Domain-specific checklists (UX, API, security, performance)
 
 **Usage**: Optional quality gate before planning - ensures specification completeness

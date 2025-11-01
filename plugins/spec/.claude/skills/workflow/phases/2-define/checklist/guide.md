@@ -160,6 +160,35 @@ See examples.md for:
 - Performance checklist for real-time dashboard
 - Multi-domain checklist generation
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Template**:
+- `templates/quality/checklist-template.md` → `features/###-name/checklists/*.md`
+
+**Purpose**: Provides domain-specific quality validation checklists (UX, API, Security, Performance)
+
+**Customization**:
+1. Copy template to `.spec/templates/checklist-template.md` in your project
+2. Modify quality dimensions to match your standards (e.g., add accessibility, localization)
+3. checklist/ will use your custom template for all generated checklists
+
+**Template includes**:
+- UX checklist (usability, accessibility, responsiveness)
+- API checklist (REST standards, error handling, documentation)
+- Security checklist (OWASP Top 10, authentication, data protection)
+- Performance checklist (load times, resource usage, scalability)
+- Custom quality dimensions
+
+**Generated files** (based on feature domain):
+- `features/###-name/checklists/ux-checklist.md`
+- `features/###-name/checklists/api-checklist.md`
+- `features/###-name/checklists/security-checklist.md`
+- `features/###-name/checklists/performance-checklist.md`
+
+**See also**: `templates/README.md` for complete template documentation
+
 ## Reference
 
 See reference.md for:

@@ -138,6 +138,39 @@ Run spec:discover to:
 Or continue with spec:specify for new features.
 ```
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Templates**:
+- `templates/project-setup/product-requirements-template.md` → `.spec/product-requirements.md`
+- `templates/project-setup/architecture-blueprint-template.md` → `.spec/architecture-blueprint.md` (optional)
+
+**Purpose**: Provides structure for project initialization, product vision, and architecture standards
+
+**Customization**:
+1. After init, edit `.spec/product-requirements.md` to define your product vision
+2. Optionally run `/spec blueprint` to create comprehensive architecture documentation
+3. Templates provide starter structure - customize for your project
+
+**Product Requirements Template includes**:
+- Product vision and goals
+- Target users and personas
+- Success criteria and KPIs
+- Business constraints
+- Stakeholder information
+
+**Architecture Blueprint Template includes**:
+- Tech stack decisions
+- Design patterns and conventions
+- API standards
+- Security guidelines
+- ADR (Architecture Decision Record) framework
+
+**See also**:
+- `templates/README.md` for complete template documentation
+- `blueprint/guide.md` for architecture documentation details
+
 ## Error Handling
 
 **Already initialized**:

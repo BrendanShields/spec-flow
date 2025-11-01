@@ -163,6 +163,33 @@ Next: Run `spec:generate "Your First Feature"` to begin development
 - `.spec-memory/DECISIONS-LOG.md` (ADRs added)
 - `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 complete)
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Template**:
+- `templates/project-setup/architecture-blueprint-template.md` → `.spec/architecture-blueprint.md`
+
+**Purpose**: Provides comprehensive structure for documenting project architecture, technical standards, and ADRs
+
+**Customization**:
+1. Copy template to `.spec/templates/architecture-blueprint-template.md` in your project
+2. Modify sections to match your organization's architecture documentation standards
+3. Add/remove sections as needed for your tech stack
+
+**Template includes**:
+- Architecture overview
+- Tech stack decisions
+- Design patterns and conventions
+- API standards and contracts
+- Security guidelines
+- Testing philosophy
+- Deployment strategy
+- ADR (Architecture Decision Record) framework
+- Cross-cutting concerns
+
+**See also**: `templates/README.md` for complete template documentation
+
 ## Related Resources
 
 For complete blueprint template and ADR examples, see: `EXAMPLES.md`

@@ -160,6 +160,36 @@ Next steps:
 - Research integration patterns
 - MCP publishing details
 
+## Templates Used
+
+This function uses the following templates:
+
+**Primary Template**:
+- `templates/feature-artifacts/plan-template.md` → `features/###-name/plan.md`
+
+**Purpose**: Provides structure for technical design with architecture decisions, data models, and implementation strategy
+
+**Optional Templates**:
+- `templates/integrations/openapi-template.yaml` → `features/###-name/openapi.yaml` (for API-focused features)
+
+**Customization**:
+1. Copy template to `.spec/templates/plan-template.md` in your project
+2. Modify sections to match your architecture standards
+3. plan/ will automatically use your custom template
+
+**Template includes**:
+- Architecture overview section
+- Architecture diagrams
+- Data models and schemas
+- API contracts
+- ADR (Architecture Decision Record) format
+- Security considerations
+- Testing strategy
+- Implementation approach
+- Dependencies and constraints
+
+**See also**: `templates/README.md` for complete template documentation
+
 ## Integration Points
 
 **Shared Resources**:

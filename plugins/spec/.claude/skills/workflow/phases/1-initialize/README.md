@@ -9,9 +9,10 @@ Establish Spec workflow infrastructure and architectural guidelines before featu
 ## Core Workflow
 
 ### init/ ⭐ REQUIRED
-**Purpose**: Initialize Spec workflow in project  
-**When**: Starting new project or adding Spec to existing code  
-**Duration**: 15-30 minutes  
+**Purpose**: Initialize Spec workflow in project
+**Invocation**: `/spec init`
+**When**: Starting new project or adding Spec to existing code
+**Duration**: 15-30 minutes
 **Output**: `.spec/` structure, state management, workflow files
 
 **Usage**: Always run first, creates foundation for all other phases
@@ -19,17 +20,19 @@ Establish Spec workflow infrastructure and architectural guidelines before featu
 ## Supporting Tools
 
 ### discover/ 🔧 BROWNFIELD ONLY
-**Purpose**: Analyze existing codebase architecture  
-**When**: Adding Spec to project with significant existing code  
-**Duration**: 30-60 minutes  
+**Purpose**: Analyze existing codebase architecture
+**Invocation**: `/spec discover`
+**When**: Adding Spec to project with significant existing code
+**Duration**: 30-60 minutes
 **Output**: Discovery reports, architecture insights, JIRA analysis (if enabled)
 
 **Usage**: Run before init on brownfield projects to inform architecture decisions
 
 ### blueprint/ 🔧 ARCHITECTURE DOCS
-**Purpose**: Define project architecture and technical standards  
-**When**: Need comprehensive architecture documentation  
-**Duration**: 45-90 minutes  
+**Purpose**: Define project architecture and technical standards
+**Invocation**: `/spec blueprint`
+**When**: Need comprehensive architecture documentation
+**Duration**: 45-90 minutes
 **Output**: `.spec/architecture-blueprint.md` with 8 sections + ADRs
 
 **Usage**: Optional but recommended - establishes team alignment on technical decisions

@@ -32,35 +32,35 @@ The Spec workflow consists of 5 main phases:
 
 ### Phase 1: Initialize
 **Purpose**: Set up project structure and architecture
-**Skills**: `spec:init`, `spec:discover`, `spec:blueprint`
+**Functions**: `/spec init`, `/spec discover`, `/spec blueprint`
 **When**: Starting new project or analyzing existing codebase
 **Output**: `.spec/` structure, architecture blueprint
 **→ Next**: Phase 2 (Define Requirements)
 
 ### Phase 2: Define
 **Purpose**: Create and validate feature specifications
-**Skills**: `spec:generate`, `spec:clarify`, `spec:checklist`
+**Functions**: `/spec generate`, `/spec clarify`, `/spec checklist`
 **When**: Starting new feature development
 **Output**: `spec.md` with validated requirements
 **→ Next**: Phase 3 (Design Solution)
 
 ### Phase 3: Design
 **Purpose**: Create technical plan and validate consistency
-**Skills**: `spec:plan`, `spec:analyze`
+**Functions**: `/spec plan`, `/spec analyze`
 **When**: Have approved specification
 **Output**: `plan.md` with architecture decisions
 **→ Next**: Phase 4 (Build Feature)
 
 ### Phase 4: Build
 **Purpose**: Break down and execute implementation
-**Skills**: `spec:tasks`, `spec:implement`
+**Functions**: `/spec tasks`, `/spec implement`
 **When**: Technical plan complete
 **Output**: Implemented feature with passing tests
 **→ Next**: Phase 5 (Track Progress)
 
 ### Phase 5: Track
 **Purpose**: Maintain specs and monitor progress
-**Skills**: `spec:update`, `spec:metrics`, `spec:orchestrate`
+**Functions**: `/spec update`, `/spec metrics`, `/spec orchestrate`
 **When**: Throughout development lifecycle
 **Output**: Updated specs, progress metrics
 
@@ -108,9 +108,9 @@ Show:
 ### Step 4: Progressive Disclosure
 
 If user needs more detail:
-- **Skill reference** → Load individual skill SKILL.md
-- **Examples** → Load skill EXAMPLES.md
-- **Technical details** → Load skill REFERENCE.md
+- **Function guide** → Load individual function guide.md
+- **Examples** → Load function examples.md
+- **Technical details** → Load function reference.md
 - **Complete map** → Load `navigation/workflow-map.md`
 
 ## Quick Reference
@@ -168,7 +168,7 @@ For individual skill details, navigate to:
 
 **No session state found**:
 - User hasn't initialized workflow
-- Suggest: "Run spec:init to start workflow"
+- Suggest: "Run /spec init to start workflow"
 
 **Phase unclear**:
 - Session state incomplete
@@ -187,12 +187,12 @@ For individual skill details, navigate to:
 🎯 Active Feature: #003-user-authentication
 ✅ Completed: init, generate
 ⏳ Current: clarify (2/4 clarifications resolved)
-→ Next: spec:plan (after clarifications complete)
+→ Next: /spec plan (after clarifications complete)
 
 Available in this phase:
-- spec:generate - Create new specifications
-- spec:clarify - Resolve ambiguities (IN PROGRESS)
-- spec:checklist - Validate requirements quality
+- /spec generate - Create new specifications
+- /spec clarify - Resolve ambiguities (IN PROGRESS)
+- /spec checklist - Validate requirements quality
 
 Need more detail? Load phases/2-define/README.md
 ```
@@ -226,6 +226,22 @@ For phase details: phases/[phase-number]-[name].md
 - User asks "show everything": Load complete workflow map
 
 ## Related Resources
+
+**Getting Started**:
+- **Quick Start**: `QUICK-START.md` - Get your first feature built in 5 commands (~800 tokens)
+- **Glossary**: `GLOSSARY.md` - Understand all terminology and concepts (~600 tokens)
+
+**Troubleshooting**:
+- **Error Recovery**: `ERROR-RECOVERY.md` - Solutions for common problems (~1,000 tokens)
+- **Workflow Review**: `WORKFLOW-REVIEW.md` - Comprehensive analysis and improvements
+
+**Navigation**:
+- **Workflow Map**: `navigation/workflow-map.md` - Visual workflow guide
+- **Skill Index**: `navigation/skill-index.md` - Complete function reference
+- **Phase Reference**: `navigation/phase-reference.md` - Detailed phase documentation
+
+**Templates**:
+- **Template Guide**: `templates/README.md` - All 11 templates documented
 
 **For developers**: See `CLAUDE.md` in plugin root
 **For users**: See `README.md` in plugin root
