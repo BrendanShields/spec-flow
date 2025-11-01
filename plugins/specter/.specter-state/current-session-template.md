@@ -24,15 +24,15 @@
 ## Workflow Progress
 
 ### Completed Phases
-- [x] specter:init - Project initialization ({timestamp})
-- [x] specter:blueprint - Architecture defined ({timestamp})
-- [x] specter:specify - Feature specification ({timestamp})
-- [x] specter:clarify - {N} questions resolved ({timestamp})
-- [x] specter:plan - Technical design ({timestamp})
-- [x] specter:tasks - {N} tasks generated ({timestamp})
-- [ ] specter:implement - {current}/{total} tasks ({status})
-- [ ] specter:checklist - Quality validation
-- [ ] specter:metrics - Performance baseline
+- [x] spec:init - Project initialization ({timestamp})
+- [x] spec:blueprint - Architecture defined ({timestamp})
+- [x] spec:generate - Feature specification ({timestamp})
+- [x] spec:clarify - {N} questions resolved ({timestamp})
+- [x] spec:plan - Technical design ({timestamp})
+- [x] spec:tasks - {N} tasks generated ({timestamp})
+- [ ] spec:implement - {current}/{total} tasks ({status})
+- [ ] spec:checklist - Quality validation
+- [ ] spec:metrics - Performance baseline
 
 ### Task Completion
 ```
@@ -57,7 +57,7 @@ Phase 3: API Layer [0/4] ⏳
 
 ## Configuration State
 
-### Flow Settings
+### Spec Settings
 ```
 SPECTER_ATLASSIAN_SYNC={enabled|disabled}
 SPECTER_JIRA_PROJECT_KEY={key}
@@ -169,7 +169,7 @@ Based on current state, resume with:
 {alt_command_2}
 
 # Check status
-/specter-status
+/spec status
 ```
 
 ## Session History Reference

@@ -1,5 +1,5 @@
 ---
-name: specter-researcher
+name: spec-researcher
 description: Technical research and decision documentation for architecture choices, library evaluation, and best practices discovery. Documents findings in ADR format.
 tools: WebSearch, WebFetch, Read, Write
 model: sonnet

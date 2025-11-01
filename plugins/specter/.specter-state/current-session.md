@@ -37,14 +37,14 @@
 
 | Task | Description | Status | Duration |
 |------|-------------|--------|----------|
-| T001 | Analyze codebase with specter-analyzer | ✅ Complete | 15m |
-| T002 | Research patterns with specter-researcher | ✅ Complete | 20m |
+| T001 | Analyze codebase with spec-analyzer | ✅ Complete | 15m |
+| T002 | Research patterns with spec-researcher | ✅ Complete | 20m |
 | T003 | Create comprehensive specification | ✅ Complete | 45m |
 
 ### Completed Today
 - ✅ Feature 001: All 7 commits pushed to feature branch
 - ✅ Feature 001: 393 files organized and committed
-- ✅ Feature 002: Multi-agent codebase analysis (specter-analyzer + specter-researcher)
+- ✅ Feature 002: Multi-agent codebase analysis (spec-analyzer + spec-researcher)
 - ✅ Feature 002: CLI consolidation research (43,000 tokens)
 - ✅ Feature 002: Architecture decision research (6 ADRs)
 - ✅ Feature 002: Comprehensive specification with 11 user stories

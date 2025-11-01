@@ -112,7 +112,7 @@ State Updated:
 
 Next Steps:
   /validate           # Check consistency
-  /specter-checklist  # Quality review
+  /spec-checklist  # Quality review
 ```
 
 ---
@@ -207,7 +207,7 @@ Parallel Performance:
 - Average Parallelism: 3.2 tasks/min
 
 Next Steps:
-  /specter-metrics    # Review performance baseline
+  /spec-metrics    # Review performance baseline
 ```
 
 ---

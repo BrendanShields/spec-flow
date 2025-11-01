@@ -38,7 +38,7 @@ Display development metrics, progress tracking, and workflow analytics.
 4. Read `.specter-state/current-session.md` for active context
 5. Validate data availability and completeness
 
-**Error Handling**: If WORKFLOW-PROGRESS.md missing, inform user to run `/specter-init` first.
+**Error Handling**: If WORKFLOW-PROGRESS.md missing, inform user to run `/spec init` first.
 
 ### Phase 2: Calculate Metrics
 
@@ -121,7 +121,7 @@ Generate actionable recommendations:
 **No WORKFLOW-PROGRESS.md**:
 ```
 Error: Metrics not available
-Solution: Run /specter-init to initialize tracking
+Solution: Run /spec init to initialize tracking
 ```
 
 **Incomplete Data**:
@@ -240,7 +240,7 @@ See `shared/state-management.md` for file formats.
 
 **Related Commands**:
 - `/status` - Quick progress check
-- `/specter-analyze` - Deep analysis of specific feature
+- `/spec-analyze` - Deep analysis of specific feature
 - `/validate` - Verify data consistency
 
 ## Notes

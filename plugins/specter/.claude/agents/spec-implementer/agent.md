@@ -1,5 +1,5 @@
 ---
-name: specter-implementer
+name: spec-implementer
 description: Autonomous task execution with parallel processing, intelligent error recovery, and real-time progress tracking. Executes implementation tasks from tasks.md with dependency resolution.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet

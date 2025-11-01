@@ -1,87 +1,88 @@
-#!/bin/bash
-# Specter v3.0 - Unified Command Router
-# This is the execution engine for /👻 command
+#!/usr/bin/env bash
+# Specter v3 - Unified `/spec` router
 
 set -euo pipefail
-
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
 
 SPECTER_ROOT="${SPECTER_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 SPECTER_SKILLS_DIR="${SPECTER_ROOT}/.claude/skills"
 SPECTER_STATE_DIR="${PWD}/.specter-state"
 SPECTER_MEMORY_DIR="${PWD}/.specter-memory"
 
-# Track loaded skills
-declare -gA SPECTER_LOADED_SKILLS
+# Track loaded skill assets to avoid re-printing them
+declare -gA SPECTER_LOADED_SKILLS=()
 
-# ============================================================================
-# LAZY LOADING
-# ============================================================================
+# Router state cache
+STATE_JSON=""
+STATE_PHASE="uninitialized"
+STATE_FEATURE=""
+STATE_PROGRESS=""
+STATE_LOADED=false
 
-load_skill() {
-    local skill_name=$1
-    local load_examples=${2:-false}
-    local load_reference=${3:-false}
+LOAD_EXAMPLES=false
+LOAD_REFERENCE=false
 
-    local skill_dir="${SPECTER_SKILLS_DIR}/${skill_name}"
-
-    if [[ ! -d "$skill_dir" ]]; then
-        echo "❌ Error: Skill '$skill_name' not found" >&2
-        return 1
-    fi
-
-    # Load core skill (only once)
-    if [[ ! -v SPECTER_LOADED_SKILLS[$skill_name] ]]; then
-        if [[ -f "${skill_dir}/SKILL.md" ]]; then
-            source "${skill_dir}/SKILL.md" 2>/dev/null || true
-            SPECTER_LOADED_SKILLS[$skill_name]=1
-        fi
-    fi
-
-    # Load examples if requested
-    if [[ "$load_examples" == "true" && -f "${skill_dir}/EXAMPLES.md" ]]; then
-        source "${skill_dir}/EXAMPLES.md" 2>/dev/null || true
-    fi
-
-    # Load reference if requested
-    if [[ "$load_reference" == "true" && -f "${skill_dir}/REFERENCE.md" ]]; then
-        source "${skill_dir}/REFERENCE.md" 2>/dev/null || true
-    fi
-}
-
-# ============================================================================
-# CONTEXT DETECTION
-# ============================================================================
-
-detect_current_phase() {
-    if [[ ! -f "${SPECTER_STATE_DIR}/session.json" ]]; then
-        echo "uninitialized"
+ensure_state_cache() {
+    if [[ "$STATE_LOADED" == "true" ]]; then
         return
     fi
 
-    jq -r '.activeFeature.phase // "uninitialized"' "${SPECTER_STATE_DIR}/session.json" 2>/dev/null || echo "uninitialized"
+    if [[ -f "${SPECTER_STATE_DIR}/session.json" ]]; then
+        STATE_JSON=$(cat "${SPECTER_STATE_DIR}/session.json")
+        STATE_PHASE=$(jq -r '.activeFeature.phase // "uninitialized"' <<<"$STATE_JSON" 2>/dev/null || echo "uninitialized")
+        [[ "$STATE_PHASE" == "null" ]] && STATE_PHASE="uninitialized"
+        STATE_PHASE=${STATE_PHASE,,}
+        STATE_FEATURE=$(jq -r '.activeFeature.name // ""' <<<"$STATE_JSON" 2>/dev/null || echo "")
+        [[ "$STATE_FEATURE" == "null" ]] && STATE_FEATURE=""
+        local progress
+        progress=$(jq -r '.activeFeature.progress // ""' <<<"$STATE_JSON" 2>/dev/null || echo "")
+        if [[ "$progress" != "" && "$progress" != "null" ]]; then
+            STATE_PROGRESS="$progress"
+        fi
+    elif [[ -f "${SPECTER_STATE_DIR}/current-session.md" ]]; then
+        local phase_line
+        phase_line=$(grep -m1 -E "\\*\\*Phase\\*\\*: " "${SPECTER_STATE_DIR}/current-session.md" | sed 's/.*: //') || true
+        STATE_PHASE=${phase_line,,}
+        [[ -z "$STATE_PHASE" ]] && STATE_PHASE="uninitialized"
+
+        local feature_line
+        feature_line=$(grep -m1 -E "\\*\\*Feature\\*\\*: " "${SPECTER_STATE_DIR}/current-session.md" | sed 's/.*: //') || true
+        STATE_FEATURE=${feature_line:-}
+
+        local progress_line
+        progress_line=$(grep -m1 -E "Progress\\*\\*: " "${SPECTER_STATE_DIR}/current-session.md" | sed 's/.*: //') || true
+        STATE_PROGRESS=${progress_line:-}
+    fi
+
+    STATE_LOADED=true
+}
+
+detect_current_phase() {
+    ensure_state_cache
+    echo "${STATE_PHASE:-uninitialized}"
 }
 
 get_next_action() {
-    local phase=$(detect_current_phase)
+    local phase
+    phase=$(detect_current_phase)
 
     case "$phase" in
-        uninitialized)
+        uninitialized|init|initialization)
             echo "init"
             ;;
-        specification)
+        specification|specification_complete|generate|generated)
             echo "plan"
             ;;
-        planning)
+        planning|plan|planning_complete)
             echo "tasks"
             ;;
-        tasks)
+        tasks|task|tasks_complete)
             echo "implement"
             ;;
-        implementation)
+        implementation|implement)
             echo "implement --continue"
+            ;;
+        completed|complete)
+            echo "status"
             ;;
         *)
             echo "help"
@@ -89,35 +90,103 @@ get_next_action() {
     esac
 }
 
-# ============================================================================
-# INTERACTIVE MODE
-# ============================================================================
+print_state_summary() {
+    ensure_state_cache
+    echo "📊 **Phase**: ${STATE_PHASE^}"
+    if [[ -n "$STATE_FEATURE" ]]; then
+        echo "🧩 **Active feature**: $STATE_FEATURE"
+    else
+        echo "🧩 **Active feature**: none"
+    fi
+    if [[ -n "$STATE_PROGRESS" ]]; then
+        echo "📈 **Progress**: $STATE_PROGRESS"
+    fi
+    if [[ -d "$SPECTER_MEMORY_DIR" ]]; then
+        echo "🗂️ **Memory**: $SPECTER_MEMORY_DIR"
+    fi
+}
+
+load_skill() {
+    local skill_name=$1
+    local include_examples=${2:-false}
+    local include_reference=${3:-false}
+
+    local skill_dir="${SPECTER_SKILLS_DIR}/${skill_name}"
+
+    if [[ ! -d "$skill_dir" ]]; then
+        echo "❌ Error: skill '${skill_name}' not found" >&2
+        return 1
+    fi
+
+    if [[ ! -v SPECTER_LOADED_SKILLS[$skill_name] ]]; then
+        if [[ -f "${skill_dir}/SKILL.md" ]]; then
+            echo ""
+            cat "${skill_dir}/SKILL.md"
+        fi
+        SPECTER_LOADED_SKILLS[$skill_name]=1
+    fi
+
+    if [[ "$include_examples" == "true" && -f "${skill_dir}/EXAMPLES.md" ]]; then
+        echo ""
+        echo "### Skill Examples"
+        cat "${skill_dir}/EXAMPLES.md"
+    fi
+
+    if [[ "$include_reference" == "true" && -f "${skill_dir}/REFERENCE.md" ]]; then
+        echo ""
+        echo "### Technical Reference"
+        cat "${skill_dir}/REFERENCE.md"
+    fi
+}
+
+invoke_skill() {
+    local skill_dir_name=$1
+    shift || true
+    local colon_name=${skill_dir_name/-/:}
+
+    echo "## Spec Workflow Context"
+    print_state_summary
+    echo ""
+    echo "### Invoking skill: ${colon_name}"
+    if [[ $# -gt 0 ]]; then
+        echo "Arguments: $*"
+    fi
+
+    load_skill "$skill_dir_name" "$LOAD_EXAMPLES" "$LOAD_REFERENCE"
+}
+
+show_status() {
+    echo "## Current Spec Session"
+    print_state_summary
+}
 
 show_interactive_menu() {
-    local phase=$(detect_current_phase)
+    local phase
+    phase=$(detect_current_phase)
 
     echo ""
-    echo "📊 Specter Workflow - Current Phase: ${phase^}"
+    echo "📟 Spec Workflow Hub"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    print_state_summary
     echo ""
     echo "What would you like to do?"
-    echo ""
 
+    local options=()
     case "$phase" in
         uninitialized)
             options=("Initialize Specter" "Exit")
             ;;
-        specification)
+        specification|generate)
             options=("Continue to planning" "Update specification" "Clarify requirements" "Check status" "Exit")
             ;;
-        planning)
+        planning|plan)
             options=("Continue to tasks" "Update plan" "Check status" "Exit")
             ;;
-        tasks)
+        tasks|task)
             options=("Begin implementation" "Update tasks" "Check status" "Exit")
             ;;
-        implementation)
-            options=("Continue implementation" "Check status" "View team dashboard" "Exit")
+        implementation|implement)
+            options=("Continue implementation" "Check status" "View dashboard" "Exit")
             ;;
         *)
             options=("Check status" "Initialize new feature" "Exit")
@@ -130,106 +199,127 @@ show_interactive_menu() {
             1)
                 case "$phase" in
                     uninitialized) route_to_skill "init" ;;
-                    specification) route_to_skill "plan" ;;
-                    planning) route_to_skill "tasks" ;;
-                    tasks) route_to_skill "implement" ;;
-                    implementation) route_to_skill "implement" "--continue" ;;
+                    specification|generate) route_to_skill "plan" ;;
+                    planning|plan) route_to_skill "tasks" ;;
+                    tasks|task) route_to_skill "implement" ;;
+                    implementation|implement) route_to_skill "implement" "--continue" ;;
                     *) route_to_skill "status" ;;
                 esac
                 break
                 ;;
             2)
                 case "$phase" in
-                    specification) route_to_skill "specify" "--update" ;;
-                    planning) route_to_skill "plan" "--update" ;;
-                    tasks) route_to_skill "tasks" "--update" ;;
-                    implementation) route_to_skill "status" ;;
-                    *) route_to_skill "specify" ;;
+                    specification|generate) route_to_skill "update" ;;
+                    planning|plan) route_to_skill "plan" "--update" ;;
+                    tasks|task) route_to_skill "tasks" "--update" ;;
+                    implementation|implement) route_to_skill "status" ;;
+                    *) route_to_skill "generate" ;;
                 esac
                 break
                 ;;
             3)
                 case "$phase" in
-                    specification) route_to_skill "clarify" ;;
+                    specification|generate) route_to_skill "clarify" ;;
+                    implementation|implement) show_status ;;
                     *) route_to_skill "status" ;;
                 esac
                 break
                 ;;
             4)
-                route_to_skill "status"
+                show_status
                 break
                 ;;
             5|*)
                 echo "Exiting..."
-                exit 0
+                break
                 ;;
         esac
     done
 }
 
-# ============================================================================
-# ROUTING
-# ============================================================================
+show_contextual_help() {
+    local phase
+    phase=$(detect_current_phase)
+
+    echo ""
+    echo "🧭 Spec Command Help"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    print_state_summary
+    echo ""
+    echo "Common commands:"
+    echo "  /spec init               # Initialize workflow"
+    echo "  /spec \"Feature\"         # Generate specification from text"
+    echo "  /spec plan               # Create technical plan"
+    echo "  /spec tasks              # Break work into tasks"
+    echo "  /spec implement          # Execute implementation"
+    echo "  /spec status             # View cached state"
+    echo "  /spec --interactive      # Guided menu"
+    echo ""
+    echo "Phase-aware next step: $(get_next_action)"
+    echo ""
+}
 
 route_to_skill() {
-    local skill=$1
-    shift
-    local args="$@"
+    local subcommand=$1
+    shift || true
 
-    # Map subcommands to skills
-    case "$skill" in
+    case "$subcommand" in
         init|initialize)
-            load_skill "specter-init"
-            # Invoke specter:init skill
+            invoke_skill "spec-init" "$@"
+            ;;
+        generate)
+            invoke_skill "spec-generate" "$@"
             ;;
         plan|planning)
-            load_skill "specter-plan"
-            # Invoke specter:plan skill
+            invoke_skill "spec-plan" "$@"
             ;;
         tasks|task)
-            load_skill "specter-tasks"
-            # Invoke specter:tasks skill
+            invoke_skill "spec-tasks" "$@"
             ;;
         implement|impl|execute)
-            load_skill "specter-implement"
-            # Invoke specter:implement skill
+            invoke_skill "spec-implement" "$@"
             ;;
         clarify)
-            load_skill "specter-clarify"
-            # Invoke specter:clarify skill
+            invoke_skill "spec-clarify" "$@"
+            ;;
+        update)
+            invoke_skill "spec-update" "$@"
+            ;;
+        blueprint)
+            invoke_skill "spec-blueprint" "$@"
             ;;
         analyze|validate)
-            load_skill "specter-analyze"
-            # Invoke specter:analyze skill
+            invoke_skill "spec-analyze" "$@"
+            ;;
+        discover)
+            invoke_skill "spec-discover" "$@"
+            ;;
+        orchestrate)
+            invoke_skill "spec-orchestrate" "$@"
             ;;
         metrics|stats)
-            load_skill "specter-metrics"
-            # Invoke specter:metrics skill
+            invoke_skill "spec-metrics" "$@"
             ;;
-        team|status)
-            show_team_status
+        checklist)
+            invoke_skill "spec-checklist" "$@"
             ;;
-        assign)
-            assign_task "$@"
+        status)
+            show_status
             ;;
-        lock)
-            lock_feature "$@"
-            ;;
-        unlock)
-            unlock_feature "$@"
-            ;;
-        master-spec)
-            generate_master_spec "$@"
-            ;;
-        help|--help|-h)
+        help)
             show_contextual_help
             ;;
+        --continue)
+            invoke_skill "spec-implement" "$@"
+            ;;
         *)
-            # Unknown subcommand - might be free text specification
-            if [[ -n "$skill" ]]; then
-                # Treat as specification text
-                load_skill "specter-specify"
-                # Invoke specter:specify skill with full text: "$skill $args"
+            if [[ -n "$subcommand" ]]; then
+                local specification_text="$subcommand"
+                if [[ $# -gt 0 ]]; then
+                    specification_text="$subcommand $*"
+                fi
+                echo "→ Detected specification request"
+                invoke_skill "spec-generate" "$specification_text"
             else
                 show_contextual_help
             fi
@@ -237,181 +327,47 @@ route_to_skill() {
     esac
 }
 
-# ============================================================================
-# BUILT-IN COMMANDS
-# ============================================================================
-
-show_team_status() {
-    echo "📊 Specter Team Status"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-
-    # Active locks
-    if [[ -d "${SPECTER_STATE_DIR}/locks" ]]; then
-        echo "🔒 Active Locks:"
-        local has_locks=false
-        for lock in "${SPECTER_STATE_DIR}/locks"/*.lock 2>/dev/null; do
-            [[ -f "$lock" ]] || continue
-            has_locks=true
-            local feature=$(jq -r '.featureId' "$lock")
-            local user=$(jq -r '.lockedBy' "$lock")
-            local since=$(jq -r '.lockedAt' "$lock")
-            echo "  - Feature $feature: $user (since $since)"
-        done
-        [[ "$has_locks" == "false" ]] && echo "  No active locks"
-        echo ""
-    fi
-
-    # Task assignments
-    if [[ -f "${SPECTER_STATE_DIR}/session.json" ]]; then
-        echo "👥 Task Assignments:"
-        jq -r '.tasks[]? | select(.assignedTo) | "  - \(.id): \(.description) (@\(.assignedTo))"' \
-            "${SPECTER_STATE_DIR}/session.json" 2>/dev/null || echo "  No assignments"
-        echo ""
-    fi
-
-    # Feature progress
-    if [[ -f "${SPECTER_STATE_DIR}/session.json" ]]; then
-        echo "📈 Feature Progress:"
-        jq -r '.features[]? | "  - \(.id)-\(.name): \(.status) (\(.progress)%)"' \
-            "${SPECTER_STATE_DIR}/session.json" 2>/dev/null || echo "  No features"
-    fi
-}
-
-assign_task() {
-    local user=$1
-    local task_id=$2
-
-    if [[ -z "$user" || -z "$task_id" ]]; then
-        echo "Usage: /👻 assign @username T001"
-        return 1
-    fi
-
-    echo "✅ Assigned $task_id to $user"
-    # TODO: Update session.json with assignment
-}
-
-lock_feature() {
-    local feature_id=$1
-    echo "🔒 Locked feature $feature_id"
-    # TODO: Create lock file
-}
-
-unlock_feature() {
-    local feature_id=$1
-    echo "🔓 Unlocked feature $feature_id"
-    # TODO: Remove lock file
-}
-
-generate_master_spec() {
-    local script="${SPECTER_ROOT}/scripts/generate-master-spec.sh"
-    if [[ -f "$script" ]]; then
-        bash "$script" "$@"
-    else
-        echo "❌ Error: Master spec generator not found" >&2
-        return 1
-    fi
-}
-
-show_contextual_help() {
-    local phase=$(detect_current_phase)
-
-    echo ""
-    echo "👻 Specter v3.0 - Unified Workflow Command"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-
-    case "$phase" in
-        uninitialized)
-            echo "Status: Not initialized"
-            echo ""
-            echo "Get started:"
-            echo "  /👻 init                    # Initialize Specter"
-            ;;
-        specification)
-            echo "Status: Specification phase"
-            echo ""
-            echo "Next steps:"
-            echo "  /👻 plan                    # Create technical plan"
-            echo "  /👻 clarify                 # Resolve ambiguities"
-            echo "  /👻 update \"changes\"        # Modify specification"
-            ;;
-        planning)
-            echo "Status: Planning phase"
-            echo ""
-            echo "Next steps:"
-            echo "  /👻 tasks                   # Break into tasks"
-            echo "  /👻 plan --update           # Modify plan"
-            ;;
-        tasks)
-            echo "Status: Task breakdown complete"
-            echo ""
-            echo "Next steps:"
-            echo "  /👻 implement               # Begin implementation"
-            echo "  /👻 tasks --update          # Modify tasks"
-            ;;
-        implementation)
-            echo "Status: Implementation in progress"
-            echo ""
-            echo "Next steps:"
-            echo "  /👻 implement --continue    # Continue work"
-            echo "  /👻 status                  # Check progress"
-            echo "  /👻 team                    # View team status"
-            ;;
-    esac
-
-    echo ""
-    echo "Common commands:"
-    echo "  /👻 \"Your feature\"           # Create specification"
-    echo "  /👻                          # Context-aware continue"
-    echo "  /👻 --interactive            # Interactive menu"
-    echo "  /👻 status                   # Check status"
-    echo "  /👻 team                     # Team dashboard"
-    echo ""
-    echo "Full documentation: /👻 --help --reference"
-    echo ""
-}
-
-# ============================================================================
-# MAIN ENTRY POINT
-# ============================================================================
-
 main() {
-    local args=("$@")
-
-    # Handle flags
-    local load_examples=false
-    local load_reference=false
+    local raw_args=("$@")
     local interactive=false
+    local filtered_args=()
 
-    # Parse flags
-    for arg in "${args[@]}"; do
+    for arg in "${raw_args[@]}"; do
         case "$arg" in
-            --examples) load_examples=true ;;
-            --reference) load_reference=true ;;
-            --interactive|-i) interactive=true ;;
+            --examples)
+                LOAD_EXAMPLES=true
+                ;;
+            --reference)
+                LOAD_REFERENCE=true
+                ;;
+            --interactive|-i)
+                interactive=true
+                ;;
+            --help|-h)
+                filtered_args+=("help")
+                ;;
+            *)
+                filtered_args+=("$arg")
+                ;;
         esac
     done
 
-    # Interactive mode
     if [[ "$interactive" == "true" ]]; then
         show_interactive_menu
         return
     fi
 
-    # No arguments - context-aware continue
-    if [[ ${#args[@]} -eq 0 ]]; then
-        local next_action=$(get_next_action)
-        echo "→ Continuing workflow: $next_action"
-        route_to_skill $next_action
+    if [[ ${#filtered_args[@]} -eq 0 ]]; then
+        local next
+        next=$(get_next_action)
+        echo "→ Continuing workflow: $next"
+        route_to_skill $next
         return
     fi
 
-    # Route based on first argument
-    route_to_skill "${args[@]}"
+    route_to_skill "${filtered_args[@]}"
 }
 
-# Only run main if executed directly (not sourced)
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     main "$@"
 fi

@@ -1,5 +1,5 @@
 ---
-name: spec-generate
+name: spec:generate
 description: Use when user wants to create specification, generate spec, define requirements, write user stories, start new feature, or says "create spec" - generates detailed feature specifications with prioritized user stories (P1/P2/P3), acceptance criteria, and integration requirements
 allowed-tools: Read, Write, Edit, AskUserQuestion, WebSearch, Bash
 ---
@@ -193,7 +193,7 @@ Read CLAUDE.md for SPECTER_CONFLUENCE_ROOT_PAGE_ID
 
 **Missing Specter Initialization:**
 - Detect: .specter-state/ directory not found
-- Action: Inform user to run /specter-init first
+- Action: Inform user to run /spec init first
 - Recovery: Provide initialization command
 
 **Incomplete Requirements:**

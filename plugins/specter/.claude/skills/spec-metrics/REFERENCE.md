@@ -476,10 +476,10 @@ Error: Metrics data not found
 File: .specter-memory/WORKFLOW-PROGRESS.md
 
 Solution: Initialize Spec tracking
-Command: /specter-init
+Command: /spec init
 
 Description: WORKFLOW-PROGRESS.md contains metric data.
-Run /specter-init to set up tracking infrastructure.
+Run /spec init to set up tracking infrastructure.
 ```
 
 **Incomplete Data**:
