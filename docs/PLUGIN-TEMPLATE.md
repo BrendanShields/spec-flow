@@ -155,7 +155,7 @@ Brief description of what your plugin does
 ## Installation
 
 ```bash
-/plugin install your-plugin@specter-marketplace
+/plugin install your-plugin@spec-marketplace
 ```
 
 ## Usage

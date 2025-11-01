@@ -21,23 +21,23 @@ A comprehensive guide for engineers to manage, develop, and contribute plugins t
 ### For Plugin Users
 ```bash
 # Add this marketplace
-/plugin marketplace add claude-code/specter-marketplace
+/plugin marketplace add claude-code/spec-marketplace
 
 # Browse available plugins
 /plugin marketplace list
 
 # Install a plugin
-/plugin install specter@specter-marketplace
+/plugin install spec@spec-marketplace
 
 # Update plugins
-/plugin marketplace update specter-marketplace
+/plugin marketplace update spec-marketplace
 ```
 
 ### For Plugin Developers
 ```bash
 # Clone the marketplace
-git clone https://github.com/claude-code/specter-marketplace.git
-cd specter-marketplace
+git clone https://github.com/claude-code/spec-marketplace.git
+cd spec-marketplace
 
 # Create a new plugin
 mkdir -p plugins/your-plugin-name
@@ -64,7 +64,7 @@ git push origin feat/add-your-plugin
 
 ### Architecture
 ```
-specter-marketplace/
+spec-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json        # Marketplace catalog
 ├── plugins/                    # Plugin collection
@@ -92,13 +92,13 @@ The `.claude-plugin/marketplace.json` file defines the marketplace:
 ```json
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "specter-marketplace",
+  "name": "spec-marketplace",
   "version": "1.2.0",
   "description": "AI-powered development marketplace",
   "owner": {
     "name": "Claude Code Community",
     "email": "plugins@claudecode.dev",
-    "url": "https://github.com/claude-code/specter-marketplace"
+    "url": "https://github.com/claude-code/spec-marketplace"
   },
   "plugins": [
     {
@@ -286,9 +286,9 @@ For Model Context Protocol servers, create `.mcp.json`:
 
 1. **Fork & Clone**
    ```bash
-   git fork https://github.com/claude-code/specter-marketplace
-   git clone https://github.com/YOUR_USERNAME/specter-marketplace
-   cd specter-marketplace
+   git fork https://github.com/claude-code/spec-marketplace
+   git clone https://github.com/YOUR_USERNAME/spec-marketplace
+   cd spec-marketplace
    ```
 
 2. **Create Plugin**
@@ -419,7 +419,7 @@ echo "Plugin removed: reason" >> CHANGELOG.md
 // Required plugins for team
 {
   "requiredPlugins": [
-    "flow@specter-marketplace",
+    "flow@spec-marketplace",
     "code-review@internal-tools",
     "deploy-helper@internal-tools"
   ]
@@ -534,7 +534,7 @@ Brief description (1-2 sentences)
 
 ## Installation
 ```bash
-/plugin install plugin-name@specter-marketplace
+/plugin install plugin-name@spec-marketplace
 ```
 
 ## Usage
@@ -760,4 +760,4 @@ See [CHANGELOG.md](./CHANGELOG.md) for marketplace version history.
 *Maintainers: Claude Code Community*
 
 For the latest version of this guide, visit:
-https://github.com/claude-code/specter-marketplace/blob/main/claude.md
+https://github.com/claude-code/spec-marketplace/blob/main/claude.md
