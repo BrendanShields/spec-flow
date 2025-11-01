@@ -27,79 +27,138 @@ The plugin refactor is complete but exists only in the working directory. Withou
 - [ ] Marketplace listing updated
 - [ ] Documentation accurate and complete
 
-## User Stories
+## Epics & User Stories
 
-### P1 - Must Have
+### Epic 1: Documentation & Traceability (PRD §2.1 / Blueprint DOC-01)
 
-#### Story 1: Document Changes
+**Goal**: Preserve institutional knowledge for the Spec plugin refactor.
+**Success Metrics**: Complete audit trail, up-to-date docs, approval from maintainers.
+
+#### Story 1.1 – Document Changes (P1)
 **As a** plugin maintainer
 **I want to** document all uncommitted changes
 **So that** I understand what was modified and why
 
-**Acceptance Criteria**:
-- [ ] Complete list of deleted files with reasons
-- [ ] Complete list of new files with purposes
-- [ ] Complete list of modified files with change summaries
-- [ ] Migration path documented
-
-#### Story 2: Organize Commits
-**As a** plugin maintainer
-**I want to** organize changes into logical commits
-**So that** the git history is clean and understandable
+**GitHub Issue**: #TBD-001 (sub task checklist required)
+**External Tracker**: None
 
 **Acceptance Criteria**:
-- [ ] Commits grouped by functionality
-- [ ] Clear commit messages following conventions
-- [ ] No broken intermediate states
-- [ ] Refactor traceable through history
+- **Scenario**: Catalogue deletions
+  - **Given** the working tree contains removed Navi assets
+  - **When** I export file status reports
+  - **Then** I can explain why each deletion occurred in the change log
+- **Scenario**: Catalogue additions
+  - **Given** new Spec components exist locally
+  - **When** I enumerate new files with their purposes
+  - **Then** the product requirements document reflects each addition
+- **Scenario**: Migration path
+  - **Given** users are migrating from Navi
+  - **When** I outline the before/after structure
+  - **Then** maintainers can follow the documented migration path without ambiguity
 
-#### Story 3: Validate Functionality
-**As a** plugin maintainer
-**I want to** test the plugin thoroughly
-**So that** users receive a working product
-
-**Acceptance Criteria**:
-- [ ] Plugin installs successfully
-- [ ] All commands execute without errors
-- [ ] Skills trigger appropriately
-- [ ] State management works correctly
-- [ ] No regression from previous version
-
-### P2 - Should Have
-
-#### Story 4: Update Documentation
+#### Story 1.2 – Update Documentation (P2)
 **As a** plugin user
 **I want to** have accurate documentation
 **So that** I can use Spec effectively
 
-**Acceptance Criteria**:
-- [ ] README reflects current state
-- [ ] All Navi references updated to Spec
-- [ ] Command examples work
-- [ ] Installation instructions clear
+**GitHub Issue**: #TBD-002
+**External Tracker**: None
 
-#### Story 5: Clean Configuration
+**Acceptance Criteria**:
+- **Scenario**: README alignment
+  - **Given** the README references Navi assets
+  - **When** I replace outdated sections with Spec guidance
+  - **Then** all instructions match the refactored plugin
+- **Scenario**: Command examples
+  - **Given** example commands exist in docs
+  - **When** I execute each command in a staging environment
+  - **Then** the documented output matches actual behaviour
+
+### Epic 2: Release Hygiene & Validation (PRD §2.2 / Blueprint REL-02)
+
+**Goal**: Deliver a clean, working release with traceable commits.
+**Success Metrics**: Passing regression tests, sequenced commits, install validation.
+
+#### Story 2.1 – Organise Commits (P1)
+**As a** plugin maintainer
+**I want to** organise changes into logical commits
+**So that** the git history is clean and understandable
+
+**GitHub Issue**: #TBD-003
+**External Tracker**: None
+
+**Acceptance Criteria**:
+- **Scenario**: Functional grouping
+  - **Given** hundreds of file changes
+  - **When** I stage updates by functional area
+  - **Then** each commit contains a coherent unit of work
+- **Scenario**: Commit hygiene
+  - **Given** commit templates are defined
+  - **When** I craft messages for each commit
+  - **Then** the history explains the Navi→Spec migration without ambiguity
+
+#### Story 2.2 – Validate Functionality (P1)
+**As a** plugin maintainer
+**I want to** test the plugin thoroughly
+**So that** users receive a working product
+
+**GitHub Issue**: #TBD-004
+**External Tracker**: None
+
+**Acceptance Criteria**:
+- **Scenario**: Installation smoke test
+  - **Given** a clean Claude Code workspace
+  - **When** I install the packaged plugin
+  - **Then** the installation succeeds without errors
+- **Scenario**: Command execution
+  - **Given** each core command is available
+  - **When** I execute `/spec init`, `/spec plan`, and `/spec tasks`
+  - **Then** the commands run without runtime failures
+- **Scenario**: Regression guard
+  - **Given** automated validation scripts exist
+  - **When** I run the regression suite
+  - **Then** no prior functionality is broken
+
+#### Story 2.3 – Clean Configuration (P2)
 **As a** plugin maintainer
 **I want to** resolve configuration conflicts
 **So that** the plugin structure is consistent
 
+**GitHub Issue**: #TBD-005
+**External Tracker**: None
+
 **Acceptance Criteria**:
-- [ ] .gitignore conflicts resolved
-- [ ] Directory structure documented
-- [ ] Configuration files validated
-- [ ] No conflicting settings
+- **Scenario**: .gitignore alignment
+  - **Given** conflicting ignore rules are present
+  - **When** I reconcile them against the new structure
+  - **Then** only intentional files remain tracked
+- **Scenario**: Validation of configuration
+  - **Given** updated config files
+  - **When** I run linting and schema checks
+  - **Then** no configuration errors remain
 
-### P3 - Nice to Have
+### Epic 3: Migration Support (PRD §2.3 / Blueprint MIG-03)
 
-#### Story 6: Migration Guide
+**Goal**: Provide a safe migration path for existing Navi users.
+**Success Metrics**: Published migration guide, user feedback readiness.
+
+#### Story 3.1 – Publish Migration Guide (P3)
 **As a** existing user
 **I want to** understand how to migrate from Navi
 **So that** I can update smoothly
 
+**GitHub Issue**: #TBD-006
+**External Tracker**: None
+
 **Acceptance Criteria**:
-- [ ] Migration steps documented
-- [ ] Breaking changes listed
-- [ ] Compatibility notes included
+- **Scenario**: Migration steps
+  - **Given** the documented refactor
+  - **When** I outline step-by-step upgrade instructions
+  - **Then** users can perform the migration without extra support
+- **Scenario**: Breaking changes log
+  - **Given** differences between Navi and Spec
+  - **When** I document breaking changes and mitigation strategies
+  - **Then** users know how to handle incompatibilities
 
 ## Technical Requirements
 

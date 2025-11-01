@@ -3,6 +3,8 @@
 **Story ID**: {{STORY_ID}}
 **Priority**: {{PRIORITY}}
 **Epic**: {{EPIC_NAME}}
+**GitHub Issue**: {{GITHUB_ISSUE_URL}}
+**External Tracker Sync**: {{SYNC_STATUS}} _(e.g., "Auto-synced", "Manual update required")_
 
 ---
 

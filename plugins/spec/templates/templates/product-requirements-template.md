@@ -21,22 +21,30 @@
 | [Primary] | [Description] | [Objectives] | [Challenges] |
 | [Secondary] | [Description] | [Objectives] | [Challenges] |
 
-## User Stories
+## Epics & User Stories
 
-See [_shared/user-story-format.md](_shared/user-story-format.md) for standard format.
+Derive epics directly from this PRD and the Architecture Blueprint. Each epic must map to a unique capability area—avoid overlap by referencing the blueprint section identifier. All user stories live under an epic parent and should follow the standard format in [_shared/user-story-format.md](_shared/user-story-format.md).
 
-### Epic 1: [Name]
+### Epic 1: [Name] (Blueprint Ref: [ID])
 
-#### Story 1.1 - [Title] (P1)
+**PRD Alignment**: [Section/requirement]
+**Outcome**: [Business or user result]
+
+#### Story 1.1 – [Title] (P1)
 **As a** [persona] **I want** [capability] **So that** [benefit]
-**Acceptance**: Given [state] When [action] Then [outcome]
+**Acceptance**:
+- **Scenario**: [Short name]
+  - **Given** [state]
+  - **When** [action]
+  - **Then** [outcome]
 **Metrics**: [Success measures]
+**Issue Tracking**: GitHub #[ID] | External: [JIRA-123 / None]
 
-#### Story 1.2 - [Title] (P2)
+#### Story 1.2 – [Title] (P2)
 [Follow same format]
 
-### Epic 2: [Name]
-[Add more epics as needed]
+### Epic 2: [Name] (Blueprint Ref: [ID])
+[Add more epics as needed. Duplicate stories that do not map cleanly should trigger creation of a new epic instead.]
 
 ## Key Entities
 
