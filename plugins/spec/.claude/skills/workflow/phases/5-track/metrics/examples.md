@@ -7,7 +7,7 @@ Concrete scenarios demonstrating different metric views and use cases.
 **User Request**: "Show me the metrics"
 
 **Skill Action**:
-1. Reads `.spec-memory/WORKFLOW-PROGRESS.md`
+1. Reads `{config.paths.memory}/WORKFLOW-PROGRESS.md`
 2. Calculates all metric categories
 3. Generates dashboard with visualizations
 4. Displays on console
@@ -21,7 +21,7 @@ Concrete scenarios demonstrating different metric views and use cases.
   Features Completed: 2/5 (40%)
   Average Duration:   4.2 days per feature
   Task Velocity:      23 tasks/day
-  Sprint Velocity:    2.0 features/sprint
+  Sprint Velocity:    2.0 {config.paths.features}/sprint
   Progress:           ████░░░░░░ 40%
 
 📈 QUALITY METRICS
@@ -79,7 +79,7 @@ Last Updated: 2025-10-31 15:45:00
 Features Completed: 2/5 (40%)
 ├─ Sprint 1: 2 features (100% of sprint capacity)
 ├─ Sprint 2: 0 features (ongoing - 50% complete)
-└─ Trend: On track for 2 features/sprint target
+└─ Trend: On track for 2 {config.paths.features}/sprint target
 
 Average Feature Duration: 4.2 days
 ├─ Feature 001: 5 days (20% above average)
@@ -197,7 +197,7 @@ Sprint 3 (Planned):
 🔍 INSIGHTS & RECOMMENDATIONS
 
 Performance Highlights:
-✅ Sprint velocity consistent at 2 features/sprint
+✅ Sprint velocity consistent at 2 {config.paths.features}/sprint
 ✅ Test coverage maintained above 85% threshold
 ✅ No critical blockers currently
 ✅ AI productivity gains measurable
@@ -379,9 +379,9 @@ Import to dashboard tools:
         "total_lines": 1835
       },
       "artifacts": {
-        "spec": "features/001-user-auth/spec.md",
-        "plan": "features/001-user-auth/plan.md",
-        "tasks": "features/001-user-auth/tasks.md"
+        "spec": "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}",
+        "plan": "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}",
+        "tasks": "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}"
       },
       "integrations": {
         "jira_key": "PROJ-101",
@@ -435,7 +435,7 @@ Import to dashboard tools:
   ],
   "insights": {
     "highlights": [
-      "Sprint velocity consistent at 2 features/sprint",
+      "Sprint velocity consistent at 2 {config.paths.features}/sprint",
       "Test coverage maintained above 85% threshold",
       "No critical blockers currently",
       "AI productivity gains measurable (18h saved)"
@@ -519,4 +519,4 @@ User: "show me velocity metrics"
 ---
 
 **Related Skills**: spec:analyze (feature-specific), spec:status (quick overview)
-**State Dependencies**: Requires `.spec-memory/WORKFLOW-PROGRESS.md`
+**State Dependencies**: Requires `{config.paths.memory}/WORKFLOW-PROGRESS.md`

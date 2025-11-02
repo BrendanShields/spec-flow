@@ -90,7 +90,7 @@ Templates used internally by the workflow framework - not typically edited by us
 **internal/agent-file-template.md**
 - **Purpose**: Context file for subagent delegation
 - **Usage**: Internal use by `spec:implementer`, `spec:researcher`, `spec:analyzer`
-- **Output**: `.spec-state/agent-context.md` (temporary)
+- **Output**: `{config.paths.state}/agent-context.md` (temporary)
 - **Contains**: Task context, constraints, expected output format
 
 ## Template Organization

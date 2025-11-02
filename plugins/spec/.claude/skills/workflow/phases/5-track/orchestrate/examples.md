@@ -17,8 +17,8 @@ Complete scenarios demonstrating end-to-end workflow orchestration with detailed
 
 ```
 Checking prerequisites...
-✓ .spec/ directory exists
-✓ .spec-state/ initialized
+✓ {config.paths.spec_root}/ directory exists
+✓ {config.paths.state}/ initialized
 ✓ Project configuration valid
 
 Analyzing current state...
@@ -39,7 +39,7 @@ Estimated phases: 6 (generate → clarify → plan → analyze → tasks → imp
 Prompt to user: "User authentication with email/password, JWT, password reset"
 
 Processing...
-- Creating features/001-authentication/spec.md
+- Creating {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 - Analyzing requirements
 - Generating user stories
 - Identifying acceptance criteria
@@ -57,7 +57,7 @@ Created specification with:
   CLARIFY-2: Password complexity requirements?
   CLARIFY-3: Email service provider?
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-23-01-post-generate.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-23-01-post-generate.md
 
 Duration: 48 seconds
 Status: ✓ Complete
@@ -123,7 +123,7 @@ Updated spec.md:
 - Replaced CLARIFY-2 with: "Min 8 chars with uppercase, lowercase, and number"
 - Replaced CLARIFY-3 with: "Use Nodemailer with SMTP for email delivery"
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-25-43-post-clarify.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-25-43-post-clarify.md
 
 Duration: 2 minutes 42 seconds
 Status: ✓ Complete (3/3 clarifications resolved)
@@ -195,11 +195,11 @@ ADR-003: Use bcrypt for password hashing
 - Decision: bcrypt with cost factor 10
 - Consequences: Slower auth but industry standard
 
-Logged to: .spec-memory/DECISIONS-LOG.md
+Logged to: {config.paths.memory}/DECISIONS-LOG.md
 
-Created: features/001-authentication/plan.md (324 lines)
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (324 lines)
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-32-18-post-plan.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-32-18-post-plan.md
 
 Duration: 6 minutes 35 seconds
 Status: ✓ Complete (3 ADRs logged)
@@ -247,7 +247,7 @@ Validation Summary:
 Recommendation: Proceed with implementation
 (Warnings can be addressed during task breakdown)
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-34-52-post-analyze.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-34-52-post-analyze.md
 
 Duration: 2 minutes 34 seconds
 Status: ✓ Complete (0 critical issues)
@@ -314,10 +314,10 @@ Task summary:
 - Parallel opportunities: 14 tasks across 4 groups
 - Estimated completion time: 3-4 hours
 
-Created: features/001-authentication/tasks.md (187 lines)
-Updated: .spec-memory/CHANGES-PLANNED.md with 28 new entries
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} (187 lines)
+Updated: {config.paths.memory}/CHANGES-PLANNED.md with 28 new entries
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-38-27-post-tasks.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-38-27-post-tasks.md
 
 Duration: 3 minutes 35 seconds
 Status: ✓ Complete (28 tasks generated)
@@ -543,11 +543,11 @@ Implementation Complete!
 Progress: 28/28 tasks complete (100%)
 
 Updated files:
-- .spec-state/current-session.md (status: complete)
-- .spec-memory/CHANGES-COMPLETED.md (28 entries added)
-- .spec-memory/WORKFLOW-PROGRESS.md (updated metrics)
+- {config.paths.state}/current-session.md (status: complete)
+- {config.paths.memory}/CHANGES-COMPLETED.md (28 entries added)
+- {config.paths.memory}/WORKFLOW-PROGRESS.md (updated metrics)
 
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-14-48-15-complete.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-48-15-complete.md
 
 Duration: 9 minutes 48 seconds
 Total parallel time saved: ~3 minutes 22 seconds
@@ -578,10 +578,10 @@ Phases Executed: 6/6
   ✓ spec:implement (28/28 tasks complete)
 
 Artifacts Created:
-  - features/001-authentication/spec.md (142 lines)
-  - features/001-authentication/plan.md (324 lines)
-  - features/001-authentication/tasks.md (187 lines)
-  - 3 ADRs in .spec-memory/DECISIONS-LOG.md
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} (142 lines)
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (324 lines)
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} (187 lines)
+  - 3 ADRs in {config.paths.memory}/DECISIONS-LOG.md
 
 Implementation Summary:
   - Files created: 18 files
@@ -640,7 +640,7 @@ Proceeding with automatic workflow execution...
 ```
 [1/6] spec:generate ████████████████████████████ Complete (32s)
 
-Created: features/002-contact-form/spec.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 - 3 user stories generated (simple feature, all P1)
 - 0 [CLARIFY] tags (straightforward requirements)
 - Using defaults for unspecified details
@@ -665,7 +665,7 @@ Status: Proceeding to next phase
 ```
 [3/6] spec:plan ████████████████████████████ Complete (1m 29s)
 
-Created: features/002-contact-form/plan.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
 - Architecture: Simple REST API + database
 - No research needed (standard patterns)
 
@@ -694,7 +694,7 @@ Status: Validation deferred, proceeding to tasks
 ```
 [5/6] spec:tasks ████████████████████████████ Complete (24s)
 
-Created: features/002-contact-form/tasks.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 - 8 tasks generated (all P1)
 - Serial execution plan (no parallelization in auto mode)
 
@@ -824,7 +824,7 @@ User: "Resume the payment processing workflow"
 Resume Mode Activated
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Scanning for checkpoints in .spec-state/checkpoints/...
+Scanning for checkpoints in {config.paths.state}/checkpoints/...
 
 Found checkpoints:
   ✓ 2025-10-31-15-23-04-post-generate.md
@@ -853,9 +853,9 @@ Feature: 003-payment-processing
 Status: In Progress
 
 Loaded artifacts:
-  ✓ features/003-payment-processing/spec.md (verified)
-  ✓ features/003-payment-processing/plan.md (verified)
-  ✓ features/003-payment-processing/tasks.md (verified)
+  ✓ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} (verified)
+  ✓ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (verified)
+  ✓ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} (verified)
 
 Completed tasks (validated):
   ✓ T001: Set up Stripe SDK dependencies
@@ -1037,7 +1037,7 @@ Resume command: Always available with /spec orchestrate --resume
 ```
 [1/6] spec:generate ████████████████████████████ Complete (56s)
 
-Created: features/004-product-search/spec.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 
 User Stories Generated:
   US1.1 [P1]: User can search products by keyword
@@ -1068,7 +1068,7 @@ Updated: spec.md (all ambiguities resolved)
 ```
 [3/6] spec:plan ████████████████████████████ Complete (8m 18s)
 
-Created: features/004-product-search/plan.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
 
 Architecture Components:
   - Elasticsearch cluster setup
@@ -1109,7 +1109,7 @@ Options:
 User selected: [A] Stop now, save checkpoint
 
 Stopping workflow as requested...
-Checkpoint saved: .spec-state/checkpoints/2025-10-31-16-45-33-post-plan.md
+Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-16-45-33-post-plan.md
 ```
 
 ### Selective Execution Summary
@@ -1131,9 +1131,9 @@ Phases Completed: 3/6
   ⏭ spec:implement (not run)
 
 Artifacts Created:
-  ✓ features/004-product-search/spec.md (198 lines)
-  ✓ features/004-product-search/plan.md (427 lines)
-  ✓ 5 ADRs in .spec-memory/DECISIONS-LOG.md
+  ✓ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} (198 lines)
+  ✓ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (427 lines)
+  ✓ 5 ADRs in {config.paths.memory}/DECISIONS-LOG.md
 
 State: Paused for review
 Checkpoint: Saved successfully
@@ -1159,9 +1159,9 @@ When Ready to Continue:
     2. Command: /spec orchestrate --resume --revalidate
 
 Review Materials:
-  📄 Specification: features/004-product-search/spec.md
-  📄 Technical Plan: features/004-product-search/plan.md
-  📄 Architecture Decisions: .spec-memory/DECISIONS-LOG.md (ADR-006 to ADR-010)
+  📄 Specification: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
+  📄 Technical Plan: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
+  📄 Architecture Decisions: {config.paths.memory}/DECISIONS-LOG.md (ADR-006 to ADR-010)
 
 Estimated time to complete (when resumed): ~18-22 minutes
   - spec:analyze: ~3 minutes
@@ -1221,7 +1221,7 @@ Status: ✓ Complete
 ```
 [1/6] spec:generate ████████████████████████████ Complete (1m 8s)
 
-Created: features/005-reporting-dashboard/spec.md
+Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 
 User Stories Generated: 7 stories
   US1.1 [P1]: User can view sales reports
@@ -1738,8 +1738,8 @@ Updating DECISIONS-LOG.md...
 ✓ ADR-012: Implement tier management with Stripe integration
 
 Files updated:
-  - features/006-rate-limiting/plan.md (+127 lines)
-  - .spec-memory/DECISIONS-LOG.md (+2 ADRs)
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (+127 lines)
+  - {config.paths.memory}/DECISIONS-LOG.md (+2 ADRs)
 
 Auto-fix complete (3m 18s)
 ```
@@ -2001,7 +2001,7 @@ Example:
 
 **Automatic Checkpoints:**
 - Created after each phase
-- Saved to .spec-state/checkpoints/
+- Saved to {config.paths.state}/checkpoints/
 - Enable instant resume
 - Cost: ~200ms per checkpoint (negligible)
 
@@ -2153,7 +2153,7 @@ Resume failed: No checkpoint found
 
 **Solution:**
 ```
-Check: .spec-state/checkpoints/ directory exists
+Check: {config.paths.state}/checkpoints/ directory exists
 Fallback: Run individual phases manually
 ```
 

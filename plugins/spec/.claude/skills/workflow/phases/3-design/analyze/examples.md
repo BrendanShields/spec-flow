@@ -82,7 +82,7 @@ Invokes: spec:analyzer
 All validation checks passed. Ready to proceed:
 
 1. Run: `spec:implement` to start implementation
-2. Session will track progress in .spec-state/
+2. Session will track progress in {config.paths.state}/
 3. Tasks will move to CHANGES-COMPLETED.md as done
 ```
 
@@ -238,7 +238,7 @@ Issue: P1 story has only P3 tasks
 
 ## Next Steps
 
-Manually edit features/003-payment-processing/tasks.md
+Manually edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 Change task priorities, then re-run spec:analyze
 ```
 
@@ -393,7 +393,7 @@ CRITICAL issues block implementation - must fix first:
 ### Optional Enhancements (MEDIUM)
 1. Standardize terminology to "User" across all documents
 2. Update component names for consistency
-3. Consider creating glossary in .spec/
+3. Consider creating glossary in {config.paths.spec_root}/
 
 ## Next Steps
 
@@ -488,4 +488,4 @@ LOW:
 3. Generates structured report
 4. Categorizes by severity
 5. Provides actionable recommendations
-6. Saves report to .spec-state/
+6. Saves report to {config.paths.state}/

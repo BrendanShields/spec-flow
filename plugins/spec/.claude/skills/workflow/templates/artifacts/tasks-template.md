@@ -14,7 +14,7 @@ description: "Task list for feature implementation"
 
 - **GitHub Issues**: Every story must have a matching GitHub issue with the sub-task checklist below.
 - **External Tracker (e.g., JIRA)**: When configured, mirror the story as a JIRA issue and cross-link IDs. If no external tracker exists, document `External Tracker: None` within the GitHub issue.
-- **Documentation Updates**: On completion of a story, update project-level docs (`.spec-memory/WORKFLOW-PROGRESS.md`, blueprints, PRD) before closing the issue.
+- **Documentation Updates**: On completion of a story, update project-level docs (`{config.paths.memory}/WORKFLOW-PROGRESS.md`, blueprints, PRD) before closing the issue.
 
 ---
 

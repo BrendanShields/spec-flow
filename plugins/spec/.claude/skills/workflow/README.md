@@ -226,7 +226,7 @@ Load only what's needed, when it's needed
 
 ### 2. Context Awareness
 Router understands where user is in workflow
-- Reads `.spec-state/current-session.md`
+- Reads `{config.paths.state}/current-session.md`
 - Shows relevant next steps
 - Provides phase-specific guidance
 

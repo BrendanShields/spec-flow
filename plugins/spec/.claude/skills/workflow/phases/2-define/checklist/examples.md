@@ -240,7 +240,7 @@ spec:checklist
 
 **Generated Structure**:
 ```
-features/042-user-profile/
+{config.paths.features}/{config.naming.feature_directory}/
 ├── spec.md
 └── checklists/
     ├── README.md

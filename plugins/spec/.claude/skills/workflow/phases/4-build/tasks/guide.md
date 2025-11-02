@@ -16,7 +16,7 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 - Identifies task dependencies and execution order
 - Marks parallel-executable tasks with [P] markers
 - Groups tasks by user stories from spec
-- Updates .spec-memory/CHANGES-PLANNED.md
+- Updates {config.paths.memory}/CHANGES-PLANNED.md
 - Optional: Creates issues in JIRA/Linear/GitHub via MCP if configured
 
 ## When to Use
@@ -33,13 +33,13 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 ### Phase 1: Load Context
 
 1. **Read current session state**
-   - Load `.spec-state/current-session.md` to get active feature
+   - Load `{config.paths.state}/current-session.md` to get active feature
    - Extract feature ID and current phase
    - Verify feature exists and plan phase is complete
 
 2. **Load feature artifacts**
-   - Read `features/###-name/spec.md` for user stories and priorities
-   - Read `features/###-name/plan.md` for technical approach
+   - Read `{config.paths.features}/###-name/{config.naming.files.spec}` for user stories and priorities
+   - Read `{config.paths.features}/###-name/{config.naming.files.plan}` for technical approach
    - Parse user stories (US#.#) and priorities (P1/P2/P3)
 
 3. **Validate prerequisites**
@@ -82,14 +82,14 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 ### Phase 3: Write Artifacts
 
 1. **Create tasks.md**
-   - Use Write tool to create `features/###-name/tasks.md`
+   - Use Write tool to create `{config.paths.features}/###-name/{config.naming.files.tasks}`
    - Structure: Header → Summary → Grouped Tasks → Dependencies Graph
    - See EXAMPLES.md for complete format
 
 2. **Update state files**
-   - Append task list to `.spec-memory/CHANGES-PLANNED.md`
-   - Update `.spec-state/current-session.md` phase to "tasks_complete"
-   - Update `.spec-memory/WORKFLOW-PROGRESS.md` with task count
+   - Append task list to `{config.paths.memory}/CHANGES-PLANNED.md`
+   - Update `{config.paths.state}/current-session.md` phase to "tasks_complete"
+   - Update `{config.paths.memory}/WORKFLOW-PROGRESS.md` with task count
 
 3. **Optional: Create external issues**
    - If MCP configured (check CLAUDE.md), ask user preference
@@ -117,7 +117,7 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
    ```
 
 3. **Save checkpoint**
-   - Create timestamped checkpoint in `.spec-state/checkpoints/`
+   - Create timestamped checkpoint in `{config.paths.state}/checkpoints/`
    - Include task list snapshot
 
 ## Error Handling
@@ -145,7 +145,7 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 
 ## Output Format
 
-Creates `features/###-name/tasks.md`:
+Creates `{config.paths.features}/###-name/{config.naming.files.tasks}`:
 
 ```markdown
 # Tasks: [Feature Name]
@@ -207,19 +207,19 @@ US1.3: T006 → T007
 3. Track progress in current-session.md
 ```
 
-Updates `.spec-memory/CHANGES-PLANNED.md` with task entries.
+Updates `{config.paths.memory}/CHANGES-PLANNED.md` with task entries.
 
 ## Templates Used
 
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/tasks-template.md` → `features/###-name/tasks.md`
+- `templates/artifacts/tasks-template.md` → `{config.paths.features}/###-name/{config.naming.files.tasks}`
 
 **Purpose**: Provides structure for task breakdown with IDs, dependencies, priorities, and estimates
 
 **Customization**:
-1. Copy template to `.spec/templates/tasks-template.md` in your project
+1. Copy template to `{config.paths.spec_root}/templates/tasks-template.md` in your project
 2. Modify task format, add custom fields (e.g., assignee, sprint)
 3. tasks/ will automatically use your custom template
 

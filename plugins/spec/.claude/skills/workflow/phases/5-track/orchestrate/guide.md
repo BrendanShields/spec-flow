@@ -34,8 +34,8 @@ Execute complete specification-driven workflow automatically from requirements t
 Determine workflow starting point:
 
 1. Check initialization state
-   - If `.spec/` missing → Run spec:init first
-   - If `.spec-state/` missing → Initialize state
+   - If `{config.paths.spec_root}/` missing → Run spec:init first
+   - If `{config.paths.state}/` missing → Initialize state
 2. Detect current workflow position
    - Read current-session.md for active feature/phase
    - Check for resume checkpoint
@@ -98,9 +98,9 @@ Phases Executed:
 - implement (23/23 tasks complete)
 
 Artifacts Created:
-- features/002-search/spec.md
-- features/002-search/plan.md
-- features/002-search/tasks.md
+- {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
+- {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
+- {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 
 Files Modified: 15 files
 Lines Added: +1,847
@@ -217,7 +217,7 @@ SPEC_ORCHESTRATE_VALIDATE_PHASES=true|false
 - On user request
 - On error/interruption
 
-**Checkpoint Location**: `.spec-state/checkpoints/orchestrate-{timestamp}.md`
+**Checkpoint Location**: `{config.paths.state}/checkpoints/orchestrate-{timestamp}.md`
 
 **Resume Detection**: Automatically detects and offers to resume from last checkpoint
 

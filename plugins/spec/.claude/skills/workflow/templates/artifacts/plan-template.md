@@ -1,6 +1,6 @@
 # Implementation Plan: [FEATURE]
 
-**Branch**: `[BRANCH-NAME]` | **Feature**: [###] | **Spec**: `features/[###-feature-name]/spec.md`
+**Branch**: `[BRANCH-NAME]` | **Feature**: [###] | **Spec**: `{config.paths.features}/[###-feature-name]/{config.naming.files.spec}`
 
 ## Summary
 
@@ -15,9 +15,9 @@
 ## Project Artifacts
 
 References (flat peer model, user approval required to modify):
-- Architecture: `.spec/architecture-blueprint.md`
-- API Contracts: `.spec/contracts/openapi.yaml`
-- Data Models: `.spec/data-models/entities.md`
+- Architecture: `{config.paths.spec_root}/architecture-blueprint.md`
+- API Contracts: `{config.paths.spec_root}/contracts/openapi.yaml`
+- Data Models: `{config.paths.spec_root}/data-models/entities.md`
 
 ## Blueprint Alignment
 
@@ -35,7 +35,7 @@ References (flat peer model, user approval required to modify):
 
 **Documentation**:
 ```
-features/[###-feature-name]/
+{config.paths.features}/[###-feature-name]/
 ├── spec.md      # Feature specification
 ├── plan.md      # This file (technical plan)
 └── tasks.md     # Task breakdown
@@ -58,7 +58,7 @@ ios/ or android/ → [platform-specific modules]
 
 **Selected**: [Document chosen structure with real paths]
 
-## .spec/ Updates
+## {config.paths.spec_root}/ Updates
 
 **Approval Required** before modifying project-level artifacts:
 

@@ -1,6 +1,6 @@
 ---
 name: spec:init
-description: Initialize spec workflow in project. Use when 1) Starting new project with spec workflow, 2) User says "initialize spec" or "setup spec workflow", 3) Adding spec to existing codebase, 4) Need to create .spec/ structure. Creates directory structure, state management, and configuration.
+description: Initialize spec workflow in project. Use when 1) Starting new project with spec workflow, 2) User says "initialize spec" or "setup spec workflow", 3) Adding spec to existing codebase, 4) Need to create {config.paths.spec_root}/ structure. Creates directory structure, state management, and configuration.
 allowed-tools: Read, Write, Bash, Grep
 ---
 
@@ -11,9 +11,9 @@ Initialize spec workflow structure in greenfield or brownfield projects.
 ## Core Capability
 
 Sets up complete spec workflow infrastructure:
-- Creates `.spec/` configuration directory
-- Initializes `.spec-state/` for session tracking (gitignored)
-- Creates `.spec-memory/` for persistent history (committed)
+- Creates `{config.paths.spec_root}/` configuration directory
+- Initializes `{config.paths.state}/` for session tracking (gitignored)
+- Creates `{config.paths.memory}/` for persistent history (committed)
 - Detects project type (greenfield vs brownfield)
 - Generates starter templates and configuration
 
@@ -38,15 +38,15 @@ ls src/ package.json *.py 2>/dev/null | wc -l
 
 **Core directories** (always created):
 ```
-.spec/                      # Configuration (committed)
+{config.paths.spec_root}/                      # Configuration (committed)
 ├── product-requirements.md    # Product vision
 ├── templates/                 # Custom templates
 └── scripts/                   # Utility scripts
 
-.spec-state/                # Session state (gitignored)
+{config.paths.state}/                # Session state (gitignored)
 └── current-session.md         # Active work tracking
 
-.spec-memory/               # Persistent memory (committed)
+{config.paths.memory}/               # Persistent memory (committed)
 ├── WORKFLOW-PROGRESS.md       # Feature metrics
 ├── DECISIONS-LOG.md           # Architecture decisions
 ├── CHANGES-PLANNED.md         # Pending tasks
@@ -58,11 +58,11 @@ ls src/ package.json *.py 2>/dev/null | wc -l
 ### Phase 3: Initialize State Files
 
 **Create from templates**:
-1. `.spec-state/current-session.md` - Copy from plugin templates
-2. `.spec-memory/WORKFLOW-PROGRESS.md` - Initialize with project metadata
-3. `.spec-memory/DECISIONS-LOG.md` - Empty log ready for entries
-4. `.spec-memory/CHANGES-PLANNED.md` - Empty task list
-5. `.spec-memory/CHANGES-COMPLETED.md` - Empty completion log
+1. `{config.paths.state}/current-session.md` - Copy from plugin templates
+2. `{config.paths.memory}/WORKFLOW-PROGRESS.md` - Initialize with project metadata
+3. `{config.paths.memory}/DECISIONS-LOG.md` - Empty log ready for entries
+4. `{config.paths.memory}/CHANGES-PLANNED.md` - Empty task list
+5. `{config.paths.memory}/CHANGES-COMPLETED.md` - Empty completion log
 
 ### Phase 4: Update .gitignore
 
@@ -70,16 +70,16 @@ ls src/ package.json *.py 2>/dev/null | wc -l
 ```bash
 # Read existing .gitignore
 # Append if missing:
-.spec-state/
+{config.paths.state}/
 ```
 
 **Keep committed**:
-- `.spec/` - Project configuration
-- `.spec-memory/` - Persistent history
+- `{config.paths.spec_root}/` - Project configuration
+- `{config.paths.memory}/` - Persistent history
 
 ### Phase 5: Create Configuration
 
-**Generate `.spec/product-requirements.md`**:
+**Generate `{config.paths.spec_root}/product-requirements.md`**:
 ```markdown
 # Product Requirements
 
@@ -104,9 +104,9 @@ ls src/ package.json *.py 2>/dev/null | wc -l
 ✅ Spec workflow initialized!
 
 📁 Structure:
-   .spec/                 (configuration)
-   .spec-state/          (session tracking, gitignored)
-   .spec-memory/         (persistent history, committed)
+   {config.paths.spec_root}/                 (configuration)
+   {config.paths.state}/          (session tracking, gitignored)
+   {config.paths.memory}/         (persistent history, committed)
 
 📝 Files created:
    product-requirements.md
@@ -115,7 +115,7 @@ ls src/ package.json *.py 2>/dev/null | wc -l
    DECISIONS-LOG.md
 
 🎯 Next steps:
-   1. Edit .spec/product-requirements.md
+   1. Edit {config.paths.spec_root}/product-requirements.md
    2. Run spec:specify to create first feature
    3. Or run spec:discover for brownfield analysis
 
@@ -143,13 +143,13 @@ Or continue with spec:specify for new features.
 This function uses the following templates:
 
 **Primary Templates**:
-- `templates/project-setup/product-requirements-template.md` → `.spec/product-requirements.md`
-- `templates/project-setup/architecture-blueprint-template.md` → `.spec/architecture-blueprint.md` (optional)
+- `templates/project-setup/product-requirements-template.md` → `{config.paths.spec_root}/product-requirements.md`
+- `templates/project-setup/architecture-blueprint-template.md` → `{config.paths.spec_root}/architecture-blueprint.md` (optional)
 
 **Purpose**: Provides structure for project initialization, product vision, and architecture standards
 
 **Customization**:
-1. After init, edit `.spec/product-requirements.md` to define your product vision
+1. After init, edit `{config.paths.spec_root}/product-requirements.md` to define your product vision
 2. Optionally run `/spec blueprint` to create comprehensive architecture documentation
 3. Templates provide starter structure - customize for your project
 
@@ -177,7 +177,7 @@ This function uses the following templates:
 ```
 ⚠️  Spec already initialized!
 
-Found: .spec/ directory
+Found: {config.paths.spec_root}/ directory
 
 Options:
 - Reinitialize: spec:init --force

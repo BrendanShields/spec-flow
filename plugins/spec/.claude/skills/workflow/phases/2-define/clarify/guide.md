@@ -30,7 +30,7 @@ Resolve underspecified areas in specifications through intelligent Q&A with best
 
 **Read specification**:
 ```
-1. Load features/###-name/spec.md
+1. Load {config.paths.features}/###-name/{config.naming.files.spec}
 2. Scan for explicit markers:
    - [CLARIFY: text]
    - [CLARIFY]
@@ -130,7 +130,7 @@ Response times must be < 200ms (p95 latency) for API requests
 
 **Log decision**:
 ```
-Add entry to .spec-memory/DECISIONS-LOG.md:
+Add entry to {config.paths.memory}/DECISIONS-LOG.md:
 
 ## CLR-001: API Response Time Target
 
@@ -202,8 +202,8 @@ Resolved:
 ✓ File size limit (10MB)
 
 Updated Files:
-- features/###-name/spec.md (4 clarifications)
-- .spec-memory/DECISIONS-LOG.md (4 new entries)
+- {config.paths.features}/###-name/{config.naming.files.spec} (4 clarifications)
+- {config.paths.memory}/DECISIONS-LOG.md (4 new entries)
 
 Remaining: 3 [CLARIFY] tags
 Next: Run /spec-clarify again OR proceed to /spec-plan

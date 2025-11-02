@@ -86,5 +86,5 @@ Epics are derived from the Product Requirements Document and Architecture Bluepr
 ## JIRA Integration
 
 **Frontmatter metadata**: feature_id, jira_id, sync_direction (see header above)
-**Workflow**: Sync TO/FROM JIRA with user approval | Branch: JIRA-ID-feature-name | Dir: features/###-name/
+**Workflow**: Sync TO/FROM JIRA with user approval | Branch: JIRA-ID-feature-name | Dir: {config.paths.features}/###-name/
 

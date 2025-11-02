@@ -23,7 +23,7 @@ Complete technical documentation for the spec:init skill.
 ```
 project-root/
 │
-├── .spec/                          # Configuration directory (committed to git)
+├── {config.paths.spec_root}/                          # Configuration directory (committed to git)
 │   ├── product-requirements.md        # Product vision and goals
 │   ├── architecture-blueprint.md      # (Optional) Architecture guidelines
 │   ├── templates/                     # Custom templates
@@ -38,25 +38,25 @@ project-root/
 │           ├── pre-commit
 │           └── post-checkout
 │
-├── .spec-state/                    # Session state (gitignored)
+├── {config.paths.state}/                    # Session state (gitignored)
 │   ├── current-session.md             # Active work tracking
 │   └── checkpoints/                   # Session snapshots
 │       ├── checkpoint-001.md
 │       └── checkpoint-002.md
 │
-├── .spec-memory/                   # Persistent memory (committed to git)
+├── {config.paths.memory}/                   # Persistent memory (committed to git)
 │   ├── WORKFLOW-PROGRESS.md           # Feature completion metrics
 │   ├── DECISIONS-LOG.md               # Architecture Decision Records
 │   ├── CHANGES-PLANNED.md             # Pending implementation tasks
 │   └── CHANGES-COMPLETED.md           # Completed work history
 │
-├── features/                          # Feature artifacts (created by spec:specify)
+├── {config.paths.features}/                          # Feature artifacts (created by spec:specify)
 │   └── 001-feature-name/
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
 │
-└── .gitignore                         # Updated to ignore .spec-state/
+└── .gitignore                         # Updated to ignore {config.paths.state}/
 ```
 
 ### File Size Expectations
@@ -76,10 +76,10 @@ project-root/
 chmod 755 .spec .spec-state .spec-memory
 
 # Scripts: 755 (executable)
-chmod 755 .spec/scripts/*.sh
+chmod 755 {config.paths.spec_root}/scripts/*.sh
 
 # Config files: 644 (rw-r--r--)
-chmod 644 .spec/*.md .spec-memory/*.md
+chmod 644 {config.paths.spec_root}/*.md {config.paths.memory}/*.md
 ```
 
 ---
@@ -414,7 +414,7 @@ Record of all significant technical and architectural decisions.
 ---
 
 *Log Format: ADR (Architecture Decision Record)*
-*For ADR template: `.spec/templates/adr-template.md`*
+*For ADR template: `{config.paths.spec_root}/templates/adr-template.md`*
 ```
 
 ### Template 5: config.sh
@@ -447,7 +447,7 @@ export SPEC_FEATURE_PREFIX="features"      # Directory for features
 export SPEC_BRANCH_PREPEND_JIRA="false"   # Prepend JIRA ID to branches
 
 # Template Settings
-export SPEC_TEMPLATES_DIR=".spec/templates"
+export SPEC_TEMPLATES_DIR="{config.paths.spec_root}/templates"
 export SPEC_USE_CUSTOM_TEMPLATES="false"
 
 # Utility Functions
@@ -468,8 +468,8 @@ get_jira_key() {
 }
 
 # Load project-specific overrides
-if [[ -f ".spec/config.local.sh" ]]; then
-  source ".spec/config.local.sh"
+if [[ -f "{config.paths.spec_root}/config.local.sh" ]]; then
+  source "{config.paths.spec_root}/config.local.sh"
 fi
 ```
 
@@ -511,7 +511,7 @@ spec:init
 
 ### Configuration File
 
-Create `.spec/config.local.sh` for project-specific overrides:
+Create `{config.paths.spec_root}/config.local.sh` for project-specific overrides:
 
 ```bash
 #!/bin/bash
@@ -637,13 +637,13 @@ fi
 if ! echo "$GITIGNORE" | grep -q ".spec-state"; then
   echo "" >> .gitignore
   echo "# Spec Workflow - Session State" >> .gitignore
-  echo ".spec-state/" >> .gitignore
+  echo "{config.paths.state}/" >> .gitignore
 fi
 ```
 
 **Git hooks (optional)**:
 ```bash
-# .spec/scripts/hooks/pre-commit
+# {config.paths.spec_root}/scripts/hooks/pre-commit
 #!/bin/bash
 # Validate spec consistency before commit
 
@@ -660,7 +660,7 @@ fi
 
 **Create JIRA configuration**:
 ```bash
-# .spec/scripts/jira-config.sh
+# {config.paths.spec_root}/scripts/jira-config.sh
 export SPEC_JIRA_URL="https://company.atlassian.net"
 export SPEC_JIRA_PROJECT_KEY="PROJ"
 export SPEC_JIRA_AUTH_METHOD="token"  # token|oauth|basic
@@ -668,7 +668,7 @@ export SPEC_JIRA_AUTH_METHOD="token"  # token|oauth|basic
 
 **Feature-to-JIRA mapping**:
 ```markdown
-# features/001-feature-name/spec.md
+# {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 ---
 jira: PROJ-123
 confluence: 456789
@@ -737,11 +737,11 @@ spec:init
 
 **Detection**:
 ```bash
-if ! touch .spec/test 2>/dev/null; then
+if ! touch {config.paths.spec_root}/test 2>/dev/null; then
   echo "Error: Cannot write to directory"
   exit 1
 fi
-rm -f .spec/test
+rm -f {config.paths.spec_root}/test
 ```
 
 **Recovery**:
@@ -760,9 +760,9 @@ spec:init
 ```bash
 # Check for required files
 REQUIRED_FILES=(
-  ".spec/product-requirements.md"
-  ".spec-state/current-session.md"
-  ".spec-memory/WORKFLOW-PROGRESS.md"
+  "{config.paths.spec_root}/product-requirements.md"
+  "{config.paths.state}/current-session.md"
+  "{config.paths.memory}/WORKFLOW-PROGRESS.md"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -783,7 +783,7 @@ mv .spec-state .spec-state.backup.$(date +%Y%m%d)
 spec:init
 
 # Restore memory (has history)
-cp -r .spec-memory.backup.$(date +%Y%m%d)/* .spec-memory/
+cp -r .spec-memory.backup.$(date +%Y%m%d)/* {config.paths.memory}/
 ```
 
 ---
@@ -792,7 +792,7 @@ cp -r .spec-memory.backup.$(date +%Y%m%d)/* .spec-memory/
 
 ### Custom Template Override
 
-Create `.spec/templates/feature-spec.md`:
+Create `{config.paths.spec_root}/templates/feature-spec.md`:
 ```markdown
 # Custom Spec Template
 
@@ -812,17 +812,17 @@ spec:specify "Feature"  # Uses custom template
 ### Multi-Environment Setup
 
 ```bash
-# .spec/config.dev.sh
+# {config.paths.spec_root}/config.dev.sh
 export SPEC_ENV="development"
 export SPEC_JIRA_ENABLED="false"
 
-# .spec/config.prod.sh
+# {config.paths.spec_root}/config.prod.sh
 export SPEC_ENV="production"
 export SPEC_JIRA_ENABLED="true"
 export SPEC_REQUIRE_ADR="true"
 
 # Usage
-source .spec/config.dev.sh
+source {config.paths.spec_root}/config.dev.sh
 spec:init
 ```
 
@@ -840,7 +840,7 @@ spec:init \
 
 Creates:
 ```bash
-.spec/
+{config.paths.spec_root}/
 ├── team.md              # Team documentation
 ├── config.sh            # Team configuration
 └── templates/
@@ -860,16 +860,16 @@ test -d .spec-state && echo "✅ State directory"
 test -d .spec-memory && echo "✅ Memory directory"
 
 # File check
-test -f .spec/product-requirements.md && echo "✅ PRD"
-test -f .spec-state/current-session.md && echo "✅ Session"
-test -f .spec-memory/WORKFLOW-PROGRESS.md && echo "✅ Progress"
-test -f .spec-memory/DECISIONS-LOG.md && echo "✅ Decisions"
+test -f {config.paths.spec_root}/product-requirements.md && echo "✅ PRD"
+test -f {config.paths.state}/current-session.md && echo "✅ Session"
+test -f {config.paths.memory}/WORKFLOW-PROGRESS.md && echo "✅ Progress"
+test -f {config.paths.memory}/DECISIONS-LOG.md && echo "✅ Decisions"
 
 # Git check
-grep -q ".spec-state/" .gitignore && echo "✅ .gitignore"
+grep -q "{config.paths.state}/" .gitignore && echo "✅ .gitignore"
 
 # Permissions check
-test -x .spec/scripts/config.sh && echo "✅ Scripts executable"
+test -x {config.paths.spec_root}/scripts/config.sh && echo "✅ Scripts executable"
 
 # Complete
 echo "✅ Initialization validated"
@@ -882,9 +882,9 @@ echo "✅ Initialization validated"
 Templates source (in plugin):
 ```
 /Users/dev/dev/tools/marketplace/plugins/spec/
-├── .spec-state/
+├── {config.paths.state}/
 │   └── current-session-template.md
-├── .spec-memory/
+├── {config.paths.memory}/
 │   ├── WORKFLOW-PROGRESS.md
 │   ├── DECISIONS-LOG.md
 │   ├── CHANGES-PLANNED.md

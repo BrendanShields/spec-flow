@@ -59,7 +59,7 @@ User Selection: Enhanced (2FA, audit logging, encryption at rest)
 
 ### Step 2: Architecture Definition
 
-The skill creates `.spec/architecture-blueprint.md`:
+The skill creates `{config.paths.spec_root}/architecture-blueprint.md`:
 
 ```markdown
 # Architecture Blueprint
@@ -761,7 +761,7 @@ test(tasks): add unit tests for task service
 
 ## ADRs (Architecture Decision Records)
 
-See `.spec-memory/DECISIONS-LOG.md` for complete ADRs:
+See `{config.paths.memory}/DECISIONS-LOG.md` for complete ADRs:
 
 1. **ADR-001**: Use Node.js + TypeScript for backend
 2. **ADR-002**: PostgreSQL with row-level security for multi-tenancy
@@ -782,7 +782,7 @@ See `.spec-memory/DECISIONS-LOG.md` for complete ADRs:
 
 ### Step 3: ADR Generation
 
-The skill adds ADRs to `.spec-memory/DECISIONS-LOG.md`:
+The skill adds ADRs to `{config.paths.memory}/DECISIONS-LOG.md`:
 
 ```markdown
 ## ADR-001: Use Node.js + TypeScript for backend
@@ -854,7 +854,7 @@ CREATE POLICY tenant_isolation ON projects
 
 ### Step 4: State Update
 
-Updates `.spec-memory/WORKFLOW-PROGRESS.md`:
+Updates `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
 
 ```markdown
 ## Feature 000: Architecture Blueprint
@@ -881,7 +881,7 @@ Updates `.spec-memory/WORKFLOW-PROGRESS.md`:
 ```
 Architecture Blueprint Created
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: Greenfield
 ADRs Created: 8 decisions logged
 
@@ -910,9 +910,9 @@ Next Steps:
 ```
 
 **Files Created**:
-- `.spec/architecture-blueprint.md` (3,200 tokens)
-- `.spec-memory/DECISIONS-LOG.md` (updated with 8 ADRs)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.spec_root}/architecture-blueprint.md` (3,200 tokens)
+- `{config.paths.memory}/DECISIONS-LOG.md` (updated with 8 ADRs)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
 
 ---
 
@@ -1021,7 +1021,7 @@ project/
 
 ### Step 3: Blueprint Generation
 
-Creates `.spec/architecture-blueprint.md` documenting current state:
+Creates `{config.paths.spec_root}/architecture-blueprint.md` documenting current state:
 
 ```markdown
 # Architecture Blueprint
@@ -1632,7 +1632,7 @@ Result: 47% overall coverage
 
 ## ADRs (Architecture Decision Records)
 
-See `.spec-memory/DECISIONS-LOG.md` for documented decisions:
+See `{config.paths.memory}/DECISIONS-LOG.md` for documented decisions:
 
 1. **ADR-001**: Django MTV pattern with app separation (existing)
 2. **ADR-002**: Django Rest Framework for API layer (existing)
@@ -1653,7 +1653,7 @@ See `.spec-memory/DECISIONS-LOG.md` for documented decisions:
 ```
 Architecture Blueprint Created (Brownfield Analysis)
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: Brownfield (existing codebase analyzed)
 ADRs Created: 5 decisions logged (existing patterns)
 
@@ -1697,9 +1697,9 @@ Next Steps:
 ```
 
 **Files Created**:
-- `.spec/architecture-blueprint.md` (2,800 tokens, includes [TODO] tags)
-- `.spec-memory/DECISIONS-LOG.md` (updated with 5 ADRs documenting existing)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.spec_root}/architecture-blueprint.md` (2,800 tokens, includes [TODO] tags)
+- `{config.paths.memory}/DECISIONS-LOG.md` (updated with 5 ADRs documenting existing)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
 
 ---
 
@@ -1717,7 +1717,7 @@ Next Steps:
 ### Step 1: Read Existing Blueprint
 
 ```bash
-Read: .spec/architecture-blueprint.md
+Read: {config.paths.spec_root}/architecture-blueprint.md
 Result: Current Django monolith architecture loaded
 ```
 
@@ -1748,7 +1748,7 @@ User Selection: Authentication, Notifications
 
 ### Step 3: Blueprint Update
 
-The skill updates `.spec/architecture-blueprint.md` by adding new sections:
+The skill updates `{config.paths.spec_root}/architecture-blueprint.md` by adding new sections:
 
 ```markdown
 # Architecture Blueprint
@@ -1962,7 +1962,7 @@ routes:
 
 ## New ADRs (Migration)
 
-See `.spec-memory/DECISIONS-LOG.md`:
+See `{config.paths.memory}/DECISIONS-LOG.md`:
 
 6. **ADR-006**: Strangler pattern for microservices migration
 7. **ADR-007**: Kong API Gateway for service routing
@@ -1980,7 +1980,7 @@ See `.spec-memory/DECISIONS-LOG.md`:
 
 ### Step 4: ADR for Migration Strategy
 
-Adds ADR-006 to `.spec-memory/DECISIONS-LOG.md`:
+Adds ADR-006 to `{config.paths.memory}/DECISIONS-LOG.md`:
 
 ```markdown
 ## ADR-006: Strangler Pattern for Microservices Migration
@@ -2029,7 +2029,7 @@ Adds ADR-006 to `.spec-memory/DECISIONS-LOG.md`:
 ```
 Architecture Blueprint Updated (Migration Plan Added)
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: Update (Microservices Migration)
 ADRs Created: 5 new decisions logged
 
@@ -2070,9 +2070,9 @@ Next Steps:
 ```
 
 **Files Updated**:
-- `.spec/architecture-blueprint.md` (migration sections added)
-- `.spec-memory/DECISIONS-LOG.md` (5 new ADRs)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 updated)
+- `{config.paths.spec_root}/architecture-blueprint.md` (migration sections added)
+- `{config.paths.memory}/DECISIONS-LOG.md` (5 new ADRs)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 updated)
 
 ---
 
@@ -2132,7 +2132,7 @@ User Selection: Consulting
 
 ### Step 3: HIPAA-Compliant Blueprint
 
-Creates `.spec/architecture-blueprint.md` with enhanced security:
+Creates `{config.paths.spec_root}/architecture-blueprint.md` with enhanced security:
 
 ```markdown
 # Architecture Blueprint - HIPAA Compliant
@@ -2816,7 +2816,7 @@ const hashedPassword = await argon2.hash(password, {
 
 ## ADRs (HIPAA-Focused)
 
-See `.spec-memory/DECISIONS-LOG.md`:
+See `{config.paths.memory}/DECISIONS-LOG.md`:
 
 1. **ADR-001**: AWS as cloud provider (HIPAA-eligible services)
 2. **ADR-002**: AES-256-GCM for application-level PHI encryption
@@ -2841,7 +2841,7 @@ See `.spec-memory/DECISIONS-LOG.md`:
 ```
 Architecture Blueprint Created (HIPAA-Compliant)
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: Greenfield with Compliance Requirements
 ADRs Created: 8 security-focused decisions logged
 
@@ -2890,9 +2890,9 @@ Compliance Reminder:
 ```
 
 **Files Created**:
-- `.spec/architecture-blueprint.md` (4,500 tokens, compliance-focused)
-- `.spec-memory/DECISIONS-LOG.md` (8 security ADRs)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.spec_root}/architecture-blueprint.md` (4,500 tokens, compliance-focused)
+- `{config.paths.memory}/DECISIONS-LOG.md` (8 security ADRs)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
 
 ---
 
@@ -2924,7 +2924,7 @@ Results: Trade-offs, use cases, implementation complexity
 
 The skill creates a specialized blueprint focused on real-time architecture.
 
-**Output** (excerpt from `.spec/architecture-blueprint.md`):
+**Output** (excerpt from `{config.paths.spec_root}/architecture-blueprint.md`):
 
 ```markdown
 # Architecture Blueprint - Real-Time Collaborative Editor
@@ -3365,7 +3365,7 @@ db.updates.createIndex({ timestamp: 1 }, { expireAfterSeconds: 2592000 });  // 3
 ```
 Architecture Blueprint Created (Real-Time Collaborative)
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: Greenfield (Real-Time Architecture)
 ADRs Created: 6 decisions logged
 
@@ -3408,9 +3408,9 @@ Next Steps:
 ```
 
 **Files Created**:
-- `.spec/architecture-blueprint.md` (3,400 tokens, real-time focus)
-- `.spec-memory/DECISIONS-LOG.md` (6 ADRs)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.spec_root}/architecture-blueprint.md` (3,400 tokens, real-time focus)
+- `{config.paths.memory}/DECISIONS-LOG.md` (6 ADRs)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
 
 ---
 

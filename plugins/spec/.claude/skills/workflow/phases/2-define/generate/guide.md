@@ -34,9 +34,9 @@ Generates comprehensive feature specifications with prioritized user stories, ac
 **Read Project State:**
 ```bash
 # Check if Spec is initialized
-Read .spec-state/current-session.md
-Read .spec-memory/WORKFLOW-PROGRESS.md
-Read .spec/product-requirements.md (if exists)
+Read {config.paths.state}/current-session.md
+Read {config.paths.memory}/WORKFLOW-PROGRESS.md
+Read {config.paths.spec_root}/product-requirements.md (if exists)
 ```
 
 **Determine Project Type:**
@@ -74,10 +74,10 @@ WebSearch "[technology] implementation patterns"
 **Create Feature Directory:**
 ```bash
 # Determine next feature number
-Bash "ls -d features/[0-9]* | wc -l"
+Bash "ls -d {config.paths.features}/[0-9]* | wc -l"
 
 # Create directory structure
-features/NNN-feature-name/
+{config.paths.features}/NNN-feature-name/
 ├── spec.md       # This file
 ├── plan.md       # Created later by spec:plan
 └── tasks.md      # Created later by spec:tasks
@@ -192,7 +192,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 ## Error Handling
 
 **Missing Spec Initialization:**
-- Detect: .spec-state/ directory not found
+- Detect: {config.paths.state}/ directory not found
 - Action: Inform user to run /spec init first
 - Recovery: Provide initialization command
 
@@ -202,7 +202,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 - Fallback: Create spec with [CLARIFY] tags for gaps
 
 **Existing Spec Conflict:**
-- Detect: features/NNN-feature-name/spec.md already exists
+- Detect: {config.paths.features}/NNN-feature-name/{config.naming.files.spec} already exists
 - Action: Ask user if they want to update or create new
 - Options: Update existing, create new feature, cancel
 
@@ -215,7 +215,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 
 **Success Message:**
 ```
-Specification created: features/NNN-feature-name/spec.md
+Specification created: {config.paths.features}/NNN-feature-name/{config.naming.files.spec}
 
 Feature: Feature Name
 Priority: P1 (Must Have)
@@ -228,11 +228,11 @@ Next steps:
 3. Run /spec-plan to create technical design
 
 Files created:
-- features/NNN-feature-name/spec.md (242 lines)
+- {config.paths.features}/NNN-feature-name/{config.naming.files.spec} (242 lines)
 
 Workflow state updated:
-- .spec-state/current-session.md
-- .spec-memory/WORKFLOW-PROGRESS.md
+- {config.paths.state}/current-session.md
+- {config.paths.memory}/WORKFLOW-PROGRESS.md
 ```
 
 **Spec.md Preview:**
@@ -281,8 +281,8 @@ so that [benefit].
 - GitHub - Links to issues/PRs
 
 **State Files:**
-- Reads: .spec-state/current-session.md, WORKFLOW-PROGRESS.md
-- Writes: features/NNN-feature-name/spec.md
+- Reads: {config.paths.state}/current-session.md, WORKFLOW-PROGRESS.md
+- Writes: {config.paths.features}/NNN-feature-name/{config.naming.files.spec}
 - Updates: current-session.md, WORKFLOW-PROGRESS.md
 
 ## Templates Used
@@ -290,12 +290,12 @@ so that [benefit].
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/spec-template.md` → `features/###-name/spec.md`
+- `templates/artifacts/spec-template.md` → `{config.paths.features}/###-name/{config.naming.files.spec}`
 
 **Purpose**: Provides structure for feature specifications with user stories, acceptance criteria, and requirements
 
 **Customization**:
-1. Copy template to `.spec/templates/spec-template.md` in your project
+1. Copy template to `{config.paths.spec_root}/templates/spec-template.md` in your project
 2. Modify sections, add/remove fields as needed
 3. generate/ will automatically use your custom template
 

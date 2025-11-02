@@ -89,7 +89,7 @@ START
 ### Phase 1: Initialize (1-2 hours)
 **Entry**: New project or new to Spec
 **Skills**: init → discover/blueprint
-**Output**: `.spec/` structure, architecture blueprint
+**Output**: `{config.paths.spec_root}/` structure, architecture blueprint
 **Exit**: Ready to create features
 
 ### Phase 2: Define (30min - 2 hours)
@@ -122,7 +122,7 @@ START
 - New project? → `spec:init`
 - Existing codebase? → `spec:discover` then `spec:init`
 - New feature? → `spec:generate`
-- Mid-feature? → Check `.spec-state/current-session.md`
+- Mid-feature? → Check `{config.paths.state}/current-session.md`
 
 **Common Paths**:
 - **Full workflow**: orchestrate (automates everything)
@@ -228,7 +228,7 @@ Skills that can run independently:
 
 ## State Transitions
 
-Workflow phase changes are tracked in `.spec-state/current-session.md`:
+Workflow phase changes are tracked in `{config.paths.state}/current-session.md`:
 
 ```
 init → initialized

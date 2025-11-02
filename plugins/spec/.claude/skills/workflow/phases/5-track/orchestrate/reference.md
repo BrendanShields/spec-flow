@@ -64,10 +64,10 @@ function orchestrate(userRequest, options):
 
 ```pseudocode
 function determineWorkflowType(state):
-  if not exists(".spec/"):
+  if not exists("{config.paths.spec_root}/"):
     return "uninitialized"
 
-  if not exists(".spec/architecture-blueprint.md"):
+  if not exists("{config.paths.spec_root}/architecture-blueprint.md"):
     if isEmptyProject():
       return "greenfield"
 
@@ -118,7 +118,7 @@ Each phase has specific prerequisites:
 ```yaml
 generate:
   requires:
-    - .spec/ directory exists
+    - {config.paths.spec_root}/ directory exists
     - User requirement provided
   validates:
     - Requirement is not empty
@@ -255,10 +255,10 @@ checkpoint_state:
     - implement
 
   artifacts_created:
-    - path: "features/003-product-search/spec.md"
+    - path: "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}"
       size: 4823
       hash: "a3f8d9e..."
-    - path: "features/003-product-search/plan.md"
+    - path: "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}"
       size: 7142
       hash: "b2e7c4f..."
 
@@ -289,7 +289,7 @@ function createCheckpoint(phase, timing):
   }
 
   filename = formatCheckpointFilename(phase, timing)
-  path = ".spec-state/checkpoints/" + filename
+  path = "{config.paths.state}/checkpoints/" + filename
 
   writeCheckpoint(path, checkpoint)
   updateCheckpointIndex(checkpoint)
@@ -304,9 +304,9 @@ function loadCheckpoint(checkpointId):
   checkpoint = readCheckpoint(checkpointId)
 
   // Restore state files
-  restoreFile(".spec-state/current-session.md",
+  restoreFile("{config.paths.state}/current-session.md",
               checkpoint.state.current_session)
-  restoreFile(".spec-memory/WORKFLOW-PROGRESS.md",
+  restoreFile("{config.paths.memory}/WORKFLOW-PROGRESS.md",
               checkpoint.state.workflow_progress)
 
   // Verify artifacts still exist
@@ -328,21 +328,21 @@ function loadCheckpoint(checkpointId):
 ```pseudocode
 function updateWorkflowState(phase, result):
   // 1. Read current state atomically
-  currentSession = readFile(".spec-state/current-session.md")
-  workflowProgress = readFile(".spec-memory/WORKFLOW-PROGRESS.md")
+  currentSession = readFile("{config.paths.state}/current-session.md")
+  workflowProgress = readFile("{config.paths.memory}/WORKFLOW-PROGRESS.md")
 
   // 2. Update relevant sections
   updatedSession = updatePhaseInSession(currentSession, phase, result)
   updatedProgress = updateFeatureInProgress(workflowProgress, phase, result)
 
   // 3. Write atomically (temp file → rename)
-  writeTempFile(".spec-state/current-session.tmp", updatedSession)
-  rename(".spec-state/current-session.tmp",
-         ".spec-state/current-session.md")
+  writeTempFile("{config.paths.state}/current-session.tmp", updatedSession)
+  rename("{config.paths.state}/current-session.tmp",
+         "{config.paths.state}/current-session.md")
 
-  writeTempFile(".spec-memory/WORKFLOW-PROGRESS.tmp", updatedProgress)
-  rename(".spec-memory/WORKFLOW-PROGRESS.tmp",
-         ".spec-memory/WORKFLOW-PROGRESS.md")
+  writeTempFile("{config.paths.memory}/WORKFLOW-PROGRESS.tmp", updatedProgress)
+  rename("{config.paths.memory}/WORKFLOW-PROGRESS.tmp",
+         "{config.paths.memory}/WORKFLOW-PROGRESS.md")
 
   // 4. Update timestamp
   updateTimestamp(phase)
@@ -356,8 +356,8 @@ function validateStateConsistency():
 
   // Check file existence
   requiredFiles = [
-    ".spec-state/current-session.md",
-    ".spec-memory/WORKFLOW-PROGRESS.md"
+    "{config.paths.state}/current-session.md",
+    "{config.paths.memory}/WORKFLOW-PROGRESS.md"
   ]
   for file in requiredFiles:
     if not exists(file):
@@ -605,13 +605,13 @@ function estimateRemainingTime(currentPhase, state):
 **Diagnosis**:
 ```bash
 # Check current state
-cat .spec-state/current-session.md
+cat {config.paths.state}/current-session.md
 
 # Check for hung processes
 ps aux | grep spec
 
 # Check last checkpoint
-ls -lt .spec-state/checkpoints/
+ls -lt {config.paths.state}/checkpoints/
 ```
 
 **Resolution**:
@@ -644,10 +644,10 @@ spec:validate --check-files
 **Diagnosis**:
 ```bash
 # Check checkpoint directory
-ls .spec-state/checkpoints/
+ls {config.paths.state}/checkpoints/
 
 # Check if state files intact
-cat .spec-state/current-session.md
+cat {config.paths.state}/current-session.md
 ```
 
 **Resolution**:
@@ -665,7 +665,7 @@ cat .spec-state/current-session.md
 spec:validate --phase=<next-phase>
 
 # Check for missing artifacts
-ls features/###-name/
+ls {config.paths.features}/###-name/
 ```
 
 **Resolution**:
@@ -686,7 +686,7 @@ export SPEC_ORCHESTRATE_DEBUG=true
 spec:orchestrate --verbose
 
 # Debug output saved to:
-.spec-state/debug-orchestrate-<timestamp>.log
+{config.paths.state}/debug-orchestrate-<timestamp>.log
 ```
 
 ### State Recovery Commands
@@ -717,7 +717,7 @@ spec:checkpoint rollback <id>
 Define custom phase sequences for specialized workflows:
 
 ```yaml
-# In .spec/config.yml
+# In {config.paths.spec_root}/config.yml
 custom_workflows:
   quick_poc:
     phases: [generate, plan, implement]
@@ -743,7 +743,7 @@ custom_workflows:
 Execute custom code at phase transitions:
 
 ```yaml
-# In .spec/hooks/orchestration-hooks.yml
+# In {config.paths.spec_root}/hooks/orchestration-hooks.yml
 hooks:
   pre_generate:
     - check_dependencies.sh

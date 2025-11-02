@@ -4,7 +4,7 @@ This file contains complete technical specifications for the spec:blueprint skil
 
 ## Complete Blueprint Template
 
-This is the full template used to generate `.spec/architecture-blueprint.md`:
+This is the full template used to generate `{config.paths.spec_root}/architecture-blueprint.md`:
 
 ```markdown
 # Architecture Blueprint

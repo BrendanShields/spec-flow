@@ -360,7 +360,7 @@ spec:discover --mode standard
 ```
 src/
 ├── components/        (Reusable UI components)
-├── features/          (Feature-specific components)
+├── {config.paths.features}/          (Feature-specific components)
 │   ├── auth/
 │   ├── products/
 │   └── orders/

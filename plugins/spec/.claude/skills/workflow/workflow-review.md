@@ -298,8 +298,8 @@ workflow/
     "optional": ["priority", "feature_id"]
   },
   "outputs": {
-    "primary": "features/###-name/spec.md",
-    "state": [".spec-state/current-session.md", ".spec-memory/WORKFLOW-PROGRESS.md"]
+    "primary": "{config.paths.features}/###-name/{config.naming.files.spec}",
+    "state": ["{config.paths.state}/current-session.md", "{config.paths.memory}/WORKFLOW-PROGRESS.md"]
   },
   "templates": ["templates/artifacts/spec-template.md"],
   "dependencies": {
@@ -434,8 +434,8 @@ scripts/generate-navigation.sh
 - **spec.md**: Feature specification with user stories
 - **plan.md**: Technical design with architecture decisions
 - **tasks.md**: Executable task breakdown
-- **.spec-state/**: Session-specific temporary state
-- **.spec-memory/**: Project-wide persistent memory
+- **{config.paths.state}/**: Session-specific temporary state
+- **{config.paths.memory}/**: Project-wide persistent memory
 
 ## Phases
 [Definition of each phase with entry/exit criteria]
@@ -510,7 +510,7 @@ scripts/generate-navigation.sh
 Next: Complete clarify OR skip to plan
 ```
 
-**Implementation**: Router reads `.spec-state/` and injects progress
+**Implementation**: Router reads `{config.paths.state}/` and injects progress
 
 ### 4.3 User Experience Improvements
 
@@ -600,9 +600,9 @@ validation/
   "name": "generate",
   "templates": {
     "uses": ["templates/artifacts/spec-template.md"],
-    "outputs": ["features/###-name/spec.md"],
+    "outputs": ["{config.paths.features}/###-name/{config.naming.files.spec}"],
     "customizable": true,
-    "override_path": ".spec/templates/spec-template.md"
+    "override_path": "{config.paths.spec_root}/templates/spec-template.md"
   }
 }
 ```
@@ -612,10 +612,10 @@ validation/
 ## Templates Used
 
 This function uses:
-- `templates/artifacts/spec-template.md` → `features/###-name/spec.md`
+- `templates/artifacts/spec-template.md` → `{config.paths.features}/###-name/{config.naming.files.spec}`
 
 To customize template:
-1. Copy to `.spec/templates/spec-template.md`
+1. Copy to `{config.paths.spec_root}/templates/spec-template.md`
 2. Modify as needed
 3. Will be used automatically
 ```
@@ -626,7 +626,7 @@ To customize template:
 
 **Standard Variables**:
 ```markdown
-{PROJECT_NAME}      # From .spec/product-requirements.md
+{PROJECT_NAME}      # From {config.paths.spec_root}/product-requirements.md
 {FEATURE_ID}        # Auto-generated (e.g., 003)
 {FEATURE_NAME}      # From user input
 {DATE}              # Current date
@@ -766,7 +766,7 @@ test_templates_valid() {
 - Token costs
 - User drop-off points
 
-**Storage**: `.spec-memory/usage-metrics.json`
+**Storage**: `{config.paths.memory}/usage-metrics.json`
 
 **Visualization**: Enhance `metrics/` function to show usage patterns
 

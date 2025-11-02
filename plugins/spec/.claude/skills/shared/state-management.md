@@ -6,8 +6,8 @@ Complete specification for Spec's state management architecture, file schemas, l
 
 Spec maintains workflow state across two distinct systems:
 
-1. **Session State** (`.spec-state/`) - Temporary session tracking (git-ignored)
-2. **Persistent Memory** (`.spec-memory/`) - Long-term project history (git-committed)
+1. **Session State** (`{config.paths.state}/`) - Temporary session tracking (git-ignored)
+2. **Persistent Memory** (`{config.paths.memory}/`) - Long-term project history (git-committed)
 
 This dual-layer approach enables:
 - Resuming work after interruptions or crashes
@@ -21,19 +21,19 @@ This dual-layer approach enables:
 
 ```
 Project Root/
-├── .spec-state/                 # Session state (gitignored)
+├── {config.paths.state}/                 # Session state (gitignored)
 │   ├── current-session.md         # Active session tracking
 │   └── checkpoints/                # Session checkpoints
 │       ├── 2025-10-31-14-30.md   # Timestamped checkpoints
 │       └── ...
 │
-├── .spec-memory/                # Persistent memory (committed)
+├── {config.paths.memory}/                # Persistent memory (committed)
 │   ├── WORKFLOW-PROGRESS.md       # Feature tracking
 │   ├── DECISIONS-LOG.md           # Architecture decisions
 │   ├── CHANGES-PLANNED.md         # Planned tasks
 │   └── CHANGES-COMPLETED.md       # Completed work
 │
-└── features/                       # Feature artifacts (committed)
+└── {config.paths.features}/                       # Feature artifacts (committed)
     └── ###-feature-name/
         ├── spec.md                # Requirements
         ├── plan.md                # Technical design
@@ -181,8 +181,8 @@ Project Root/
 - **Completed**: 2025-10-15
 - **Duration**: 2 hours
 - **Artifacts**:
-  - .spec/product-requirements.md
-  - .spec/architecture-blueprint.md
+  - {config.paths.spec_root}/product-requirements.md
+  - {config.paths.spec_root}/architecture-blueprint.md
 - **JIRA**: PROJ-100 (closed)
 - **Notes**: Initial Spec setup for existing codebase
 
@@ -191,9 +191,9 @@ Project Root/
 - **Completed**: 2025-10-25
 - **Duration**: 5 days
 - **Artifacts**:
-  - features/001-user-auth/spec.md
-  - features/001-user-auth/plan.md
-  - features/001-user-auth/tasks.md
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 - **User Stories**: 4/4 (100%)
 - **Tasks**: 23/23 (100%)
 - **JIRA**: PROJ-101 (closed)
@@ -208,9 +208,9 @@ Project Root/
 - **Started**: 2025-10-30
 - **Progress**: 65%
 - **Artifacts**:
-  - features/002-search/spec.md ✅
-  - features/002-search/plan.md ✅
-  - features/002-search/tasks.md ✅
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} ✅
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} ✅
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} ✅
 - **User Stories**: 2/4 (50%)
 - **Tasks**: 15/23 (65%)
 - **JIRA**: PROJ-102 (in progress)
@@ -223,7 +223,7 @@ Project Root/
 - **Status**: not_started
 - **Priority**: P1
 - **Artifacts**:
-  - features/003-payments/spec.md ✅
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} ✅
 - **Target**: 2025-11-10
 - **Notes**: Waiting for stripe account setup
 
@@ -542,19 +542,19 @@ Implement product search using Elasticsearch.
 **From skills**:
 ```markdown
 1. Load current session:
-   - Use Read tool: .spec-state/current-session.md
+   - Use Read tool: {config.paths.state}/current-session.md
    - Parse: current feature, phase, progress
 
 2. Load workflow progress:
-   - Use Read tool: .spec-memory/WORKFLOW-PROGRESS.md
+   - Use Read tool: {config.paths.memory}/WORKFLOW-PROGRESS.md
    - Parse: feature list, status, metrics
 
 3. Load decisions (if planning):
-   - Use Read tool: .spec-memory/DECISIONS-LOG.md
+   - Use Read tool: {config.paths.memory}/DECISIONS-LOG.md
    - Parse: existing ADRs
 
 4. Load tasks (if implementing):
-   - Use Read tool: .spec-memory/CHANGES-PLANNED.md
+   - Use Read tool: {config.paths.memory}/CHANGES-PLANNED.md
    - Parse: pending tasks, priorities
 ```
 
@@ -583,16 +583,16 @@ Implement product search using Elasticsearch.
 
 **On spec:init**:
 ```
-1. Create .spec-state/ directory
-2. Create .spec-state/checkpoints/ directory
+1. Create {config.paths.state}/ directory
+2. Create {config.paths.state}/checkpoints/ directory
 3. Create current-session.md from template
-4. Create .spec-memory/ directory
+4. Create {config.paths.memory}/ directory
 5. Create WORKFLOW-PROGRESS.md with header
 6. Create DECISIONS-LOG.md with header
 7. Create CHANGES-PLANNED.md with header
 8. Create CHANGES-COMPLETED.md with header
-9. Add .spec-state/ to .gitignore
-10. Commit .spec-memory/ files
+9. Add {config.paths.state}/ to .gitignore
+10. Commit {config.paths.memory}/ files
 ```
 
 ## Usage in Skills
@@ -628,20 +628,20 @@ For state file specifications and access patterns, see: `shared/state-management
 
 ```
 spec:init
-  ├─ Create: .spec-state/ directory
-  ├─ Create: .spec-state/checkpoints/ directory
+  ├─ Create: {config.paths.state}/ directory
+  ├─ Create: {config.paths.state}/checkpoints/ directory
   ├─ Write: current-session.md (empty template)
-  ├─ Create: .spec-memory/ directory
+  ├─ Create: {config.paths.memory}/ directory
   ├─ Write: WORKFLOW-PROGRESS.md (project header)
   ├─ Write: DECISIONS-LOG.md (empty)
   ├─ Write: CHANGES-PLANNED.md (empty)
   ├─ Write: CHANGES-COMPLETED.md (empty)
-  └─ Update: .gitignore (add .spec-state/)
+  └─ Update: .gitignore (add {config.paths.state}/)
 
 spec:generate "Feature"
   ├─ Read: current-session.md (check for existing feature)
   ├─ Read: WORKFLOW-PROGRESS.md (get next feature ID)
-  ├─ Write: features/###-name/spec.md
+  ├─ Write: {config.paths.features}/###-name/{config.naming.files.spec}
   ├─ Update: current-session.md (set feature, phase="specification")
   └─ Update: WORKFLOW-PROGRESS.md (add feature entry)
 
@@ -684,7 +684,7 @@ spec:implement
 | Feature complete | - | WORKFLOW-PROGRESS.md | - |
 | Requirements update | - | spec.md<br>plan.md<br>tasks.md<br>DECISIONS-LOG.md | - |
 | Session end | - | - | current-session.md (optional) |
-| Manual reset | - | - | .spec-state/* (keep memory/) |
+| Manual reset | - | - | {config.paths.state}/* (keep memory/) |
 
 ## Best Practices
 
@@ -693,7 +693,7 @@ spec:implement
 1. **Read State Once Per Session**
    ```markdown
    # At skill start:
-   1. Read .spec-state/current-session.md
+   1. Read {config.paths.state}/current-session.md
    2. Cache in memory for session
    3. Don't re-read unless explicitly invalidated
    ```
@@ -701,19 +701,19 @@ spec:implement
 2. **Update State Atomically**
    ```bash
    # Write to temp file first
-   cat > .spec-state/current-session.tmp.md << 'EOF'
+   cat > {config.paths.state}/current-session.tmp.md << 'EOF'
    [updated content]
    EOF
 
    # Atomic move (prevents corruption)
-   mv .spec-state/current-session.tmp.md .spec-state/current-session.md
+   mv {config.paths.state}/current-session.tmp.md {config.paths.state}/current-session.md
    ```
 
 3. **Create Checkpoints Before Risky Operations**
    ```bash
    # Before --force, --update, or destructive operations
-   cp .spec-state/current-session.md \
-      .spec-state/checkpoints/$(date +%Y-%m-%d-%H-%M).md
+   cp {config.paths.state}/current-session.md \
+      {config.paths.state}/checkpoints/$(date +%Y-%m-%d-%H-%M).md
    ```
 
 4. **Append to Logs, Don't Overwrite**
@@ -721,7 +721,7 @@ spec:implement
    # DECISIONS-LOG.md and CHANGES-COMPLETED.md grow over time
    # Always append, never replace entire file
 
-   cat >> .spec-memory/DECISIONS-LOG.md << 'EOF'
+   cat >> {config.paths.memory}/DECISIONS-LOG.md << 'EOF'
 
    ## ADR-XXX: New Decision
    ...
@@ -731,8 +731,8 @@ spec:implement
 5. **Validate State Format**
    ```bash
    # Check required sections exist before using
-   grep -q "## Active Work" .spec-state/current-session.md
-   grep -q "## Current Phase" .spec-state/current-session.md
+   grep -q "## Active Work" {config.paths.state}/current-session.md
+   grep -q "## Current Phase" {config.paths.state}/current-session.md
    ```
 
 ### For Users
@@ -745,10 +745,10 @@ spec:implement
 2. **Commit Memory, Ignore Session**
    ```bash
    # .gitignore should contain:
-   .spec-state/
+   {config.paths.state}/
 
-   # .spec-memory/ should be committed:
-   git add .spec-memory/
+   # {config.paths.memory}/ should be committed:
+   git add {config.paths.memory}/
    git commit -m "feat: Update workflow progress"
    ```
 
@@ -764,7 +764,7 @@ spec:implement
    /spec metrics
 
    # Or read directly:
-   cat .spec-memory/WORKFLOW-PROGRESS.md
+   cat {config.paths.memory}/WORKFLOW-PROGRESS.md
    ```
 
 ## Troubleshooting
@@ -779,14 +779,14 @@ spec:implement
 **Solution A: Restore from Checkpoint**
 ```bash
 # 1. List available checkpoints
-ls -lt .spec-state/checkpoints/
+ls -lt {config.paths.state}/checkpoints/
 
 # 2. View checkpoint content
-cat .spec-state/checkpoints/2025-11-01-15-25.md
+cat {config.paths.state}/checkpoints/2025-11-01-15-25.md
 
 # 3. Restore most recent
-cp .spec-state/checkpoints/2025-11-01-15-25.md \
-   .spec-state/current-session.md
+cp {config.paths.state}/checkpoints/2025-11-01-15-25.md \
+   {config.paths.state}/current-session.md
 
 # 4. Verify restoration
 /spec status
@@ -795,7 +795,7 @@ cp .spec-state/checkpoints/2025-11-01-15-25.md \
 **Solution B: Reconstruct from Artifacts**
 ```bash
 # 1. Find feature artifacts
-ls features/*/
+ls {config.paths.features}/*/
 
 # 2. Determine phase from files
 # - spec.md only → completed spec:generate
@@ -803,7 +803,7 @@ ls features/*/
 # - + tasks.md → completed spec:tasks
 
 # 3. Manually create current-session.md
-# Use template from .spec-state/ in plugin
+# Use template from {config.paths.state}/ in plugin
 # Fill in feature ID, name, and phase
 ```
 
@@ -823,8 +823,8 @@ grep "SPEC_AUTO_CHECKPOINT" CLAUDE.md
 echo "SPEC_AUTO_CHECKPOINT=true" >> CLAUDE.md
 
 # Manually create checkpoint now
-cp .spec-state/current-session.md \
-   .spec-state/checkpoints/manual-$(date +%Y-%m-%d-%H-%M).md
+cp {config.paths.state}/current-session.md \
+   {config.paths.state}/checkpoints/manual-$(date +%Y-%m-%d-%H-%M).md
 ```
 
 ### Problem: WORKFLOW-PROGRESS.md Out of Sync
@@ -837,13 +837,13 @@ cp .spec-state/current-session.md \
 **Solution: Manual Reconciliation**
 ```bash
 # 1. Check actual status
-ls features/*/tasks.md | xargs grep -c "\[x\]"
+ls {config.paths.features}/*/{config.naming.files.tasks} | xargs grep -c "\[x\]"
 
 # 2. Edit WORKFLOW-PROGRESS.md
 # Update feature status to match reality
 
 # 3. Document the fix
-cat >> .spec-memory/DECISIONS-LOG.md << 'EOF'
+cat >> {config.paths.memory}/DECISIONS-LOG.md << 'EOF'
 
 ## ADR-XXX: Manual State Reconciliation
 
@@ -867,21 +867,21 @@ EOF
 **Solution: Archive Old Data**
 ```bash
 # 1. Archive completed features
-grep -A 50 "Status: completed" .spec-memory/WORKFLOW-PROGRESS.md \
-  > .spec-memory/archive/WORKFLOW-PROGRESS-2025-Q1.md
+grep -A 50 "Status: completed" {config.paths.memory}/WORKFLOW-PROGRESS.md \
+  > {config.paths.memory}/archive/WORKFLOW-PROGRESS-2025-Q1.md
 
 # 2. Keep only active + 2 recent completed in main file
 
 # 3. Add archive reference
 echo "\n**Archived**: See archive/WORKFLOW-PROGRESS-2025-Q1.md" \
-  >> .spec-memory/WORKFLOW-PROGRESS.md
+  >> {config.paths.memory}/WORKFLOW-PROGRESS.md
 ```
 
 ### Problem: Version Migration Needed
 
 **Symptoms**:
 - Upgrading from Spec v2.x to v3.0
-- Old state format (.spec/state.json)
+- Old state format ({config.paths.spec_root}/state.json)
 - Missing new state files
 
 **Solution: Run Migration Script**
@@ -893,17 +893,17 @@ cp -r .spec .spec.backup.v2
 # or manually convert:
 
 # Convert state.json to current-session.md
-if [ -f .spec/state.json ]; then
+if [ -f {config.paths.spec_root}/state.json ]; then
   # Extract feature, phase, tasks
-  # Write to .spec-state/current-session.md format
+  # Write to {config.paths.state}/current-session.md format
 fi
 
 # Create missing memory files
-[ ! -f .spec-memory/CHANGES-PLANNED.md ] && \
-  echo "# Changes Planned" > .spec-memory/CHANGES-PLANNED.md
+[ ! -f {config.paths.memory}/CHANGES-PLANNED.md ] && \
+  echo "# Changes Planned" > {config.paths.memory}/CHANGES-PLANNED.md
 
-[ ! -f .spec-memory/CHANGES-COMPLETED.md ] && \
-  echo "# Changes Completed" > .spec-memory/CHANGES-COMPLETED.md
+[ ! -f {config.paths.memory}/CHANGES-COMPLETED.md ] && \
+  echo "# Changes Completed" > {config.paths.memory}/CHANGES-COMPLETED.md
 
 # 3. Verify migration
 /spec status

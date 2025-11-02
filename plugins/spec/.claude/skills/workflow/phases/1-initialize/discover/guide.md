@@ -164,7 +164,7 @@ spec:blueprint --from-discovery      # Create blueprint from findings
 spec:generate "New Feature"          # Add features informed by discovery
 ```
 
-Updates workflow state in `.spec-memory/WORKFLOW-PROGRESS.md` with discovery phase completion.
+Updates workflow state in `{config.paths.memory}/WORKFLOW-PROGRESS.md` with discovery phase completion.
 
 ## Configuration
 

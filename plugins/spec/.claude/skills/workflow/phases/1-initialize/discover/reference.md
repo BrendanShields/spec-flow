@@ -749,7 +749,7 @@ cat discovery/updates/$(date +%Y-%m-%d).md
 
 ### State File Updates
 
-Discovery updates `.spec-memory/WORKFLOW-PROGRESS.md`:
+Discovery updates `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
 
 ```markdown
 ## Discovery History
@@ -774,7 +774,7 @@ Discovery updates `.spec-memory/WORKFLOW-PROGRESS.md`:
 
 ### Custom Analysis Scripts
 
-Create `.spec/scripts/custom-discovery.sh`:
+Create `{config.paths.spec_root}/scripts/custom-discovery.sh`:
 
 ```bash
 #!/bin/bash
@@ -797,7 +797,7 @@ done
 
 ### Extending Detection Patterns
 
-Add custom patterns to `.spec/config/discovery-patterns.json`:
+Add custom patterns to `{config.paths.spec_root}/config/discovery-patterns.json`:
 
 ```json
 {

@@ -325,7 +325,7 @@ Mark uncertainties with [CLARIFY: question] for spec:clarify phase:
 
 ### Feature ID Format
 - **Format**: Sequential 3-digit number (001, 002, 003, etc.)
-- **Source**: Count existing features/ directories + 1
+- **Source**: Count existing {config.paths.features}/ directories + 1
 - **Padding**: Always 3 digits with leading zeros
 - **Scope**: Per-project sequence (not global)
 
@@ -428,7 +428,7 @@ so that [specific benefit/value].
 
 ### Files Read
 
-**`.spec-state/current-session.md`**:
+**`{config.paths.state}/current-session.md`**:
 ```markdown
 ## Active Work
 ### Current Feature
@@ -441,7 +441,7 @@ SPEC_ATLASSIAN_SYNC=[check if JIRA/Confluence enabled]
 SPEC_JIRA_PROJECT_KEY=[for epic creation]
 ```
 
-**`.spec-memory/WORKFLOW-PROGRESS.md`**:
+**`{config.paths.memory}/WORKFLOW-PROGRESS.md`**:
 ```markdown
 ## Feature Progress Overview
 [Read to count existing features, determine next ID]
@@ -450,7 +450,7 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 [Check for existing work on similar features]
 ```
 
-**`.spec/product-requirements.md`** (if exists):
+**`{config.paths.spec_root}/product-requirements.md`** (if exists):
 ```markdown
 [Read to understand overall product vision]
 [Check consistency with new feature]
@@ -458,14 +458,14 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 
 ### Files Written
 
-**`features/NNN-feature-name/spec.md`**:
+**`{config.paths.features}/NNN-feature-name/{config.naming.files.spec}`**:
 - Primary output of skill
 - Contains complete specification
 - Format: See template above
 
 ### Files Updated
 
-**`.spec-state/current-session.md`**:
+**`{config.paths.state}/current-session.md`**:
 ```markdown
 ## Active Work
 ### Current Feature
@@ -483,7 +483,7 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 - [ ] spec:plan
 ```
 
-**`.spec-memory/WORKFLOW-PROGRESS.md`**:
+**`{config.paths.memory}/WORKFLOW-PROGRESS.md`**:
 ```markdown
 ### Active Features
 | Feature | Phase | Progress | Started | ETA | Blocked |
@@ -575,7 +575,7 @@ SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
 ```bash
 gh issue create \
   --title "Feature NNN: Feature Name" \
-  --body "$(cat features/NNN-feature-name/spec.md)" \
+  --body "$(cat {config.paths.features}/NNN-feature-name/{config.naming.files.spec})" \
   --label "feature,P1,specification"
 ```
 
@@ -854,5 +854,5 @@ Before completing spec:generate:
 - **Complexity**: Medium (multi-step workflow with conditionals)
 - **Average Duration**: 10-30 minutes (depending on feature complexity)
 - **Typical Output**: 150-400 line spec.md file
-- **State Impact**: Updates 2-3 files (.spec-state/, .spec-memory/)
+- **State Impact**: Updates 2-3 files ({config.paths.state}/, {config.paths.memory}/)
 - **External Dependencies**: Optional (JIRA, Confluence via MCP)

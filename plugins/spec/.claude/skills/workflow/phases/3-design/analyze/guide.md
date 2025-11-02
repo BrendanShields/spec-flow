@@ -37,16 +37,16 @@ Use spec:analyze when:
 **Load feature documents**:
 ```bash
 # Read current feature from session
-Read .spec-state/current-session.md
+Read {config.paths.state}/current-session.md
 
 # Extract feature ID/name
 # Load feature artifacts
-Read features/{feature-id}/spec.md
-Read features/{feature-id}/plan.md
-Read features/{feature-id}/tasks.md
+Read {config.paths.features}/{feature-id}/{config.naming.files.spec}
+Read {config.paths.features}/{feature-id}/{config.naming.files.plan}
+Read {config.paths.features}/{feature-id}/{config.naming.files.tasks}
 
 # Optional: Load blueprint if exists
-Read .spec/architecture-blueprint.md
+Read {config.paths.spec_root}/architecture-blueprint.md
 ```
 
 ### Phase 2: Invoke Analyzer
@@ -84,7 +84,7 @@ Task spec:analyzer with:
 
 3. Format report (see Output Format)
 
-4. Save to: .spec-state/analysis-report-{timestamp}.md
+4. Save to: {config.paths.state}/analysis-report-{timestamp}.md
 ```
 
 ### Phase 4: Provide Recommendations

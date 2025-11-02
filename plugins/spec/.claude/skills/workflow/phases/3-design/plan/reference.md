@@ -839,7 +839,7 @@ Alternatives: PostgreSQL (schema-per-tenant), MongoDB, MySQL
 
 <info>
 This page is auto-generated from spec:plan.
-Source: features/###-feature-name/plan.md
+Source: {config.paths.features}/###-feature-name/{config.naming.files.plan}
 Last synced: YYYY-MM-DD HH:MM:SS
 </info>
 
@@ -915,7 +915,7 @@ ADRs documented: [Count]
 
 **Detection**:
 ```bash
-if [[ ! -f "features/###-feature-name/spec.md" ]]; then
+if [[ ! -f "{config.paths.features}/###-feature-name/{config.naming.files.spec}" ]]; then
   echo "Error: No specification found"
 fi
 ```

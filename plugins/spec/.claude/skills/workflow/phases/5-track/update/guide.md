@@ -35,9 +35,9 @@ Update existing feature specifications with new requirements, MCP integrations, 
 
 **Read current state**:
 ```
-1. Read .spec-state/current-session.md → get active feature
-2. Read features/{feature-id}/spec.md → current specification
-3. Read .spec-memory/WORKFLOW-PROGRESS.md → feature status
+1. Read {config.paths.state}/current-session.md → get active feature
+2. Read {config.paths.features}/{feature-id}/{config.naming.files.spec} → current specification
+3. Read {config.paths.memory}/WORKFLOW-PROGRESS.md → feature status
 ```
 
 **Identify update type**:
@@ -60,7 +60,7 @@ Use AskUserQuestion to confirm:
 
 **For requirement changes**:
 ```
-1. Edit features/{feature-id}/spec.md
+1. Edit {config.paths.features}/{feature-id}/{config.naming.files.spec}
 2. Modify affected user stories
 3. Update acceptance criteria
 4. Adjust priority markers (P1, P2, P3)
@@ -91,12 +91,12 @@ Use AskUserQuestion to confirm:
 **Check downstream impact**:
 ```
 1. If plan.md exists:
-   - Read features/{feature-id}/plan.md
+   - Read {config.paths.features}/{feature-id}/{config.naming.files.plan}
    - Identify sections affected by spec changes
    - Flag for update
 
 2. If tasks.md exists:
-   - Read features/{feature-id}/tasks.md
+   - Read {config.paths.features}/{feature-id}/{config.naming.files.tasks}
    - Identify tasks affected by spec changes
    - Flag obsolete tasks
    - Identify new tasks needed
@@ -134,14 +134,14 @@ For additive changes:
 
 **Log the decision**:
 ```
-1. Append to .spec-memory/DECISIONS-LOG.md:
+1. Append to {config.paths.memory}/DECISIONS-LOG.md:
    - ADR number (auto-increment)
    - Date and context
    - What changed and why
    - Alternatives considered
    - Consequences
 
-2. Update .spec-memory/WORKFLOW-PROGRESS.md:
+2. Update {config.paths.memory}/WORKFLOW-PROGRESS.md:
    - Note spec update
    - Add timestamp
    - Link to updated spec
@@ -149,7 +149,7 @@ For additive changes:
 
 **Update session**:
 ```
-Edit .spec-state/current-session.md:
+Edit {config.paths.state}/current-session.md:
 - Add note about spec update
 - If phase affected: update current phase
 - If tasks affected: flag for review
@@ -158,7 +158,7 @@ Edit .spec-state/current-session.md:
 **Move tasks if needed**:
 ```
 If tasks obsoleted:
-1. Read from .spec-memory/CHANGES-PLANNED.md
+1. Read from {config.paths.memory}/CHANGES-PLANNED.md
 2. Move obsolete tasks to CHANGES-COMPLETED.md with "obsolete" status
 3. Add new tasks to CHANGES-PLANNED.md
 ```
@@ -253,7 +253,7 @@ Format:
 
 ## Next Steps
 
-→ Review updated spec: features/{feature-id}/spec.md
+→ Review updated spec: {config.paths.features}/{feature-id}/{config.naming.files.spec}
 → Continue implementation: Run spec:implement
 → Validate changes: Run spec:analyze
 ```

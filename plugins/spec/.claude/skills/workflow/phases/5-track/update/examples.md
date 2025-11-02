@@ -15,7 +15,7 @@ Concrete scenarios showing different types of specification updates.
 
 ```bash
 # 1. Read current spec
-Read features/001-user-auth/spec.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 → Find: "US1.4: User can reset forgotten password [P2]"
 
 # 2. Update priority
@@ -24,12 +24,12 @@ Edit spec.md:
   New: "US1.4: User can reset forgotten password [P1]"
 
 # 3. Check downstream impact
-Read features/001-user-auth/tasks.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 → Find tasks T015-T018 related to password reset
 → Update task priorities from P2 to P1
 
 # 4. Log decision
-Append to .spec-memory/DECISIONS-LOG.md:
+Append to {config.paths.memory}/DECISIONS-LOG.md:
 ---
 ## ADR-012: Elevate Password Reset to P1
 
@@ -48,7 +48,7 @@ high abandonment rate for forgotten passwords.
 ---
 
 # 5. Update session
-Edit .spec-state/current-session.md:
+Edit {config.paths.state}/current-session.md:
 → Note: "Updated US1.4 priority P2→P1"
 → Adjust task queue order
 ```
@@ -76,7 +76,7 @@ Edit .spec-state/current-session.md:
 
 ```bash
 # 1. Read spec for metadata
-Read features/002-product-search/spec.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 → Extract: title, user stories, priority
 
 # 2. Create JIRA issue via MCP
@@ -97,7 +97,7 @@ Call jira_create_issue:
 → Returns: issue_key="SHOP-42"
 
 # 3. Update spec with JIRA metadata
-Edit features/002-product-search/spec.md:
+Edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}:
   Add to frontmatter:
   ---
   jira_issue: SHOP-42
@@ -106,12 +106,12 @@ Edit features/002-product-search/spec.md:
   ---
 
 # 4. Log integration
-Append to .spec-memory/WORKFLOW-PROGRESS.md:
+Append to {config.paths.memory}/WORKFLOW-PROGRESS.md:
   Feature 002: Product Search
   - JIRA: SHOP-42 (created)
 
 # 5. Update session
-Edit .spec-state/current-session.md:
+Edit {config.paths.state}/current-session.md:
   MCP Integrations: jira (enabled)
 ```
 
@@ -139,7 +139,7 @@ Edit .spec-state/current-session.md:
 
 ```bash
 # 1. Read current spec
-Read features/001-user-auth/spec.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 → Current user stories: 4 total
 → Current tasks: 23 total
 
@@ -164,7 +164,7 @@ Edit spec.md, append to User Stories section:
 ---
 
 # 3. Check if plan needs update
-Read features/001-user-auth/plan.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
 → Current: JWT-based authentication only
 → Needs: OAuth integration section
 
@@ -234,11 +234,11 @@ Edit tasks.md, add new tasks:
 ---
 
 # 6. Update state files
-Append to .spec-memory/CHANGES-PLANNED.md:
+Append to {config.paths.memory}/CHANGES-PLANNED.md:
   Feature 001: User Authentication
   - Added: T024-T029 (6 new tasks for OAuth)
 
-Edit .spec-memory/DECISIONS-LOG.md:
+Edit {config.paths.memory}/DECISIONS-LOG.md:
 ---
 ## ADR-013: Add OAuth Authentication
 
@@ -273,7 +273,7 @@ existing email/password authentication.
 ---
 
 # 7. Update session
-Edit .spec-state/current-session.md:
+Edit {config.paths.state}/current-session.md:
   → Add note: "Added US1.5 - OAuth support"
   → Task count: 23 → 29 tasks
   → Update queue with new tasks
@@ -311,7 +311,7 @@ Impact Assessment:
 
 ```bash
 # 1. Read spec with clarifications
-Read features/003-payment-processing/spec.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 → Find [CLARIFY] tags with questions and decisions
 
 # 2. Replace each [CLARIFY] with resolution
@@ -359,21 +359,21 @@ application PCI-DSS compliant without direct card storage or transmission.
 ---
 
 # 3. Update plan.md with clarification decisions
-Edit features/003-payment-processing/plan.md:
+Edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}:
   Add technical details for:
   - Escrow service architecture
   - Stripe integration specifics
   - Stripe Elements implementation
 
 # 4. Update tasks.md with new requirements
-Edit features/003-payment-processing/tasks.md:
+Edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}:
   Add tasks for:
   - T015: Implement escrow service (new)
   - T016: Integrate Stripe Elements (updated from generic)
   - T017: Build escrow release workflow (new)
 
 # 5. Log clarification resolutions
-Append to .spec-memory/DECISIONS-LOG.md:
+Append to {config.paths.memory}/DECISIONS-LOG.md:
 ---
 ## ADR-014: Payment Processing Architecture
 
@@ -405,7 +405,7 @@ Append to .spec-memory/DECISIONS-LOG.md:
 ---
 
 # 6. Update workflow progress
-Edit .spec-memory/WORKFLOW-PROGRESS.md:
+Edit {config.paths.memory}/WORKFLOW-PROGRESS.md:
   Feature 003: Payment Processing
   - Status: Clarifications resolved, ready for planning
   - Added: Escrow requirement
@@ -447,10 +447,10 @@ Impact:
 
 ```bash
 # 1. Read current spec and tasks
-Read features/001-user-auth/spec.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 → Find: US1.6 "User session persists across browser restarts" [P2]
 
-Read features/001-user-auth/tasks.md
+Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 → Find: T005-T008 (session storage, session middleware, etc.)
 
 # 2. Mark user story as deprecated
@@ -480,7 +480,7 @@ Edit tasks.md:
   - ~~T008: Write session tests~~ [OBSOLETE]
 
 # 5. Update state files
-Move from .spec-memory/CHANGES-PLANNED.md to CHANGES-COMPLETED.md:
+Move from {config.paths.memory}/CHANGES-PLANNED.md to CHANGES-COMPLETED.md:
 ---
 ## Obsolete Tasks (Feature 001)
 
@@ -512,7 +512,7 @@ Move from .spec-memory/CHANGES-PLANNED.md to CHANGES-COMPLETED.md:
 ---
 
 # 6. Log architecture decision
-Append to .spec-memory/DECISIONS-LOG.md:
+Append to {config.paths.memory}/DECISIONS-LOG.md:
 ---
 ## ADR-015: Remove Session-Based Authentication
 
@@ -548,7 +548,7 @@ refresh tokens for persistence.
 ---
 
 # 7. Update session
-Edit .spec-state/current-session.md:
+Edit {config.paths.state}/current-session.md:
   Tasks: 23 → 19 tasks (4 obsolete)
   Progress: 4/23 (17%) → 4/19 (21%)
   Note: "Removed session-based auth, JWT-only"

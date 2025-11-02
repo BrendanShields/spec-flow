@@ -6,7 +6,7 @@ This file contains concrete scenarios demonstrating the spec:plan skill in actio
 
 ### Input Scenario
 
-**Specification** (features/002-search/spec.md):
+**Specification** ({config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}):
 ```markdown
 # Feature 002: Product Search
 
@@ -35,7 +35,7 @@ This file contains concrete scenarios demonstrating the spec:plan skill in actio
 
 **Step 2: Generate Plan**
 
-Creates `features/002-search/plan.md`:
+Creates `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}`:
 ```markdown
 # Product Search - Technical Plan
 
@@ -121,7 +121,7 @@ Product Created → PostgreSQL → CDC → Elasticsearch → Search Query → AP
 
 **Step 3: Document ADRs**
 
-Appends to `.spec-memory/DECISIONS-LOG.md`:
+Appends to `{config.paths.memory}/DECISIONS-LOG.md`:
 ```markdown
 ## ADR-003: Use Elasticsearch for Product Search
 
@@ -160,8 +160,8 @@ Implement search using Elasticsearch 8.x instead of PostgreSQL full-text search.
 Plan created for Feature 002: Product Search
 
 Files generated:
-  - features/002-search/plan.md (1,847 tokens)
-  - .spec-memory/DECISIONS-LOG.md (updated with 1 ADR)
+  - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (1,847 tokens)
+  - {config.paths.memory}/DECISIONS-LOG.md (updated with 1 ADR)
 
 Architecture decisions documented:
   - ADR-003: Use Elasticsearch for Product Search
@@ -183,7 +183,7 @@ Next steps:
 
 ### Input Scenario
 
-**Specification** (features/005-dashboard/spec.md):
+**Specification** ({config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}):
 ```markdown
 # Feature 005: Analytics Dashboard
 
@@ -269,7 +269,7 @@ src/pages/Dashboard/
 
 ### Input Scenario
 
-**Specification** (features/010-notifications/spec.md):
+**Specification** ({config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}):
 ```markdown
 # Feature 010: Notification System
 
@@ -379,7 +379,7 @@ CREATE TABLE user_preferences (
 
 ### Input Scenario
 
-**Specification** (features/003-multi-tenancy/spec.md):
+**Specification** ({config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}):
 ```markdown
 # Feature 003: Multi-Tenant Data Isolation
 
@@ -489,7 +489,7 @@ async function tenantContext(req, res, next) {
 
 ### Input Scenario
 
-**Specification** (features/007-offline-mode/spec.md):
+**Specification** ({config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}):
 ```markdown
 # Feature 007: Offline Mode
 

@@ -12,13 +12,13 @@
 /spec init
 ```
 
-**What it does**: Creates `.spec/` directories, initializes state tracking, sets up workflow structure
+**What it does**: Creates `{config.paths.spec_root}/` directories, initializes state tracking, sets up workflow structure
 
 **You'll get**:
-- `.spec/` configuration directory
-- `.spec-state/` session tracking (git-ignored)
-- `.spec-memory/` persistent memory (committed)
-- `features/` directory for your work
+- `{config.paths.spec_root}/` configuration directory
+- `{config.paths.state}/` session tracking (git-ignored)
+- `{config.paths.memory}/` persistent memory (committed)
+- `{config.paths.features}/` directory for your work
 
 **Skip if**: You've already initialized (run once per project)
 
@@ -33,7 +33,7 @@
 **What it does**: Creates detailed feature specification with user stories, acceptance criteria, priorities
 
 **You'll get**:
-- `features/001-user-authentication/spec.md`
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}`
 - P1/P2/P3 prioritized user stories
 - Acceptance criteria for each story
 - [CLARIFY] tags for ambiguous requirements
@@ -51,7 +51,7 @@
 **What it does**: Transforms spec into technical design with architecture decisions
 
 **You'll get**:
-- `features/001-user-authentication/plan.md`
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}`
 - Architecture diagrams
 - Data models and schemas
 - API contracts
@@ -72,7 +72,7 @@
 **What it does**: Breaks technical plan into executable tasks with dependencies
 
 **You'll get**:
-- `features/001-user-authentication/tasks.md`
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}`
 - Task IDs (T001, T002, etc.)
 - Clear dependencies (T002 → T001)
 - Priority markers (P1/P2/P3)
@@ -422,11 +422,11 @@ Shows:
 Workflow creates multiple checkpoints:
 ```bash
 # After spec
-git add features/001-*/spec.md
+git add {config.paths.features}/001-*/{config.naming.files.spec}
 git commit -m "feat: Add user auth spec"
 
 # After plan
-git add features/001-*/plan.md
+git add {config.paths.features}/001-*/{config.naming.files.plan}
 git commit -m "feat: Add user auth technical plan"
 ```
 
@@ -445,7 +445,7 @@ Checkpoint protection!
 
 ### Customize
 
-- **Templates**: Edit `.spec/templates/` to customize output
+- **Templates**: Edit `{config.paths.spec_root}/templates/` to customize output
 - **Architecture**: Run `/spec blueprint` to define standards
 - **Hooks**: Set up event hooks for automation
 

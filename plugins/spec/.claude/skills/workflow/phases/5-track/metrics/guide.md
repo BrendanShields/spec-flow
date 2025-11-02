@@ -11,7 +11,7 @@ Display development metrics, progress tracking, and workflow analytics.
 ## What This Skill Does
 
 - Reads WORKFLOW-PROGRESS.md for feature tracking data
-- Calculates velocity metrics (features/sprint, duration, task rates)
+- Calculates velocity metrics ({config.paths.features}/sprint, duration, task rates)
 - Shows quality metrics (test coverage, bugs, tech debt)
 - Displays efficiency metrics (phase time ratios, bottlenecks)
 - Generates text-based visualizations (progress bars, charts)
@@ -32,10 +32,10 @@ Display development metrics, progress tracking, and workflow analytics.
 
 ### Phase 1: Load Tracking Data
 
-1. Read `.spec-memory/WORKFLOW-PROGRESS.md` using Read tool
+1. Read `{config.paths.memory}/WORKFLOW-PROGRESS.md` using Read tool
 2. Parse feature list (completed, in-progress, planned)
 3. Extract metrics section (velocity, quality, efficiency)
-4. Read `.spec-state/current-session.md` for active context
+4. Read `{config.paths.state}/current-session.md` for active context
 5. Validate data availability and completeness
 
 **Error Handling**: If WORKFLOW-PROGRESS.md missing, inform user to run `/spec init` first.
@@ -75,7 +75,7 @@ Create text-based charts:
 
 ```
 Feature Progress: ████████░░ 80% (4/5 features)
-Sprint Velocity:  ▓▓▓▓▓▓▒▒░░ 2.3 features/sprint
+Sprint Velocity:  ▓▓▓▓▓▓▒▒░░ 2.3 {config.paths.features}/sprint
 Test Coverage:    ███████▓░░ 87%
 ```
 
@@ -154,7 +154,7 @@ Showing: Current feature progress and planned work
   Features Completed: 4/10 (40%)
   Average Duration:   3.5 days per feature
   Task Velocity:      18.5 tasks/day
-  Sprint Velocity:    2.3 features/sprint
+  Sprint Velocity:    2.3 {config.paths.features}/sprint
   Progress:           ████████░░ 80%
 
 📈 QUALITY METRICS
@@ -180,7 +180,7 @@ Showing: Current feature progress and planned work
   On Track:           Yes ✅
 
 🔍 INSIGHTS
-  ✅ Velocity steady at 2.3 features/sprint
+  ✅ Velocity steady at 2.3 {config.paths.features}/sprint
   ⚠️  Test coverage dropped 3% - focus testing
   ✅ No blocked features currently
   💡 Planning efficiency improved 12%
@@ -232,9 +232,9 @@ See `REFERENCE.md` for metric calculation formulas and export specifications.
 ## Integration
 
 **State Files Used**:
-- `.spec-memory/WORKFLOW-PROGRESS.md` (primary source)
-- `.spec-state/current-session.md` (current context)
-- `.spec-memory/CHANGES-COMPLETED.md` (task details)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (primary source)
+- `{config.paths.state}/current-session.md` (current context)
+- `{config.paths.memory}/CHANGES-COMPLETED.md` (task details)
 
 See `shared/state-management.md` for file formats.
 

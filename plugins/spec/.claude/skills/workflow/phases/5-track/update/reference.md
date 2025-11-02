@@ -497,15 +497,15 @@ Brief description of proposed change.
 **Files that must stay in sync**:
 
 ```
-features/{id}/spec.md ←→ features/{id}/plan.md ←→ features/{id}/tasks.md
+{config.paths.features}/{id}/{config.naming.files.spec} ←→ {config.paths.features}/{id}/{config.naming.files.plan} ←→ {config.paths.features}/{id}/{config.naming.files.tasks}
                 ↓                     ↓                        ↓
-        .spec-memory/DECISIONS-LOG.md
+        {config.paths.memory}/DECISIONS-LOG.md
                         ↓
-        .spec-memory/WORKFLOW-PROGRESS.md
+        {config.paths.memory}/WORKFLOW-PROGRESS.md
                         ↓
-        .spec-memory/CHANGES-PLANNED.md
+        {config.paths.memory}/CHANGES-PLANNED.md
                         ↓
-        .spec-state/current-session.md
+        {config.paths.state}/current-session.md
 ```
 
 **Update sequence** (to maintain consistency):
@@ -545,7 +545,7 @@ features/{id}/spec.md ←→ features/{id}/plan.md ←→ features/{id}/tasks.md
 
 **Corrupted spec.md**:
 ```
-1. Check for checkpoint in .spec-state/checkpoints/
+1. Check for checkpoint in {config.paths.state}/checkpoints/
 2. Restore from most recent checkpoint
 3. Re-apply changes manually
 4. Validate format

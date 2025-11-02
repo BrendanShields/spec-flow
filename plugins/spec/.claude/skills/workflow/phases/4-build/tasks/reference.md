@@ -369,8 +369,8 @@ Before creating tasks.md, verify:
 ```python
 def validate_prerequisites():
     checks = [
-        ('spec.md exists', file_exists('features/{id}/spec.md')),
-        ('plan.md exists', file_exists('features/{id}/plan.md')),
+        ('spec.md exists', file_exists('{config.paths.features}/{id}/{config.naming.files.spec}')),
+        ('plan.md exists', file_exists('{config.paths.features}/{id}/{config.naming.files.plan}')),
         ('spec has user stories', has_user_stories('spec.md')),
         ('plan has technical approach', has_technical_sections('plan.md')),
         ('no blocking [CLARIFY] tags', no_clarify_tags('spec.md')),
@@ -469,7 +469,7 @@ def validate_tasks(tasks):
 ```python
 def update_changes_planned(feature_id, tasks):
     # Read existing file
-    content = read_file('.spec-memory/CHANGES-PLANNED.md')
+    content = read_file('{config.paths.memory}/CHANGES-PLANNED.md')
 
     # Find or create feature section
     if feature_section_exists(content, feature_id):
@@ -483,7 +483,7 @@ def update_changes_planned(feature_id, tasks):
     content = update_timestamp(content)
 
     # Write atomically
-    write_file('.spec-memory/CHANGES-PLANNED.md', content)
+    write_file('{config.paths.memory}/CHANGES-PLANNED.md', content)
 ```
 
 ## MCP Integration
@@ -547,10 +547,10 @@ Common MCP operations:
 
 **1. Plan not found**:
 ```
-Error: features/002-feature/plan.md not found
+Error: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} not found
 
 Recovery:
-1. Check current phase in .spec-state/current-session.md
+1. Check current phase in {config.paths.state}/current-session.md
 2. If phase < "planning", prompt: "Run spec:plan first"
 3. If phase >= "planning" but plan missing, error is critical
 4. Offer: "Regenerate plan with spec:plan --force"

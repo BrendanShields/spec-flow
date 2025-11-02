@@ -142,11 +142,11 @@ $ ls -la    # Shows files
 **Files Affected**:
 - `init/guide.md:41-53`: Uses relative paths without prefix
 - `discover/examples.md`: Uses absolute paths `/Users/dev/...`
-- `quick-start.md:36`: Uses relative paths with prefix `features/001-...`
+- `quick-start.md:36`: Uses relative paths with prefix `{config.paths.features}/001-...`
 
 **Recommendation**: Standardize to:
-- Project-relative paths: `features/###-name/spec.md`
-- Config paths: `.spec/product-requirements.md`
+- Project-relative paths: `{config.paths.features}/###-name/{config.naming.files.spec}`
+- Config paths: `{config.paths.spec_root}/product-requirements.md`
 - Never use absolute OS paths in examples
 
 ---
@@ -291,12 +291,12 @@ $ ls -la    # Shows files
 - `generate/guide.md:36`: "current session"
 
 **Patterns**:
-- `.spec-state/` = "session state" (directory)
+- `{config.paths.state}/` = "session state" (directory)
 - `current-session.md` = "session state file"
 - Process = "session tracking"
 
 **Recommendation**: Standardize to:
-- Directory: "session state" (`.spec-state/`)
+- Directory: "session state" (`{config.paths.state}/`)
 - File: "session state file" or "`current-session.md`"
 - Process: "session tracking"
 - Avoid: "current session" as noun
@@ -326,12 +326,12 @@ $ ls -la    # Shows files
 
 **Files Affected**:
 - `templates/artifacts/spec-template.md`: Template file
-- `features/###-name/spec.md`: Generated artifact
+- `{config.paths.features}/###-name/{config.naming.files.spec}`: Generated artifact
 - Documentation uses both "template" and "artifact" inconsistently
 
 **Recommendation**:
 - **Template**: Source file in `templates/` directory
-- **Artifact**: Generated file in `features/` directory
+- **Artifact**: Generated file in `{config.paths.features}/` directory
 - Never use interchangeably
 
 ---
@@ -521,7 +521,7 @@ $ ls -la    # Shows files
 ```markdown
 <!--
 USAGE: This template is used by /spec generate
-CUSTOMIZATION: Copy to .spec/templates/ in your project
+CUSTOMIZATION: Copy to {config.paths.spec_root}/templates/ in your project
 VARIABLES: {feature-id}, {feature-name}, {date}
 -->
 ```

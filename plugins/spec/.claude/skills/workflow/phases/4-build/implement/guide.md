@@ -11,11 +11,11 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 
 ## What This Skill Does
 
-- Reads task list from features/###-name/tasks.md
+- Reads task list from {config.paths.features}/###-name/{config.naming.files.tasks}
 - Identifies parallelizable tasks (marked with [P])
 - Delegates execution to spec:implementer subagent
-- Tracks progress in .spec-state/current-session.md
-- Moves completed tasks to .spec-memory/CHANGES-COMPLETED.md
+- Tracks progress in {config.paths.state}/current-session.md
+- Moves completed tasks to {config.paths.memory}/CHANGES-COMPLETED.md
 - Runs tests after implementation phases
 - Creates git commits (optional)
 - Supports resumption after interruption
@@ -31,8 +31,8 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 ## Execution Flow
 
 ### Phase 1: Validation
-1. Use Read to check features/###-name/tasks.md exists
-2. Use Read to verify .spec-state/current-session.md
+1. Use Read to check {config.paths.features}/###-name/{config.naming.files.tasks} exists
+2. Use Read to verify {config.paths.state}/current-session.md
 3. Parse task format: `- [ ] T### [P?] [US#] Description path/file.ext`
 4. Count pending tasks and identify filters (--filter=P1, --filter=US1)
 
@@ -43,7 +43,7 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 4. Calculate estimated completion time
 
 ### Phase 3: Delegation
-1. Use Write to create .spec/implementation-context.md with:
+1. Use Write to create {config.paths.spec_root}/implementation-context.md with:
    - Task list
    - Execution mode (serial/parallel)
    - Current phase
@@ -52,7 +52,7 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 3. Monitor progress (subagent updates current-session.md)
 
 ### Phase 4: Progress Tracking
-1. Use Read to monitor .spec-state/current-session.md for updates
+1. Use Read to monitor {config.paths.state}/current-session.md for updates
 2. Display real-time progress:
    ```
    Progress: ████████░░ 80% (12/15 tasks)
@@ -64,9 +64,9 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 
 ### Phase 5: Validation & Cleanup
 1. Use Read to check test results from subagent
-2. Move completed tasks to .spec-memory/CHANGES-COMPLETED.md using Edit
-3. Update .spec-memory/WORKFLOW-PROGRESS.md metrics
-4. Create checkpoint in .spec-state/checkpoints/
+2. Move completed tasks to {config.paths.memory}/CHANGES-COMPLETED.md using Edit
+3. Update {config.paths.memory}/WORKFLOW-PROGRESS.md metrics
+4. Create checkpoint in {config.paths.state}/checkpoints/
 5. Optional: Create git commit with completed changes
 
 ## Execution Modes
@@ -184,17 +184,17 @@ See CLAUDE.md for SPEC_IMPLEMENT_* configuration variables.
 
 ### Subagent Communication
 This skill delegates to spec:implementer subagent:
-- Input: .spec/implementation-context.md
-- Output: .spec/implementation.log, metrics.json
+- Input: {config.paths.spec_root}/implementation-context.md
+- Output: {config.paths.spec_root}/implementation.log, metrics.json
 - Progress: Updates current-session.md in real-time
 
 ### State Management
 See shared/state-management.md for state file structure.
 
 Progress tracked in:
-- `.spec-state/current-session.md` - Active progress
-- `.spec-memory/CHANGES-COMPLETED.md` - Completion log
-- `.spec-memory/WORKFLOW-PROGRESS.md` - Metrics
+- `{config.paths.state}/current-session.md` - Active progress
+- `{config.paths.memory}/CHANGES-COMPLETED.md` - Completion log
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` - Metrics
 
 ### Workflow Integration
 Follows workflow sequence:

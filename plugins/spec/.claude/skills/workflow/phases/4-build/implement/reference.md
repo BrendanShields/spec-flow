@@ -9,11 +9,11 @@ Technical implementation details, algorithms, and coordination protocols.
 ```
 spec:implement (skill)
     ↓ [Creates context file]
-.spec/implementation-context.md
+{config.paths.spec_root}/implementation-context.md
     ↓ [Invokes]
 spec:implementer (subagent)
     ↓ [Updates progress]
-.spec-state/current-session.md
+{config.paths.state}/current-session.md
     ↓ [Reads progress]
 spec:implement (skill)
     ↓ [Reports to user]
@@ -22,7 +22,7 @@ Real-time progress display
 
 ### Context File Format
 
-**`.spec/implementation-context.md`**:
+**`{config.paths.spec_root}/implementation-context.md`**:
 ```markdown
 # Implementation Context
 
@@ -42,7 +42,7 @@ Real-time progress display
 ## State
 - Current Feature: 001-feature-name
 - Current Phase: implementation
-- Checkpoint: .spec-state/checkpoints/latest.md
+- Checkpoint: {config.paths.state}/checkpoints/latest.md
 - Completed Tasks: [T001, T002, ...]
 - Failed Tasks: [T005: error details]
 

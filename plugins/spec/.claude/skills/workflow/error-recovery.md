@@ -54,7 +54,7 @@
 ```bash
 # Edit spec.md directly
 # Replace [CLARIFY: question] with actual decision
-# Document decision in .spec-memory/DECISIONS-LOG.md
+# Document decision in {config.paths.memory}/DECISIONS-LOG.md
 ```
 
 **Prevention**:
@@ -105,10 +105,10 @@
 **Solution C: Review and Fix**
 ```bash
 # 1. Check what failed
-cat .spec-state/current-session.md
+cat {config.paths.state}/current-session.md
 
 # 2. Look at error logs
-cat .spec-state/implementation-errors.log
+cat {config.paths.state}/implementation-errors.log
 
 # 3. Fix code manually
 # 4. Mark task complete
@@ -159,7 +159,7 @@ cat .spec-state/implementation-errors.log
 **Solution: Full Regeneration** (if massive changes)
 ```bash
 # 1. Archive current work
-mv features/003-feature features/003-feature.old
+mv {config.paths.features}/003-feature {config.paths.features}/003-feature.old
 
 # 2. Start fresh
 /spec generate "Revised feature description"
@@ -218,17 +218,17 @@ Need more detail? Read phases/3-design/README.md
 ### Problem 5: Session State Corrupted or Lost
 
 **Symptoms**:
-- `.spec-state/current-session.md` missing or corrupted
+- `{config.paths.state}/current-session.md` missing or corrupted
 - Workflow doesn't recognize current feature
 - "Session not found" errors
 
 **Solution A: Restore from Checkpoint** ⭐ **If checkpoints exist**
 ```bash
 # List available checkpoints
-ls .spec-state/checkpoints/
+ls {config.paths.state}/checkpoints/
 
 # Restore most recent
-cp .spec-state/checkpoints/latest.md .spec-state/current-session.md
+cp {config.paths.state}/checkpoints/latest.md {config.paths.state}/current-session.md
 
 # Verify restoration
 /spec status
@@ -237,10 +237,10 @@ cp .spec-state/checkpoints/latest.md .spec-state/current-session.md
 **Solution B: Reconstruct from Artifacts**
 ```bash
 # 1. Check what artifacts exist
-ls features/003-*/
+ls {config.paths.features}/003-*/
 
 # 2. Manually create session state
-cat > .spec-state/current-session.md << 'EOF'
+cat > {config.paths.state}/current-session.md << 'EOF'
 ## Active Work
 ### Current Feature
 - **Feature ID**: 003
@@ -269,11 +269,11 @@ mv .spec-state .spec-state.backup
 /spec init
 
 # Manually restore feature context
-# Copy artifacts from features/ back into place
+# Copy artifacts from {config.paths.features}/ back into place
 ```
 
 **Prevention**:
-- Commit .spec-memory/ regularly (not .spec-state/)
+- Commit {config.paths.memory}/ regularly (not {config.paths.state}/)
 - Use checkpoints: workflow creates them automatically
 - Back up before major changes
 
@@ -350,7 +350,7 @@ mv .spec-state .spec-state.backup
 **Solution: Regenerate Specific Artifact**
 ```bash
 # Backup current version
-cp features/003-auth/plan.md features/003-auth/plan.md.backup
+cp {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}.backup
 
 # Regenerate
 /spec plan --force
@@ -387,7 +387,7 @@ cp features/003-auth/plan.md features/003-auth/plan.md.backup
 **Solution A: Fix Tests** ⭐ **Recommended**
 ```bash
 # 1. Check test output
-cat .spec-state/test-results.log
+cat {config.paths.state}/test-results.log
 
 # 2. Fix failing tests manually
 # Debug and correct code
@@ -446,7 +446,7 @@ npm test  # or pytest, go test, etc.
 **Solution B: Clear Context**
 ```bash
 # Start new conversation
-# State loaded from .spec-state/ automatically
+# State loaded from {config.paths.state}/ automatically
 
 "Continue my workflow from where I left off"
 # Workflow will read state and resume
@@ -475,7 +475,7 @@ npm test  # or pytest, go test, etc.
 **Full Message**:
 ```
 Error: Session state not found
-.spec-state/current-session.md does not exist
+{config.paths.state}/current-session.md does not exist
 ```
 
 **Meaning**: Workflow not initialized in this project
@@ -494,7 +494,7 @@ Error: Session state not found
 **Full Message**:
 ```
 Error: Feature not found: 003
-features/003-* directory does not exist
+{config.paths.features}/003-* directory does not exist
 ```
 
 **Meaning**: Trying to work on non-existent feature
@@ -502,7 +502,7 @@ features/003-* directory does not exist
 **Fix**:
 ```bash
 # Check existing features
-ls features/
+ls {config.paths.features}/
 
 # If feature should exist, check feature ID
 # Might be 002 or 004, not 003
@@ -629,18 +629,18 @@ Warning: Cannot resolve [CLARIFY] tags
 - Every 30 minutes during long-running tasks
 - Before potentially destructive operations
 
-**Checkpoint Location**: `.spec-state/checkpoints/`
+**Checkpoint Location**: `{config.paths.state}/checkpoints/`
 
 **Restore Checkpoint**:
 ```bash
 # List checkpoints
-ls -lt .spec-state/checkpoints/
+ls -lt {config.paths.state}/checkpoints/
 
 # View checkpoint
-cat .spec-state/checkpoints/2025-11-01-14-30.md
+cat {config.paths.state}/checkpoints/2025-11-01-14-30.md
 
 # Restore specific checkpoint
-cp .spec-state/checkpoints/2025-11-01-14-30.md .spec-state/current-session.md
+cp {config.paths.state}/checkpoints/2025-11-01-14-30.md {config.paths.state}/current-session.md
 
 # Verify
 /spec status
@@ -654,7 +654,7 @@ cp .spec-state/checkpoints/2025-11-01-14-30.md .spec-state/current-session.md
 
 ```bash
 # 1. Determine what artifacts exist
-ls features/003-*/
+ls {config.paths.features}/003-*/
 # Outputs: spec.md, plan.md, tasks.md (if they exist)
 
 # 2. Determine current phase from artifacts
@@ -663,7 +663,7 @@ ls features/003-*/
 # - + tasks.md → Phase 4 (ready to implement)
 
 # 3. Reconstruct session state
-cat > .spec-state/current-session.md << 'EOF'
+cat > {config.paths.state}/current-session.md << 'EOF'
 ## Active Work
 ### Current Feature
 - **Feature ID**: 003
@@ -688,14 +688,14 @@ EOF
 
 ### Recovery from Git
 
-**If you have committed .spec-memory/:**
+**If you have committed {config.paths.memory}/:**
 
 ```bash
 # View workflow progress from memory
-cat .spec-memory/WORKFLOW-PROGRESS.md
+cat {config.paths.memory}/WORKFLOW-PROGRESS.md
 
 # View decisions made
-cat .spec-memory/DECISIONS-LOG.md
+cat {config.paths.memory}/DECISIONS-LOG.md
 
 # Reconstruct state from memory files
 # Use workflow progress to determine current phase
@@ -710,7 +710,7 @@ cat .spec-memory/DECISIONS-LOG.md
 
 **Problem**: "Directory already exists"
 ```bash
-Error: .spec/ directory already exists
+Error: {config.paths.spec_root}/ directory already exists
 Cannot initialize - already initialized
 ```
 
@@ -721,7 +721,7 @@ Cannot initialize - already initialized
 
 **Problem**: "Cannot create directories"
 ```bash
-Error: Permission denied creating .spec/
+Error: Permission denied creating {config.paths.spec_root}/
 ```
 
 **Fix**: Check permissions
@@ -742,7 +742,7 @@ chmod u+w .
 
 **Problem**: "Spec already exists for this feature"
 ```bash
-Error: features/003-auth/spec.md already exists
+Error: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} already exists
 ```
 
 **Fix (Option 1)**: Update existing spec
@@ -1035,15 +1035,15 @@ Cannot create duplicate
 
 ```bash
 # After spec
-git add features/003-*/spec.md
+git add {config.paths.features}/003-*/{config.naming.files.spec}
 git commit -m "feat: Add user auth spec"
 
 # After plan
-git add features/003-*/plan.md
+git add {config.paths.features}/003-*/{config.naming.files.plan}
 git commit -m "feat: Add user auth plan"
 
 # After tasks
-git add features/003-*/tasks.md
+git add {config.paths.features}/003-*/{config.naming.files.tasks}
 git commit -m "feat: Add user auth tasks"
 ```
 
@@ -1058,13 +1058,13 @@ git commit -m "feat: Add user auth tasks"
 **Manual**: Create before risky operations
 ```bash
 # Before major change
-cp .spec-state/current-session.md .spec-state/checkpoints/before-update.md
+cp {config.paths.state}/current-session.md {config.paths.state}/checkpoints/before-update.md
 
 # Make changes
 /spec update "Major changes"
 
 # If problems, restore
-cp .spec-state/checkpoints/before-update.md .spec-state/current-session.md
+cp {config.paths.state}/checkpoints/before-update.md {config.paths.state}/current-session.md
 ```
 
 ---
@@ -1109,7 +1109,7 @@ When something goes wrong:
 
 2. **Check Error Logs** ✓
    ```bash
-   cat .spec-state/errors.log
+   cat {config.paths.state}/errors.log
    ```
 
 3. **Validate Artifacts** ✓

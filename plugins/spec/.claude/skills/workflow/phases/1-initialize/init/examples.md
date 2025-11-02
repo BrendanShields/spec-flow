@@ -41,7 +41,7 @@ $ tree .spec*
 
 # Phase 4: Update .gitignore
 $ cat .gitignore
-.spec-state/
+{config.paths.state}/
 node_modules/
 dist/
 ```
@@ -54,7 +54,7 @@ dist/
 📝 6 files written
 🎯 Ready for: spec:specify "User Authentication"
 
-💡 Tip: Edit .spec/product-requirements.md first
+💡 Tip: Edit {config.paths.spec_root}/product-requirements.md first
 ```
 
 ---
@@ -139,7 +139,7 @@ docs/
 
 # Phase 2-3: Create local structure
 $ tree .spec
-.spec/
+{config.paths.spec_root}/
 ├── product-requirements.md
 ├── templates/
 │   └── feature-template.md    # Team-specific template
@@ -147,7 +147,7 @@ $ tree .spec
     └── config.sh
 
 # Phase 5: Team configuration
-$ cat .spec/scripts/config.sh
+$ cat {config.paths.spec_root}/scripts/config.sh
 ```
 ```bash
 #!/bin/bash
@@ -167,12 +167,12 @@ SPEC_REQUIRE_ADR="true"
 
 👥 Multi-team setup detected
 
-📁 Local structure: ./services/checkout/.spec/
+📁 Local structure: ./services/checkout/{config.paths.spec_root}/
 📝 Team config: CHKT project, ADRs required
 🎯 Next: spec:blueprint for service architecture
 
 💡 Root blueprint: ../../docs/architecture.md
-   Service blueprint: ./.spec/architecture-blueprint.md
+   Service blueprint: ./{config.paths.spec_root}/architecture-blueprint.md
 ```
 
 ---
@@ -199,7 +199,7 @@ scripts/
 ```
 ⚠️  Spec already initialized!
 
-Found: .spec/ directory (3 files)
+Found: {config.paths.spec_root}/ directory (3 files)
 
 Options:
 1. Validate structure: spec:validate
@@ -216,10 +216,10 @@ Choose an option or provide custom input:
 ⚠️  Forcing reinitialization...
 
 📦 Backed up existing: .spec.backup.2024-10-31/
-🗑️  Removed: .spec/, .spec-state/
+🗑️  Removed: {config.paths.spec_root}/, {config.paths.state}/
 ✅ Created fresh structure
 
-⚠️  Memory preserved: .spec-memory/ (contains history)
+⚠️  Memory preserved: {config.paths.memory}/ (contains history)
 
 🎯 Next: spec:specify to continue
 ```
@@ -307,8 +307,8 @@ Configuration options:
 
 ```bash
 # Creates custom template structure
-$ tree .spec/templates/
-.spec/templates/
+$ tree {config.paths.spec_root}/templates/
+{config.paths.spec_root}/templates/
 ├── feature-spec.md        # Custom spec template
 ├── feature-plan.md        # Custom plan template
 ├── adr-template.md        # ADR format
@@ -328,11 +328,11 @@ $ tree .spec/templates/
    - Confluence: Enabled
 
 🎯 Next steps:
-   1. Edit templates in .spec/templates/
+   1. Edit templates in {config.paths.spec_root}/templates/
    2. Create architecture blueprint: spec:blueprint
    3. Create first feature: spec:specify "Feature"
 
-📖 Template docs: .spec/templates/README.md
+📖 Template docs: {config.paths.spec_root}/templates/README.md
 ```
 
 ---
@@ -393,7 +393,7 @@ spec:specify "Feature Name"
 
 ## Troubleshooting
 
-**Issue**: "Permission denied creating .spec/"
+**Issue**: "Permission denied creating {config.paths.spec_root}/"
 - **Solution**: Check directory write permissions
 - **Command**: `ls -la | grep -E '(spec|\.git)'`
 
@@ -402,8 +402,8 @@ spec:specify "Feature Name"
 - **Recovery**: `spec:init --force` if validation fails
 
 **Issue**: "Git hooks not working"
-- **Solution**: Ensure `.spec/scripts/` has execute permissions
-- **Command**: `chmod +x .spec/scripts/*.sh`
+- **Solution**: Ensure `{config.paths.spec_root}/scripts/` has execute permissions
+- **Command**: `chmod +x {config.paths.spec_root}/scripts/*.sh`
 
 ---
 

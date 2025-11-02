@@ -29,9 +29,9 @@ Create comprehensive technical plan from specification with architecture decisio
 ## Execution Flow
 
 ### Phase 1: Context Loading
-1. Read `.spec-state/current-session.md` for active feature
-2. Read `features/###-feature-name/spec.md` for requirements
-3. Load `.spec-memory/DECISIONS-LOG.md` for existing ADRs
+1. Read `{config.paths.state}/current-session.md` for active feature
+2. Read `{config.paths.features}/###-feature-name/{config.naming.files.spec}` for requirements
+3. Load `{config.paths.memory}/DECISIONS-LOG.md` for existing ADRs
 4. Check project's `CLAUDE.md` for tech stack constraints
 
 ### Phase 2: Technical Research
@@ -55,12 +55,12 @@ Create comprehensive technical plan from specification with architecture decisio
 3. Include code snippets and examples where helpful
 
 ### Phase 4: State Updates
-1. Update `.spec-state/current-session.md`:
+1. Update `{config.paths.state}/current-session.md`:
    - Set phase to "planning"
    - Add plan.md artifact reference
-2. Append ADRs to `.spec-memory/DECISIONS-LOG.md`
-3. Update `.spec-memory/WORKFLOW-PROGRESS.md` with planning completion
-4. Create checkpoint: `.spec-state/checkpoints/YYYY-MM-DD-HH-MM.md`
+2. Append ADRs to `{config.paths.memory}/DECISIONS-LOG.md`
+3. Update `{config.paths.memory}/WORKFLOW-PROGRESS.md` with planning completion
+4. Create checkpoint: `{config.paths.state}/checkpoints/YYYY-MM-DD-HH-MM.md`
 
 ### Phase 5: MCP Integration (Optional)
 1. Detect MCP configuration (SPEC_ATLASSIAN_SYNC, etc.)
@@ -71,7 +71,7 @@ Create comprehensive technical plan from specification with architecture decisio
 ## Error Handling
 
 **Missing spec.md**:
-- Check if spec exists: `features/###-feature-name/spec.md`
+- Check if spec exists: `{config.paths.features}/###-feature-name/{config.naming.files.spec}`
 - If not found: "No specification found. Run spec:generate first."
 - Exit gracefully
 
@@ -132,8 +132,8 @@ Create comprehensive technical plan from specification with architecture decisio
 Plan created for Feature ###: [Feature Name]
 
 Files generated:
-  - features/###-feature-name/plan.md
-  - .spec-memory/DECISIONS-LOG.md (updated with ADRs)
+  - {config.paths.features}/###-feature-name/{config.naming.files.plan}
+  - {config.paths.memory}/DECISIONS-LOG.md (updated with ADRs)
 
 Architecture decisions documented:
   - ADR-###: [Technology choice]
@@ -165,15 +165,15 @@ Next steps:
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/plan-template.md` → `features/###-name/plan.md`
+- `templates/artifacts/plan-template.md` → `{config.paths.features}/###-name/{config.naming.files.plan}`
 
 **Purpose**: Provides structure for technical design with architecture decisions, data models, and implementation strategy
 
 **Optional Templates**:
-- `templates/integrations/openapi-template.yaml` → `features/###-name/openapi.yaml` (for API-focused features)
+- `templates/integrations/openapi-template.yaml` → `{config.paths.features}/###-name/openapi.yaml` (for API-focused features)
 
 **Customization**:
-1. Copy template to `.spec/templates/plan-template.md` in your project
+1. Copy template to `{config.paths.spec_root}/templates/plan-template.md` in your project
 2. Modify sections to match your architecture standards
 3. plan/ will automatically use your custom template
 

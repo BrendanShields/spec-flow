@@ -42,17 +42,17 @@ Is this a new project?
 ```
 
 ### Exit Criteria
-- [x] `.spec/` structure exists
+- [x] `{config.paths.spec_root}/` structure exists
 - [x] State management initialized
 - [x] Architecture documented (or consciously skipped)
 - [x] Team aligned on standards
 
 ### Artifacts Created
-- `.spec/product-requirements.md`
-- `.spec/architecture-blueprint.md` (if blueprint run)
-- `.spec-state/current-session.md`
-- `.spec-memory/WORKFLOW-PROGRESS.md`
-- `.spec-memory/DECISIONS-LOG.md`
+- `{config.paths.spec_root}/product-requirements.md`
+- `{config.paths.spec_root}/architecture-blueprint.md` (if blueprint run)
+- `{config.paths.state}/current-session.md`
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+- `{config.paths.memory}/DECISIONS-LOG.md`
 - `discovery/` reports (if discover run)
 
 ### Next Phase
@@ -68,7 +68,7 @@ Is this a new project?
 **Skills**: generate ⭐ CORE | clarify 🔧, checklist 🔧
 
 ### Entry Criteria
-- [ ] Phase 1 complete (`.spec/` initialized)
+- [ ] Phase 1 complete (`{config.paths.spec_root}/` initialized)
 - [ ] Feature idea or requirement identified
 - [ ] Product requirements understood
 
@@ -100,9 +100,9 @@ Have requirements?
 - [x] Stakeholders approved
 
 ### Artifacts Created
-- `features/NNN-feature-name/spec.md`
-- `features/NNN-feature-name/checklists/` (if checklist run)
-- Updated `.spec-memory/DECISIONS-LOG.md` (clarifications)
+- `{config.paths.features}/NNN-feature-name/{config.naming.files.spec}`
+- `{config.paths.features}/NNN-feature-name/checklists/` (if checklist run)
+- Updated `{config.paths.memory}/DECISIONS-LOG.md` (clarifications)
 
 ### Next Phase
 → Phase 3 (Design Solution)
@@ -146,9 +146,9 @@ spec:plan (create technical design)
 - [x] Team approved technical approach
 
 ### Artifacts Created
-- `features/NNN-feature-name/plan.md`
-- `.spec-memory/DECISIONS-LOG.md` (ADRs)
-- `.spec-state/analysis-report-{timestamp}.md` (if analyze run)
+- `{config.paths.features}/NNN-feature-name/{config.naming.files.plan}`
+- `{config.paths.memory}/DECISIONS-LOG.md` (ADRs)
+- `{config.paths.state}/analysis-report-{timestamp}.md` (if analyze run)
 
 ### Next Phase
 → Phase 4 (Build Feature)
@@ -194,10 +194,10 @@ spec:tasks (break down into tasks)
 - [x] Feature functional
 
 ### Artifacts Created
-- `features/NNN-feature-name/tasks.md`
+- `{config.paths.features}/NNN-feature-name/{config.naming.files.tasks}`
 - Implemented code changes
-- Updated `.spec-memory/CHANGES-COMPLETED.md`
-- Updated `.spec-state/current-session.md`
+- Updated `{config.paths.memory}/CHANGES-COMPLETED.md`
+- Updated `{config.paths.state}/current-session.md`
 
 ### Next Phase
 → Phase 5 (Track) OR new feature
@@ -242,8 +242,8 @@ Phase 5 is continuous throughout project lifecycle
 - `spec.md` (via spec:update)
 - `plan.md` (propagated from updates)
 - `tasks.md` (propagated from updates)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (metrics)
-- `.spec-state/checkpoints/` (orchestrate)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (metrics)
+- `{config.paths.state}/checkpoints/` (orchestrate)
 
 ---
 
@@ -271,7 +271,7 @@ Optional phases that can be skipped:
 
 ## State Tracking
 
-### Phase Indicators in `.spec-state/current-session.md`
+### Phase Indicators in `{config.paths.state}/current-session.md`
 
 ```markdown
 ## Active Work
@@ -292,7 +292,7 @@ Optional phases that can be skipped:
 - `implementation` - Phase 4 implementing
 - `complete` - Phase 4 done
 
-### Progress Tracking in `.spec-memory/WORKFLOW-PROGRESS.md`
+### Progress Tracking in `{config.paths.memory}/WORKFLOW-PROGRESS.md`
 
 ```markdown
 ### Active Features

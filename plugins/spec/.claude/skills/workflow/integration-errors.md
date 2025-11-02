@@ -81,7 +81,7 @@ Then re-run the command that failed:
 **Option 2**: Continue without integration
 ```bash
 # No action needed - workflow already continued
-# Local artifacts available in features/###-feature-name/
+# Local artifacts available in {config.paths.features}/###-feature-name/
 ```
 
 **Option 3**: Manual sync later
@@ -156,7 +156,7 @@ cat ~/.mcp/config.json
 **Example Recovery**:
 ```bash
 # 1. Check what failed
-cat .spec-state/current-session.md
+cat {config.paths.state}/current-session.md
 # Shows: "JIRA sync failed - authentication error"
 
 # 2. Generate new API token
@@ -456,7 +456,7 @@ Warning: spec.md created locally without JIRA link.
 ```bash
 # Copy template
 cp workflow/templates/integrations/jira-story-template.md \
-   .spec/templates/jira-story-template.md
+   {config.paths.spec_root}/templates/jira-story-template.md
 
 # Edit to match your JIRA configuration
 # Remove fields not in your project
@@ -473,7 +473,7 @@ cp workflow/templates/integrations/jira-story-template.md \
 **Option 3**: Manual creation
 ```bash
 # Create JIRA story manually from spec.md
-# Copy user story details from features/003-*/spec.md
+# Copy user story details from {config.paths.features}/003-*/{config.naming.files.spec}
 # Create story in JIRA UI or CLI
 ```
 
@@ -493,7 +493,7 @@ Story PROJ-101 created but not linked to epic.
 # In JIRA, search for PROJ-100
 
 # If missing, update spec.md with correct epic ID:
-nano features/003-*/spec.md
+nano {config.paths.features}/003-*/{config.naming.files.spec}
 # Update JIRA_EPIC_ID field
 
 # Retry sync
@@ -633,12 +633,12 @@ Review and fix before use.
 ```bash
 # Use OpenAPI validator
 npx @openapitools/openapi-generator-cli validate \
-  -i features/003-*/openapi.yaml
+  -i {config.paths.features}/003-*/openapi.yaml
 ```
 
 **Step 2**: Fix errors manually
 ```bash
-nano features/003-*/openapi.yaml
+nano {config.paths.features}/003-*/openapi.yaml
 # Add missing required fields
 # Fix schema syntax
 ```
@@ -701,25 +701,25 @@ Even if all integrations fail, these operations always succeed:
 #### 1. Local Artifact Creation
 ```bash
 /spec generate "Feature"
-→ features/003-feature/spec.md created ✓
+→ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} created ✓
 
 /spec plan
-→ features/003-feature/plan.md created ✓
+→ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} created ✓
 
 /spec tasks
-→ features/003-feature/tasks.md created ✓
+→ {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} created ✓
 ```
 
 #### 2. State Management
 ```bash
 # Session state tracking
-.spec-state/current-session.md updated ✓
+{config.paths.state}/current-session.md updated ✓
 
 # Decision logging
-.spec-memory/DECISIONS-LOG.md updated ✓
+{config.paths.memory}/DECISIONS-LOG.md updated ✓
 
 # Progress tracking
-.spec-memory/WORKFLOW-PROGRESS.md updated ✓
+{config.paths.memory}/WORKFLOW-PROGRESS.md updated ✓
 ```
 
 #### 3. Git Operations
@@ -728,7 +728,7 @@ Even if all integrations fail, these operations always succeed:
 git checkout -b feature/003-user-auth ✓
 
 # Commits
-git add features/003-*
+git add {config.paths.features}/003-*
 git commit -m "feat: Add user auth spec" ✓
 ```
 
@@ -753,7 +753,7 @@ git commit -m "feat: Add user auth spec" ✓
 /spec generate "User Authentication"
 
 Output:
-✓ spec.md created at features/003-user-authentication/spec.md
+✓ spec.md created at {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 ✗ JIRA sync failed: network timeout
   → Story not created in JIRA
   → Continue with local spec
@@ -767,7 +767,7 @@ Next: /spec plan
 /spec plan
 
 Output:
-✓ plan.md created at features/003-user-authentication/plan.md
+✓ plan.md created at {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
 ✗ Confluence publish failed: authentication error
   → Page not created in Confluence
   → Plan available locally
@@ -782,7 +782,7 @@ Next: /spec tasks
 
 Output:
 Phase 1: Initialize
-✓ .spec/ structure created
+✓ {config.paths.spec_root}/ structure created
 
 Phase 2: Generate Specification
 ✓ spec.md created
@@ -805,7 +805,7 @@ Phase 5: Implement
 Summary:
 ✓ Feature fully implemented locally
 ✗ No external syncing (integrations disabled)
-→ All artifacts in features/003-user-authentication/
+→ All artifacts in {config.paths.features}/{config.naming.feature_directory}/
 → Configure integrations to enable sync
 ```
 
@@ -892,7 +892,7 @@ Testing configured integrations...
 **Version Control**:
 ```bash
 # Commit local artifacts
-git add features/003-*
+git add {config.paths.features}/003-*
 git commit -m "feat: Add user auth feature"
 
 # Push to Git
@@ -948,7 +948,7 @@ Integrations:
 
 **Step 2**: Review error logs
 ```bash
-cat .spec-state/integration-errors.log
+cat {config.paths.state}/integration-errors.log
 
 Recent errors:
 2025-11-02 10:30:15 | JIRA | 401 Unauthorized | Check API token
@@ -1081,7 +1081,7 @@ JIRA: https://company.atlassian.net/browse/PROJ-123
 
 **Step 1**: Read local spec.md
 ```bash
-cat features/003-user-authentication/spec.md
+cat {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 ```
 
 **Step 2**: Extract user story details
@@ -1097,14 +1097,14 @@ jira issue create \
   --type=Story \
   --project=PROJ \
   --summary="User Authentication" \
-  --description="$(cat features/003-*/spec.md)" \
+  --description="$(cat {config.paths.features}/003-*/{config.naming.files.spec})" \
   --priority=High
 ```
 
 **Step 4**: Link story ID back to spec.md
 ```bash
 # Edit spec.md frontmatter
-nano features/003-user-authentication/spec.md
+nano {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 
 # Add:
 jira_id: PROJ-123
@@ -1126,7 +1126,7 @@ jira_url: https://company.atlassian.net/browse/PROJ-123
 
 **Step 3**: Link page ID back
 ```bash
-nano features/003-user-authentication/plan.md
+nano {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}
 
 # Add frontmatter:
 confluence_page_id: 789012
@@ -1206,7 +1206,7 @@ All features synced successfully.
 
 # Check status
 /spec status
-cat .spec-state/integration-errors.log
+cat {config.paths.state}/integration-errors.log
 ```
 
 ---

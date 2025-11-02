@@ -130,7 +130,7 @@ Epic: User Authentication (P1)
 **Functions**: init ⭐, discover 🔧, blueprint 🔧
 
 **Output**:
-- `.spec/` directory structure
+- `{config.paths.spec_root}/` directory structure
 - State tracking initialized
 - Architecture documented (optional)
 
@@ -268,7 +268,7 @@ Epic: User Authentication (P1)
 ## File Artifacts
 
 ### spec.md
-**Location**: `features/###-feature-name/spec.md`
+**Location**: `{config.paths.features}/###-feature-name/{config.naming.files.spec}`
 
 **Purpose**: Feature specification with user stories
 
@@ -290,7 +290,7 @@ Epic: User Authentication (P1)
 ---
 
 ### plan.md
-**Location**: `features/###-feature-name/plan.md`
+**Location**: `{config.paths.features}/###-feature-name/{config.naming.files.plan}`
 
 **Purpose**: Technical design and architecture decisions
 
@@ -313,7 +313,7 @@ Epic: User Authentication (P1)
 ---
 
 ### tasks.md
-**Location**: `features/###-feature-name/tasks.md`
+**Location**: `{config.paths.features}/###-feature-name/{config.naming.files.tasks}`
 
 **Purpose**: Executable task breakdown with dependencies
 
@@ -335,7 +335,7 @@ Epic: User Authentication (P1)
 ---
 
 ### product-requirements.md
-**Location**: `.spec/product-requirements.md`
+**Location**: `{config.paths.spec_root}/product-requirements.md`
 
 **Purpose**: High-level product vision and success metrics
 
@@ -356,7 +356,7 @@ Epic: User Authentication (P1)
 ---
 
 ### architecture-blueprint.md
-**Location**: `.spec/architecture-blueprint.md`
+**Location**: `{config.paths.spec_root}/architecture-blueprint.md`
 
 **Purpose**: Project-wide architecture standards
 
@@ -380,12 +380,12 @@ Epic: User Authentication (P1)
 
 ## State Management
 
-### .spec-state/
+### {config.paths.state}/
 **Full Name**: Spec State Directory
 
 **Purpose**: Session-specific temporary state tracking
 
-**Location**: `.spec-state/` in project root
+**Location**: `{config.paths.state}/` in project root
 
 **Git Status**: Git-ignored (temporary, not committed)
 
@@ -399,16 +399,16 @@ Epic: User Authentication (P1)
 
 **Why Git-Ignored**: Session-specific, not relevant to other developers or shared across sessions
 
-**See also**: [Session State](#session-state), [.spec-memory/](#spec-memory), [Checkpoint](#checkpoint)
+**See also**: [Session State](#session-state), [{config.paths.memory}/](#spec-memory), [Checkpoint](#checkpoint)
 
 ---
 
-### .spec-memory/
+### {config.paths.memory}/
 **Full Name**: Spec Memory Directory
 
 **Purpose**: Persistent project-wide state and history
 
-**Location**: `.spec-memory/` in project root
+**Location**: `{config.paths.memory}/` in project root
 
 **Git Status**: Committed (shared across team)
 
@@ -429,7 +429,7 @@ Epic: User Authentication (P1)
 ---
 
 ### Session State
-**Location**: `.spec-state/current-session.md`
+**Location**: `{config.paths.state}/current-session.md`
 
 **Purpose**: Track current session progress
 
@@ -461,12 +461,12 @@ Last Command: /spec implement --continue
 
 **Why Git-Ignored**: Session-specific, not relevant to other developers
 
-**See also**: [.spec-state/](#spec-state), [Persistent Memory](#persistent-memory), [State Transition](#state-transitions)
+**See also**: [{config.paths.state}/](#spec-state), [Persistent Memory](#persistent-memory), [State Transition](#state-transitions)
 
 ---
 
 ### Persistent Memory
-**Location**: `.spec-memory/`
+**Location**: `{config.paths.memory}/`
 
 **Purpose**: Project-wide persistent state and history
 
@@ -489,12 +489,12 @@ Last Command: /spec implement --continue
 
 **Why Committed**: Team knowledge, project history, onboarding resource
 
-**See also**: [.spec-memory/](#spec-memory), [WORKFLOW-PROGRESS.md](#workflow-progressmd), [DECISIONS-LOG.md](#decisions-logmd)
+**See also**: [{config.paths.memory}/](#spec-memory), [WORKFLOW-PROGRESS.md](#workflow-progressmd), [DECISIONS-LOG.md](#decisions-logmd)
 
 ---
 
 ### current-session.md
-**Location**: `.spec-state/current-session.md`
+**Location**: `{config.paths.state}/current-session.md`
 
 **Purpose**: Track active development session state
 
@@ -527,7 +527,7 @@ Last Command: /spec implement --continue
 ---
 
 ### WORKFLOW-PROGRESS.md
-**Location**: `.spec-memory/WORKFLOW-PROGRESS.md`
+**Location**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
 
 **Purpose**: Track feature completion and metrics across project
 
@@ -564,7 +564,7 @@ Last Command: /spec implement --continue
 ---
 
 ### DECISIONS-LOG.md
-**Location**: `.spec-memory/DECISIONS-LOG.md`
+**Location**: `{config.paths.memory}/DECISIONS-LOG.md`
 
 **Purpose**: Log architecture decisions and rationale
 
@@ -596,7 +596,7 @@ Last Command: /spec implement --continue
 ---
 
 ### CHANGES-PLANNED.md
-**Location**: `.spec-memory/CHANGES-PLANNED.md`
+**Location**: `{config.paths.memory}/CHANGES-PLANNED.md`
 
 **Purpose**: Track upcoming planned changes and tasks
 
@@ -626,7 +626,7 @@ Last Command: /spec implement --continue
 ---
 
 ### CHANGES-COMPLETED.md
-**Location**: `.spec-memory/CHANGES-COMPLETED.md`
+**Location**: `{config.paths.memory}/CHANGES-COMPLETED.md`
 
 **Purpose**: Archive completed changes and tasks
 
@@ -657,7 +657,7 @@ Last Command: /spec implement --continue
 ### Checkpoint
 **Definition**: Saved snapshot of session state at a point in time
 
-**Location**: `.spec-state/checkpoints/`
+**Location**: `{config.paths.state}/checkpoints/`
 
 **Purpose**: Enable recovery from interruptions or errors
 
@@ -667,7 +667,7 @@ Last Command: /spec implement --continue
 
 **Example**:
 ```
-.spec-state/checkpoints/
+{config.paths.state}/checkpoints/
 ├── 2024-01-15-14-30-pre-implement.json
 ├── 2024-01-15-15-45-mid-implementation.json
 └── 2024-01-15-16-30-task-batch-complete.json
@@ -677,7 +677,7 @@ Last Command: /spec implement --continue
 
 **Retention**: Typically kept for current session only (git-ignored)
 
-**See also**: [Session State](#session-state), [.spec-state/](#spec-state)
+**See also**: [Session State](#session-state), [{config.paths.state}/](#spec-state)
 
 ---
 
@@ -705,7 +705,7 @@ Last Command: /spec implement --continue
 ### State Transitions
 **Flow**: init → initialized → specification → planning → tasking → implementation → complete
 
-**Tracked in**: `.spec-state/current-session.md`
+**Tracked in**: `{config.paths.state}/current-session.md`
 
 **Example**:
 ```markdown
@@ -1264,7 +1264,7 @@ Priority: P1
 ### Template Customization
 **Definition**: Process of adapting templates to project-specific needs
 
-**Location**: `.spec/templates/`
+**Location**: `{config.paths.spec_root}/templates/`
 
 **Customizable Templates**:
 - `spec-template.md` - Feature specification
@@ -1289,7 +1289,7 @@ Priority: P1
 {A11Y_REQUIREMENTS}
 ```
 
-**Persistence**: Templates committed to `.spec/templates/`, used for all future features
+**Persistence**: Templates committed to `{config.paths.spec_root}/templates/`, used for all future features
 
 **See also**: [Template Variable](#template-variable), [Auto-loading](#auto-loading)
 
@@ -1298,7 +1298,7 @@ Priority: P1
 ### Auto-loading
 **Definition**: Automatic loading of templates and configurations during workflow functions
 
-**Mechanism**: Functions check `.spec/templates/` for custom templates, fall back to defaults
+**Mechanism**: Functions check `{config.paths.spec_root}/templates/` for custom templates, fall back to defaults
 
 **Files Auto-loaded**:
 - Template files (spec, plan, tasks)
@@ -1313,7 +1313,7 @@ Priority: P1
 - Zero-config for defaults
 
 **Override Hierarchy**:
-1. Project-specific template (`.spec/templates/`)
+1. Project-specific template (`{config.paths.spec_root}/templates/`)
 2. Plugin default template
 3. Built-in fallback
 
@@ -1347,7 +1347,7 @@ Priority: P1
    - `session-state-template.md`
    - `checkpoint-template.json`
 
-**Location**: Organized in `.spec/templates/{category}/`
+**Location**: Organized in `{config.paths.spec_root}/templates/{category}/`
 
 **Usage**: Functions load from appropriate category automatically
 
@@ -1613,8 +1613,8 @@ SPEC_CONFLICT_RESOLUTION=prompt  # vs auto, manual
 | spec.md | Feature specification file | [File Artifacts](#file-artifacts) |
 | plan.md | Technical design file | [File Artifacts](#file-artifacts) |
 | tasks.md | Task breakdown file | [File Artifacts](#file-artifacts) |
-| .spec-state/ | Session state directory | [State Management](#state-management) |
-| .spec-memory/ | Persistent memory directory | [State Management](#state-management) |
+| {config.paths.state}/ | Session state directory | [State Management](#state-management) |
+| {config.paths.memory}/ | Persistent memory directory | [State Management](#state-management) |
 | Agent | Autonomous AI worker | [Agent System](#agent-system) |
 | Subagent | Specialized delegated agent | [Agent System](#agent-system) |
 | Greenfield | New project from scratch | [Project Types](#project-types) |
@@ -1630,8 +1630,8 @@ SPEC_CONFLICT_RESOLUTION=prompt  # vs auto, manual
 - **{VARIABLE} Syntax**: [Markers & Tags](#markers--tags)
 - **[CLARIFY]**: [Markers & Tags](#markers--tags)
 - **[P] Parallel Marker**: [Markers & Tags](#markers--tags)
-- **.spec-memory/**: [State Management](#state-management)
-- **.spec-state/**: [State Management](#state-management)
+- **{config.paths.memory}/**: [State Management](#state-management)
+- **{config.paths.state}/**: [State Management](#state-management)
 - **ADR**: [Architecture Terms](#architecture-terms)
 - **Agent**: [Agent System](#agent-system)
 - **Agent Delegation**: [Agent System](#agent-system)

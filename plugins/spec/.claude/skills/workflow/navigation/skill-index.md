@@ -40,7 +40,7 @@ Quick reference to all 13 workflow skills organized by category and phase.
 ## By Category
 
 ### ⭐ Core Workflow (Required, Sequential)
-1. **spec:init** - Setup → `.spec/` structure
+1. **spec:init** - Setup → `{config.paths.spec_root}/` structure
 2. **spec:generate** - Define → `spec.md`
 3. **spec:plan** - Design → `plan.md`
 4. **spec:tasks** - Task → `tasks.md`
@@ -107,7 +107,7 @@ spec:metrics (view analytics anytime)
 **When**: Starting new project or adding Spec to existing code
 **Tools**: Read, Write, Bash, Grep
 **Inputs**: None (detects project type)
-**Outputs**: `.spec/`, `.spec-state/`, `.spec-memory/`
+**Outputs**: `{config.paths.spec_root}/`, `{config.paths.state}/`, `{config.paths.memory}/`
 **Next**: spec:discover (brownfield) or spec:blueprint (greenfield)
 
 ### spec:discover
@@ -122,8 +122,8 @@ spec:metrics (view analytics anytime)
 **Purpose**: Define project architecture and technical standards
 **When**: Need architecture documentation, team alignment
 **Tools**: Read, Write, Edit, WebSearch, Bash
-**Inputs**: `.spec/`, discovery reports (optional)
-**Outputs**: `.spec/architecture-blueprint.md`, ADRs
+**Inputs**: `{config.paths.spec_root}/`, discovery reports (optional)
+**Outputs**: `{config.paths.spec_root}/architecture-blueprint.md`, ADRs
 **Next**: spec:generate (start features)
 
 ### spec:generate
@@ -131,7 +131,7 @@ spec:metrics (view analytics anytime)
 **When**: Starting new feature development
 **Tools**: Read, Write, Edit, AskUserQuestion, WebSearch, Bash
 **Inputs**: Feature description, product requirements
-**Outputs**: `features/NNN-name/spec.md`, user stories (P1/P2/P3)
+**Outputs**: `{config.paths.features}/NNN-name/{config.naming.files.spec}`, user stories (P1/P2/P3)
 **Next**: spec:clarify (if [CLARIFY] tags) or spec:plan
 
 ### spec:clarify
@@ -194,7 +194,7 @@ spec:metrics (view analytics anytime)
 **Purpose**: View development analytics and progress
 **When**: Need progress report, sprint planning, process optimization
 **Tools**: Read, Bash
-**Inputs**: `.spec-memory/WORKFLOW-PROGRESS.md`
+**Inputs**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
 **Outputs**: Analytics dashboard, CSV/JSON exports
 **Next**: Use insights to optimize workflow
 

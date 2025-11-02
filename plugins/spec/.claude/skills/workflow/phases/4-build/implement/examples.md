@@ -26,7 +26,7 @@ spec:implement
 ### Execution Flow
 ```
 Phase 1: Parse Tasks
-- Loaded 8 tasks from features/001-auth/tasks.md
+- Loaded 8 tasks from {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
 - No [P] markers found → Serial execution
 - Grouped by user story: US1 (3), US2 (3), US3 (2)
 
@@ -301,7 +301,7 @@ Summary:
 - Total Duration: 3m 22s (across 2 sessions)
 
 Recovery Details:
-- Checkpoint: .spec-state/checkpoints/checkpoint-001.md
+- Checkpoint: {config.paths.state}/checkpoints/checkpoint-001.md
 - Failed Task: T007 (database migration)
 - Retry Successful: Yes (1 attempt)
 - Data Preserved: All previous work intact

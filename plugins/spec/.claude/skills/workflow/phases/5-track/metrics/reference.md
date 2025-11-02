@@ -127,7 +127,7 @@ Source: Session logs or manual tracking
 
 ### Primary Data Source: WORKFLOW-PROGRESS.md
 
-**Location**: `.spec-memory/WORKFLOW-PROGRESS.md`
+**Location**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
 
 **Required Sections**:
 ```markdown
@@ -155,7 +155,7 @@ Source: Session logs or manual tracking
 ### Velocity
 - Average Feature Duration: N days
 - Average Tasks per Feature: N
-- Sprint Velocity: N features/sprint
+- Sprint Velocity: N {config.paths.features}/sprint
 
 ### Quality
 - Test Coverage: N%
@@ -178,7 +178,7 @@ Source: Session logs or manual tracking
 
 ### Secondary Data Source: current-session.md
 
-**Location**: `.spec-state/current-session.md`
+**Location**: `{config.paths.state}/current-session.md`
 
 **Used For**:
 - Current feature context
@@ -193,7 +193,7 @@ Source: Session logs or manual tracking
 
 ### Tertiary Data Source: CHANGES-COMPLETED.md
 
-**Location**: `.spec-memory/CHANGES-COMPLETED.md`
+**Location**: `{config.paths.memory}/CHANGES-COMPLETED.md`
 
 **Used For**:
 - Task-level timing data
@@ -473,7 +473,7 @@ spec:metrics --verbose --category=quality --format=dashboard
 **Missing WORKFLOW-PROGRESS.md**:
 ```
 Error: Metrics data not found
-File: .spec-memory/WORKFLOW-PROGRESS.md
+File: {config.paths.memory}/WORKFLOW-PROGRESS.md
 
 Solution: Initialize Spec tracking
 Command: /spec init

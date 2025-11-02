@@ -29,11 +29,11 @@ Templates are pre-structured markdown files that provide consistent formatting f
 ### How the Workflow Uses Templates
 
 When you run workflow commands like `/spec generate`, the system:
-1. Checks for custom template in `.spec/templates/[template-name]`
+1. Checks for custom template in `{config.paths.spec_root}/templates/[template-name]`
 2. Falls back to plugin default in `workflow/templates/`
 3. Loads template content
 4. Replaces placeholders with actual values
-5. Writes output to target location (e.g., `features/###-name/spec.md`)
+5. Writes output to target location (e.g., `{config.paths.features}/###-name/{config.naming.files.spec}`)
 
 ### Template Categories
 
@@ -53,7 +53,7 @@ When you run workflow commands like `/spec generate`, the system:
 
 **Used by**: `spec:generate` (Phase 2: Define Requirements)
 
-**Output**: `features/###-feature-name/spec.md`
+**Output**: `{config.paths.features}/###-feature-name/{config.naming.files.spec}`
 
 **Auto-loaded**: Yes (every time generate/ runs)
 
@@ -70,7 +70,7 @@ When you run workflow commands like `/spec generate`, the system:
 **Customization**:
 ```bash
 # Copy to your project
-cp workflow/templates/artifacts/spec-template.md .spec/templates/spec-template.md
+cp workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/templates/spec-template.md
 
 # Edit sections, add project-specific requirements
 # generate/ will automatically use your version
@@ -93,7 +93,7 @@ cp workflow/templates/artifacts/spec-template.md .spec/templates/spec-template.m
 
 **Used by**: `spec:plan` (Phase 3: Design Solution)
 
-**Output**: `features/###-feature-name/plan.md`
+**Output**: `{config.paths.features}/###-feature-name/{config.naming.files.plan}`
 
 **Auto-loaded**: Yes (when plan/ runs)
 
@@ -109,7 +109,7 @@ cp workflow/templates/artifacts/spec-template.md .spec/templates/spec-template.m
 **Customization**:
 ```bash
 # Copy template
-cp workflow/templates/artifacts/plan-template.md .spec/templates/plan-template.md
+cp workflow/templates/artifacts/plan-template.md {config.paths.spec_root}/templates/plan-template.md
 
 # Add sections for your architecture standards
 # E.g., add "Observability Strategy" section
@@ -121,7 +121,7 @@ cp workflow/templates/artifacts/plan-template.md .spec/templates/plan-template.m
 - Project artifacts (references to blueprints, contracts)
 - Blueprint alignment (architecture pattern adherence)
 - Project structure (source code organization)
-- .spec/ updates (approval workflow for shared docs)
+- {config.paths.spec_root}/ updates (approval workflow for shared docs)
 
 **Research integration**: This template works with the `spec:researcher` agent to include research-backed decisions.
 
@@ -131,7 +131,7 @@ cp workflow/templates/artifacts/plan-template.md .spec/templates/plan-template.m
 
 **Used by**: `spec:tasks` (Phase 4: Build Feature)
 
-**Output**: `features/###-feature-name/tasks.md`
+**Output**: `{config.paths.features}/###-feature-name/{config.naming.files.tasks}`
 
 **Auto-loaded**: Yes (when tasks/ runs)
 
@@ -145,7 +145,7 @@ cp workflow/templates/artifacts/plan-template.md .spec/templates/plan-template.m
 **Customization**:
 ```bash
 # Copy template
-cp workflow/templates/artifacts/tasks-template.md .spec/templates/tasks-template.md
+cp workflow/templates/artifacts/tasks-template.md {config.paths.spec_root}/templates/tasks-template.md
 
 # Customize task naming conventions (e.g., ST-Epic.Story.Task)
 # Add team-specific tracking fields
@@ -172,7 +172,7 @@ cp workflow/templates/artifacts/tasks-template.md .spec/templates/tasks-template
 
 **Used by**: `spec:init` (Phase 1: Initialize)
 
-**Output**: `.spec/product-requirements.md`
+**Output**: `{config.paths.spec_root}/product-requirements.md`
 
 **Auto-loaded**: Yes (during init/)
 
@@ -185,10 +185,10 @@ cp workflow/templates/artifacts/tasks-template.md .spec/templates/tasks-template
 **Customization**:
 ```bash
 # After init, edit directly
-nano .spec/product-requirements.md
+nano {config.paths.spec_root}/product-requirements.md
 
 # Or replace template before init
-cp your-prd-template.md .spec/templates/product-requirements-template.md
+cp your-prd-template.md {config.paths.spec_root}/templates/product-requirements-template.md
 ```
 
 **Template sections**:
@@ -212,7 +212,7 @@ cp your-prd-template.md .spec/templates/product-requirements-template.md
 
 **Used by**: `spec:blueprint` (Phase 1: Initialize - optional)
 
-**Output**: `.spec/architecture-blueprint.md`
+**Output**: `{config.paths.spec_root}/architecture-blueprint.md`
 
 **Auto-loaded**: Only when blueprint/ is explicitly run
 
@@ -228,10 +228,10 @@ cp your-prd-template.md .spec/templates/product-requirements-template.md
 /spec blueprint
 
 # Then edit
-nano .spec/architecture-blueprint.md
+nano {config.paths.spec_root}/architecture-blueprint.md
 
 # Or pre-customize template
-cp workflow/templates/project-setup/architecture-blueprint-template.md .spec/templates/
+cp workflow/templates/project-setup/architecture-blueprint-template.md {config.paths.spec_root}/templates/
 ```
 
 **Template sections**:
@@ -254,7 +254,7 @@ cp workflow/templates/project-setup/architecture-blueprint-template.md .spec/tem
 
 **Used by**: `spec:checklist` (Phase 2: Define Requirements - optional)
 
-**Output**: `features/###-feature-name/checklists/[type].md`
+**Output**: `{config.paths.features}/###-feature-name/checklists/[type].md`
 
 **Auto-loaded**: When checklist/ is explicitly run
 
@@ -269,7 +269,7 @@ cp workflow/templates/project-setup/architecture-blueprint-template.md .spec/tem
 **Customization**:
 ```bash
 # Copy template
-cp workflow/templates/quality/checklist-template.md .spec/templates/checklist-template.md
+cp workflow/templates/quality/checklist-template.md {config.paths.spec_root}/templates/checklist-template.md
 
 # Add team-specific checklist items
 # E.g., "Accessibility WCAG 2.1 AA compliance"
@@ -316,7 +316,7 @@ SPEC_JIRA_PROJECT_KEY=PROJ
 
 **Customization**: Modify template to match your JIRA custom fields:
 ```bash
-cp workflow/templates/integrations/jira-story-template.md .spec/templates/
+cp workflow/templates/integrations/jira-story-template.md {config.paths.spec_root}/templates/
 # Edit to add custom fields like "Sprint", "Team", etc.
 ```
 
@@ -346,7 +346,7 @@ SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
 
 **Customization**: Add Confluence-specific macros or formatting:
 ```bash
-cp workflow/templates/integrations/confluence-page.md .spec/templates/
+cp workflow/templates/integrations/confluence-page.md {config.paths.spec_root}/templates/
 # Add macros like {status}, {info}, etc.
 ```
 
@@ -356,7 +356,7 @@ cp workflow/templates/integrations/confluence-page.md .spec/templates/
 
 **Used by**: `spec:plan` (when API design detected)
 
-**Output**: `features/###-feature-name/openapi.yaml`
+**Output**: `{config.paths.features}/###-feature-name/openapi.yaml`
 
 **Auto-loaded**: Only when plan/ detects API endpoints in requirements
 
@@ -369,7 +369,7 @@ cp workflow/templates/integrations/confluence-page.md .spec/templates/
 
 **Customization**:
 ```bash
-cp workflow/templates/integrations/openapi-template.yaml .spec/templates/
+cp workflow/templates/integrations/openapi-template.yaml {config.paths.spec_root}/templates/
 
 # Add standard headers, authentication schemes
 # Customize schema definitions
@@ -385,7 +385,7 @@ cp workflow/templates/integrations/openapi-template.yaml .spec/templates/
 
 **Used by**: Subagent delegation (spec:implementer, spec:researcher, spec:analyzer)
 
-**Output**: `.spec-state/agent-context.md` (temporary)
+**Output**: `{config.paths.state}/agent-context.md` (temporary)
 
 **Auto-loaded**: Automatically when delegating to subagents
 
@@ -399,7 +399,7 @@ cp workflow/templates/integrations/openapi-template.yaml .spec/templates/
 
 **Customization**: Not typically customized (internal use), but can be modified for custom agents:
 ```bash
-cp workflow/templates/internal/agent-file-template.md .spec/templates/
+cp workflow/templates/internal/agent-file-template.md {config.paths.spec_root}/templates/
 # Modify for custom delegation patterns
 ```
 
@@ -463,21 +463,21 @@ ls workflow/templates/integrations/
 
 **Create custom templates directory** (if not exists):
 ```bash
-mkdir -p .spec/templates/
+mkdir -p {config.paths.spec_root}/templates/
 ```
 
 **Copy template**:
 ```bash
 # Example: Customize spec template
-cp workflow/templates/artifacts/spec-template.md .spec/templates/spec-template.md
+cp workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/templates/spec-template.md
 ```
 
 ### Step 3: Modify Template
 
 **Edit with your preferred editor**:
 ```bash
-nano .spec/templates/spec-template.md
-# Or: code .spec/templates/spec-template.md
+nano {config.paths.spec_root}/templates/spec-template.md
+# Or: code {config.paths.spec_root}/templates/spec-template.md
 ```
 
 **Common customizations**:
@@ -501,13 +501,13 @@ nano .spec/templates/spec-template.md
 **Workflow auto-detects custom template**:
 ```bash
 /spec generate "Test Feature"
-# Uses .spec/templates/spec-template.md if it exists
+# Uses {config.paths.spec_root}/templates/spec-template.md if it exists
 # Falls back to workflow/templates/artifacts/spec-template.md otherwise
 ```
 
 **Verify output**:
 ```bash
-cat features/001-test-feature/spec.md
+cat {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 # Check that your custom sections appear
 ```
 
@@ -528,11 +528,11 @@ cat features/001-test-feature/spec.md
 
 **Add to git**:
 ```bash
-git add .spec/templates/
+git add {config.paths.spec_root}/templates/
 git commit -m "feat: Add custom spec template with compliance section"
 ```
 
-**Team consistency**: Custom templates in `.spec/templates/` are shared across team.
+**Team consistency**: Custom templates in `{config.paths.spec_root}/templates/` are shared across team.
 
 ---
 
@@ -557,7 +557,7 @@ Available in **feature artifact templates** (spec, plan, tasks):
 | `{FEATURE_ID}` | "003" | Zero-padded feature number |
 | `{FEATURE_NAME}` | "user-authentication" | Kebab-case feature name |
 | `{BRANCH_NAME}` | "feature/003-user-authentication" | Git branch name |
-| `{SPEC_PATH}` | "features/003-user-authentication/spec.md" | Path to spec.md |
+| `{SPEC_PATH}` | "{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}" | Path to spec.md |
 
 ### Integration Variables
 
@@ -651,7 +651,7 @@ SPEC_AWS_REGION=us-east-1
 - **FR-001**: System MUST [capability]
 ```
 
-**Customized** (.spec/templates/spec-template.md):
+**Customized** ({config.paths.spec_root}/templates/spec-template.md):
 ```markdown
 ## Requirements
 
@@ -676,7 +676,7 @@ SPEC_AWS_REGION=us-east-1
 [Unit, integration, e2e test approach]
 ```
 
-**Customized** (.spec/templates/plan-template.md):
+**Customized** ({config.paths.spec_root}/templates/plan-template.md):
 ```markdown
 ## Testing Strategy
 [Unit, integration, e2e test approach]
@@ -711,7 +711,7 @@ SPEC_AWS_REGION=us-east-1
 - [ ] ST-1.1.1 Prepare environment
 ```
 
-**Customized** (.spec/templates/tasks-template.md):
+**Customized** ({config.paths.spec_root}/templates/tasks-template.md):
 ```markdown
 #### Sub Tasks
 - [ ] TASK-{FEATURE_ID}-001 Prepare environment
@@ -733,7 +733,7 @@ SPEC_AWS_REGION=us-east-1
 }
 ```
 
-**Customized** (.spec/templates/jira-story-template.md):
+**Customized** ({config.paths.spec_root}/templates/jira-story-template.md):
 ```markdown
 {
   "summary": "{STORY_TITLE}",
@@ -763,19 +763,19 @@ nano workflow/templates/artifacts/spec-template.md
 **✅ Do**:
 ```bash
 # Good: Copy to project and customize
-cp workflow/templates/artifacts/spec-template.md .spec/templates/
-nano .spec/templates/spec-template.md
+cp workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/templates/
+nano {config.paths.spec_root}/templates/spec-template.md
 ```
 
-**Why**: Plugin updates overwrite workflow templates. Your customizations should live in `.spec/templates/`.
+**Why**: Plugin updates overwrite workflow templates. Your customizations should live in `{config.paths.spec_root}/templates/`.
 
 ---
 
-### Keep Custom Templates in .spec/templates/
+### Keep Custom Templates in {config.paths.spec_root}/templates/
 
 **Project structure**:
 ```
-.spec/
+{config.paths.spec_root}/
 ├── templates/               ← Your customizations here
 │   ├── spec-template.md
 │   ├── plan-template.md
@@ -787,7 +787,7 @@ nano .spec/templates/spec-template.md
 **Git tracking**:
 ```bash
 # Commit custom templates
-git add .spec/templates/
+git add {config.paths.spec_root}/templates/
 git commit -m "docs: Add custom templates for team standards"
 ```
 
@@ -795,7 +795,7 @@ git commit -m "docs: Add custom templates for team standards"
 
 ### Document Customizations
 
-**Add README to .spec/templates/**:
+**Add README to {config.paths.spec_root}/templates/**:
 ```markdown
 # Custom Templates
 
@@ -823,7 +823,7 @@ All specs must include:
 
 **Track changes**:
 ```bash
-git add .spec/templates/
+git add {config.paths.spec_root}/templates/
 git commit -m "feat: Add observability section to plan template"
 ```
 
@@ -843,7 +843,7 @@ git push origin feat/update-templates
 **Create test feature**:
 ```bash
 /spec generate "Test Template Customization"
-# Verify output in features/001-test-template-customization/spec.md
+# Verify output in {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 ```
 
 **Validate**:
@@ -854,7 +854,7 @@ git push origin feat/update-templates
 
 **Clean up**:
 ```bash
-rm -rf features/001-test-template-customization/
+rm -rf {config.paths.features}/{config.naming.feature_directory}/
 # After confirming templates work
 ```
 
@@ -868,15 +868,15 @@ rm -rf features/001-test-template-customization/
 
 **Check**:
 1. File name matches exactly (e.g., `spec-template.md`, not `spec.md`)
-2. Location is `.spec/templates/` (not `.spec/template/` or `.spec-templates/`)
+2. Location is `{config.paths.spec_root}/templates/` (not `{config.paths.spec_root}/template/` or `.spec-templates/`)
 3. No syntax errors in template
 
 **Debug**:
 ```bash
-ls -la .spec/templates/
+ls -la {config.paths.spec_root}/templates/
 # Verify file exists
 
-cat .spec/templates/spec-template.md
+cat {config.paths.spec_root}/templates/spec-template.md
 # Check for syntax errors
 ```
 
@@ -914,10 +914,10 @@ ${FEATURE_ID}
 **Fix**:
 ```bash
 # Check markdown syntax
-cat .spec/templates/spec-template.md | markdown-lint
+cat {config.paths.spec_root}/templates/spec-template.md | markdown-lint
 
 # Compare with default
-diff workflow/templates/artifacts/spec-template.md .spec/templates/spec-template.md
+diff workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/templates/spec-template.md
 ```
 
 ---

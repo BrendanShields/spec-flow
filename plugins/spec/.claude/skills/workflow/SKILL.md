@@ -34,7 +34,7 @@ The Spec workflow consists of 5 main phases:
 **Purpose**: Set up project structure and architecture
 **Functions**: `/spec init`, `/spec discover`, `/spec blueprint`
 **When**: Starting new project or analyzing existing codebase
-**Output**: `.spec/` structure, architecture blueprint
+**Output**: `{config.paths.spec_root}/` structure, architecture blueprint
 **→ Next**: Phase 2 (Define Requirements)
 
 ### Phase 2: Define
@@ -67,7 +67,7 @@ The Spec workflow consists of 5 main phases:
 ## Context-Aware Navigation
 
 **Determine Current Phase**:
-1. Read `.spec-state/current-session.md`
+1. Read `{config.paths.state}/current-session.md`
 2. Extract current phase indicator
 3. Identify completed vs pending phases
 4. Show relevant next steps
@@ -84,7 +84,7 @@ The Spec workflow consists of 5 main phases:
 
 Read session state:
 ```
-Read .spec-state/current-session.md
+Read {config.paths.state}/current-session.md
 Extract: current_phase, current_feature, last_skill_run
 ```
 
@@ -112,6 +112,35 @@ If user needs more detail:
 - **Examples** → Load function examples.md
 - **Technical details** → Load function reference.md
 - **Complete map** → Load `navigation/workflow-map.md`
+
+## Configuration Access
+
+All paths are configurable via `.claude/.spec-config.yml`:
+
+**Available config variables**:
+- `{config.paths.spec_root}` - Default: `.spec`
+- `{config.paths.features}` - Default: `features`
+- `{config.paths.state}` - Default: `.spec-state`
+- `{config.paths.memory}` - Default: `.spec-memory`
+- `{config.paths.templates}` - Default: `.spec/templates`
+- `{config.naming.feature_directory}` - Default: `{id:000}-{slug}`
+- `{config.naming.files.spec}` - Default: `spec.md`
+- `{config.naming.files.plan}` - Default: `plan.md`
+- `{config.naming.files.tasks}` - Default: `tasks.md`
+
+**How to access in skills**:
+1. Session-init hook provides config in session context
+2. Read from `.claude/.spec-config.yml` directly if needed
+3. Use config variables in all path references
+
+**Example**:
+```bash
+# Read current feature spec
+Read {config.paths.features}/001-user-auth/{config.naming.files.spec}
+
+# Update session state
+Write {config.paths.state}/current-session.md
+```
 
 ## Quick Reference
 

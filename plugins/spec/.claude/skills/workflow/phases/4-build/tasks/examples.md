@@ -242,7 +242,7 @@ US1.2: T006 [P] ────────────────→ T007 → T00
 1. Review task breakdown for completeness
 2. Run `spec:implement` to start execution
 3. Begin with Group 1 parallel tasks
-4. Track progress in .spec-state/current-session.md
+4. Track progress in {config.paths.state}/current-session.md
 ```
 
 ---

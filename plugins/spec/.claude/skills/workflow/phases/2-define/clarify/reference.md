@@ -479,7 +479,7 @@ Authentication: JWT tokens with refresh token rotation
 1. spec.md exists and is readable
 2. Spec has required sections (User Stories, Acceptance Criteria)
 3. At least one ambiguity detected
-4. .spec-memory/DECISIONS-LOG.md exists
+4. {config.paths.memory}/DECISIONS-LOG.md exists
 ```
 
 ### Post-Clarification Validation
@@ -542,7 +542,7 @@ SPEC_CLARIFY_SKIP_P3=true
 
 ### Per-Project Configuration
 
-**In .spec/config.yml**:
+**In {config.paths.spec_root}/config.yml**:
 ```yaml
 clarify:
   max_questions: 4

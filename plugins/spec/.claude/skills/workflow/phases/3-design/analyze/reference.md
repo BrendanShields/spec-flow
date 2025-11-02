@@ -646,13 +646,13 @@ If spec:analyzer unavailable:
 SPEC_ANALYZE_STRICT_MODE=true           # Fail on any HIGH issues
 SPEC_ANALYZE_AUTO_FIX=false             # Don't auto-fix issues
 SPEC_ANALYZE_TERMINOLOGY_CLUSTERS=user  # Custom terminology
-SPEC_ANALYZE_SAVE_REPORTS=true          # Save to .spec-state/
+SPEC_ANALYZE_SAVE_REPORTS=true          # Save to {config.paths.state}/
 SPEC_ANALYZE_BLUEPRINT_REQUIRED=true    # Enforce blueprint
 ```
 
 **Custom Terminology**:
 ```yaml
-# .spec/terminology.yml
+# {config.paths.spec_root}/terminology.yml
 clusters:
   person:
     - user
@@ -717,12 +717,12 @@ spec:analyze --verbose         # Show all details
 
 **Missing Files**:
 ```python
-if not exists("features/{id}/spec.md"):
+if not exists("{config.paths.features}/{id}/{config.naming.files.spec}"):
     error("Specification not found")
     suggest("Run: spec:generate first")
     exit(1)
 
-if not exists("features/{id}/plan.md"):
+if not exists("{config.paths.features}/{id}/{config.naming.files.plan}"):
     error("Plan not found")
     suggest("Run: spec:plan first")
     exit(1)

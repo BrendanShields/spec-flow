@@ -10,7 +10,7 @@ Define project architecture and technical standards before feature development.
 
 ## What This Skill Does
 
-- Creates `.spec/architecture-blueprint.md` with complete architecture documentation
+- Creates `{config.paths.spec_root}/architecture-blueprint.md` with complete architecture documentation
 - Documents technology stack, design patterns, API conventions, data models
 - Analyzes existing codebases for brownfield projects to extract current architecture
 - Generates Architecture Decision Records (ADRs) for foundational choices
@@ -30,7 +30,7 @@ Define project architecture and technical standards before feature development.
 
 ### Phase 1: Context Analysis
 
-1. Check if `.spec/` exists (run `spec:init` if missing)
+1. Check if `{config.paths.spec_root}/` exists (run `spec:init` if missing)
 2. Determine project type:
    - **Greenfield**: New project, define ideal architecture
    - **Brownfield**: Existing code, analyze and document current state
@@ -42,7 +42,7 @@ Define project architecture and technical standards before feature development.
 
 ### Phase 2: Blueprint Creation
 
-Create `.spec/architecture-blueprint.md` with 8 sections:
+Create `{config.paths.spec_root}/architecture-blueprint.md` with 8 sections:
 
 **1. System Overview**
 - High-level architecture diagram (text-based)
@@ -92,17 +92,17 @@ Create `.spec/architecture-blueprint.md` with 8 sections:
 ### Phase 3: ADR Generation
 
 For each major architectural decision:
-1. Create ADR entry in `.spec-memory/DECISIONS-LOG.md`
+1. Create ADR entry in `{config.paths.memory}/DECISIONS-LOG.md`
 2. Document: decision, context, rationale, consequences, alternatives
 
 See `shared/state-management.md` for ADR format.
 
 ### Phase 4: State Update
 
-1. Update `.spec-memory/WORKFLOW-PROGRESS.md`:
+1. Update `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
    - Add Feature 000: Architecture Blueprint
    - Mark as completed
-2. Create checkpoint: Save to `.spec-state/checkpoints/`
+2. Create checkpoint: Save to `{config.paths.state}/checkpoints/`
 
 ### Phase 5: MCP Integration (Optional)
 
@@ -124,7 +124,7 @@ Guide user to:
 
 ## Error Handling
 
-**Missing .spec/**: Prompt user to run `spec:init` first
+**Missing {config.paths.spec_root}/**: Prompt user to run `spec:init` first
 
 **Brownfield analysis fails**: Fall back to interview mode, ask user about tech stack
 
@@ -138,7 +138,7 @@ Guide user to:
 ```
 Architecture Blueprint Created
 
-Location: .spec/architecture-blueprint.md
+Location: {config.paths.spec_root}/architecture-blueprint.md
 Type: [Greenfield/Brownfield]
 ADRs Created: 5 decisions logged
 
@@ -157,23 +157,23 @@ Sections:
 Next: Run `spec:generate "Your First Feature"` to begin development
 ```
 
-**File Created**: `.spec/architecture-blueprint.md`
+**File Created**: `{config.paths.spec_root}/architecture-blueprint.md`
 
 **State Updated**:
-- `.spec-memory/DECISIONS-LOG.md` (ADRs added)
-- `.spec-memory/WORKFLOW-PROGRESS.md` (Feature 000 complete)
+- `{config.paths.memory}/DECISIONS-LOG.md` (ADRs added)
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 complete)
 
 ## Templates Used
 
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/project-setup/architecture-blueprint-template.md` → `.spec/architecture-blueprint.md`
+- `templates/project-setup/architecture-blueprint-template.md` → `{config.paths.spec_root}/architecture-blueprint.md`
 
 **Purpose**: Provides comprehensive structure for documenting project architecture, technical standards, and ADRs
 
 **Customization**:
-1. Copy template to `.spec/templates/architecture-blueprint-template.md` in your project
+1. Copy template to `{config.paths.spec_root}/templates/architecture-blueprint-template.md` in your project
 2. Modify sections to match your organization's architecture documentation standards
 3. Add/remove sections as needed for your tech stack
 

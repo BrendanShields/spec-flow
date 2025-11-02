@@ -43,7 +43,7 @@ SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
    - description: formatted with acceptance criteria
    - priority: map P1→High, P2→Medium, P3→Low
 4. Store returned issue key in spec metadata
-5. Update .spec-memory/WORKFLOW-PROGRESS.md with link
+5. Update {config.paths.memory}/WORKFLOW-PROGRESS.md with link
 ```
 
 ```markdown
@@ -57,7 +57,7 @@ SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
    - title: "[Feature Name] Technical Plan"
    - content: formatted plan with sections
 4. Store returned page URL in plan metadata
-5. Update .spec-memory/DECISIONS-LOG.md with link
+5. Update {config.paths.memory}/DECISIONS-LOG.md with link
 ```
 
 ### Linear
@@ -85,7 +85,7 @@ SPEC_LINEAR_TEAM_ID=TEAM123
      - description: task details
      - priority: map P1→Urgent, P2→High, P3→Normal
 3. Store returned issue IDs in tasks metadata
-4. Track in .spec-memory/CHANGES-PLANNED.md
+4. Track in {config.paths.memory}/CHANGES-PLANNED.md
 ```
 
 ### GitHub

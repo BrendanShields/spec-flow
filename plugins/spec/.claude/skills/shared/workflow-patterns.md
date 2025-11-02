@@ -31,27 +31,27 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 **Workflow**:
 ```
 1. spec:generate "Add user authentication system"
-   → Creates features/001-user-auth/spec.md
+   → Creates {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}
 
 2. spec:clarify (if needed)
    → Resolves any [CLARIFY] tags from spec
 
 3. spec:plan
-   → Creates features/001-user-auth/plan.md with technical design
+   → Creates {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} with technical design
 
 4. spec:tasks
-   → Creates features/001-user-auth/tasks.md with breakdown
+   → Creates {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} with breakdown
 
 5. spec:implement
    → Executes tasks, marks complete in CHANGES-COMPLETED.md
 ```
 
 **Files Created**:
-- `features/001-user-auth/spec.md` (requirements)
-- `features/001-user-auth/plan.md` (technical design)
-- `features/001-user-auth/tasks.md` (task list)
-- `.spec-memory/DECISIONS-LOG.md` (updated)
-- `.spec-memory/CHANGES-COMPLETED.md` (updated)
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}` (requirements)
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}` (technical design)
+- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}` (task list)
+- `{config.paths.memory}/DECISIONS-LOG.md` (updated)
+- `{config.paths.memory}/CHANGES-COMPLETED.md` (updated)
 
 ### Pattern 2: Project Initialization (Brownfield)
 
@@ -60,7 +60,7 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 **Workflow**:
 ```
 1. spec:init --existing
-   → Analyzes codebase, creates .spec/ structure
+   → Analyzes codebase, creates {config.paths.spec_root}/ structure
 
 2. spec:discover
    → Deep analysis of existing patterns, tech debt
@@ -73,9 +73,9 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 ```
 
 **Files Created**:
-- `.spec/product-requirements.md`
-- `.spec/architecture-blueprint.md`
-- `.spec-memory/*` (state tracking)
+- `{config.paths.spec_root}/product-requirements.md`
+- `{config.paths.spec_root}/architecture-blueprint.md`
+- `{config.paths.memory}/*` (state tracking)
 
 ### Pattern 3: Requirements Update
 
@@ -130,11 +130,11 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 ```
 # Feature A
 1. spec:generate "Add search functionality"
-   → Creates features/002-search/
+   → Creates {config.paths.features}/{config.naming.feature_directory}/
 
 # Feature B (parallel)
 2. spec:generate "Add notification system"
-   → Creates features/003-notifications/
+   → Creates {config.paths.features}/{config.naming.feature_directory}/
 
 # Complete Feature A
 3. spec:plan (for feature 002)
@@ -148,8 +148,8 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 ```
 
 **State Management**:
-- `.spec-state/current-session.md` tracks active feature
-- `.spec-memory/WORKFLOW-PROGRESS.md` tracks all features
+- `{config.paths.state}/current-session.md` tracks active feature
+- `{config.paths.memory}/WORKFLOW-PROGRESS.md` tracks all features
 - Each feature has independent directory
 
 ## Common Sub-Patterns
@@ -160,7 +160,7 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 
 ```markdown
 1. Save current phase checkpoint
-   - Write to .spec-state/checkpoints/
+   - Write to {config.paths.state}/checkpoints/
 
 2. Update session state
    - Update current-session.md with new phase
@@ -257,11 +257,11 @@ spec:init → spec:generate → spec:plan → spec:tasks → spec:implement
 
 ```markdown
 1. Load session state
-   - Read .spec-state/current-session.md
+   - Read {config.paths.state}/current-session.md
    - Extract: current feature, current phase, active tasks
 
 2. Load workflow progress
-   - Read .spec-memory/WORKFLOW-PROGRESS.md
+   - Read {config.paths.memory}/WORKFLOW-PROGRESS.md
    - Extract: all features, completion status
 
 3. Load relevant artifacts

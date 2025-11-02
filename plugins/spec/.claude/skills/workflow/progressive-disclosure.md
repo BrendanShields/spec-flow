@@ -419,8 +419,8 @@ The workflow router caches session state to avoid redundant loading:
 **On first invocation in session**:
 ```bash
 /spec generate
-# Reads: .spec-state/current-session.md
-# Reads: .spec-memory/WORKFLOW-PROGRESS.md
+# Reads: {config.paths.state}/current-session.md
+# Reads: {config.paths.memory}/WORKFLOW-PROGRESS.md
 # Caches state in memory
 ```
 

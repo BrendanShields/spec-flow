@@ -119,7 +119,7 @@ Create `checklists/README.md`:
 
 **Directory Structure**:
 ```
-features/###-feature-name/
+{config.paths.features}/###-feature-name/
 ├── spec.md
 └── checklists/
     ├── README.md          # Summary and instructions
@@ -165,12 +165,12 @@ See examples.md for:
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/quality/checklist-template.md` → `features/###-name/checklists/*.md`
+- `templates/quality/checklist-template.md` → `{config.paths.features}/###-name/checklists/*.md`
 
 **Purpose**: Provides domain-specific quality validation checklists (UX, API, Security, Performance)
 
 **Customization**:
-1. Copy template to `.spec/templates/checklist-template.md` in your project
+1. Copy template to `{config.paths.spec_root}/templates/checklist-template.md` in your project
 2. Modify quality dimensions to match your standards (e.g., add accessibility, localization)
 3. checklist/ will use your custom template for all generated checklists
 
@@ -182,10 +182,10 @@ This function uses the following templates:
 - Custom quality dimensions
 
 **Generated files** (based on feature domain):
-- `features/###-name/checklists/ux-checklist.md`
-- `features/###-name/checklists/api-checklist.md`
-- `features/###-name/checklists/security-checklist.md`
-- `features/###-name/checklists/performance-checklist.md`
+- `{config.paths.features}/###-name/checklists/ux-checklist.md`
+- `{config.paths.features}/###-name/checklists/api-checklist.md`
+- `{config.paths.features}/###-name/checklists/security-checklist.md`
+- `{config.paths.features}/###-name/checklists/performance-checklist.md`
 
 **See also**: `templates/README.md` for complete template documentation
 
