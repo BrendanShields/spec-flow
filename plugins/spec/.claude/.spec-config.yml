@@ -1,0 +1,78 @@
+# Spec Workflow Configuration v3.1.0
+#
+# This file was auto-generated with smart defaults based on your project.
+# Feel free to customize paths, naming conventions, and workflow preferences.
+#
+# Documentation: See plugins/spec/docs/CONFIGURATION.md
+#
+
+version: "3.1.0"
+
+# Directory paths (relative to project root)
+paths:
+  spec_root: ".spec"              # Product requirements, blueprints
+  features: "features"            # Feature specifications
+  state: ".spec-state"            # Session state (gitignored)
+  memory: ".spec-memory"          # Persistent memory (committed)
+  templates: ".spec/templates"    # Custom templates
+
+# Naming conventions
+naming:
+  # Feature directory pattern - variables: {id:000}, {id}, {slug}
+  # Examples:
+  #   {id:000}-{slug} → 001-user-authentication
+  #   {slug}-{id}     → user-authentication-1
+  #   {team}/{id}     → platform/42
+  feature_directory: "{id:000}-{slug}"
+
+  # Terminology (customize for your domain)
+  # Examples: "feature", "story", "epic", "ticket", "task"
+  feature_singular: "feature"     # "Create a new feature"
+  feature_plural: "features"      # "List all features"
+
+  # Artifact filenames
+  files:
+    spec: "spec.md"
+    plan: "plan.md"
+    tasks: "tasks.md"
+
+# Auto-detected project info (can override)
+project:
+  type: "app"                     # app | library | monorepo | microservice
+  language: "typescript"          # Detected from package.json, tsconfig.json
+  framework: "nextjs"             # Detected from config files
+  build_tool: "turbo"             # Detected from turbo.json, etc.
+
+# Agent behavior
+agents:
+  implementer:
+    strategy: "parallel"          # parallel | sequential | adaptive
+    max_parallel: 3               # Max concurrent tasks
+    timeout: 1800                 # seconds (30 minutes)
+    retry_attempts: 3
+
+  researcher:
+    confidence_threshold: 0.75    # Min confidence for auto-decisions (0-1)
+    cache_ttl: 86400             # seconds (24 hours)
+
+  analyzer:
+    validation_depth: "standard"  # quick | standard | deep
+    auto_fix: false              # Require manual review for fixes
+
+# Optional integrations
+integrations:
+  jira:
+    enabled: false
+    project_key: ""
+    server_url: ""
+
+  confluence:
+    enabled: false
+    space_key: ""
+    root_page_id: ""
+
+# Workflow preferences
+workflow:
+  auto_checkpoint: true           # Auto-save session state
+  validate_on_save: true          # Validate before completing phases
+  progressive_disclosure: true    # Load examples only when needed

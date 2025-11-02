@@ -88,6 +88,60 @@ Hub command reads state files once and caches for entire execution:
 
 ---
 
+## ⚙️ Configuration
+
+### Zero-Config Experience
+
+Spec auto-configures on first run with smart defaults:
+
+```yaml
+✨ Created .claude/.spec-config.yml with auto-detected settings
+   Project: app (TypeScript + Next.js + Turbo)
+
+   You can customize paths and naming by editing .claude/.spec-config.yml
+```
+
+**No configuration required** - Spec detects your:
+- Project type (app, library, monorepo, microservice)
+- Language (TypeScript, JavaScript, Python, Go, Rust)
+- Framework (Next.js, React, Vue, Angular, etc.)
+- Build tools (Turbo, Vite, Webpack, etc.)
+
+### Customizing Paths & Naming
+
+Edit `.claude/.spec-config.yml` to customize:
+
+```yaml
+# Customize where features are stored
+paths:
+  features: "src/features"  # instead of "features"
+  spec_root: ".project-spec"
+
+# Customize terminology for your domain
+naming:
+  feature_singular: "story"  # instead of "feature"
+  feature_plural: "stories"
+  feature_directory: "{id:000}-{slug}"  # → 001-user-auth
+
+# Control agent behavior
+agents:
+  implementer:
+    max_parallel: 5        # More parallel tasks
+    strategy: "adaptive"   # Smart parallelization
+```
+
+Changes apply immediately on next session.
+
+**Common Customizations**:
+- **Monorepo**: `features: "packages/*/specs"`
+- **Existing project**: Match your directory structure
+- **Team standard**: Enforce naming conventions
+- **JIRA integration**: Auto-create and sync tickets
+
+**Full Guide**: See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for complete reference.
+
+---
+
 ## 📖 Core Concepts
 
 ### Workflow Phases

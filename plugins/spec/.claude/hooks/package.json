@@ -1,0 +1,13 @@
+{
+  "name": "@spec/hooks",
+  "version": "3.1.0",
+  "description": "Spec workflow hooks for Claude Code",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
