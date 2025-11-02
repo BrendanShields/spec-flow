@@ -18,7 +18,7 @@ Resolve underspecified areas in specifications through intelligent Q&A with best
 
 ## When to Use
 
-1. After spec:generate when [CLARIFY] tags present
+1. After Generate phase when [CLARIFY] tags present
 2. Specification contains vague terms ("fast", "scalable", "user-friendly")
 3. Multiple valid approaches need user preference
 4. Numerical values undefined (timeouts, limits, thresholds)
@@ -160,7 +160,7 @@ Clarifications completed: 4/7
 - CLR-004: File upload limit (10MB)
 
 Remaining ambiguities: 3 [CLARIFY] tags
-Run /spec-clarify again to resolve remaining items
+Run /workflow:spec → "🔍 Clarify" again to resolve remaining items
 ```
 
 ## Error Handling
@@ -206,7 +206,7 @@ Updated Files:
 - {config.paths.memory}/DECISIONS-LOG.md (4 new entries)
 
 Remaining: 3 [CLARIFY] tags
-Next: Run /spec-clarify again OR proceed to /spec-plan
+Next: Run /workflow:spec → "🔍 Clarify" again OR proceed to /workflow:spec → "🎨 Move to Design"
 ```
 
 ## Examples
@@ -217,8 +217,8 @@ See [examples.md](./examples.md) for detailed scenarios
 
 See [reference.md](./reference.md) for technical specifications
 
-## Related Skills
+## Related Workflow Phases
 
-- **spec:generate** - Creates initial specification (run before)
-- **spec:plan** - Generates technical plan (run after)
-- **spec:analyze** - Validates specification completeness
+- **Generate phase** - Creates initial specification (run before)
+- **Plan phase** - Generates technical plan (run after)
+- **Analyze phase** - Validates specification completeness

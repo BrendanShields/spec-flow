@@ -1,4 +1,4 @@
-# spec:init Examples
+# initialize phase Examples
 
 Complete scenarios demonstrating initialization in different project contexts.
 
@@ -52,7 +52,7 @@ dist/
 
 📁 Structure created
 📝 6 files written
-🎯 Ready for: spec:specify "User Authentication"
+🎯 Ready for: /workflow:spec → "📝 Define Feature" "User Authentication"
 
 💡 Tip: Edit {config.paths.spec_root}/product-requirements.md first
 ```
@@ -98,18 +98,18 @@ src/
 📝 6 files written
 
 🎯 Recommended next steps:
-   1. Run spec:discover to analyze existing architecture
-   2. Run spec:blueprint to document current patterns
-   3. Then spec:specify for new features
+   1. Run discover phase to analyze existing architecture
+   2. Run blueprint phase to document current patterns
+   3. Then /workflow:spec → "📝 Define Feature" for new features
 
-💡 Or skip analysis: spec:specify "New Feature"
+💡 Or skip analysis: /workflow:spec → "📝 Define Feature" "New Feature"
 ```
 
 **Follow-up**:
 ```
 User: "Analyze the existing code first"
 
-→ Automatically invoke spec:discover skill
+→ Automatically invoke discover phase skill
 ```
 
 ---
@@ -169,7 +169,7 @@ SPEC_REQUIRE_ADR="true"
 
 📁 Local structure: ./services/checkout/{config.paths.spec_root}/
 📝 Team config: CHKT project, ADRs required
-🎯 Next: spec:blueprint for service architecture
+🎯 Next: blueprint phase for service architecture
 
 💡 Root blueprint: ../../docs/architecture.md
    Service blueprint: ./{config.paths.spec_root}/architecture-blueprint.md
@@ -203,8 +203,8 @@ Found: {config.paths.spec_root}/ directory (3 files)
 
 Options:
 1. Validate structure: spec:validate
-2. Force reinitialize: spec:init --force (⚠️  overwrites files)
-3. Resume work: spec:specify "Feature Name"
+2. Force reinitialize: initialize phase --force (⚠️  overwrites files)
+3. Resume work: /workflow:spec → "📝 Define Feature" "Feature Name"
 
 Choose an option or provide custom input:
 ```
@@ -221,7 +221,7 @@ Choose an option or provide custom input:
 
 ⚠️  Memory preserved: {config.paths.memory}/ (contains history)
 
-🎯 Next: spec:specify to continue
+🎯 Next: /workflow:spec → "📝 Define Feature" to continue
 ```
 
 ---
@@ -254,7 +254,7 @@ Initialize git first:
   git add .
   git commit -m "Initial commit"
 
-Then run: spec:init
+Then run: initialize phase
 
 Continue anyway? (not recommended)
 [Yes] [No]
@@ -329,8 +329,8 @@ $ tree {config.paths.spec_root}/templates/
 
 🎯 Next steps:
    1. Edit templates in {config.paths.spec_root}/templates/
-   2. Create architecture blueprint: spec:blueprint
-   3. Create first feature: spec:specify "Feature"
+   2. Create architecture blueprint: blueprint phase
+   3. Create first feature: /workflow:spec → "📝 Define Feature" "Feature"
 
 📖 Template docs: {config.paths.spec_root}/templates/README.md
 ```
@@ -341,31 +341,31 @@ $ tree {config.paths.spec_root}/templates/
 
 ### Pattern 1: Quick Start (Greenfield)
 ```bash
-spec:init
+initialize phase
 # Edit product requirements
-spec:specify "First Feature"
+/workflow:spec → "📝 Define Feature" "First Feature"
 ```
 
 ### Pattern 2: Brownfield Analysis
 ```bash
-spec:init
-spec:discover              # Analyze existing code
-spec:blueprint            # Document architecture
-spec:specify "New Feature"
+initialize phase
+discover phase              # Analyze existing code
+blueprint phase            # Document architecture
+/workflow:spec → "📝 Define Feature" "New Feature"
 ```
 
 ### Pattern 3: Team Onboarding
 ```bash
-spec:init
+initialize phase
 # Configure team settings
-spec:blueprint            # Define guidelines
+blueprint phase            # Define guidelines
 # Share with team
 ```
 
 ### Pattern 4: Recovery
 ```bash
 spec:validate             # Check for issues
-spec:init --force         # Reinitialize if needed
+initialize phase --force         # Reinitialize if needed
 spec:resume               # Continue work
 ```
 
@@ -386,7 +386,7 @@ spec:validate
 spec:status
 
 # Start first feature
-spec:specify "Feature Name"
+/workflow:spec → "📝 Define Feature" "Feature Name"
 ```
 
 ---
@@ -399,7 +399,7 @@ spec:specify "Feature Name"
 
 **Issue**: "Already initialized but files missing"
 - **Solution**: Run `spec:validate` to check structure
-- **Recovery**: `spec:init --force` if validation fails
+- **Recovery**: `initialize phase --force` if validation fails
 
 **Issue**: "Git hooks not working"
 - **Solution**: Ensure `{config.paths.spec_root}/scripts/` has execute permissions

@@ -71,7 +71,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   # Add more endpoints as features are developed
-  # spec:plan may propose new endpoints here (requires user approval)
+  # Plan phase may propose new endpoints here (requires user approval)
 
 components:
   schemas:
@@ -226,7 +226,7 @@ security:
   - bearerAuth: []
 
 # Notes:
-# - This file may be updated by spec:plan when API changes are needed (requires user approval)
+# - This file may be updated by Plan phase when API changes are needed (requires user approval)
 # - Keep schemas aligned with .spec/data-models/entities.md where possible
 # - Follow API design guidelines from .spec/architecture-blueprint.md
 # - Peer artifact in flat model - features can reference but not strictly enforced

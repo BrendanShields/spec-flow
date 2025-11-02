@@ -14,15 +14,15 @@ START
   ├─[New Project]────────────────┐
   │                               ▼
   │                        ┌──────────────┐
-  │                        │ spec:discover│◄──[Brownfield]
+  │                        │ discover phase│◄──[Brownfield]
   │                        └──────┬───────┘
   │                               ▼
   ├──────────────────────►┌──────────────┐
-  │                        │  spec:init   │
+  │                        │  initialize phase   │
   │                        └──────┬───────┘
   │                               ▼
   │                        ┌──────────────┐
-  │                        │spec:blueprint│◄──[Define Architecture]
+  │                        │blueprint phase│◄──[Define Architecture]
   │                        └──────┬───────┘
   │                               │
   ▼                               │
@@ -32,15 +32,15 @@ START
 └──────────────────────────┬───────────────────────────┘
                            ▼
                     ┌──────────────┐
-                    │spec:generate │◄──[New Feature]
+                    │generate phase │◄──[New Feature]
                     └──────┬───────┘
                            ▼
                     ┌──────────────┐
-              ┌────►│spec:clarify  │
+              ┌────►│clarify phase  │
               │     └──────┬───────┘
               │            ▼
    [Questions]│     ┌──────────────┐
-              └─────┤spec:checklist│
+              └─────┤checklist phase│
                     └──────┬───────┘
 ┌─────────────────────────┴────────────────────┐
 │         PHASE 2: DEFINE REQUIREMENTS         │
@@ -48,11 +48,11 @@ START
 └──────────────────────┬───────────────────────┘
                        ▼
                 ┌──────────────┐
-                │  spec:plan   │
+                │  plan phase   │
                 └──────┬───────┘
                        ▼
                 ┌──────────────┐
-                │spec:analyze  │◄──[Validation]
+                │analyze phase  │◄──[Validation]
                 └──────┬───────┘
 ┌───────────────────────┴──────────────────────┐
 │       PHASE 3: DESIGN SOLUTION               │
@@ -60,11 +60,11 @@ START
 └──────────────────────┬───────────────────────┘
                        ▼
                 ┌──────────────┐
-                │  spec:tasks  │
+                │  tasks phase  │
                 └──────┬───────┘
                        ▼
                 ┌──────────────┐
-                │spec:implement│
+                │implement phase│
                 └──────┬───────┘
 ┌───────────────────────┴──────────────────────┐
 │          PHASE 4: BUILD FEATURE              │
@@ -78,9 +78,9 @@ START
 ┌────────────────────────────────────────────────────┐
 │      PHASE 5: TRACK PROGRESS (Anytime)            │
 ├────────────────────────────────────────────────────┤
-│ spec:update    - Modify specifications            │
-│ spec:metrics   - View progress and analytics      │
-│ spec:orchestrate - Automate full workflow         │
+│ update phase    - Modify specifications            │
+│ metrics phase   - View progress and analytics      │
+│ orchestrate phase - Automate full workflow         │
 └────────────────────────────────────────────────────┘
 ```
 
@@ -119,9 +119,9 @@ START
 ## Quick Navigation
 
 **Starting Points**:
-- New project? → `spec:init`
-- Existing codebase? → `spec:discover` then `spec:init`
-- New feature? → `spec:generate`
+- New project? → `initialize phase`
+- Existing codebase? → `discover phase` then `initialize phase`
+- New feature? → `generate phase`
 - Mid-feature? → Check `{config.paths.state}/current-session.md`
 
 **Common Paths**:
@@ -165,33 +165,33 @@ orchestrate 🔧 ──► Runs: generate→clarify→plan→tasks→implement
 START: Need to...
 
 ├─ Setup project?
-│  ├─ New project? → spec:init
-│  └─ Existing code? → spec:discover → spec:init
+│  ├─ New project? → initialize phase
+│  └─ Existing code? → discover phase → initialize phase
 │
 ├─ Define architecture?
-│  └─ → spec:blueprint
+│  └─ → blueprint phase
 │
 ├─ Build feature?
 │  ├─ Have spec?
-│  │  ├─ Yes → spec:plan
-│  │  └─ No → spec:generate
+│  │  ├─ Yes → plan phase
+│  │  └─ No → generate phase
 │  │
 │  ├─ Have plan?
-│  │  ├─ Yes → spec:tasks
-│  │  └─ No → spec:plan
+│  │  ├─ Yes → tasks phase
+│  │  └─ No → plan phase
 │  │
 │  └─ Have tasks?
-│     ├─ Yes → spec:implement
-│     └─ No → spec:tasks
+│     ├─ Yes → implement phase
+│     └─ No → tasks phase
 │
 ├─ Modify requirements?
-│  └─ → spec:update
+│  └─ → update phase
 │
 ├─ Check progress?
-│  └─ → spec:metrics
+│  └─ → metrics phase
 │
 └─ Automate everything?
-   └─ → spec:orchestrate
+   └─ → orchestrate phase
 ```
 
 ## Time Estimates
@@ -204,27 +204,27 @@ START: Need to...
 - Track: 5-10 min per check-in
 
 **By Skill** (average):
-- `spec:init`: 15-30 min
-- `spec:discover`: 30-60 min
-- `spec:blueprint`: 45-90 min
-- `spec:generate`: 20-45 min
-- `spec:clarify`: 10-30 min
-- `spec:checklist`: 15-30 min
-- `spec:plan`: 30-90 min
-- `spec:analyze`: 10-20 min
-- `spec:tasks`: 20-45 min
-- `spec:implement`: 2-20 hours
-- `spec:update`: 15-45 min
-- `spec:metrics`: 2-5 min
-- `spec:orchestrate`: Full feature cycle (3-25 hours)
+- `initialize phase`: 15-30 min
+- `discover phase`: 30-60 min
+- `blueprint phase`: 45-90 min
+- `generate phase`: 20-45 min
+- `clarify phase`: 10-30 min
+- `checklist phase`: 15-30 min
+- `plan phase`: 30-90 min
+- `analyze phase`: 10-20 min
+- `tasks phase`: 20-45 min
+- `implement phase`: 2-20 hours
+- `update phase`: 15-45 min
+- `metrics phase`: 2-5 min
+- `orchestrate phase`: Full feature cycle (3-25 hours)
 
 ## Parallel Work Opportunities
 
 Skills that can run independently:
-- `spec:discover` + `spec:blueprint` (analyze then document)
-- `spec:clarify` + `spec:checklist` (validation in parallel)
-- `spec:analyze` + `spec:tasks` (validate while tasking)
-- `spec:metrics` (anytime, non-blocking)
+- `discover phase` + `blueprint phase` (analyze then document)
+- `clarify phase` + `checklist phase` (validation in parallel)
+- `analyze phase` + `tasks phase` (validate while tasking)
+- `metrics phase` (anytime, non-blocking)
 
 ## State Transitions
 
@@ -255,7 +255,7 @@ COMPLETE → ready_for_next_feature
 - Load each skill's `REFERENCE.md` for deep dive
 
 **I just want to build**:
-- Run `spec:orchestrate` and let automation handle workflow
+- Run `orchestrate phase` and let automation handle workflow
 - Interactive prompts will guide you through
 
 ---

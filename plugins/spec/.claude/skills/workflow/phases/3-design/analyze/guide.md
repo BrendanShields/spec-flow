@@ -17,11 +17,11 @@ Validate consistency across specification, plan, and tasks to catch issues befor
 - Verifies acceptance criteria coverage
 - Analyzes cross-document consistency
 - Generates categorized issue report with severity levels
-- Uses spec:analyzer subagent for deep analysis
+- Uses analyze phaser subagent for deep analysis
 
 ## When to Use
 
-Use spec:analyze when:
+Use analyze phase when:
 1. Before implementation to catch issues early
 2. After spec/plan updates to verify alignment
 3. Team handoffs requiring validation
@@ -51,9 +51,9 @@ Read {config.paths.spec_root}/architecture-blueprint.md
 
 ### Phase 2: Invoke Analyzer
 
-**Delegate to spec:analyzer subagent**:
+**Delegate to analyze phaser subagent**:
 ```markdown
-Task spec:analyzer with:
+Task analyze phaser with:
 - Input: spec.md, plan.md, tasks.md content
 - Analysis types: coverage, consistency, priorities, acceptance
 - Output: Structured findings with severity
@@ -98,11 +98,11 @@ Task spec:analyzer with:
 **Suggest next steps**:
 ```markdown
 If CRITICAL or HIGH issues:
-- "Fix gaps with: spec:update or spec:tasks --update"
-- "Resolve conflicts manually, then re-run spec:analyze"
+- "Fix gaps with: update phase or tasks phase --update"
+- "Resolve conflicts manually, then re-run analyze phase"
 
 If all clear:
-- "Validation passed - proceed with: spec:implement"
+- "Validation passed - proceed with: implement phase"
 ```
 
 ## Validation Types
@@ -154,21 +154,21 @@ If all clear:
 **Missing files**:
 ```
 If spec.md not found:
-- Report: "Feature not specified - run spec:generate first"
+- Report: "Feature not specified - run generate phase first"
 - Exit with error
 
 If plan.md missing:
-- Report: "Feature not planned - run spec:plan first"
+- Report: "Feature not planned - run plan phase first"
 - Exit with error
 
 If tasks.md missing:
-- Report: "Tasks not created - run spec:tasks first"
+- Report: "Tasks not created - run tasks phase first"
 - Exit with error
 ```
 
 **Analysis failures**:
 ```
-If spec:analyzer unavailable:
+If analyze phaser unavailable:
 - Fall back to basic checks:
   - Count user stories vs tasks
   - Check priority distribution
@@ -257,7 +257,7 @@ If documents unparseable:
 
 ## Detailed Findings
 
-{Category-specific details from spec:analyzer}
+{Category-specific details from analyze phaser}
 
 ## Recommendations
 
@@ -307,7 +307,7 @@ See [REFERENCE.md](./REFERENCE.md) for:
 
 ## Related Skills
 
-- **spec:analyzer** (subagent) - Performs deep analysis
-- **spec:tasks** - Generate/update tasks to fix gaps
-- **spec:update** - Update spec to resolve conflicts
-- **spec:implement** - Execute after validation passes
+- **analyze phaser** (subagent) - Performs deep analysis
+- **tasks phase** - Generate/update tasks to fix gaps
+- **update phase** - Update spec to resolve conflicts
+- **implement phase** - Execute after validation passes

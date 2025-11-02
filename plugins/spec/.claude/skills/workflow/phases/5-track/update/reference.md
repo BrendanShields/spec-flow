@@ -220,7 +220,7 @@ jira_update_issue({
   summary: updated_title,
   description: updated_user_stories,
   priority: new_priority,
-  comment: "Updated via spec:update - " + change_summary
+  comment: "Updated via update phase - " + change_summary
 })
 
 // Sync JIRA status to spec
@@ -270,7 +270,7 @@ confluence_update_page({
   page_id: 789012,
   title: "[Spec] " + updated_title,
   content: format_as_confluence_storage(updated_spec),
-  version_comment: "Updated via spec:update - " + change_summary
+  version_comment: "Updated via update phase - " + change_summary
 })
 ```
 
@@ -336,7 +336,7 @@ linear_update_issue({
   title: updated_title,
   description: updated_description,
   priority: new_priority,
-  comment: "Updated via spec:update"
+  comment: "Updated via update phase"
 })
 ```
 
@@ -697,4 +697,4 @@ Do:
 
 **Last Updated**: 2025-10-31
 **Token Size**: ~2,800 tokens
-**Used By**: spec:update skill
+**Used By**: update phase skill

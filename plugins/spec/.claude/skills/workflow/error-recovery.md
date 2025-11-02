@@ -194,7 +194,7 @@ mv {config.paths.features}/003-feature {config.paths.features}/003-feature.old
 🎯 Active Feature: #003-user-authentication
 ✅ Completed: init, generate, clarify
 ⏳ Current: plan (in progress)
-→ Next: spec:tasks (after plan complete)
+→ Next: tasks phase (after plan complete)
 
 Available in this phase:
 - /spec plan - Create technical plan (IN PROGRESS)
@@ -250,10 +250,10 @@ cat > {config.paths.state}/current-session.md << 'EOF'
 
 ## Workflow Progress
 ### Completed Phases
-- [x] spec:init
-- [x] spec:generate (spec.md exists)
-- [x] spec:plan (plan.md exists)
-- [ ] spec:tasks (tasks.md missing)
+- [x] initialize phase
+- [x] generate phase (spec.md exists)
+- [x] plan phase (plan.md exists)
+- [ ] tasks phase (tasks.md missing)
 EOF
 
 # 3. Resume workflow
@@ -673,11 +673,11 @@ cat > {config.paths.state}/current-session.md << 'EOF'
 
 ## Workflow Progress
 ### Completed Phases
-- [x] spec:init
-- [x] spec:generate
-- [x] spec:plan
-- [ ] spec:tasks
-- [ ] spec:implement
+- [x] initialize phase
+- [x] generate phase
+- [x] plan phase
+- [ ] tasks phase
+- [ ] implement phase
 EOF
 
 # 4. Continue workflow from current phase

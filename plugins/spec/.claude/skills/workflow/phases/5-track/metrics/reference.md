@@ -1,4 +1,4 @@
-# spec:metrics Technical Reference
+# metrics phase Technical Reference
 
 Complete technical specifications for metric calculations, data formats, and export schemas.
 
@@ -248,7 +248,7 @@ feature_id,name,status,started,completed,duration_days,tasks_total,tasks_complet
 {
   "meta": {
     "generated_at": "ISO 8601 timestamp",
-    "generator": "spec:metrics v3.0",
+    "generator": "metrics phase v3.0",
     "project_name": "string",
     "project_started": "YYYY-MM-DD",
     "report_period": {
@@ -399,54 +399,54 @@ Impl:    ██████░░░░ 65% ⚠️ (target: 60%)
 **`--export=FORMAT`**:
 - Values: `csv`, `json`
 - Default: None (display only)
-- Example: `spec:metrics --export=csv`
+- Example: `metrics phase --export=csv`
 
 **`--output=PATH`**:
 - Values: File path (absolute or relative)
 - Default: `./metrics-export.{csv|json}`
-- Example: `spec:metrics --export=json --output=/tmp/metrics.json`
+- Example: `metrics phase --export=json --output=/tmp/metrics.json`
 
 **`--verbose`**:
 - Values: None (flag)
 - Default: False
 - Effect: Show detailed historical analysis
-- Example: `spec:metrics --verbose`
+- Example: `metrics phase --verbose`
 
 **`--category=TYPE`**:
 - Values: `velocity`, `quality`, `efficiency`, `ai`, `all`
 - Default: `all`
 - Effect: Filter to specific metric category
-- Example: `spec:metrics --category=velocity`
+- Example: `metrics phase --category=velocity`
 
 **`--format=STYLE`**:
 - Values: `dashboard`, `table`, `minimal`
 - Default: `dashboard`
 - Effect: Change display format
-- Example: `spec:metrics --format=table`
+- Example: `metrics phase --format=table`
 
 ### Usage Examples
 
 ```bash
 # Default dashboard
-spec:metrics
+metrics phase
 
 # Verbose analysis
-spec:metrics --verbose
+metrics phase --verbose
 
 # Export to CSV
-spec:metrics --export=csv
+metrics phase --export=csv
 
 # Export to custom path
-spec:metrics --export=json --output=/reports/metrics-2025-10-31.json
+metrics phase --export=json --output=/reports/metrics-2025-10-31.json
 
 # Show only velocity
-spec:metrics --category=velocity
+metrics phase --category=velocity
 
 # Minimal table format
-spec:metrics --format=table
+metrics phase --format=table
 
 # Combined
-spec:metrics --verbose --category=quality --format=dashboard
+metrics phase --verbose --category=quality --format=dashboard
 ```
 
 ## Implementation Notes
@@ -547,21 +547,21 @@ Try: ./metrics.csv or ~/metrics.csv
 ## Integration with Other Skills
 
 **spec:status**:
-- Calls spec:metrics internally for quick metrics
+- Calls metrics phase internally for quick metrics
 - Uses subset of calculations
 - Displays minimal output
 
-**spec:analyze**:
-- Calls spec:metrics for feature-specific data
+**analyze phase**:
+- Calls metrics phase for feature-specific data
 - Filters to single feature
 - Adds deeper analysis
 
-**spec:plan**:
+**plan phase**:
 - Uses velocity metrics for estimation
 - References historical durations
 - Suggests realistic timelines
 
-**spec:tasks**:
+**tasks phase**:
 - Uses task velocity for breakdown
 - References avg tasks per feature
 - Optimizes parallel task opportunities
@@ -571,14 +571,6 @@ Try: ./metrics.csv or ~/metrics.csv
 **State Management**: `shared/state-management.md`
 **Workflow Patterns**: `shared/workflow-patterns.md`
 **Integration**: `shared/integration-patterns.md`
-
-## Version History
-
-**v3.0**: Initial spec:metrics skill
-- Progressive disclosure architecture
-- CSV/JSON export support
-- Text-based visualizations
-- AI impact tracking
 
 ---
 

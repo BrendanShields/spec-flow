@@ -551,9 +551,9 @@ Error: {config.paths.features}/{config.naming.feature_directory}/{config.naming.
 
 Recovery:
 1. Check current phase in {config.paths.state}/current-session.md
-2. If phase < "planning", prompt: "Run spec:plan first"
+2. If phase < "planning", prompt: "Run plan phase first"
 3. If phase >= "planning" but plan missing, error is critical
-4. Offer: "Regenerate plan with spec:plan --force"
+4. Offer: "Regenerate plan with plan phase --force"
 ```
 
 **2. Circular dependency**:
@@ -574,7 +574,7 @@ Warning: 0 tasks generated from plan
 Recovery:
 1. Check plan.md has technical approach sections
 2. Check spec.md has user stories
-3. Offer: "Run spec:clarify to add missing details"
+3. Offer: "Run clarify phase to add missing details"
 4. Offer: "Manually create first task to bootstrap"
 ```
 

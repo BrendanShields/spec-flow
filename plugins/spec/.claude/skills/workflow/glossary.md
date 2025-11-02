@@ -1060,7 +1060,7 @@ User
 **Example Flow**:
 ```
 User: /spec implement
-  → spec:implement skill
+  → implement phase skill
     → delegates to spec-implementer agent
       → executes parallel tasks
       → reports back to skill
@@ -1081,7 +1081,7 @@ User: /spec implement
 ### spec-implementer
 **Type**: Subagent
 
-**Parent Skill**: `spec:implement`
+**Parent Skill**: `implement phase`
 
 **Purpose**: Execute implementation tasks with parallel execution and progress tracking
 
@@ -1097,20 +1097,20 @@ User: /spec implement
 **Configuration**: `SPEC_IMPLEMENT_MAX_PARALLEL` (default: 3)
 
 **Workflow**:
-1. Receives task list from `spec:implement`
+1. Receives task list from `implement phase`
 2. Analyzes dependencies
 3. Executes tasks in parallel where possible
 4. Updates progress in real-time
 5. Returns completion status
 
-**See also**: [spec:implement](#specimplement), [Agent](#agent), [[P] Marker](#p-parallel-marker)
+**See also**: [implement phase](#specimplement), [Agent](#agent), [[P] Marker](#p-parallel-marker)
 
 ---
 
 ### spec-researcher
 **Type**: Subagent
 
-**Parent Skill**: `spec:plan`
+**Parent Skill**: `plan phase`
 
 **Purpose**: Provide research-backed technical decisions and best practices
 
@@ -1124,7 +1124,7 @@ User: /spec implement
 **Invocation**: Automatic when `/spec plan` encounters complex architectural decisions
 
 **Workflow**:
-1. Receives research questions from `spec:plan`
+1. Receives research questions from `plan phase`
 2. Performs web searches
 3. Analyzes findings
 4. Generates recommendations with citations
@@ -1132,14 +1132,14 @@ User: /spec implement
 
 **Output**: Research-backed ADRs with sources
 
-**See also**: [spec:plan](#specplan), [ADR](#adr-architecture-decision-record)
+**See also**: [plan phase](#specplan), [ADR](#adr-architecture-decision-record)
 
 ---
 
 ### spec-analyzer
 **Type**: Subagent
 
-**Parent Skill**: `spec:analyze`
+**Parent Skill**: `analyze phase`
 
 **Purpose**: Deep consistency validation across all artifacts
 
@@ -1161,7 +1161,7 @@ User: /spec implement
 
 **Output**: Detailed validation report with actionable issues
 
-**See also**: [spec:analyze](#specanalyze), [Validation](#validation)
+**See also**: [analyze phase](#specanalyze), [Validation](#validation)
 
 ---
 
@@ -1187,9 +1187,9 @@ Parent Skill
 - Parallel execution potential
 
 **Common Delegations**:
-- `spec:implement` → `spec-implementer`
-- `spec:plan` → `spec-researcher`
-- `spec:analyze` → `spec-analyzer`
+- `implement phase` → `spec-implementer`
+- `plan phase` → `spec-researcher`
+- `analyze phase` → `spec-analyzer`
 
 **See also**: [Agent](#agent), [Subagent](#subagent), [Context Passing](#context-passing)
 

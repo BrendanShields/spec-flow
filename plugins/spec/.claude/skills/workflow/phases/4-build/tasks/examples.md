@@ -1,6 +1,6 @@
 # Task Breakdown Examples
 
-Concrete scenarios showing how spec:tasks transforms plans into executable tasks.
+Concrete scenarios showing how tasks phase transforms plans into executable tasks.
 
 ## Example 1: Frontend Feature (React Component)
 
@@ -240,7 +240,7 @@ US1.2: T006 [P] ────────────────→ T007 → T00
 ## Next Steps
 
 1. Review task breakdown for completeness
-2. Run `spec:implement` to start execution
+2. Run `implement phase` to start execution
 3. Begin with Group 1 parallel tasks
 4. Track progress in {config.paths.state}/current-session.md
 ```
@@ -600,7 +600,7 @@ T023 (final integration tests)
 1. Review 23 tasks for completeness
 2. Backend team starts T001, T002
 3. Frontend team starts T003, T007
-4. Run `spec:implement --parallel` for multi-track execution
+4. Run `implement phase --parallel` for multi-track execution
 5. Sync daily standup with current-session.md progress
 ```
 
@@ -619,7 +619,7 @@ T023 (final integration tests)
 ### Command
 
 ```bash
-spec:tasks --update
+tasks phase --update
 ```
 
 ### Generated Diff

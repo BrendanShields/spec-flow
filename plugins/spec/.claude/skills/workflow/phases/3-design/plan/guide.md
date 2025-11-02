@@ -21,15 +21,14 @@ Create comprehensive technical plan from specification with architecture decisio
 ## When to Use
 
 1. User says "create plan", "design the system", "technical design"
-2. After spec:generate completes (spec.md exists)
+2. After generate phase completes (spec.md exists)
 3. User mentions "architecture", "how to build", "technology choices"
 4. Current phase is "specification" and ready to plan
-5. Updating existing plan with spec:update
+5. Updating existing plan with update phase
 
 ## Execution Flow
 
 ### Phase 1: Context Loading
-1. Read `{config.paths.state}/current-session.md` for active feature
 2. Read `{config.paths.features}/###-feature-name/{config.naming.files.spec}` for requirements
 3. Load `{config.paths.memory}/DECISIONS-LOG.md` for existing ADRs
 4. Check project's `CLAUDE.md` for tech stack constraints
@@ -72,7 +71,7 @@ Create comprehensive technical plan from specification with architecture decisio
 
 **Missing spec.md**:
 - Check if spec exists: `{config.paths.features}/###-feature-name/{config.naming.files.spec}`
-- If not found: "No specification found. Run spec:generate first."
+- If not found: "No specification found. Run generate phase first."
 - Exit gracefully
 
 **Research failures**:
@@ -141,7 +140,7 @@ Architecture decisions documented:
 
 Next steps:
   1. Review plan.md
-  2. Run: spec:tasks (to create task breakdown)
+  2. Run: tasks phase (to create task breakdown)
 ```
 
 ## Progressive Disclosure
@@ -201,8 +200,8 @@ This function uses the following templates:
 - Calls `spec:researcher` agent for technical research and decision documentation
 
 **Commands**:
-- Invoked by `/spec-plan` command
-- Invoked by `spec:orchestrate` workflow automation
+- Invoked by `/workflow:spec` → "🎨 Move to Design" menu option
+- Invoked by Auto Mode workflow automation
 
 **State Files**:
 - Reads: spec.md, current-session.md, DECISIONS-LOG.md

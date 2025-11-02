@@ -27,7 +27,7 @@ Analyze existing codebases for brownfield project onboarding. Discovers architec
 3. Need understanding of project structure
 4. Planning major refactoring or migration
 5. Assessing technical debt before sprint planning
-6. Before running spec:generate on existing code
+6. Before running generate phase on existing code
 7. Need JIRA backlog analysis and prioritization
 
 ## Execution Flow
@@ -37,11 +37,11 @@ Analyze existing codebases for brownfield project onboarding. Discovers architec
 1. Check if project is brownfield (has existing code)
 2. Load discovery configuration from CLAUDE.md
 3. Determine focus areas (full analysis or specific aspect)
-4. Initialize spec:analyzer subagent
+4. Initialize analyze phaser subagent
 
 ### Phase 2: Technology Stack Discovery
 
-Uses spec:analyzer subagent to:
+Uses analyze phaser subagent to:
 - Scan file structure for language indicators
 - Detect frameworks from package files (package.json, requirements.txt, pom.xml)
 - Identify build tools and runtime environments
@@ -158,10 +158,10 @@ Key metrics included:
 
 Typical brownfield workflow:
 ```bash
-spec:discover                        # Analyze existing project
-spec:init --type brownfield          # Initialize Spec
-spec:blueprint --from-discovery      # Create blueprint from findings
-spec:generate "New Feature"          # Add features informed by discovery
+discover phase                        # Analyze existing project
+initialize phase --type brownfield          # Initialize Spec
+blueprint phase --from-discovery      # Create blueprint from findings
+generate phase "New Feature"          # Add features informed by discovery
 ```
 
 Updates workflow state in `{config.paths.memory}/WORKFLOW-PROGRESS.md` with discovery phase completion.
@@ -189,11 +189,11 @@ See [REFERENCE.md](./REFERENCE.md) for:
 
 ## Related Skills
 
-- **spec:init**: Initialize Spec after discovery
-- **spec:blueprint**: Extract architecture from discovery data
-- **spec:generate**: Create specs informed by findings
-- **spec:analyze**: Validate specs against discovered patterns
+- **initialize phase**: Initialize Spec after discovery
+- **blueprint phase**: Extract architecture from discovery data
+- **generate phase**: Create specs informed by findings
+- **analyze phase**: Validate specs against discovered patterns
 
 ## Subagents Used
 
-- **spec:analyzer**: Performs deep codebase scanning and pattern extraction
+- **analyze phaser**: Performs deep codebase scanning and pattern extraction

@@ -8,7 +8,7 @@ Concrete usage scenarios for brownfield codebase analysis.
 
 **Command**:
 ```bash
-spec:discover --mode standard
+discover phase --mode standard
 ```
 
 **Workflow**:
@@ -79,7 +79,7 @@ New developers should focus on:
 
 **Command**:
 ```bash
-spec:discover --focus backlog
+discover phase --focus backlog
 ```
 
 **Workflow**:
@@ -149,7 +149,7 @@ spec:discover --focus backlog
 
 **Command**:
 ```bash
-spec:discover --mode deep --focus quality
+discover phase --mode deep --focus quality
 ```
 
 **Workflow**:
@@ -253,7 +253,7 @@ Based on module coupling analysis:
 
 **Command**:
 ```bash
-spec:discover --mode standard
+discover phase --mode standard
 ```
 
 **Workflow**:
@@ -420,7 +420,7 @@ src/
 
 **Command**:
 ```bash
-spec:discover --mode quick --output json
+discover phase --mode quick --output json
 ```
 
 **Workflow**:
@@ -474,11 +474,11 @@ spec:discover --mode quick --output json
 **Solution**:
 ```bash
 # Use quick mode for initial scan
-spec:discover --mode quick
+discover phase --mode quick
 
 # Then focus on specific areas
-spec:discover --focus architecture
-spec:discover --focus api
+discover phase --focus architecture
+discover phase --focus api
 ```
 
 ### Issue: JIRA Connection Fails
@@ -488,7 +488,7 @@ spec:discover --focus api
 **Solution**:
 ```bash
 # Skip JIRA analysis
-spec:discover --skip-jira
+discover phase --skip-jira
 
 # Or check MCP configuration
 cat ~/.claude/mcp-config.json
@@ -502,7 +502,7 @@ cat ~/.claude/mcp-config.json
 ```bash
 # Analyze specific subdirectories
 cd services/user-service
-spec:discover --mode standard
+discover phase --mode standard
 
 # Exclude large directories in config
 # Add to CLAUDE.md:

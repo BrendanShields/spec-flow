@@ -1,6 +1,6 @@
-# spec:plan - Technical Reference
+# Plan phase - Technical Reference
 
-This file contains technical specifications, templates, and advanced patterns for the spec:plan skill.
+This file contains technical specifications, templates, and advanced patterns for the Plan phase skill.
 
 ## plan.md Template
 
@@ -12,7 +12,7 @@ Complete template for generated technical plans:
 **Feature ID**: [###]
 **Feature**: [Feature name from spec]
 **Created**: [YYYY-MM-DD]
-**Author**: spec:plan skill
+**Author**: Plan phase skill
 **Status**: Active | Implemented | Superseded
 **Spec**: [Link to spec.md]
 **JIRA**: [PROJ-###] (if MCP enabled)
@@ -759,7 +759,7 @@ Architecture Decision Records (ADRs) use the following format:
 
 ### Invoking Research Agent
 
-**From spec:plan skill**:
+**From Plan phase skill**:
 
 ```markdown
 When technology choices needed:
@@ -838,7 +838,7 @@ Alternatives: PostgreSQL (schema-per-tenant), MongoDB, MySQL
 # [Feature Name] - Technical Plan
 
 <info>
-This page is auto-generated from spec:plan.
+This page is auto-generated from Plan phase.
 Source: {config.paths.features}/###-feature-name/{config.naming.files.plan}
 Last synced: YYYY-MM-DD HH:MM:SS
 </info>
@@ -922,7 +922,7 @@ fi
 
 **Recovery**:
 1. Check if feature ID is correct
-2. Suggest running spec:generate first
+2. Suggest running generate phase first
 3. Offer to list available features
 4. Exit gracefully
 
@@ -1009,9 +1009,9 @@ fi
 - `../shared/state-management.md` - State file specifications
 
 **Related Skills**:
-- `../spec-generate/` - Creates spec.md (prerequisite)
-- `../spec-tasks/` - Creates tasks.md (next step)
-- `../spec-researcher/` - Research agent (invoked by this skill)
+- `../2-define/generate/` - Creates spec.md (prerequisite)
+- `../4-build/tasks/` - Creates tasks.md (next step)
+- `spec-researcher` agent - Research agent (invoked by this skill)
 
 **Commands**:
 - `.claude/commands/spec-plan.md` - Slash command wrapper
@@ -1020,4 +1020,4 @@ fi
 
 **Last Updated**: 2025-10-31
 **Token Size**: ~4,500 tokens
-**Used By**: spec:plan skill
+**Used By**: Plan phase skill

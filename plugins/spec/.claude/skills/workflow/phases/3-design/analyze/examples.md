@@ -1,6 +1,6 @@
 # Spec Analyze - Examples
 
-Concrete usage scenarios for the spec:analyze skill.
+Concrete usage scenarios for the analyze phase skill.
 
 ## Example 1: All-Green Validation
 
@@ -17,7 +17,7 @@ Files exist: spec.md, plan.md, tasks.md
 ```markdown
 Trigger: "validate" + feature context
 Loads: spec.md, plan.md, tasks.md
-Invokes: spec:analyzer
+Invokes: analyze phaser
 ```
 
 **Analysis Process**:
@@ -81,7 +81,7 @@ Invokes: spec:analyzer
 
 All validation checks passed. Ready to proceed:
 
-1. Run: `spec:implement` to start implementation
+1. Run: `implement phase` to start implementation
 2. Session will track progress in {config.paths.state}/
 3. Tasks will move to CHANGES-COMPLETED.md as done
 ```
@@ -89,7 +89,7 @@ All validation checks passed. Ready to proceed:
 **User Experience**:
 ```
 ✅ Validation complete - no issues found
-→ Ready to implement: spec:implement
+→ Ready to implement: implement phase
 ```
 
 ---
@@ -170,14 +170,14 @@ Files: spec.md (5 stories), plan.md (3 components), tasks.md (8 tasks)
 
 ## Next Steps
 
-Run `spec:tasks --update` to add missing tasks for US2.3
-Then re-run `spec:analyze` to verify
+Run `tasks phase --update` to add missing tasks for US2.3
+Then re-run `analyze phase` to verify
 ```
 
 **User Experience**:
 ```
 ⚠️  Found 4 issues (2 HIGH, 2 MEDIUM)
-→ Fix with: spec:tasks --update
+→ Fix with: tasks phase --update
 ```
 
 ---
@@ -239,7 +239,7 @@ Issue: P1 story has only P3 tasks
 ## Next Steps
 
 Manually edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}
-Change task priorities, then re-run spec:analyze
+Change task priorities, then re-run analyze phase
 ```
 
 **User Experience**:
@@ -318,7 +318,7 @@ Tasks: No test tasks, no versioning tasks
 CRITICAL issues block implementation - must fix first:
 1. Update tasks.md with test tasks
 2. Update tasks.md with versioning tasks
-3. Re-run spec:analyze to verify compliance
+3. Re-run analyze phase to verify compliance
 ```
 
 **User Experience**:
@@ -398,9 +398,9 @@ CRITICAL issues block implementation - must fix first:
 ## Next Steps
 
 Optional but recommended:
-1. Run spec:update to fix terminology in spec/plan
+1. Run update phase to fix terminology in spec/plan
 2. Manually update tasks.md
-3. Re-run spec:analyze to verify
+3. Re-run analyze phase to verify
 ```
 
 **User Experience**:
@@ -468,7 +468,7 @@ LOW:
 ```
 ⚠️  11 issues found (1 CRITICAL, 3 HIGH)
 → Fix critical/high before implementing
-→ Run: spec:tasks --update
+→ Run: tasks phase --update
 ```
 
 ---
@@ -484,7 +484,7 @@ LOW:
 
 **Expected behavior**:
 1. Loads current feature artifacts
-2. Invokes spec:analyzer subagent
+2. Invokes analyze phaser subagent
 3. Generates structured report
 4. Categorizes by severity
 5. Provides actionable recommendations

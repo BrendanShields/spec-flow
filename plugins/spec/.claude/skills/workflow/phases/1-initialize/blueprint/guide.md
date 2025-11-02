@@ -4,7 +4,7 @@ description: Use when defining project architecture, user mentions "architecture
 allowed-tools: Read, Write, Edit, WebSearch, Bash
 ---
 
-# spec:blueprint
+# blueprint phase
 
 Define project architecture and technical standards before feature development.
 
@@ -23,14 +23,14 @@ Define project architecture and technical standards before feature development.
 2. User mentions "create architecture blueprint" or "define technical standards"
 3. Adding Spec to existing project (brownfield) and need to document current architecture
 4. Team needs alignment on technical decisions before feature development
-5. Before running `spec:generate` for the first time
+5. Before running `generate phase` for the first time
 6. When establishing API conventions, data model principles, or security standards
 
 ## Execution Flow
 
 ### Phase 1: Context Analysis
 
-1. Check if `{config.paths.spec_root}/` exists (run `spec:init` if missing)
+1. Check if `{config.paths.spec_root}/` exists (run `initialize phase` if missing)
 2. Determine project type:
    - **Greenfield**: New project, define ideal architecture
    - **Brownfield**: Existing code, analyze and document current state
@@ -119,12 +119,12 @@ See `shared/integration-patterns.md` for MCP patterns.
 Guide user to:
 - Review and refine blueprint
 - Get team approval on architecture decisions
-- Run `spec:generate` to create first feature
+- Run `generate phase` to create first feature
 - Reference blueprint in all future planning
 
 ## Error Handling
 
-**Missing {config.paths.spec_root}/**: Prompt user to run `spec:init` first
+**Missing {config.paths.spec_root}/**: Prompt user to run `initialize phase` first
 
 **Brownfield analysis fails**: Fall back to interview mode, ask user about tech stack
 
@@ -154,7 +154,7 @@ Sections:
 
 [Confluence URL if published]
 
-Next: Run `spec:generate "Your First Feature"` to begin development
+Next: Run `generate phase "Your First Feature"` to begin development
 ```
 
 **File Created**: `{config.paths.spec_root}/architecture-blueprint.md`
@@ -192,7 +192,9 @@ This function uses the following templates:
 
 ## Related Resources
 
-For complete blueprint template and ADR examples, see: `EXAMPLES.md`
+**For Complete Templates**:
+- Blueprint template: `../../templates/project-setup/architecture-blueprint-template.md`
+- See `../../templates/README.md` for all available templates
 
 For detailed section specifications and brownfield analysis patterns, see: `REFERENCE.md`
 

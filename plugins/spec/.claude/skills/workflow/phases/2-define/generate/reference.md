@@ -1,6 +1,6 @@
 # Specification Generation Reference
 
-Technical documentation for spec:generate skill.
+Technical documentation for Generate phase skill.
 
 ## Complete Spec Template
 
@@ -176,7 +176,7 @@ Explicitly document what this feature does NOT include:
 
 ## Open Questions
 
-Mark uncertainties with [CLARIFY: question] for spec:clarify phase:
+Mark uncertainties with [CLARIFY: question] for clarify phase phase:
 
 1. [CLARIFY: Specific requirement detail?]
 2. [CLARIFY: Performance threshold?]
@@ -477,10 +477,10 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 
 ## Workflow Progress
 ### Completed Phases
-- [x] spec:init
-- [x] spec:generate ← UPDATED
-- [ ] spec:clarify
-- [ ] spec:plan
+- [x] initialize phase
+- [x] Generate phase ← UPDATED
+- [ ] clarify phase
+- [ ] plan phase
 ```
 
 **`{config.paths.memory}/WORKFLOW-PROGRESS.md`**:
@@ -581,8 +581,8 @@ gh issue create \
 
 **Branch Creation** (deferred to implementation phase):
 ```bash
-# Not created during spec:generate
-# Created later by spec:implement
+# Not created during Generate phase
+# Created later by implement phase
 ```
 
 ## Brownfield Analysis Strategies
@@ -796,7 +796,7 @@ Read requirements.txt
 
 ## Validation Checklist
 
-Before completing spec:generate:
+Before completing Generate phase:
 
 - [ ] Feature ID assigned (sequential, 3 digits)
 - [ ] Priority set (P1/P2/P3) with rationale
@@ -834,18 +834,11 @@ Before completing spec:generate:
 - Problem: Assumptions made without marking [CLARIFY]
 - Solution: When in doubt, add [CLARIFY] tag
 
-## Version History
-
-- v3.0.0 (2024-10-31): Refactored from spec:specify to spec:generate
-- v2.1.0: Added JIRA/Confluence integration
-- v2.0.0: Added brownfield codebase analysis
-- v1.0.0: Initial specification skill
-
 ## Related Skills
 
-- **spec:clarify**: Resolves [CLARIFY] tags via research or user questions
-- **spec:plan**: Creates technical design from specification
-- **spec:update**: Modifies existing specification when requirements change
+- **clarify phase**: Resolves [CLARIFY] tags via research or user questions
+- **plan phase**: Creates technical design from specification
+- **update phase**: Modifies existing specification when requirements change
 - **blueprint:analyze**: Validates spec against architecture blueprint
 
 ## Skill Metadata

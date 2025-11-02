@@ -723,25 +723,25 @@ async function discoverWithRecovery(projectPath) {
 
 ### Workflow Integration
 
-**Before spec:generate** (recommended):
+**Before generate phase** (recommended):
 ```bash
 # Discover existing patterns
-spec:discover
+discover phase
 
 # Initialize with brownfield mode
-spec:init --type brownfield
+initialize phase --type brownfield
 
 # Create blueprint from discovery
-spec:blueprint --from-discovery
+blueprint phase --from-discovery
 
 # Now generate specs informed by discovery
-spec:generate "New Feature"
+generate phase "New Feature"
 ```
 
 **Continuous Discovery** (weekly):
 ```bash
 # Quick incremental update
-spec:discover --mode quick
+discover phase --mode quick
 
 # Review changes in discovery/updates/
 cat discovery/updates/$(date +%Y-%m-%d).md

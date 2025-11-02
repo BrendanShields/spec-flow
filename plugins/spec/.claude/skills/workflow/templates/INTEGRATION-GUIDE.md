@@ -51,7 +51,7 @@ When you run workflow commands like `/spec generate`, the system:
 
 #### spec-template.md
 
-**Used by**: `spec:generate` (Phase 2: Define Requirements)
+**Used by**: `generate phase` (Phase 2: Define Requirements)
 
 **Output**: `{config.paths.features}/###-feature-name/{config.naming.files.spec}`
 
@@ -91,7 +91,7 @@ cp workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/templa
 
 #### plan-template.md
 
-**Used by**: `spec:plan` (Phase 3: Design Solution)
+**Used by**: `plan phase` (Phase 3: Design Solution)
 
 **Output**: `{config.paths.features}/###-feature-name/{config.naming.files.plan}`
 
@@ -129,7 +129,7 @@ cp workflow/templates/artifacts/plan-template.md {config.paths.spec_root}/templa
 
 #### tasks-template.md
 
-**Used by**: `spec:tasks` (Phase 4: Build Feature)
+**Used by**: `tasks phase` (Phase 4: Build Feature)
 
 **Output**: `{config.paths.features}/###-feature-name/{config.naming.files.tasks}`
 
@@ -170,7 +170,7 @@ cp workflow/templates/artifacts/tasks-template.md {config.paths.spec_root}/templ
 
 #### product-requirements-template.md
 
-**Used by**: `spec:init` (Phase 1: Initialize)
+**Used by**: `initialize phase` (Phase 1: Initialize)
 
 **Output**: `{config.paths.spec_root}/product-requirements.md`
 
@@ -210,7 +210,7 @@ cp your-prd-template.md {config.paths.spec_root}/templates/product-requirements-
 
 #### architecture-blueprint-template.md
 
-**Used by**: `spec:blueprint` (Phase 1: Initialize - optional)
+**Used by**: `blueprint phase` (Phase 1: Initialize - optional)
 
 **Output**: `{config.paths.spec_root}/architecture-blueprint.md`
 
@@ -244,7 +244,7 @@ cp workflow/templates/project-setup/architecture-blueprint-template.md {config.p
 - ADR (Architecture Decision Record) framework
 - Integration patterns
 
-**Validation**: `spec:plan` checks alignment with blueprint and flags deviations for approval.
+**Validation**: `plan phase` checks alignment with blueprint and flags deviations for approval.
 
 ---
 
@@ -252,7 +252,7 @@ cp workflow/templates/project-setup/architecture-blueprint-template.md {config.p
 
 #### checklist-template.md
 
-**Used by**: `spec:checklist` (Phase 2: Define Requirements - optional)
+**Used by**: `checklist phase` (Phase 2: Define Requirements - optional)
 
 **Output**: `{config.paths.features}/###-feature-name/checklists/[type].md`
 
@@ -292,7 +292,7 @@ cp workflow/templates/quality/checklist-template.md {config.paths.spec_root}/tem
 
 #### jira-story-template.md
 
-**Used by**: `spec:generate` (when JIRA integration enabled)
+**Used by**: `generate phase` (when JIRA integration enabled)
 
 **Output**: JIRA story via MCP API (not a file)
 
@@ -354,7 +354,7 @@ cp workflow/templates/integrations/confluence-page.md {config.paths.spec_root}/t
 
 #### openapi-template.yaml
 
-**Used by**: `spec:plan` (when API design detected)
+**Used by**: `plan phase` (when API design detected)
 
 **Output**: `{config.paths.features}/###-feature-name/openapi.yaml`
 
@@ -383,7 +383,7 @@ cp workflow/templates/integrations/openapi-template.yaml {config.paths.spec_root
 
 #### agent-file-template.md
 
-**Used by**: Subagent delegation (spec:implementer, spec:researcher, spec:analyzer)
+**Used by**: Subagent delegation (implement phaseer, spec:researcher, analyze phaser)
 
 **Output**: `{config.paths.state}/agent-context.md` (temporary)
 
@@ -415,10 +415,10 @@ These are loaded **automatically** when their associated function runs:
 
 | Template | Function | Trigger |
 |----------|----------|---------|
-| spec-template.md | spec:generate | Every `/spec generate` or `/spec "Feature"` |
-| plan-template.md | spec:plan | Every `/spec plan` |
-| tasks-template.md | spec:tasks | Every `/spec tasks` |
-| product-requirements-template.md | spec:init | One-time during `/spec init` |
+| spec-template.md | generate phase | Every `/spec generate` or `/spec "Feature"` |
+| plan-template.md | plan phase | Every `/spec plan` |
+| tasks-template.md | tasks phase | Every `/spec tasks` |
+| product-requirements-template.md | initialize phase | One-time during `/spec init` |
 | agent-file-template.md | Subagent delegation | Automatic when delegating tasks |
 
 **No flags required** - these load by default.
@@ -429,11 +429,11 @@ These load **only when explicitly requested** or when conditions are met:
 
 | Template | Function | Trigger |
 |----------|----------|---------|
-| architecture-blueprint-template.md | spec:blueprint | Explicit `/spec blueprint` |
-| checklist-template.md | spec:checklist | Explicit `/spec checklist` |
-| jira-story-template.md | spec:generate | JIRA integration enabled |
+| architecture-blueprint-template.md | blueprint phase | Explicit `/spec blueprint` |
+| checklist-template.md | checklist phase | Explicit `/spec checklist` |
+| jira-story-template.md | generate phase | JIRA integration enabled |
 | confluence-page.md | Any | `--publish-confluence` flag |
-| openapi-template.yaml | spec:plan | API endpoints detected |
+| openapi-template.yaml | plan phase | API endpoints detected |
 
 **Examples**:
 ```bash

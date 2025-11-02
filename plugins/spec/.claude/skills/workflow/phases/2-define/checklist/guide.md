@@ -1,6 +1,6 @@
 ---
 name: spec:checklist
-description: Use when 1) Need validation gates before implementation, 2) Validating requirement quality/completeness, 3) Creating UX/security/API/performance checklists, 4) Enterprise compliance requirements, 5) User mentions "quality checklist" or "requirement validation" - generates domain-specific checklists that test requirement quality before spec:plan.
+description: Use when 1) Need validation gates before implementation, 2) Validating requirement quality/completeness, 3) Creating UX/security/API/performance checklists, 4) Enterprise compliance requirements, 5) User mentions "quality checklist" or "requirement validation" - generates domain-specific checklists that test requirement quality before plan phase.
 allowed-tools: Read, Write
 ---
 
@@ -19,8 +19,8 @@ Creates domain-specific checklists that validate:
 
 ## When to Use
 
-1. After creating spec with spec:specify
-2. Before technical planning (spec:plan)
+1. After creating spec in Generate phase
+2. Before technical planning in Plan phase
 3. For enterprise compliance requirements (HIPAA, GDPR, SOC2)
 4. When validating requirements before team approval
 5. To identify requirement gaps and ambiguities
@@ -137,7 +137,7 @@ Create `checklists/README.md`:
 
 ## Error Handling
 
-**No spec found**: Prompt user to run spec:specify first
+**No spec found**: Prompt user to run /workflow:spec → "📝 Define Feature" first
 **Empty spec**: Cannot generate checklist without requirements
 **Invalid domain**: Show available domain types
 **File write fails**: Check directory permissions
@@ -149,7 +149,7 @@ Create `checklists/README.md`:
 3. Mark validated items `[X]`
 4. Identify gaps `[?]` and add missing requirements
 5. Refine vague requirements for `[~]` items
-6. When all items complete, proceed to spec:plan
+6. When all items complete, proceed to plan phase
 
 ## Examples
 
@@ -200,6 +200,6 @@ See reference.md for:
 
 ## Integration
 
-**Before**: spec:specify creates requirements
-**After**: spec:plan uses validated requirements
-**Related**: spec:validate checks consistency
+**Before**: Generate phase creates requirements
+**After**: Plan phase uses validated requirements
+**Related**: Validate phase checks consistency

@@ -1,6 +1,6 @@
-# spec:plan - Planning Examples
+# plan phase - Planning Examples
 
-This file contains concrete scenarios demonstrating the spec:plan skill in action.
+This file contains concrete scenarios demonstrating the plan phase skill in action.
 
 ## Example 1: REST API Planning
 
@@ -174,7 +174,7 @@ Technology choices researched:
 Next steps:
   1. Review plan.md for technical accuracy
   2. Validate Elasticsearch setup requirements
-  3. Run: spec:tasks (to create task breakdown)
+  3. Run: tasks phase (to create task breakdown)
 ```
 
 ---

@@ -1,6 +1,6 @@
 # Specification Generation Examples
 
-Concrete scenarios demonstrating spec:generate in action.
+Concrete scenarios demonstrating Generate phase in action.
 
 ## Example 1: Greenfield SaaS Authentication
 
@@ -193,10 +193,10 @@ so that my account has additional protection.
 - **JIRA**: AUTH-123
 
 ## Workflow Progress
-- [x] spec:generate - Feature specification (2024-10-31)
-- [ ] spec:clarify - 5 questions to resolve
-- [ ] spec:plan - Technical design
-- [ ] spec:tasks - Task breakdown
+- [x] Generate phase - Feature specification (2024-10-31)
+- [ ] clarify phase - 5 questions to resolve
+- [ ] plan phase - Technical design
+- [ ] tasks phase - Task breakdown
 ```
 
 ---
@@ -616,7 +616,7 @@ so that I stay informed.
 6. [CLARIFY: User notification preferences/settings?]
 7. [CLARIFY: Notification retention period?]
 
-**Next Step:** Run /spec-clarify to resolve these questions before planning.
+**Next Step:** Run /workflow:spec → "🔍 Clarify" to resolve these questions before planning.
 ```
 
 ---

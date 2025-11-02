@@ -71,7 +71,7 @@ workflow/
 🎯 Active Feature: #003-user-authentication
 ✅ Completed: init, generate
 ⏳ Current: clarify (2/4 clarifications resolved)
-→ Next: spec:plan (after clarifications)
+→ Next: plan phase (after clarifications)
 ```
 
 ### Level 2: Phase Guide (~500-600 tokens)
@@ -134,7 +134,7 @@ Shows: Phase skills, workflow patterns, exit criteria
 
 ### Skill Execution
 ```
-User: "How do I run spec:clarify?"
+User: "How do I run clarify phase?"
 
 Claude loads:
   - workflow/SKILL.md (~300 tokens)
@@ -277,12 +277,12 @@ The router **does not replace** individual skills. Instead:
 
 **Before** (accessing skill directly):
 ```
-User needs clarify → Load spec:clarify SKILL.md (1,500 tokens)
+User needs clarify → Load clarify phase SKILL.md (1,500 tokens)
 ```
 
 **After** (via router):
 ```
-User asks "need to clarify" → Router (300 tokens) → Routes to spec:clarify
+User asks "need to clarify" → Router (300 tokens) → Routes to clarify phase
 ```
 
 **Benefit**: Router provides context first, then loads skill
@@ -296,8 +296,8 @@ Claude: Loads multiple skills to determine (4,500+ tokens)
 **After** (via router):
 ```
 User: "How do I handle vague requirements?"
-Router: Identifies Phase 2, spec:clarify (300 tokens)
-Shows: Phase 2 guide (550 tokens) OR spec:clarify SKILL.md (1,500 tokens)
+Router: Identifies Phase 2, clarify phase (300 tokens)
+Shows: Phase 2 guide (550 tokens) OR clarify phase SKILL.md (1,500 tokens)
 Total: 850 or 1,800 tokens (vs 4,500+)
 ```
 

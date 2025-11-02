@@ -7,64 +7,64 @@ Quick reference to all 13 workflow skills organized by category and phase.
 ### Phase 1: Initialize
 | Skill | Type | Purpose | Duration | Location |
 |-------|------|---------|----------|----------|
-| **spec:init** | ⭐ CORE | Initialize workflow structure | 15-30m | `phases/1-initialize/init/guide.md` |
-| **spec:discover** | 🔧 TOOL | Analyze existing codebase (brownfield) | 30-60m | `phases/1-initialize/discover/guide.md` |
-| **spec:blueprint** | 🔧 TOOL | Define architecture standards | 45-90m | `phases/1-initialize/blueprint/guide.md` |
+| **initialize phase** | ⭐ CORE | Initialize workflow structure | 15-30m | `phases/1-initialize/init/guide.md` |
+| **discover phase** | 🔧 TOOL | Analyze existing codebase (brownfield) | 30-60m | `phases/1-initialize/discover/guide.md` |
+| **blueprint phase** | 🔧 TOOL | Define architecture standards | 45-90m | `phases/1-initialize/blueprint/guide.md` |
 
 ### Phase 2: Define Requirements
 | Skill | Type | Purpose | Duration | Location |
 |-------|------|---------|----------|----------|
-| **spec:generate** | ⭐ CORE | Create feature specifications | 20-45m | `phases/2-define/generate/guide.md` |
-| **spec:clarify** | 🔧 TOOL | Resolve ambiguities | 10-30m | `phases/2-define/clarify/guide.md` |
-| **spec:checklist** | 🔧 TOOL | Validate requirement quality | 15-30m | `phases/2-define/checklist/guide.md` |
+| **generate phase** | ⭐ CORE | Create feature specifications | 20-45m | `phases/2-define/generate/guide.md` |
+| **clarify phase** | 🔧 TOOL | Resolve ambiguities | 10-30m | `phases/2-define/clarify/guide.md` |
+| **checklist phase** | 🔧 TOOL | Validate requirement quality | 15-30m | `phases/2-define/checklist/guide.md` |
 
 ### Phase 3: Design Solution
 | Skill | Type | Purpose | Duration | Location |
 |-------|------|---------|----------|----------|
-| **spec:plan** | ⭐ CORE | Create technical design | 30-90m | `phases/3-design/plan/guide.md` |
-| **spec:analyze** | 🔧 TOOL | Validate consistency | 10-20m | `phases/3-design/analyze/guide.md` |
+| **plan phase** | ⭐ CORE | Create technical design | 30-90m | `phases/3-design/plan/guide.md` |
+| **analyze phase** | 🔧 TOOL | Validate consistency | 10-20m | `phases/3-design/analyze/guide.md` |
 
 ### Phase 4: Build Feature
 | Skill | Type | Purpose | Duration | Location |
 |-------|------|---------|----------|----------|
-| **spec:tasks** | ⭐ CORE | Break down into tasks | 20-45m | `phases/4-build/tasks/guide.md` |
-| **spec:implement** | ⭐ CORE | Execute implementation | 2-20h | `phases/4-build/implement/guide.md` |
+| **tasks phase** | ⭐ CORE | Break down into tasks | 20-45m | `phases/4-build/tasks/guide.md` |
+| **implement phase** | ⭐ CORE | Execute implementation | 2-20h | `phases/4-build/implement/guide.md` |
 
 ### Phase 5: Track Progress
 | Skill | Type | Purpose | Duration | Location |
 |-------|------|---------|----------|----------|
-| **spec:update** | 🔧 TOOL | Modify specifications | 15-45m | `phases/5-track/update/guide.md` |
-| **spec:metrics** | 🔧 TOOL | View progress analytics | 2-5m | `phases/5-track/metrics/guide.md` |
-| **spec:orchestrate** | 🔧 TOOL | Automate full workflow | 3-25h | `phases/5-track/orchestrate/guide.md` |
+| **update phase** | 🔧 TOOL | Modify specifications | 15-45m | `phases/5-track/update/guide.md` |
+| **metrics phase** | 🔧 TOOL | View progress analytics | 2-5m | `phases/5-track/metrics/guide.md` |
+| **orchestrate phase** | 🔧 TOOL | Automate full workflow | 3-25h | `phases/5-track/orchestrate/guide.md` |
 
 ## By Category
 
 ### ⭐ Core Workflow (Required, Sequential)
-1. **spec:init** - Setup → `{config.paths.spec_root}/` structure
-2. **spec:generate** - Define → `spec.md`
-3. **spec:plan** - Design → `plan.md`
-4. **spec:tasks** - Task → `tasks.md`
-5. **spec:implement** - Build → Working feature
+1. **initialize phase** - Setup → `{config.paths.spec_root}/` structure
+2. **generate phase** - Define → `spec.md`
+3. **plan phase** - Design → `plan.md`
+4. **tasks phase** - Task → `tasks.md`
+5. **implement phase** - Build → Working feature
 
 **6 total core functions** (init, generate, plan, tasks, implement + implement as second Phase 4 core)
 
 ### 🔧 Supporting Tools (Optional, Contextual)
 
 **Phase 1 Tools**:
-- **spec:discover** - Codebase analysis (brownfield only)
-- **spec:blueprint** - Architecture definition (documentation)
+- **discover phase** - Codebase analysis (brownfield only)
+- **blueprint phase** - Architecture definition (documentation)
 
 **Phase 2 Tools**:
-- **spec:clarify** - Resolve ambiguities (when [CLARIFY] tags present)
-- **spec:checklist** - Quality gates (enterprise/compliance)
+- **clarify phase** - Resolve ambiguities (when [CLARIFY] tags present)
+- **checklist phase** - Quality gates (enterprise/compliance)
 
 **Phase 3 Tools**:
-- **spec:analyze** - Validation (complex features, pre-implementation)
+- **analyze phase** - Validation (complex features, pre-implementation)
 
 **Phase 5 Tools** (all tools, no core):
-- **spec:update** - Requirement changes (ongoing)
-- **spec:metrics** - Progress tracking (ongoing)
-- **spec:orchestrate** - Full automation (alternative to manual workflow)
+- **update phase** - Requirement changes (ongoing)
+- **metrics phase** - Progress tracking (ongoing)
+- **orchestrate phase** - Full automation (alternative to manual workflow)
 
 **7 total supporting tools** (discover, blueprint, clarify, checklist, analyze, update, metrics, orchestrate)
 
@@ -72,125 +72,125 @@ Quick reference to all 13 workflow skills organized by category and phase.
 
 ### Starting New Project
 ```
-spec:init → spec:blueprint → spec:generate
+initialize phase → blueprint phase → generate phase
 ```
 
 ### Analyzing Existing Codebase
 ```
-spec:discover → spec:init → spec:blueprint
+discover phase → initialize phase → blueprint phase
 ```
 
 ### Building Feature
 ```
-spec:generate → spec:clarify → spec:plan → spec:tasks → spec:implement
+generate phase → clarify phase → plan phase → tasks phase → implement phase
 ```
 
 ### Automating Workflow
 ```
-spec:orchestrate (runs: generate → clarify → plan → tasks → implement)
+orchestrate phase (runs: generate → clarify → plan → tasks → implement)
 ```
 
 ### Changing Requirements
 ```
-spec:update → spec:analyze → spec:tasks --update
+update phase → analyze phase → tasks phase --update
 ```
 
 ### Tracking Progress
 ```
-spec:metrics (view analytics anytime)
+metrics phase (view analytics anytime)
 ```
 
 ## Skill Details
 
-### spec:init
+### initialize phase
 **Purpose**: Initialize Spec workflow in project
 **When**: Starting new project or adding Spec to existing code
 **Tools**: Read, Write, Bash, Grep
 **Inputs**: None (detects project type)
 **Outputs**: `{config.paths.spec_root}/`, `{config.paths.state}/`, `{config.paths.memory}/`
-**Next**: spec:discover (brownfield) or spec:blueprint (greenfield)
+**Next**: discover phase (brownfield) or blueprint phase (greenfield)
 
-### spec:discover
+### discover phase
 **Purpose**: Analyze existing codebase architecture and patterns
 **When**: Brownfield projects, onboarding, refactoring planning
-**Tools**: Read, Grep, Bash (uses spec:analyzer subagent)
+**Tools**: Read, Grep, Bash (uses analyze phaser subagent)
 **Inputs**: Existing codebase, JIRA config (optional)
 **Outputs**: `discovery/` reports, architecture insights
-**Next**: spec:init, then spec:blueprint
+**Next**: initialize phase, then blueprint phase
 
-### spec:blueprint
+### blueprint phase
 **Purpose**: Define project architecture and technical standards
 **When**: Need architecture documentation, team alignment
 **Tools**: Read, Write, Edit, WebSearch, Bash
 **Inputs**: `{config.paths.spec_root}/`, discovery reports (optional)
 **Outputs**: `{config.paths.spec_root}/architecture-blueprint.md`, ADRs
-**Next**: spec:generate (start features)
+**Next**: generate phase (start features)
 
-### spec:generate
+### generate phase
 **Purpose**: Create feature specifications with user stories
 **When**: Starting new feature development
 **Tools**: Read, Write, Edit, AskUserQuestion, WebSearch, Bash
 **Inputs**: Feature description, product requirements
 **Outputs**: `{config.paths.features}/NNN-name/{config.naming.files.spec}`, user stories (P1/P2/P3)
-**Next**: spec:clarify (if [CLARIFY] tags) or spec:plan
+**Next**: clarify phase (if [CLARIFY] tags) or plan phase
 
-### spec:clarify
+### clarify phase
 **Purpose**: Resolve ambiguities and vague requirements
 **When**: [CLARIFY] tags present, vague terms detected
 **Tools**: Read, Edit, AskUserQuestion
 **Inputs**: `spec.md` with ambiguities
 **Outputs**: Clarified `spec.md`, decision log
-**Next**: spec:checklist (validation) or spec:plan
+**Next**: checklist phase (validation) or plan phase
 
-### spec:checklist
+### checklist phase
 **Purpose**: Validate requirement quality with domain checklists
 **When**: Quality gates, enterprise compliance, pre-planning
 **Tools**: Read, Write
 **Inputs**: `spec.md`
 **Outputs**: `checklists/` (ux.md, api.md, security.md, performance.md)
-**Next**: Review checklists, then spec:plan
+**Next**: Review checklists, then plan phase
 
-### spec:plan
+### plan phase
 **Purpose**: Create technical design with architecture decisions
 **When**: Have approved specification
 **Tools**: Read, Write, Edit, WebSearch, Bash (uses spec:researcher)
 **Inputs**: `spec.md`, architecture blueprint
 **Outputs**: `plan.md`, ADRs, technical approach
-**Next**: spec:analyze (validation) or spec:tasks
+**Next**: analyze phase (validation) or tasks phase
 
-### spec:analyze
+### analyze phase
 **Purpose**: Validate consistency across spec/plan/tasks
 **When**: Before implementation, after updates, complex features
-**Tools**: Read, Grep, Bash (uses spec:analyzer subagent)
+**Tools**: Read, Grep, Bash (uses analyze phaser subagent)
 **Inputs**: `spec.md`, `plan.md`, `tasks.md` (if exists)
 **Outputs**: Analysis report with CRITICAL/HIGH/MEDIUM/LOW issues
-**Next**: Fix issues or proceed to spec:tasks
+**Next**: Fix issues or proceed to tasks phase
 
-### spec:tasks
+### tasks phase
 **Purpose**: Break down plan into executable tasks
 **When**: Technical plan complete
 **Tools**: Read, Write, Edit, Bash
 **Inputs**: `plan.md`, `spec.md`
 **Outputs**: `tasks.md` with task IDs, priorities, dependencies
-**Next**: spec:implement
+**Next**: implement phase
 
-### spec:implement
+### implement phase
 **Purpose**: Execute implementation tasks with progress tracking
 **When**: Tasks defined in tasks.md
-**Tools**: Read, Write, Edit (delegates to spec:implementer subagent)
+**Tools**: Read, Write, Edit (delegates to implement phaseer subagent)
 **Inputs**: `tasks.md`
 **Outputs**: Working feature, test results, completed tasks
-**Next**: New feature or spec:metrics
+**Next**: New feature or metrics phase
 
-### spec:update
+### update phase
 **Purpose**: Modify existing specifications
 **When**: Requirements change, add/remove stories, priority shifts
 **Tools**: Read, Write, Edit, AskUserQuestion, WebSearch, Bash
 **Inputs**: `spec.md`, change description
 **Outputs**: Updated `spec.md`, `plan.md`, `tasks.md`, migration plan
-**Next**: spec:analyze → spec:tasks --update
+**Next**: analyze phase → tasks phase --update
 
-### spec:metrics
+### metrics phase
 **Purpose**: View development analytics and progress
 **When**: Need progress report, sprint planning, process optimization
 **Tools**: Read, Bash
@@ -198,7 +198,7 @@ spec:metrics (view analytics anytime)
 **Outputs**: Analytics dashboard, CSV/JSON exports
 **Next**: Use insights to optimize workflow
 
-### spec:orchestrate
+### orchestrate phase
 **Purpose**: Automate complete workflow from spec to implementation
 **When**: Want full automation, quick prototyping
 **Tools**: Read, Write, Edit, AskUserQuestion

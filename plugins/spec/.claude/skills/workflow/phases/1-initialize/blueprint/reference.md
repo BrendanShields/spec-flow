@@ -1,6 +1,6 @@
-# spec:blueprint - Technical Reference
+# blueprint phase - Technical Reference
 
-This file contains complete technical specifications for the spec:blueprint skill.
+This file contains complete technical specifications for the blueprint phase skill.
 
 ## Complete Blueprint Template
 
@@ -900,4 +900,4 @@ grep -E "(postgres|mysql|mongodb|redis)" package.json requirements.txt docker-co
 
 **Last Updated**: 2025-10-31
 **Maintained By**: Spec plugin team
-**Related Skills**: spec:init, spec:generate, spec:discover
+**Related Skills**: initialize phase, generate phase, discover phase

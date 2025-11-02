@@ -1,6 +1,6 @@
 # Spec Analyze - Technical Reference
 
-Complete technical documentation for the spec:analyze skill.
+Complete technical documentation for the analyze phase skill.
 
 ## Table of Contents
 
@@ -561,11 +561,11 @@ low: 1
 
 ## Subagent Integration
 
-### spec:analyzer Protocol
+### analyze phaser Protocol
 
 **Invocation**:
 ```markdown
-Task spec:analyzer with:
+Task analyze phaser with:
   Input Files:
     - spec.md: {file_path}
     - plan.md: {file_path}
@@ -610,14 +610,14 @@ Task spec:analyzer with:
   "recommendations": {
     "critical": ["Fix C1 before implementation"],
     "high": [],
-    "next_steps": "Validation passed - proceed with spec:implement"
+    "next_steps": "Validation passed - proceed with implement phase"
   }
 }
 ```
 
 **Fallback Behavior**:
 ```markdown
-If spec:analyzer unavailable:
+If analyze phaser unavailable:
 1. Perform basic checks:
    - Count stories vs tasks
    - Simple priority comparison
@@ -666,11 +666,11 @@ clusters:
 
 **Flags**:
 ```bash
-spec:analyze --strict          # Fail on any issues
-spec:analyze --skip-blueprint  # Skip blueprint checking
-spec:analyze --coverage-only   # Only coverage analysis
-spec:analyze --save-report     # Save detailed report
-spec:analyze --verbose         # Show all details
+analyze phase --strict          # Fail on any issues
+analyze phase --skip-blueprint  # Skip blueprint checking
+analyze phase --coverage-only   # Only coverage analysis
+analyze phase --save-report     # Save detailed report
+analyze phase --verbose         # Show all details
 ```
 
 ---
@@ -719,12 +719,12 @@ spec:analyze --verbose         # Show all details
 ```python
 if not exists("{config.paths.features}/{id}/{config.naming.files.spec}"):
     error("Specification not found")
-    suggest("Run: spec:generate first")
+    suggest("Run: generate phase first")
     exit(1)
 
 if not exists("{config.paths.features}/{id}/{config.naming.files.plan}"):
     error("Plan not found")
-    suggest("Run: spec:plan first")
+    suggest("Run: plan phase first")
     exit(1)
 ```
 
@@ -741,7 +741,7 @@ except ParseError as e:
 
 **Analyzer Unavailable**:
 ```python
-if not available("spec:analyzer"):
+if not available("analyze phaser"):
     warn("Deep analysis unavailable")
     warn("Using basic validation")
     # Continue with fallback
@@ -755,7 +755,7 @@ if not available("spec:analyzer"):
 - **EXAMPLES.md**: Concrete usage scenarios
 - `shared/workflow-patterns.md`: Validation patterns
 - `shared/state-management.md`: State file access
-- `spec:analyzer/SKILL.md`: Subagent details
+- `analyze phaser/SKILL.md`: Subagent details
 
 ---
 

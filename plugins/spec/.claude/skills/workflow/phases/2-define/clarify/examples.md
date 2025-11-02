@@ -368,9 +368,9 @@ Unranked → Prioritized
 
 ## Usage Notes
 
-**When to run spec:clarify**:
-- Immediately after spec:generate if [CLARIFY] tags present
-- Before spec:plan to ensure complete requirements
+**When to run clarify phase**:
+- Immediately after generate phase if [CLARIFY] tags present
+- Before plan phase to ensure complete requirements
 - When stakeholders need to make decisions
 - After requirements review when gaps identified
 

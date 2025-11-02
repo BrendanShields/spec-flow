@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-11-02T20:51:55.448Z",
+  "workingDirectory": "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow",
+  "lastActivity": "Unknown",
+  "workflow": {
+    "currentFeature": null,
+    "lastModifiedFiles": [
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/.session.json",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/state/current-session.md",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/state/memory/CHANGES-COMPLETED.md",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/state/memory/CHANGES-PLANNED.md",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/state/memory/DECISIONS-LOG.md",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.claude/skills/workflow/.spec/state/memory/WORKFLOW-PROGRESS.md"
+    ],
+    "pendingTasks": null
+  },
+  "environment": {
+    "nodeVersion": "v24.1.0",
+    "platform": "darwin",
+    "specVersion": "3.3.0"
+  }
+}

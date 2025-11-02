@@ -32,13 +32,13 @@ Phase 5: Track         (ongoing)
 ```
 Is this a new project?
 ├─ Yes (Greenfield)
-│  ├─ spec:init
-│  └─ spec:blueprint (define ideal architecture)
+│  ├─ initialize phase
+│  └─ blueprint phase (define ideal architecture)
 │
 └─ No (Brownfield)
-   ├─ spec:discover (analyze existing code)
-   ├─ spec:init
-   └─ spec:blueprint --from-discovery
+   ├─ discover phase (analyze existing code)
+   ├─ initialize phase
+   └─ blueprint phase --from-discovery
 ```
 
 ### Exit Criteria
@@ -75,15 +75,15 @@ Is this a new project?
 ### Decision Tree
 ```
 Have requirements?
-└─ spec:generate "Feature description"
+└─ generate phase "Feature description"
    │
    Has [CLARIFY] tags or vague terms?
-   ├─ Yes → spec:clarify
+   ├─ Yes → clarify phase
    │        ├─ Repeat if needed
    │        └─ Continue
    │
    Need quality validation?
-   ├─ Yes → spec:checklist
+   ├─ Yes → checklist phase
    │        ├─ Review checklists
    │        ├─ Fix gaps
    │        └─ Continue
@@ -123,14 +123,14 @@ Have requirements?
 
 ### Decision Tree
 ```
-spec:plan (create technical design)
+plan phase (create technical design)
    │
    Complex feature (>15 tasks) OR team requires validation?
-   ├─ Yes → spec:analyze
+   ├─ Yes → analyze phase
    │        │
    │        Has CRITICAL or HIGH issues?
    │        ├─ Yes → Fix issues
-   │        │        └─ Re-run spec:analyze
+   │        │        └─ Re-run analyze phase
    │        └─ No → Continue
    │
    └─ Ready for Phase 4
@@ -141,7 +141,7 @@ spec:plan (create technical design)
 - [x] ADRs documented for major decisions
 - [x] Data models defined
 - [x] API contracts specified
-- [x] `spec:analyze` shows no CRITICAL issues
+- [x] `analyze phase` shows no CRITICAL issues
 - [x] Security considerations addressed
 - [x] Team approved technical approach
 
@@ -169,17 +169,17 @@ spec:plan (create technical design)
 
 ### Decision Tree
 ```
-spec:tasks (break down into tasks)
+tasks phase (break down into tasks)
    │
    Large feature OR parallel work possible?
-   ├─ spec:implement --parallel
-   └─ spec:implement
+   ├─ implement phase --parallel
+   └─ implement phase
       │
       Interrupted?
-      ├─ spec:implement --continue
+      ├─ implement phase --continue
       │
       Need specific priority?
-      ├─ spec:implement --filter=P1
+      ├─ implement phase --filter=P1
       │
       All tasks complete AND tests passing?
       └─ Ready for Phase 5
@@ -219,17 +219,17 @@ spec:tasks (break down into tasks)
 What do you need?
 
 ├─ Requirements changed?
-│  └─ spec:update
-│     └─ spec:analyze
-│        └─ spec:tasks --update
+│  └─ update phase
+│     └─ analyze phase
+│        └─ tasks phase --update
 │
 ├─ Check progress?
-│  └─ spec:metrics
+│  └─ metrics phase
 │
 ├─ Automate feature?
-│  └─ spec:orchestrate
-│     ├─ Interrupted? → spec:orchestrate --resume
-│     └─ Quick mode? → spec:orchestrate --auto
+│  └─ orchestrate phase
+│     ├─ Interrupted? → orchestrate phase --resume
+│     └─ Quick mode? → orchestrate phase --auto
 │
 └─ Continue existing workflow
    └─ Return to appropriate phase
@@ -239,7 +239,7 @@ What do you need?
 Phase 5 is continuous throughout project lifecycle
 
 ### Artifacts Modified
-- `spec.md` (via spec:update)
+- `spec.md` (via update phase)
 - `plan.md` (propagated from updates)
 - `tasks.md` (propagated from updates)
 - `{config.paths.memory}/WORKFLOW-PROGRESS.md` (metrics)
@@ -258,9 +258,9 @@ These happen naturally in workflow:
 
 ### Manual Transitions
 These require explicit decisions:
-- Phase 2 ↔ Phase 5: Requirements change → spec:update
-- Phase 3 ↔ Phase 5: Design change → spec:update → spec:plan
-- Phase 4 ↔ Phase 5: Implementation change → spec:update → spec:tasks
+- Phase 2 ↔ Phase 5: Requirements change → update phase
+- Phase 3 ↔ Phase 5: Design change → update phase → plan phase
+- Phase 4 ↔ Phase 5: Implementation change → update phase → tasks phase
 
 ### Skipped Transitions
 Optional phases that can be skipped:
@@ -315,7 +315,7 @@ Optional phases that can be skipped:
 - Medium feature: 8-15 hours
 - Complex feature: 20-30 hours
 
-**Automation** (spec:orchestrate):
+**Automation** (orchestrate phase):
 - Automates Phases 2-4
 - Duration: Same as manual but hands-off
 - Requires periodic prompts and decisions
@@ -324,11 +324,11 @@ Optional phases that can be skipped:
 
 ### Phase 1: Initialize
 **Issue**: Already initialized error
-**Solution**: `spec:init --force` or skip to Phase 2
+**Solution**: `initialize phase --force` or skip to Phase 2
 
 ### Phase 2: Define
 **Issue**: Too many [CLARIFY] tags
-**Solution**: Run `spec:clarify` multiple times (4 questions/session)
+**Solution**: Run `clarify phase` multiple times (4 questions/session)
 
 ### Phase 3: Design
 **Issue**: Validation shows CRITICAL issues
@@ -336,7 +336,7 @@ Optional phases that can be skipped:
 
 ### Phase 4: Build
 **Issue**: Implementation blocked
-**Solution**: `spec:implement --continue` after unblocking
+**Solution**: `implement phase --continue` after unblocking
 
 ### Phase 5: Track
 **Issue**: Metrics show no data
@@ -349,9 +349,9 @@ Optional phases that can be skipped:
 - Define feature → Phase 2 (Define)
 - Design solution → Phase 3 (Design)
 - Build feature → Phase 4 (Build)
-- Change requirements → Phase 5 (Track: spec:update)
-- Check progress → Phase 5 (Track: spec:metrics)
-- Automate everything → Phase 5 (Track: spec:orchestrate)
+- Change requirements → Phase 5 (Track: update phase)
+- Check progress → Phase 5 (Track: metrics phase)
+- Automate everything → Phase 5 (Track: orchestrate phase)
 
 **I'm stuck in...**
 - Phase 2 (too many ambiguities) → Load `spec-clarify/EXAMPLES.md`

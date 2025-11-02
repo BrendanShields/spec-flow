@@ -24,19 +24,27 @@ Context-aware menus adapt to your current workflow state, guiding you through th
 
 ## Implementation
 
-I'll provide an interactive, context-aware menu based on your current workflow state.
+I'll invoke the **workflow skill** to provide an interactive, context-aware menu system.
 
-### Step 1: Detect Current State
+The workflow skill will:
 
-I'll read `{config.paths.state}/current-session.md` to determine:
-- Whether Spec is initialized (`.spec/` directory exists)
-- Current workflow phase (specification, planning, implementation)
-- Active feature and progress
-- Available next actions
+1. **Detect your current workflow state** by checking:
+   - Whether Spec is initialized (`.spec/` directory exists)
+   - Your current workflow phase (from `{config.paths.state}/current-session.md`)
+   - Active feature and progress
+   - Available next actions
 
-### Step 2: Present Context-Aware Menu
+2. **Present a context-aware menu** with options tailored to your current state
 
-Based on your state, I'll use AskUserQuestion to show appropriate options:
+3. **Execute your selection** by routing to the appropriate phase guide or action
+
+4. **Manage auto mode** with checkpoints between phases if you select automated workflow
+
+All menu structures described below are implemented by the workflow skill.
+
+### Menu States
+
+The workflow skill presents different menus based on your current state:
 
 **🆕 If Not Initialized:**
 
@@ -51,8 +59,8 @@ Options:
 - ❓ Ask a Question → Get specific help
 ```
 
-I'll invoke:
-- Initialize → `workflow skill` loads `phases/1-initialize/init/guide.md`
+The workflow skill routes to:
+- Initialize → `phases/1-initialize/init/guide.md`
 - Learn → Show workflow overview and examples
 - Ask → Interactive Q&A about Spec
 
@@ -70,7 +78,7 @@ Options:
 - ❓ Get Help → Guidance or questions
 ```
 
-I'll invoke:
+The workflow skill routes to:
 - Auto Mode → Start auto mode flow (see Step 3)
 - Define → `workflow skill` loads `phases/2-define/generate/guide.md`
 - Track → Show metrics and progress
@@ -95,7 +103,7 @@ Options:
 - ❓ Get Help → Specification best practices
 ```
 
-I'll invoke:
+The workflow skill routes to:
 - Auto Mode → Start from design phase
 - Design → `workflow skill` loads `phases/3-design/plan/guide.md`
 - Refine → `workflow skill` loads `phases/2-define/clarify/guide.md` or `phases/2-define/checklist/guide.md`
@@ -121,7 +129,7 @@ Options:
 - ❓ Get Help → Planning best practices
 ```
 
-I'll invoke:
+The workflow skill routes to:
 - Auto Mode → Start from tasks phase
 - Build → `workflow skill` loads `phases/4-build/tasks/guide.md`
 - Refine → `workflow skill` loads `phases/3-design/analyze/guide.md`
@@ -148,7 +156,7 @@ Options:
 - ❓ Get Help → Implementation strategies
 ```
 
-I'll invoke:
+The workflow skill routes to:
 - Auto Mode → Continue implementation with checkpoints
 - Continue → `workflow skill` loads `phases/4-build/implement/guide.md` with --continue
 - Refine → `workflow skill` loads `phases/3-design/analyze/guide.md` for code review
@@ -175,99 +183,31 @@ Options:
 - ❓ Get Help → Next steps guidance
 ```
 
-I'll invoke:
+The workflow skill routes to:
 - Validate → `workflow skill` loads `phases/3-design/analyze/guide.md`
 - Metrics → `workflow skill` loads `phases/5-track/metrics/guide.md`
 - New Feature → `workflow skill` loads `phases/2-define/generate/guide.md`
 - Track → Show tracking menu (similar to /workflow:track)
 - Help → Context-specific help
 
-### Step 3: Auto Mode Flow
+### Auto Mode Flow
 
-When user selects **🚀 Auto Mode**, I execute phases with checkpoint prompts:
+When you select Auto Mode from any menu, the workflow skill executes an automated sequence:
 
-**Phase Execution Loop:**
+1. **Determines phase sequence** based on current state
+2. **Executes each phase** sequentially
+3. **Shows checkpoints** after each phase with options to continue, refine, review, or exit
+4. **Loops until complete** or you exit to manual control
 
-1. **Execute Current/Next Phase**
-   - Show progress indicator
-   - Invoke appropriate workflow skill guide
-   - Display completion summary
+See the workflow skill implementation for full auto mode details.
 
-2. **Checkpoint Prompt** (using AskUserQuestion)
-   ```
-   Phase {N} Complete: {phase-name}
+### Help Mode
 
-   {Summary of what was accomplished}
+When you select Get Help, the workflow skill provides context-aware assistance:
 
-   What would you like to do?
-
-   Options:
-   - ✅ Continue to {next-phase} → Proceed automatically
-   - 🔄 Refine {current-phase} → Improve before continuing
-   - 📊 Review {current-artifact} → View what was created
-   - 🛑 Exit Auto Mode → Return to manual control
-   ```
-
-3. **Based on Selection:**
-   - Continue → Execute next phase, repeat loop
-   - Refine → Invoke refinement skill, then re-prompt
-   - Review → Display artifact, then re-prompt
-   - Exit → Return to main menu
-
-**Auto Mode Phases:**
-
-```
-Phase 1: Initialize (if needed)
-  ↓ checkpoint
-Phase 2: Define → Generate specification
-  ↓ checkpoint
-Phase 3: Design → Create technical plan
-  ↓ checkpoint
-Phase 4: Build → Tasks + Implementation
-  ↓ checkpoint
-Phase 5: Validate → Consistency checks
-  ↓ complete
-```
-
-### Step 4: Help Mode
-
-When user selects **❓ Help** or **Get Help**:
-
-**If Not Initialized:**
-```
-How can I help you?
-
-Options:
-- 📚 What is Spec? → Overview of spec-driven development
-- 🚀 How do I start? → Step-by-step getting started
-- 💡 Show examples → See Spec in action
-- ❓ Ask a question → Type your specific question
-```
-
-**If In Workflow:**
-```
-Help Topics:
-
-Options:
-- 📖 Explain current phase → What is {phase-name}?
-- 🎯 What should I do next? → Recommended next steps
-- 🔧 Troubleshooting → Common issues and solutions
-- 💡 Best practices → Tips for {phase-name}
-- 📚 Full workflow → Understand all phases
-- ❓ Ask a question → Type your specific question
-```
-
-If "Ask a question" selected, I'll use AskUserQuestion with a text input to get their specific question and answer it.
-
-### Step 5: Execute User's Choice
-
-Based on the menu selection, I'll:
-
-1. **Invoke workflow skill** to load the appropriate phase guide
-2. **Pass context** from cached state to avoid re-reading
-3. **Execute the skill** with the necessary tools (Read, Write, Edit, etc.)
-4. **Update state** files after completion
-5. **Return to menu** or continue auto mode based on context
+- **Not initialized**: Explains Spec, getting started, examples
+- **In workflow**: Explains current phase, best practices, troubleshooting
+- **Ask a question**: Free-form Q&A about Spec
 
 ## Key Features
 

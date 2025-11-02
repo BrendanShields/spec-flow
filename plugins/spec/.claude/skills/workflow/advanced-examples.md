@@ -347,7 +347,7 @@ du -sh .workflow-checkpoints/
 
 ### Example 5: Workflow Stuck in Clarify Loop
 
-**Scenario**: Running `spec:clarify` repeatedly finds new issues; clarification never completes.
+**Scenario**: Running `clarify phase` repeatedly finds new issues; clarification never completes.
 
 **Symptoms**:
 ```bash
@@ -423,7 +423,7 @@ echo "Deferred items logged in backlog." >> docs/spec/feature-name.spec.md
 
 ### Example 6: Task Implementation Fails Midway
 
-**Scenario**: `spec:implement` fails on task T007 of 15 due to dependency issue.
+**Scenario**: `implement phase` fails on task T007 of 15 due to dependency issue.
 
 **Error output**:
 ```

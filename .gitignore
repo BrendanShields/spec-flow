@@ -1,5 +1,5 @@
 # Navi Plugin - Local Configuration & Secrets
-__specification__/config.local.json
+.spec/config.local.json
 *.local.json
 
 # Environment Variables
@@ -43,22 +43,22 @@ dist/
 build/
 
 # Navi - Session State (git-ignored, session-specific)
-__specification__/state/
+.spec/state/
 *.session.md
 
 # Navi - Checkpoints (optional, can be committed or ignored)
 # Uncomment to ignore checkpoints:
-# __specification__/state/checkpoints/
+# .spec/state/checkpoints/
 
 # Navi - Memory (git-committed for project history)
-# __specification__/memory/ should be committed
+# .spec/memory/ should be committed
 
 # Navi - Configuration (committed)
-# __specification__/config/, __specification__/templates/, __specification__/scripts/ should be committed
+# .spec/config/, .spec/templates/, .spec/scripts/ should be committed
 
 # Navi - Features (committed)
-# __specification__/features/ should be committed
+# .spec/features/ should be committed
 
 # Spec session state (git-ignored, session-specific)
-.spec-state/current-session.md
-.spec-state/checkpoints/
+.spec/current-session.md
+.spec/checkpoints/

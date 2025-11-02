@@ -1,4 +1,4 @@
-# spec:checklist Reference
+# Checklist phase Reference
 
 Technical specifications and templates for quality checklist generation.
 
@@ -356,12 +356,12 @@ Implicit priority based on position:
 
 **Explicit**:
 ```bash
-spec:checklist --domains ux,security
+Checklist phase --domains ux,security
 ```
 
 **Custom Focus**:
 ```bash
-spec:checklist "Focus on API error handling and authentication"
+Checklist phase "Focus on API error handling and authentication"
 ```
 
 ---
@@ -474,11 +474,11 @@ MUST include:
 
 ## Integration Points
 
-### Before: spec:specify
+### Before: generate phase
 
 User creates feature specification with requirements.
 
-### After: spec:plan
+### After: plan phase
 
 Once all checklist items validated, proceed to technical planning.
 
@@ -512,7 +512,7 @@ grep -oE "Spec §[A-Z]+-[0-9]+" checklist.md
 
 ### DO
 
-- Generate checklists early (after spec:specify)
+- Generate checklists early (after generate phase)
 - Focus on requirement quality, not implementation
 - Use specific, testable questions
 - Link items to spec sections
@@ -524,7 +524,7 @@ grep -oE "Spec §[A-Z]+-[0-9]+" checklist.md
 - Create vague meta-questions
 - Skip gap identification
 - Forget to update after spec changes
-- Proceed to spec:plan with open gaps
+- Proceed to plan phase with open gaps
 
 ---
 

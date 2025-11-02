@@ -1,101 +1,115 @@
 # Workflow Quick Start Guide
 
-**Get your first feature built in 5 commands**
+**Get your first feature built in 5 steps using the /workflow:spec command**
 
 ---
 
 ## Your First Feature (The Essential Path)
 
-### Step 1: Initialize Your Project
+### Step 1: Run the Workflow Command
 
 ```bash
-/spec init
+/workflow:spec
 ```
 
-**What it does**: Creates `{config.paths.spec_root}/` directories, initializes state tracking, sets up workflow structure
+**What happens**: Claude presents a context-aware menu based on your current state
 
-**You'll get**:
-- `{config.paths.spec_root}/` configuration directory
-- `{config.paths.state}/` session tracking (git-ignored)
-- `{config.paths.memory}/` persistent memory (committed)
-- `{config.paths.features}/` directory for your work
+**First time?** You'll see:
+```
+Welcome to Spec Workflow!
 
-**Skip if**: You've already initialized (run once per project)
+What would you like to do?
+- 🚀 Initialize Project
+- 📚 Learn About Spec
+- ❓ Ask a Question
+```
+
+**Select**: "🚀 Initialize Project"
 
 ---
 
-### Step 2: Create Your Specification
+### Step 2: Initialization Complete
 
-```bash
-/spec generate "User authentication with email/password"
+After initialization, run `/workflow:spec` again.
+
+**You'll see**:
+```
+Spec is ready! What would you like to work on?
+- 🚀 Auto Mode (full automation with checkpoints)
+- 📝 Define Feature (manual control)
+- 📊 Track Progress
+- ❓ Get Help
 ```
 
-**What it does**: Creates detailed feature specification with user stories, acceptance criteria, priorities
-
-**You'll get**:
-- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec}`
-- P1/P2/P3 prioritized user stories
-- Acceptance criteria for each story
-- [CLARIFY] tags for ambiguous requirements
-
-**Pro tip**: Be specific in your feature description. More detail = better spec.
+**Select**: "🚀 Auto Mode" for guided automation, OR "📝 Define Feature" for manual control
 
 ---
 
-### Step 3: Create Technical Plan
+### Step 3: Define Your Feature
 
-```bash
-/spec plan
+**If you selected Auto Mode**: Claude will prompt you for feature details
+
+**If you selected Define Feature**: You'll be guided through specification creation
+
+**Enter your feature description**, for example:
+```
+User authentication with email/password, JWT tokens, and refresh mechanism
 ```
 
-**What it does**: Transforms spec into technical design with architecture decisions
-
-**You'll get**:
-- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan}`
-- Architecture diagrams
-- Data models and schemas
-- API contracts
-- ADRs (Architecture Decision Records)
-- Security considerations
-- Testing strategy
-
-**Note**: Uses research agent for best practices
+**What gets created**:
+- `.spec/features/001-your-feature/spec.md` (specification with user stories)
+- Automatically tracked in state management
 
 ---
 
-### Step 4: Break Into Tasks
+### Step 4: Continue Through Phases
 
-```bash
-/spec tasks
+After each phase completes, you'll see a **checkpoint**:
+
+```
+Phase Complete: [Phase Name]
+
+What was accomplished:
+- [Summary of work done]
+
+What would you like to do?
+- ✅ Continue to [Next Phase]
+- 🔄 Refine [Current Phase]
+- 📊 Review [Artifact Created]
+- ⏸️ Pause (resume later)
 ```
 
-**What it does**: Breaks technical plan into executable tasks with dependencies
+**Workflow Phases**:
+1. **Define** → Creates `spec.md` (user stories, acceptance criteria)
+2. **Design** → Creates `plan.md` (technical architecture, ADRs)
+3. **Build** → Creates `tasks.md` → Implements code
+4. **Validate** → Quality checks, consistency validation
 
-**You'll get**:
-- `{config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks}`
-- Task IDs (T001, T002, etc.)
-- Clear dependencies (T002 → T001)
-- Priority markers (P1/P2/P3)
-- Parallel work indicators [P]
-- Estimated effort
+**At each checkpoint**: Select "Continue" to proceed, or "Pause" to stop and resume later
 
 ---
 
-### Step 5: Implement
+### Step 5: Resume Anytime
+
+If you pause or get interrupted, simply run:
 
 ```bash
-/spec implement
+/workflow:spec
 ```
 
-**What it does**: Executes implementation tasks with progress tracking
+**You'll see**:
+```
+📍 Current: [Your Phase]
+Feature: [Your Feature Name]
+Progress: [X/Y tasks] ([percentage]%)
 
-**You'll get**:
-- Working code
-- Passing tests
-- Completed tasks
-- Updated state tracking
+What would you like to do?
+- 🚀 Continue [Current Phase]
+- 📊 View Progress
+- 🔄 Refine Work
+```
 
-**Note**: Uses implementer agent for parallel execution
+The workflow remembers where you left off!
 
 ---
 
@@ -109,176 +123,262 @@ You've just completed your first feature using the Spec workflow!
 - ✅ Task breakdown (`tasks.md`)
 - ✅ Working implementation
 
-**Next**: Start your second feature with `/spec generate "Next feature"`
+**Next**: Run `/workflow:spec` → Select "📝 Define Feature" to start your second feature!
 
 ---
 
-## Common Paths
+## Common Workflows
 
-### Path A: Full Automation (Fastest)
+### Workflow A: Full Automation (Fastest)
 
-```bash
-/spec init
-/spec orchestrate
+```
+1. /workflow:spec
+2. Select: 🚀 Auto Mode
+3. Enter feature description
+4. At each checkpoint: Select ✅ Continue
+5. Done!
 ```
 
-**Best for**: Quick prototyping, straightforward features
-**Note**: Runs generate → clarify → plan → tasks → implement automatically
+**Best for**: Quick features, prototyping, straightforward requirements
+
+**Time**: Runs all phases automatically with oversight checkpoints
 
 ---
 
-### Path B: Iterative (Most Control)
+### Workflow B: Manual Control (Most Control)
 
-```bash
-/spec init
-/spec generate "Feature"
-/spec clarify              # Optional: resolve ambiguities
-/spec plan
-/spec analyze              # Optional: validate consistency
-/spec tasks
-/spec implement
+```
+1. /workflow:spec
+2. Select: 📝 Define Feature
+3. Enter feature description
+   [spec.md created]
+4. /workflow:spec
+5. Select: Move to Design
+   [plan.md created]
+6. /workflow:spec
+7. Select: Move to Build
+   [tasks.md created, implementation executes]
+8. Done!
 ```
 
-**Best for**: Complex features, team collaboration
-**Note**: Full control at each phase
+**Best for**: Complex features, team collaboration, careful review
+
+**Time**: You control pace, can pause/resume at any point
 
 ---
 
-### Path C: Brownfield (Existing Codebase)
+### Workflow C: Resume Interrupted Work
 
-```bash
-/spec discover             # Analyze existing code
-/spec init
-/spec blueprint            # Document architecture
-/spec generate "Feature"
-# ... continue with Path B
+```
+1. /workflow:spec
+2. See: "📍 Current: [Phase], Progress: [X%]"
+3. Select: 🚀 Continue [Phase]
+4. Work resumes from where you left off
 ```
 
-**Best for**: Adding Spec to existing project
-**Note**: Discovery informs better architecture decisions and provides upfront analysis
+**Best for**: Long-running features, interrupted sessions
+
+**Time**: No progress lost, seamless resumption
 
 ---
 
-## Quick Reference
+## Menu Navigation Guide
 
-### Core Commands (Sequential)
+### Main Menu States
 
-| Command | Purpose | Phase |
-|---------|---------|-------|
-| `/spec init` | Setup project | 1: Initialize |
-| `/spec generate "..."` | Create spec | 2: Define |
-| `/spec plan` | Technical design | 3: Design |
-| `/spec tasks` | Task breakdown | 4: Build |
-| `/spec implement` | Execute code | 4: Build |
+**Not Initialized**:
+```
+- 🚀 Initialize Project
+- 📚 Learn About Spec
+- ❓ Ask a Question
+```
 
-### Supporting Tools (Optional)
+**No Active Feature**:
+```
+- 🚀 Auto Mode
+- 📝 Define Feature
+- 📊 Track Progress
+- ❓ Get Help
+```
 
-| Command | Purpose | When to Use |
-|---------|---------|-------------|
-| `/spec discover` | Analyze existing code | Brownfield projects |
-| `/spec blueprint` | Document architecture | Need architecture docs |
-| `/spec clarify` | Resolve ambiguities | [CLARIFY] tags present |
-| `/spec checklist` | Quality validation | Enterprise/compliance |
-| `/spec analyze` | Validate consistency | Complex features |
-| `/spec update` | Modify specs | Requirements change |
-| `/spec metrics` | View progress | Track development |
-| `/spec orchestrate` | Full automation | Want hands-off |
+**In Specification Phase**:
+```
+- 🚀 Auto Mode (continue automatically)
+- 🎨 Move to Design
+- 🔄 Refine Specification
+- 📊 View Specification
+- ❓ Get Help
+```
+
+**In Planning Phase**:
+```
+- 🚀 Auto Mode
+- 🔨 Move to Build
+- 🔄 Refine Design
+- 📊 View Plan
+- ❓ Get Help
+```
+
+**In Implementation Phase**:
+```
+- 🚀 Auto Mode
+- 🔨 Continue Building
+- 📊 View Progress
+- ✅ Validate
+- ❓ Get Help
+```
+
+**Feature Complete**:
+```
+- ✅ Validate & Finalize
+- 📊 View Metrics
+- 📝 Start New Feature
+- 📦 Track & Maintain
+```
 
 ---
 
-## Decision Tree: "What Command Do I Run?"
+## Decision Tree: "What Should I Do?"
 
 ```
 START
 │
-├─ First time? → /spec init
-│
-├─ Have a project already?
-│  ├─ Existing code? → /spec discover → /spec init
-│  └─ New project? → /spec init
+├─ First time using Spec?
+│  └─ Run: /workflow:spec → Select "Initialize Project"
 │
 ├─ Want to build a feature?
-│  ├─ No spec yet? → /spec generate "description"
-│  ├─ Have spec, no plan? → /spec plan
-│  ├─ Have plan, no tasks? → /spec tasks
-│  └─ Have tasks? → /spec implement
+│  ├─ Quick and automated? → Select "Auto Mode"
+│  └─ Want control? → Select "Define Feature" → Step through manually
 │
-├─ Need to change requirements? → /spec update "changes"
+├─ Have incomplete work?
+│  └─ Run: /workflow:spec → Select "Continue [Phase]"
 │
-├─ Want to automate everything? → /spec orchestrate
+├─ Need to change requirements?
+│  └─ Run: /workflow:spec → Select "Refine [Current Artifact]"
 │
-└─ Check progress? → /spec metrics
+├─ Want to see progress?
+│  └─ Run: /workflow:track → Select "View Metrics"
+│
+└─ Stuck or confused?
+   └─ Run: /workflow:spec → Select "Get Help"
 ```
 
 ---
 
 ## When Things Go Wrong
 
-### "I'm stuck in clarify with too many questions"
+### "I don't see any menus, just text"
 
-**Solution**: Skip for now
-```bash
-/spec plan  # Continue workflow, [CLARIFY] tags remain
-```
+**Problem**: Commands aren't presenting interactive menus yet (implementation pending)
 
-Later: Return to clarify after seeing plan context
+**Solution**: This is expected in current version. Menus are being implemented in Phase 1-4 of the refactoring.
 
----
-
-### "My implementation failed midway"
-
-**Solution**: Resume from where you left off
-```bash
-/spec implement --continue
-```
-
-Or restart specific task:
-```bash
-/spec implement --task=T003
-```
+**Workaround**: Follow the documented workflow manually using the phase guides
 
 ---
 
-### "I need to change requirements"
+### "My workflow state is lost"
 
-**Solution**: Update and propagate changes
+**Problem**: State files might be missing or corrupted
+
+**Solution**: Check for `.spec/state/current-session.md`
+
 ```bash
-/spec update "New requirements description"
-/spec analyze              # Validate changes
-/spec tasks --update       # Update task breakdown
-/spec implement --continue # Continue implementation
+# View current state
+cat .spec/state/current-session.md
+
+# If missing, reinitialize
+/workflow:spec → Select "Initialize Project"
 ```
 
 ---
 
-### "I don't know where I am"
+### "I need to change requirements mid-workflow"
 
-**Solution**: Check status
-```bash
-/spec status
+**Solution**: Use the Refine option at any checkpoint
+
 ```
-
-Shows:
-- Current phase
-- Current feature
-- Completed steps
-- Next recommended action
+1. /workflow:spec
+2. Select: 🔄 Refine [Current Artifact]
+3. Make your changes
+4. Continue from where you left off
+```
 
 ---
 
-### "I want to see everything"
+### "I want to start over"
 
-**Solution**: Load workflow map
-```bash
-# In conversation, ask:
-"Show me the complete workflow map"
+**Solution**: Begin a new feature
+
 ```
-
-Or read: `navigation/workflow-map.md`
+1. Complete or archive current feature
+2. /workflow:spec
+3. Select: 📝 Start New Feature
+```
 
 ---
 
 ## Key Concepts (5-Minute Version)
+
+### The Workflow Command
+
+**One command for everything**: `/workflow:spec`
+
+- First time: Initializes project
+- No feature: Start new feature
+- In progress: Resume or continue
+- Complete: Start next feature
+
+**Context-aware**: Shows different options based on where you are
+
+---
+
+### Checkpoints
+
+**What**: Decision points requiring your input
+
+**When**: After every phase, after significant work
+
+**Options at each checkpoint**:
+- ✅ Continue → Proceed to next step
+- 🔄 Refine → Improve current work
+- 📊 Review → View what was created
+- ⏸️ Pause → Stop here, resume later
+
+**Why**: You maintain control, can review before proceeding
+
+---
+
+### Workflow Phases
+
+1. **Initialize**: Set up project structure (once per project)
+2. **Define**: Create feature specification (what to build)
+3. **Design**: Create technical plan (how to build)
+4. **Build**: Implement and test (build it)
+5. **Track**: Monitor and maintain (keep it running)
+
+**Linear flow**: Each phase builds on the previous
+
+---
+
+### File Artifacts
+
+- **spec.md**: WHAT to build (user stories, acceptance criteria)
+- **plan.md**: HOW to build it (architecture, design decisions)
+- **tasks.md**: STEPS to execute (subtasks, dependencies, priorities)
+
+**Location**: `.spec/features/{feature-id}/`
+
+---
+
+### State Management
+
+- **Session state** (`.spec/state/`): Where you are right now, git-ignored
+- **Memory** (`.spec/memory/`): Persistent history, committed to git
+
+**Benefit**: Resume anytime, progress never lost
+
+---
 
 ### Priorities
 
@@ -286,98 +386,105 @@ Or read: `navigation/workflow-map.md`
 - **P2 (Should Have)**: Important but can defer
 - **P3 (Nice to Have)**: Optional enhancements
 
-### Workflow Phases
-
-1. **Initialize**: Set up project structure
-2. **Define**: Create feature specifications
-3. **Design**: Create technical plans
-4. **Build**: Implement and test
-5. **Track**: Monitor and maintain
-
-### File Artifacts
-
-- **spec.md**: What to build (user stories, acceptance criteria)
-- **plan.md**: How to build it (architecture, design decisions)
-- **tasks.md**: Step-by-step implementation (dependencies, estimates)
-
-### Markers
-
-- **⭐ CORE**: Required, sequential workflow
-- **🔧 TOOL**: Optional, contextual support
-- **[CLARIFY]**: Ambiguous requirement needs resolution
-- **[P]**: Task can run in parallel
+**Applied to**: User stories, tasks
 
 ---
 
 ## Examples
 
-### Example 1: Simple Feature (Quick)
+### Example 1: Simple Feature (Auto Mode)
 
-```bash
-# 1. Initialize (once)
-/spec init
+```
+User: /workflow:spec
 
-# 2. Feature in one go
-/spec orchestrate
-# When prompted: "User profile page with avatar upload"
-# Workflow completes automatically
+Claude: [Shows menu]
+Spec is ready! What would you like to work on?
+- 🚀 Auto Mode
+- 📝 Define Feature
+- 📊 Track Progress
+
+User: Selects "Auto Mode"
+
+Claude: What would you like to build?
+
+User: "User profile page with avatar upload"
+
+Claude: [Executes workflow]
+- ✅ Specification created
+- Checkpoint: Continue to Design? [User: Yes]
+- ✅ Technical plan created
+- Checkpoint: Continue to Build? [User: Yes]
+- ✅ Tasks generated
+- ✅ Implementation complete
+
+Claude: Feature complete! Start another?
 ```
 
-**Best for**: Straightforward features
+**Time**: ~30-60 minutes with checkpoints
 
 ---
 
-### Example 2: Complex Feature (Controlled)
+### Example 2: Complex Feature (Manual Control)
 
-```bash
-# 1. Initialize (once)
-/spec init
+```
+User: /workflow:spec
 
-# 2. Detailed spec
-/spec generate "Payment processing with Stripe integration"
+Claude: [Menu]
 
-# 3. Review spec.md, resolve ambiguities
-/spec clarify
+User: Selects "Define Feature"
 
-# 4. Technical planning with research
-/spec plan
+Claude: What would you like to build?
 
-# 5. Validate design
-/spec analyze
+User: "Payment processing with Stripe integration, including webhooks, refunds, and subscription management"
 
-# 6. Break into tasks
-/spec tasks
+Claude: [Creates detailed spec.md]
 
-# 7. Implement step-by-step
-/spec implement
+User: [Reviews spec.md, makes manual edits]
+
+User: /workflow:spec
+
+Claude: [Menu shows "In Specification Phase"]
+
+User: Selects "Move to Design"
+
+Claude: [Creates plan.md with architecture]
+
+User: [Reviews plan.md, adds ADRs]
+
+User: /workflow:spec
+
+User: Selects "Move to Build"
+
+Claude: [Creates tasks.md, starts implementation]
 ```
 
-**Best for**: Critical features, team collaboration
+**Time**: 2-4 hours with review time
 
 ---
 
-### Example 3: Brownfield Addition
+### Example 3: Resume Interrupted Work
 
-```bash
-# 1. Analyze existing code
-/spec discover
+```
+# Yesterday, you started a feature and paused at planning
 
-# 2. Initialize with context
-/spec init
+User: /workflow:spec
 
-# 3. Document existing architecture
-/spec blueprint
+Claude: [Detects state]
+📍 Current: Planning Phase
+Feature: user-authentication
+Progress: 50% (plan.md created, tasks pending)
 
-# 4. Plan feature in context
-/spec generate "Add OAuth to existing auth system"
+What would you like to do?
+- 🚀 Continue to Build
+- 🔄 Refine Design
+- 📊 View Plan
 
-# 5. Continue normal workflow
-/spec plan
-/spec tasks
-/spec implement
+User: Selects "Continue to Build"
+
+Claude: [Resumes from where you left off]
 ```
 
-**Best for**: Existing codebases (includes upfront analysis)
+**Benefit**: Zero context loss
 
 ---
 
@@ -385,30 +492,38 @@ Or read: `navigation/workflow-map.md`
 
 ### 💡 Tip 1: Use Descriptive Feature Names
 
-**Good**: `/spec generate "User authentication with JWT tokens and refresh mechanism"`
-**Bad**: `/spec generate "Auth"`
+**Good**: "User authentication with JWT tokens, refresh mechanism, and password reset flow"
 
-More detail → better specifications
+**Bad**: "Auth"
 
-### 💡 Tip 2: Review Before Moving Forward
+**Why**: Better specifications, clearer plans, easier to resume
 
-After each phase:
-1. Read the generated file
+---
+
+### 💡 Tip 2: Review at Checkpoints
+
+Don't blindly click Continue. At each checkpoint:
+1. Review what was created
 2. Make manual edits if needed
-3. Then proceed to next phase
+3. Then continue
 
-Workflow supports manual refinement!
+**Workflow supports hybrid automation + manual refinement**
 
-### 💡 Tip 3: Use [CLARIFY] Tags Strategically
+---
 
-Don't block on every ambiguity:
-- Critical ambiguities? → Run `/spec clarify`
-- Minor details? → Leave [CLARIFY], continue workflow
+### 💡 Tip 3: Use Auto Mode for Speed, Manual for Control
+
+- **Auto Mode**: Quick features, prototypes, familiar patterns
+- **Manual Mode**: Complex features, new patterns, learning
+
+**You can switch**: Start in Auto, pause, switch to Manual
+
+---
 
 ### 💡 Tip 4: Check Progress Regularly
 
-```bash
-/spec metrics
+```
+/workflow:track → Select "View Metrics"
 ```
 
 Shows:
@@ -417,20 +532,25 @@ Shows:
 - Time spent per phase
 - Bottlenecks
 
+---
+
 ### 💡 Tip 5: Commit Early, Commit Often
 
-Workflow creates multiple checkpoints:
 ```bash
-# After spec
-git add {config.paths.features}/001-*/{config.naming.files.spec}
-git commit -m "feat: Add user auth spec"
+# After spec created
+git add .spec/features/001-*/spec.md
+git commit -m "feat: Add feature spec"
 
-# After plan
-git add {config.paths.features}/001-*/{config.naming.files.plan}
-git commit -m "feat: Add user auth technical plan"
+# After plan created
+git add .spec/features/001-*/plan.md
+git commit -m "feat: Add technical plan"
+
+# After implementation
+git add .spec/features/001-*/ src/
+git commit -m "feat: Implement feature"
 ```
 
-Checkpoint protection!
+**Benefit**: Checkpoint protection, easy rollback
 
 ---
 
@@ -438,47 +558,47 @@ Checkpoint protection!
 
 ### Learn More
 
-- **Glossary**: `glossary.md` - Understand terminology
-- **Error Recovery**: `error-recovery.md` - Troubleshooting guide
-- **Workflow Map**: `navigation/workflow-map.md` - Visual guide
-- **Full Review**: `workflow-review.md` - Comprehensive analysis
+Run `/workflow:spec` → Select "Get Help" for:
+- Detailed phase explanations
+- Best practices
+- Troubleshooting
+- Architecture documentation
 
 ### Customize
 
-- **Templates**: Edit `{config.paths.spec_root}/templates/` to customize output
-- **Architecture**: Run `/spec blueprint` to define standards
-- **Hooks**: Set up event hooks for automation
+- **Templates**: Edit `.spec/templates/` to customize output format
+- **Config**: Modify `.claude/.spec-config.yml` for paths, naming conventions
 
 ### Get Help
 
-- **In-session**: Ask "What should I do next?"
-- **Documentation**: Read `README.md` in plugin root
-- **Support**: Check `error-recovery.md` for common issues
+- **In-session**: `/workflow:spec` → "Get Help" → Ask specific question
+- **Documentation**: `CLAUDE.md` in plugin root
+- **Issues**: Report problems at GitHub
 
 ---
 
-## Summary: Your First 5 Commands
+## Summary: The Essential Workflow
 
-```bash
-1. /spec init                                    # Setup (once)
-2. /spec generate "Your feature description"     # What to build
-3. /spec plan                                    # How to build
-4. /spec tasks                                   # Break it down
-5. /spec implement                               # Build it
+```
+1. /workflow:spec                                # Start
+2. Select: Initialize (first time only)
+3. Select: Auto Mode OR Define Feature           # Begin feature
+4. Enter: Feature description
+5. At checkpoints: Continue OR Refine OR Pause   # Control flow
+6. Done: Feature complete, start next!
 ```
 
-**Output**: Complete, working feature
-**Next**: Start feature #2!
+**That's it!** One command, context-aware menus, checkpoint control.
 
 ---
 
 **Welcome to Spec Workflow!** 🚀
 
-You now have everything you need to get started. Pick your path above and begin building!
+You now have everything you need to build features systematically. The workflow guides you through specification → design → implementation with oversight at every step.
 
 **Questions?**
-- Read the Glossary for terms
-- Check Error Recovery if stuck
+- Run `/workflow:spec` → "Get Help"
+- Read `CLAUDE.md` for detailed documentation
 - Ask Claude for guidance anytime
 
-*Happy building!*
+*Happy building with Spec!*

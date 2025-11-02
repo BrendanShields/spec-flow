@@ -567,40 +567,40 @@ clarify:
 
 **Pattern: Quick Clarify** (2-3 P0 questions):
 ```
-spec:generate → spec:clarify (P0 only) → spec:plan
+generate phase → clarify phase (P0 only) → plan phase
 ```
 
 **Pattern: Thorough Clarify** (multiple rounds):
 ```
-spec:generate
-  → spec:clarify (P0 round)
-  → spec:clarify (P1 round)
-  → spec:clarify (P2 round)
-  → spec:plan
+generate phase
+  → clarify phase (P0 round)
+  → clarify phase (P1 round)
+  → clarify phase (P2 round)
+  → plan phase
 ```
 
 **Pattern: Iterative Refinement**:
 ```
-spec:generate
-  → spec:clarify
-  → spec:plan
-  → spec:analyze (finds gaps)
-  → spec:clarify (resolve gaps)
-  → spec:plan --update
+generate phase
+  → clarify phase
+  → plan phase
+  → analyze phase (finds gaps)
+  → clarify phase (resolve gaps)
+  → plan phase --update
 ```
 
 ### Integration with Other Skills
 
-**spec:analyze**:
+**analyze phase**:
 - Runs after clarify to validate completeness
 - Can trigger additional clarify round if gaps found
 
-**spec:plan**:
+**plan phase**:
 - Reads clarified spec.md
 - References DECISIONS-LOG.md for context
 - May add technical decisions (ADR) to supplement clarifications (CLR)
 
-**spec:update**:
+**update phase**:
 - Can trigger clarify if updates introduce new ambiguities
 - Marks superseded clarifications in decision log
 
@@ -621,7 +621,7 @@ spec:generate
 - Instructions loaded on trigger: ~1,150 tokens
 - Examples/reference loaded on demand: ~3,700 tokens
 
-**Compared to original** (spec:clarify):
+**Compared to original** (clarify phase):
 - Original SKILL.md: ~650 tokens
 - New SKILL.md: ~1,150 tokens (+77% detail, still under 1,200 target)
 - Total documentation: More comprehensive with better examples

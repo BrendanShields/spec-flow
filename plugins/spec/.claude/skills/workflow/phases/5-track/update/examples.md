@@ -292,7 +292,7 @@ Impact Assessment:
 - Risk Level: Low (additive change)
 - Dependencies: Passport.js library
 
-→ Next: Run spec:implement to continue with existing tasks
+→ Next: Run implement phase to continue with existing tasks
 → Note: OAuth tasks queued for after current work
 ```
 
@@ -304,7 +304,7 @@ Impact Assessment:
 
 **Context**:
 - Feature: 003-payment-processing
-- Spec has 3 [CLARIFY] tags from spec:clarify
+- Spec has 3 [CLARIFY] tags from clarify phase
 - Decisions made: escrow needed, Stripe chosen, PCI compliance required
 
 **Execution**:
@@ -428,7 +428,7 @@ Impact:
 - No timeline impact for Stripe (planned already)
 - Reduced PCI compliance burden
 
-→ Next: Run spec:plan to complete technical design
+→ Next: Run plan phase to complete technical design
 ```
 
 ---
@@ -572,7 +572,7 @@ Progress Update:
 - Before: 4/23 tasks complete (17%)
 - After: 4/19 tasks complete (21%)
 
-→ Next: Continue with spec:implement on remaining tasks
+→ Next: Continue with implement phase on remaining tasks
 → Note: No migration needed, removed from queue
 ```
 
@@ -603,5 +603,5 @@ All updates must:
 - **Priority shift**: User feedback, business priority change
 - **MCP integration**: Team uses external tools, wants sync
 - **Scope addition**: New requirements discovered during dev
-- **Clarification resolution**: After spec:clarify completes
+- **Clarification resolution**: After clarify phase completes
 - **Scope reduction**: Feature cut, architecture simplification

@@ -239,9 +239,9 @@ See `REFERENCE.md` for metric calculation formulas and export specifications.
 See `shared/state-management.md` for file formats.
 
 **Related Commands**:
-- `/status` - Quick progress check
-- `/spec-analyze` - Deep analysis of specific feature
-- `/validate` - Verify data consistency
+- `/workflow:track` → "📊 View Metrics" - Quick progress check
+- `/workflow:track` → "🔍 Analyze Consistency" - Deep analysis of specific feature
+- `/workflow:track` → "✅ Quality Checklist" - Verify data consistency
 
 ## Notes
 

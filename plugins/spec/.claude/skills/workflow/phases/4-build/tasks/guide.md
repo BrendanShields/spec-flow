@@ -22,9 +22,9 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 ## When to Use
 
 1. User says "create tasks", "break down the plan", "generate task list"
-2. After spec:plan phase completes
+2. After plan phase phase completes
 3. User requests "implementation breakdown" or "what tasks needed"
-4. Before starting spec:implement phase
+4. Before starting implement phase phase
 5. When updating requirements require task re-evaluation
 6. User asks "what needs to be done" or "task dependencies"
 
@@ -113,7 +113,7 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
    ✓ Critical Path: T### → T### → T### (X hours)
    ✓ Total Estimate: X hours
 
-   Next: Run spec:implement to execute tasks
+   Next: Run implement phase to execute tasks
    ```
 
 3. **Save checkpoint**
@@ -123,13 +123,13 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 ## Error Handling
 
 **plan.md not found**:
-- Check if spec:plan has run
-- Prompt user to run spec:plan first
-- Offer to run spec:plan automatically
+- Check if plan phase has run
+- Prompt user to run plan phase first
+- Offer to run plan phase automatically
 
 **No user stories in spec**:
 - Warn user spec.md may be incomplete
-- Offer to run spec:clarify to add stories
+- Offer to run clarify phase to add stories
 - Allow proceeding with plan-only breakdown
 
 **Circular dependencies detected**:
@@ -203,7 +203,7 @@ US1.3: T006 → T007
 ## Next Steps
 
 1. Review task breakdown
-2. Run `spec:implement` to execute
+2. Run `implement phase` to execute
 3. Track progress in current-session.md
 ```
 

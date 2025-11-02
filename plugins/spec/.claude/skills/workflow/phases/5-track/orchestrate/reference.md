@@ -616,17 +616,17 @@ ls -lt {config.paths.state}/checkpoints/
 
 **Resolution**:
 1. Kill hung process if exists
-2. Load last checkpoint: `spec:orchestrate --resume`
-3. If resume fails: `spec:orchestrate --rollback=plan`
+2. Load last checkpoint: `orchestrate phase --resume`
+3. If resume fails: `orchestrate phase --rollback=plan`
 
 #### Issue: Validation Always Fails
 
-**Symptoms**: spec:analyze phase repeatedly fails
+**Symptoms**: analyze phase phase repeatedly fails
 
 **Diagnosis**:
 ```bash
 # Run validation manually
-spec:analyze --verbose
+analyze phase --verbose
 
 # Check state consistency
 spec:validate --check-files
@@ -634,7 +634,7 @@ spec:validate --check-files
 
 **Resolution**:
 1. Fix validation errors manually
-2. Skip validation: `spec:orchestrate --skip-analyze`
+2. Skip validation: `orchestrate phase --skip-analyze`
 3. If files corrupted: Restore from git
 
 #### Issue: Lost Progress After Interruption
@@ -651,8 +651,8 @@ cat {config.paths.state}/current-session.md
 ```
 
 **Resolution**:
-1. If checkpoints exist: `spec:orchestrate --resume --checkpoint=<id>`
-2. If no checkpoints: `spec:orchestrate --recover-state`
+1. If checkpoints exist: `orchestrate phase --resume --checkpoint=<id>`
+2. If no checkpoints: `orchestrate phase --recover-state`
 3. Worst case: Start from last git commit
 
 #### Issue: Phase Transition Fails
@@ -671,7 +671,7 @@ ls {config.paths.features}/###-name/
 **Resolution**:
 1. Manually create missing artifacts
 2. Run missing prerequisite phase
-3. Force transition (risky): `spec:orchestrate --force-phase=<phase>`
+3. Force transition (risky): `orchestrate phase --force-phase=<phase>`
 
 ### Debug Mode
 
@@ -683,7 +683,7 @@ export SPEC_DEBUG=true
 export SPEC_ORCHESTRATE_DEBUG=true
 
 # Run with verbose output
-spec:orchestrate --verbose
+orchestrate phase --verbose
 
 # Debug output saved to:
 {config.paths.state}/debug-orchestrate-<timestamp>.log
@@ -771,8 +771,8 @@ hooks:
 - **EXAMPLES.md**: Concrete usage scenarios
 - **shared/workflow-patterns.md**: Common workflow patterns
 - **shared/state-management.md**: State file specifications
-- **spec:implement/REFERENCE.md**: Implementation phase details
-- **spec:analyze/REFERENCE.md**: Validation phase details
+- **implement phase/REFERENCE.md**: Implementation phase details
+- **analyze phase/REFERENCE.md**: Validation phase details
 
 ---
 

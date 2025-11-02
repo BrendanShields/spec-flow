@@ -1,4 +1,4 @@
-# spec:checklist Examples
+# Checklist phase Examples
 
 Concrete scenarios demonstrating quality checklist generation.
 
@@ -52,7 +52,7 @@ As a customer, I want to complete checkout quickly so I can finish my purchase.
 **Status**: 2/12 complete, 8 gaps identified, 2 need refinement
 ```
 
-**Action**: Add missing requirements to spec.md before proceeding to spec:plan.
+**Action**: Add missing requirements to spec.md before proceeding to plan phase.
 
 ---
 
@@ -235,7 +235,7 @@ Dashboard must load quickly and update in real-time.
 
 **Command**:
 ```bash
-spec:checklist
+Checklist phase
 ```
 
 **Generated Structure**:
@@ -272,16 +272,16 @@ Generated: 2024-01-15
 
 1. Address all [?] gaps by adding missing requirements to spec.md
 2. Refine [~] items with specific, measurable criteria
-3. Validate [X] all items before proceeding to spec:plan
-4. Re-run spec:checklist after spec updates to verify
+3. Validate [X] all items before proceeding to plan phase
+4. Re-run Checklist phase after spec updates to verify
 
 ## Workflow
 
 ```bash
 # After addressing gaps
-spec:checklist              # Regenerate to verify
+Checklist phase              # Regenerate to verify
 spec:validate               # Check consistency
-spec:plan                   # Proceed to technical design
+plan phase                   # Proceed to technical design
 ```
 ```
 
@@ -340,7 +340,7 @@ spec:plan                   # Proceed to technical design
 
 ## Usage Tips
 
-1. **Run early**: After spec:specify, before spec:plan
+1. **Run early**: After generate phase, before plan phase
 2. **Address gaps first**: [?] items indicate missing requirements
 3. **Quantify vague terms**: Replace "fast", "user-friendly", "secure" with metrics
 4. **Iterate**: Re-run after spec updates to track progress

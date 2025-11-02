@@ -1,4 +1,4 @@
-# spec:blueprint - Examples
+# blueprint phase - Examples
 
 Complete scenarios demonstrating architecture blueprint creation for different project types.
 
@@ -905,7 +905,7 @@ Key Decisions:
 Next Steps:
   1. Review blueprint with team
   2. Get approval on technology choices
-  3. Run `spec:generate "User Authentication"` to begin development
+  3. Run `generate phase "User Authentication"` to begin development
   4. Reference blueprint in all feature planning
 ```
 
@@ -1692,7 +1692,7 @@ Files Analyzed:
 Next Steps:
   1. Review technical debt priorities with team
   2. Address high-priority items before new features
-  3. Run `spec:generate "Your Feature"` to begin development
+  3. Run `generate phase "Your Feature"` to begin development
   4. All new features will follow discovered patterns
 ```
 
@@ -2065,7 +2065,7 @@ New ADRs:
 Next Steps:
   1. Review migration plan with team
   2. Set up infrastructure (Kong, RabbitMQ, K8s)
-  3. Run `spec:generate "Auth Service Extraction"` to begin Phase 1
+  3. Run `generate phase "Auth Service Extraction"` to begin Phase 1
   4. Implement monitoring for both systems during transition
 ```
 
@@ -2880,7 +2880,7 @@ Next Steps:
   3. Complete HIPAA training for all team members
   4. Review blueprint with compliance consultant
   5. Schedule external HIPAA audit
-  6. Run `spec:generate "Patient Registration"` to begin development
+  6. Run `generate phase "Patient Registration"` to begin development
 
 Compliance Reminder:
   - All code changes require security review
@@ -3404,7 +3404,7 @@ Next Steps:
   1. Review real-time architecture with team
   2. Prototype CRDT integration with TipTap editor
   3. Load test WebSocket scaling (target: 10K concurrent users)
-  4. Run `spec:generate "Document Collaboration"` to begin development
+  4. Run `generate phase "Document Collaboration"` to begin development
 ```
 
 **Files Created**:
@@ -3457,5 +3457,5 @@ Next Steps:
 
 **Token Size**: ~8,700 tokens (detailed, comprehensive examples)
 **Updated**: 2025-10-31
-**Skills Referenced**: spec:init, spec:generate, spec:update
+**Skills Referenced**: initialize phase, generate phase, update phase
 **Next**: See REFERENCE.md for section templates and brownfield analysis patterns

@@ -34,14 +34,14 @@ Execute complete specification-driven workflow automatically from requirements t
 Determine workflow starting point:
 
 1. Check initialization state
-   - If `{config.paths.spec_root}/` missing → Run spec:init first
+   - If `{config.paths.spec_root}/` missing → Run initialize phase first
    - If `{config.paths.state}/` missing → Initialize state
 2. Detect current workflow position
    - Read current-session.md for active feature/phase
    - Check for resume checkpoint
 3. Identify workflow type
-   - New project: Need spec:blueprint
-   - New feature: Start at spec:generate
+   - New project: Need blueprint phase
+   - New feature: Start at generate phase
    - Resume: Continue from saved phase
 
 ### Phase 2: Orchestration
@@ -49,34 +49,34 @@ Determine workflow starting point:
 Execute workflow phases in sequence:
 
 **2.1 Generate Specification**
-- Run spec:generate to create spec.md
+- Run generate phase to create spec.md
 - Check for [CLARIFY] tags
 - Save checkpoint: "post-generate"
 
 **2.2 Clarify (Conditional)**
-- If [CLARIFY] tags present → Run spec:clarify
+- If [CLARIFY] tags present → Run clarify phase
 - If --skip-clarify flag → Skip
 - If --auto mode → Auto-resolve simple clarifications
 - Save checkpoint: "post-clarify"
 
 **2.3 Plan Technical Design**
-- Run spec:plan to create plan.md
+- Run plan phase to create plan.md
 - Log architecture decisions to DECISIONS-LOG.md
 - Save checkpoint: "post-plan"
 
 **2.4 Validate (Conditional)**
-- If complex feature (>15 tasks estimated) → Run spec:analyze
+- If complex feature (>15 tasks estimated) → Run analyze phase
 - If validation errors → Prompt for corrective action
 - If --skip-analyze flag → Skip
 - Save checkpoint: "post-analyze"
 
 **2.5 Generate Tasks**
-- Run spec:tasks to create tasks.md
+- Run tasks phase to create tasks.md
 - Identify parallel work opportunities
 - Save checkpoint: "post-tasks"
 
 **2.6 Execute Implementation**
-- Run spec:implement
+- Run implement phase
 - Update CHANGES-COMPLETED.md as tasks complete
 - Final validation
 - Save checkpoint: "complete"
@@ -118,17 +118,17 @@ Next Steps:
 ### Auto-Skip Rules
 
 Skip phases automatically when:
-- **spec:clarify**: No [CLARIFY] tags found
-- **spec:analyze**: Simple feature (<10 tasks) or --skip-analyze
-- **spec:blueprint**: Not a greenfield project
+- **clarify phase**: No [CLARIFY] tags found
+- **analyze phase**: Simple feature (<10 tasks) or --skip-analyze
+- **blueprint phase**: Not a greenfield project
 
 ### Required Phases
 
 Always execute:
-- **spec:generate**: Creates specification
-- **spec:plan**: Creates technical design
-- **spec:tasks**: Breaks down implementation
-- **spec:implement**: Executes tasks
+- **generate phase**: Creates specification
+- **plan phase**: Creates technical design
+- **tasks phase**: Breaks down implementation
+- **implement phase**: Executes tasks
 
 ### Conditional Prompts
 
@@ -189,7 +189,7 @@ ETA: ~8 minutes
 - Skill timeout → Retry with extended timeout
 - Validation failure → Prompt for corrective action
 - Missing prerequisite → Guide installation
-- Clarification needed → Run spec:clarify
+- Clarification needed → Run clarify phase
 
 **Non-Recoverable Errors**:
 - Critical file corruption → Report error, exit cleanly
@@ -241,12 +241,12 @@ See REFERENCE.md for:
 
 ## Related Skills
 
-- **spec:generate** - Create specification
-- **spec:clarify** - Resolve ambiguities
-- **spec:plan** - Generate technical plan
-- **spec:tasks** - Break into tasks
-- **spec:implement** - Execute implementation
-- **spec:analyze** - Validate consistency
+- **generate phase** - Create specification
+- **clarify phase** - Resolve ambiguities
+- **plan phase** - Generate technical plan
+- **tasks phase** - Break into tasks
+- **implement phase** - Execute implementation
+- **analyze phase** - Validate consistency
 
 ## Shared Resources
 

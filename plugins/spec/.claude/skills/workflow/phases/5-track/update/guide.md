@@ -187,14 +187,14 @@ Format:
 ✓ Propagated to plan.md: [changes]
 ✓ Adjusted tasks.md: [X added, Y removed]
 ✓ Logged decision: ADR-XXX
-→ Next: Run spec:implement to continue
+→ Next: Run implement phase to continue
 ```
 
 ## Error Handling
 
 **Spec file not found**:
 - Check if feature initialized
-- Guide user to run spec:generate first
+- Guide user to run generate phase first
 
 **Conflicting changes**:
 - Show current spec content
@@ -208,7 +208,7 @@ Format:
 
 **Downstream files inconsistent**:
 - Flag inconsistencies
-- Offer to regenerate (spec:plan, spec:tasks)
+- Offer to regenerate (plan phase, tasks phase)
 - Allow user to choose: update or regenerate
 
 ## Output Format
@@ -254,8 +254,8 @@ Format:
 ## Next Steps
 
 → Review updated spec: {config.paths.features}/{feature-id}/{config.naming.files.spec}
-→ Continue implementation: Run spec:implement
-→ Validate changes: Run spec:analyze
+→ Continue implementation: Run implement phase
+→ Validate changes: Run analyze phase
 ```
 
 ## Progressive Disclosure

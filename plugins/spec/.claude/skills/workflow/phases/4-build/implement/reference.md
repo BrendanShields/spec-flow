@@ -1,4 +1,4 @@
-# spec:implement - Technical Reference
+# implement phase - Technical Reference
 
 Technical implementation details, algorithms, and coordination protocols.
 
@@ -7,15 +7,15 @@ Technical implementation details, algorithms, and coordination protocols.
 ### Communication Flow
 
 ```
-spec:implement (skill)
+implement phase (skill)
     ↓ [Creates context file]
 {config.paths.spec_root}/implementation-context.md
     ↓ [Invokes]
-spec:implementer (subagent)
+implement phaseer (subagent)
     ↓ [Updates progress]
 {config.paths.state}/current-session.md
     ↓ [Reads progress]
-spec:implement (skill)
+implement phase (skill)
     ↓ [Reports to user]
 Real-time progress display
 ```
@@ -291,8 +291,8 @@ class WorkerPool {
   async executeTask(task) {
     const startTime = Date.now();
 
-    // Invoke spec:implementer subagent for this task
-    await invokeSubagent('spec:implementer', {
+    // Invoke implement phaseer subagent for this task
+    await invokeSubagent('implement phaseer', {
       task: task,
       mode: 'single'
     });
@@ -815,7 +815,7 @@ blocked: []
 
 ### Skill → Subagent
 1. Skill creates implementation-context.md
-2. Skill invokes: `@spec:implementer`
+2. Skill invokes: `@implement phaseer`
 3. Subagent reads context, executes tasks
 4. Subagent updates current-session.md
 5. Skill polls for progress, displays to user

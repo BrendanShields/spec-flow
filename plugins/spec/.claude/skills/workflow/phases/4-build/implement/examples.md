@@ -1,4 +1,4 @@
-# spec:implement - Examples
+# Implement phase - Examples
 
 Concrete scenarios demonstrating implementation execution patterns.
 
@@ -10,7 +10,7 @@ Execute 8 tasks sequentially for user authentication feature.
 ### Input
 ```bash
 # User command
-spec:implement
+Implement phase
 
 # tasks.md content
 - [ ] T001 [US1] Create user model in src/models/user.js
@@ -111,8 +111,8 @@ State Updated:
 ✓ WORKFLOW-PROGRESS.md → Metrics updated
 
 Next Steps:
-  /validate           # Check consistency
-  /spec-checklist  # Quality review
+  /workflow:track → "🔍 Analyze Consistency"  # Check consistency
+  /workflow:track → "✅ Quality Checklist"    # Quality review
 ```
 
 ---
@@ -125,7 +125,7 @@ Execute 12 tasks with 4 parallelizable tasks to reduce total time.
 ### Input
 ```bash
 # User command
-spec:implement --parallel
+Implement phase --parallel
 
 # tasks.md content (note [P] markers)
 - [ ] T001 [US1] Create user model in src/models/user.js
@@ -207,7 +207,7 @@ Parallel Performance:
 - Average Parallelism: 3.2 tasks/min
 
 Next Steps:
-  /spec-metrics    # Review performance baseline
+  /workflow:track → "📊 View Metrics"    # Review performance baseline
 ```
 
 ---
@@ -220,13 +220,13 @@ Implementation interrupted at task 7/15, user fixes blocker and resumes.
 ### Input
 ```bash
 # Original execution interrupted
-spec:implement
+Implement phase
 
 # ... tasks 1-6 completed ...
 # Task 7 failed with database connection error
 # User fixes database configuration
 # Resume with:
-spec:implement --continue
+Implement phase --continue
 ```
 
 ### Session State Before Resume
@@ -321,7 +321,7 @@ Execute only P1 (Must Have) priority tasks, deferring P2/P3 for later.
 ### Input
 ```bash
 # User command
-spec:implement --filter=P1
+Implement phase --filter=P1
 
 # tasks.md content (mixed priorities)
 ## Phase 1: Core Features (P1)
@@ -393,10 +393,10 @@ Remaining (for later):
 
 Next Steps:
   # Execute P2 tasks when ready:
-  spec:implement --filter=P2
+  Implement phase --filter=P2
 
   # Or execute specific user story:
-  spec:implement --filter=US3
+  Implement phase --filter=US3
 ```
 
 ---
@@ -408,7 +408,7 @@ One task fails, but implementation continues with independent tasks.
 
 ### Input
 ```bash
-spec:implement --parallel
+Implement phase --parallel
 ```
 
 ### Execution Flow
@@ -479,7 +479,7 @@ Independent Tasks Completed:
 
 Next Steps:
   1. Fix T006 email service configuration
-  2. Resume with: spec:implement --continue
+  2. Resume with: Implement phase --continue
   3. This will retry T006 and execute T008
 ```
 

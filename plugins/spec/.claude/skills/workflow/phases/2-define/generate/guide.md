@@ -34,8 +34,6 @@ Generates comprehensive feature specifications with prioritized user stories, ac
 **Read Project State:**
 ```bash
 # Check if Spec is initialized
-Read {config.paths.state}/current-session.md
-Read {config.paths.memory}/WORKFLOW-PROGRESS.md
 Read {config.paths.spec_root}/product-requirements.md (if exists)
 ```
 
@@ -79,8 +77,8 @@ Bash "ls -d {config.paths.features}/[0-9]* | wc -l"
 # Create directory structure
 {config.paths.features}/NNN-feature-name/
 ├── spec.md       # This file
-├── plan.md       # Created later by spec:plan
-└── tasks.md      # Created later by spec:tasks
+├── plan.md       # Created later by plan phase
+└── tasks.md      # Created later by tasks phase
 ```
 
 **Generate spec.md Content:**
@@ -175,10 +173,10 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 
 ## Workflow Progress
 ### Completed Phases
-- [x] spec:init - Project initialization
-- [x] spec:generate - Feature specification
-- [ ] spec:clarify - Resolve ambiguities
-- [ ] spec:plan - Technical design
+- [x] Initialize - Project initialization
+- [x] Generate - Feature specification
+- [ ] Clarify - Resolve ambiguities
+- [ ] Plan - Technical design
 ```
 
 **Update WORKFLOW-PROGRESS.md:**
@@ -193,7 +191,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 
 **Missing Spec Initialization:**
 - Detect: {config.paths.state}/ directory not found
-- Action: Inform user to run /spec init first
+- Action: Inform user to run /workflow:spec → "🚀 Initialize Project" first
 - Recovery: Provide initialization command
 
 **Incomplete Requirements:**
@@ -224,8 +222,8 @@ Clarifications: 2 open questions
 
 Next steps:
 1. Review spec.md and resolve [CLARIFY] tags if needed
-2. Run /spec-clarify to address open questions
-3. Run /spec-plan to create technical design
+2. Run /workflow:spec → "🔍 Clarify" to address open questions
+3. Run /workflow:spec → "🎨 Move to Design" to create technical design
 
 Files created:
 - {config.paths.features}/NNN-feature-name/{config.naming.files.spec} (242 lines)
@@ -269,11 +267,11 @@ so that [benefit].
 
 ## Integration Points
 
-**With Other Skills:**
-- spec:clarify - Resolves [CLARIFY] tags
-- spec:plan - Creates technical design from spec
-- spec:update - Modifies existing specification
-- blueprint:analyze - Validates against architecture
+**With Other Workflow Phases:**
+- Clarify phase - Resolves [CLARIFY] tags
+- Plan phase - Creates technical design from spec
+- Update phase - Modifies existing specification
+- Blueprint phase - Validates against architecture
 
 **With External Systems:**
 - JIRA - Creates epic and stories
