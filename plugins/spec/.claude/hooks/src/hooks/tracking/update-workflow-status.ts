@@ -84,6 +84,7 @@ export class UpdateWorkflowStatusHook extends BaseHook {
 
     // Update progress based on phase
     const phaseProgress: Record<WorkflowPhase, number> = {
+      none: 0,
       initialize: 10,
       generate: 25,
       clarify: 35,

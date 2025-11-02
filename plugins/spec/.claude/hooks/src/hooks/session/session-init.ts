@@ -16,6 +16,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { loadConfig, configExists, getConfigPath } from '../../core/config-loader';
 import { resolveStatePath, resolveFeaturesPath, resolveMemoryPath, resolveSpecRoot } from '../../core/path-resolver';
+import { MemoryManager } from '../../core/memory-manager';
 import { Logger } from '../../core/logger';
 import { ensureDirectory, readJSON, fileExists } from '../../utils/file-utils';
 import { toYAML } from '../../utils/yaml-utils';
@@ -189,6 +190,9 @@ function loadSessionState(config: SpecConfig, cwd: string): SessionState | null 
     const state: SessionState = {
       feature: null,
       phase: null,
+      started: null,
+      last_updated: new Date().toISOString(),
+      schema_version: config.version,
       progress: 0,
       tasksComplete: 0,
       tasksTotal: 0,
@@ -305,10 +309,21 @@ async function main(): Promise<void> {
       );
     }
 
-    // 3. Load session state
-    const sessionState = loadSessionState(config, cwd);
+    // 3. Initialize MemoryManager
+    const memoryManager = MemoryManager.getInstance(config, cwd);
 
-    // 4. Output summary for Claude
+    // 4. Load or restore session state
+    let sessionState = loadSessionState(config, cwd);
+    if (!sessionState && !isFirstRun) {
+      // Try to restore from MemoryManager
+      const restored = memoryManager.getCurrentSession();
+      if (restored) {
+        sessionState = restored;
+        Logger.info('Restored session from MemoryManager cache');
+      }
+    }
+
+    // 5. Output summary for Claude
     Logger.custom('session-initialized', 'Session initialized', {
       config: {
         version: config.version,
@@ -318,6 +333,7 @@ async function main(): Promise<void> {
       },
       session: sessionState,
       firstRun: isFirstRun,
+      memoryManagerInitialized: true,
     });
 
     process.exit(0);

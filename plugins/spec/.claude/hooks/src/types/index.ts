@@ -6,3 +6,5 @@ export * from './config';
 export * from './hook-context';
 export * from './session';
 export * from './metrics';
+export * from './memory';
+export * from './transaction';

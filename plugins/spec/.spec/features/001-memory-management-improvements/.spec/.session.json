@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-11-02T22:46:15.465Z",
+  "workingDirectory": "/Users/dev/dev/tools/marketplace/plugins/spec/.spec/features/001-memory-management-improvements",
+  "lastActivity": "Unknown",
+  "workflow": {
+    "currentFeature": null,
+    "lastModifiedFiles": [
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.spec/features/001-memory-management-improvements/.claude/.spec-config.yml",
+      "/Users/dev/dev/tools/marketplace/plugins/spec/.spec/features/001-memory-management-improvements/tasks.md"
+    ],
+    "pendingTasks": null
+  },
+  "environment": {
+    "nodeVersion": "v24.1.0",
+    "platform": "darwin",
+    "specVersion": "3.3.0"
+  }
+}

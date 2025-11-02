@@ -10,6 +10,7 @@
 
 import { resolveSpecRoot } from '../../core/path-resolver';
 import { loadConfig } from '../../core/config-loader';
+import { MemoryManager } from '../../core/memory-manager';
 import { Logger } from '../../core/logger';
 import { readJSON, fileExists } from '../../utils/file-utils';
 import * as path from 'path';
@@ -70,22 +71,55 @@ async function restoreSession(): Promise<RestoreResults> {
     suggestions: [],
   };
 
-  // Load session if exists
-  if (fileExists(sessionPath)) {
-    try {
-      results.session = readJSON<SessionData>(sessionPath);
+  // Try to restore from MemoryManager first
+  const memoryManager = MemoryManager.getInstance(config, cwd);
+  const restored = await memoryManager.restoreSession();
 
-      if (results.session) {
-        // Calculate time since last session
-        const lastTime = new Date(results.session.timestamp);
-        const timeDiff = Date.now() - lastTime.getTime();
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const days = Math.floor(hours / 24);
+  if (restored) {
+    Logger.info('Session restored from MemoryManager');
 
-        results.timeSinceLastSession = days > 0 ? `${days} days ago` : `${hours} hours ago`;
+    // Map to legacy SessionData format for compatibility
+    results.session = {
+      timestamp: restored.last_updated,
+      workflow: {
+        currentFeature: restored.feature || undefined,
+        pendingTasks: restored.tasksTotal
+          ? {
+              pending: (restored.tasksTotal || 0) - (restored.tasksComplete || 0),
+              completed: restored.tasksComplete || 0,
+              total: restored.tasksTotal || 0,
+              progress: restored.progress || 0,
+            }
+          : undefined,
+      },
+    };
+
+    // Calculate time since last session
+    if (restored.last_updated) {
+      const lastTime = new Date(restored.last_updated);
+      const timeDiff = Date.now() - lastTime.getTime();
+      const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+      const days = Math.floor(hours / 24);
+      results.timeSinceLastSession = days > 0 ? `${days} days ago` : `${hours} hours ago`;
+    }
+  } else {
+    // Fallback to legacy session files
+    if (fileExists(sessionPath)) {
+      try {
+        results.session = readJSON<SessionData>(sessionPath);
+
+        if (results.session) {
+          // Calculate time since last session
+          const lastTime = new Date(results.session.timestamp);
+          const timeDiff = Date.now() - lastTime.getTime();
+          const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          const days = Math.floor(hours / 24);
+
+          results.timeSinceLastSession = days > 0 ? `${days} days ago` : `${hours} hours ago`;
+        }
+      } catch {
+        // Invalid session file - ignore
       }
-    } catch {
-      // Invalid session file - ignore
     }
   }
 

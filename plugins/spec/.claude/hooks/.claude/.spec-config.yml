@@ -10,8 +10,8 @@ version: 3.3.0
 paths:
   spec_root: .spec
   features: features
-  state: '{memory}/state'
-  memory: memory
+  state: state
+  memory: '{state}/memory'
 naming:
   feature_directory: '{id:000}-{slug}'
   feature_singular: feature

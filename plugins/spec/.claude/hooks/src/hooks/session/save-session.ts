@@ -10,6 +10,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { BaseHook } from '../../core/base-hook';
+import { MemoryManager } from '../../core/memory-manager';
 import { resolveFeaturesPath, resolveSpecRoot } from '../../core/path-resolver';
 import { writeJSON, listFiles, ensureDirectory } from '../../utils/file-utils';
 import { HookContext } from '../../types';
@@ -34,8 +35,11 @@ interface SessionData {
  * Save Session Hook
  */
 export class SaveSessionHook extends BaseHook {
+  private memoryManager: MemoryManager;
+
   constructor() {
     super('save-session');
+    this.memoryManager = MemoryManager.getInstance(this.config, this.cwd);
   }
 
   async execute(context: HookContext): Promise<void> {
@@ -62,8 +66,11 @@ export class SaveSessionHook extends BaseHook {
       },
     };
 
-    // Save session
+    // Save legacy session file
     writeJSON(sessionPath, session);
+
+    // Save via MemoryManager
+    await this.memoryManager.saveSession();
 
     this.logger.success('Session saved successfully');
   }
