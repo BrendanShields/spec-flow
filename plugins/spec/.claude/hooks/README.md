@@ -1,10 +1,10 @@
-# Flow Hooks Documentation
+# Spec Hooks Documentation
 
 Claude Code hooks that enhance the Spec plugin with automated workflows, quality checks, and integrations.
 
 ## Overview
 
-Spec uses **9 specialized hooks** that execute at different lifecycle points to provide:
+Spec uses **11 specialized hooks** that execute at different lifecycle points to provide:
 - **Workflow automation** (intent detection, prerequisite validation, workflow tracking)
 - **Quality enhancement** (code formatting, metrics tracking)
 - **Session management** (save/restore state)
@@ -14,33 +14,37 @@ Spec uses **9 specialized hooks** that execute at different lifecycle points to 
 
 | Hook | Type | Triggers | Purpose | Blocking? |
 |------|------|----------|---------|-----------|
+| **session-init.js** | Session start | SessionStart | Initialize config, validate setup, load state | No |
+| **restore-session.js** | Session start | SessionStart | Restores previous workflow state | No |
 | **detect-intent.js** | Pre-execution | User input | Suggests Spec skills based on prompt | No |
 | **validate-prerequisites.js** | Pre-execution | Before Spec skills | Checks required artifacts exist | **Yes** (exits 1) |
 | **pre-specify.js** | Pre-skill | Before spec:generate | Prepares environment, loads templates | No |
 | **post-specify.js** | Post-skill | After spec:generate | Triggers clarify, syncs JIRA/Confluence | No |
 | **format-code.js** | Post-tool | After Write/Edit | Auto-formats code files | No |
 | **track-metrics.js** | Post-tool | After file operations | Tracks AI vs human code metrics | No |
-| **update-workflow-status.js** | Post-skill | After any Flow skill | Updates .spec/.state.json | No |
+| **update-workflow-status.js** | Post-skill | After any Spec skill | Updates .spec/.state.json | No |
+| **aggregate-results.js** | Subagent stop | SubagentStop | Aggregates results from parallel execution | No |
 | **save-session.js** | Session end | On session end | Saves workflow state | No |
-| **restore-session.js** | Session start | On session start | Restores previous state | No |
 
 ## Execution Flow
 
 ```
 Session Start
+  ├─> session-init.js (initialize config, validate setup)
   └─> restore-session.js (loads previous state)
 
 User Input
   └─> detect-intent.js (suggests skills)
 
-Before Flow Skill (e.g., spec:plan)
+Before Spec Skill (e.g., spec:plan)
   └─> validate-prerequisites.js (checks spec.md exists) [BLOCKS if missing]
   └─> pre-specify.js (if spec:generate)
 
-Flow Skill Executes
+Spec Skill Executes
   └─> [Skill runs...]
+      └─> SubagentStop → aggregate-results.js (if parallel execution)
 
-After Flow Skill
+After Spec Skill
   └─> post-specify.js (if spec:generate - triggers clarify, JIRA sync)
   └─> update-workflow-status.js (updates progress)
 
@@ -533,7 +537,7 @@ Most hooks are **zero-configuration** and work automatically.
 
 ## Related Documentation
 
-- **Skills**: See `.claude/skills/*/SKILL.md` for Flow skill documentation
+- **Skills**: See `.claude/skills/*/SKILL.md` for Spec skill documentation
 - **Agents**: See `.claude/agents/*/PROMPT.md` for agent documentation
 - **Configuration**: See `CLAUDE.md` for project-level configuration
 - **Architecture**: See `plan.md` for plugin architecture overview
