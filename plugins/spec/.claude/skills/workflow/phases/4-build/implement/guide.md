@@ -171,14 +171,14 @@ Resume Command:
 
 ## Configuration
 
-See shared/config-examples.md for detailed options.
+Configuration options:
+- `--parallel`: Enable parallel execution for [P] tasks
+- `--skip-tests`: Skip test execution after implementation
+- `--commit`: Create git commits after completion
+- `--filter=P1|P2|P3|US#`: Execute specific priority or user story
+- `--continue`: Resume from last checkpoint
 
-Default settings:
-- Parallel execution: Disabled (enable with --parallel)
-- Test execution: Enabled (skip with --skip-tests)
-- Git commits: Disabled (enable with --commit)
-- Max parallel tasks: 4
-- Retry attempts: 3
+See CLAUDE.md for SPEC_IMPLEMENT_* configuration variables.
 
 ## Integration
 

@@ -17,9 +17,6 @@ sync_direction: [bidirectional/local-only]
 
 References (peer model): Product Requirements | Architecture Blueprint | API Contracts | Data Models
 
-See [_shared/user-story-format.md](_shared/user-story-format.md) for standard format.
-See [_shared/metadata-frontmatter.md](_shared/metadata-frontmatter.md) for header conventions.
-
 ## Epics & User Stories
 
 Epics are derived from the Product Requirements Document and Architecture Blueprint listed in Project Artifacts. Ensure no two epics target the same capability area; if overlap occurs create a new epic. All stories must have a parent epic and reference the governing documents.

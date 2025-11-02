@@ -23,7 +23,7 @@
 
 ## Epics & User Stories
 
-Derive epics directly from this PRD and the Architecture Blueprint. Each epic must map to a unique capability area—avoid overlap by referencing the blueprint section identifier. All user stories live under an epic parent and should follow the standard format in [_shared/user-story-format.md](_shared/user-story-format.md).
+Derive epics directly from this PRD and the Architecture Blueprint. Each epic must map to a unique capability area—avoid overlap by referencing the blueprint section identifier. All user stories follow the format: "As a [persona] I want [capability] so that [benefit]".
 
 ### Epic 1: [Name] (Blueprint Ref: [ID])
 

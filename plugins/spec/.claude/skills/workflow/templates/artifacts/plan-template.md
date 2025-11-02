@@ -15,7 +15,6 @@
 ## Project Artifacts
 
 References (flat peer model, user approval required to modify):
-- See metadata frontmatter: [_shared/metadata-frontmatter.md](_shared/metadata-frontmatter.md)
 - Architecture: `.spec/architecture-blueprint.md`
 - API Contracts: `.spec/contracts/openapi.yaml`
 - Data Models: `.spec/data-models/entities.md`
@@ -37,13 +36,9 @@ References (flat peer model, user approval required to modify):
 **Documentation**:
 ```
 features/[###-feature-name]/
-├── spec.md      # spec:specify output
-├── plan.md      # This file (spec:plan output)
-├── research.md  # Phase 0 output
-├── data-model.md # Phase 1 output
-├── quickstart.md # Phase 1 output
-├── contracts/   # Phase 1 output
-└── tasks.md     # spec:tasks output (NOT from spec:plan)
+├── spec.md      # Feature specification
+├── plan.md      # This file (technical plan)
+└── tasks.md     # Task breakdown
 ```
 
 **Source Code** (choose one):
