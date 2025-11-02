@@ -228,7 +228,7 @@ $ ls -la    # Shows files
 
 **Files Affected**:
 - `glossary.md:170-204`: "Function Types" section (should be "Skill Types")
-- `../../docs/skill-index.md`: Correctly uses "skill" throughout
+- `navigation/skill-index.md`: Correctly uses "skill" throughout
 - `phases/*/guide.md`: Use "skill" in frontmatter but "function" in some text
 - `quick-start.md:164-186`: Uses "Commands" for user-facing (correct)
 

@@ -612,15 +612,46 @@ rm -rf .spec-state/checkpoints/
 
 ---
 
-## 📖 Documentation
+## 📚 Documentation
 
-- **Quick Start**: This README
-- **Migration Guide**: [MIGRATION-V2-TO-V3.md](docs/MIGRATION-V2-TO-V3.md)
-- **Hooks Guide**: [HOOKS-USER-GUIDE.md](docs/HOOKS-USER-GUIDE.md)
-- **Hooks API**: [CUSTOM-HOOKS-API.md](docs/CUSTOM-HOOKS-API.md)
-- **Skill Reference**: See individual `.claude/skills/spec-*/` directories
-- **Examples**: Run any skill with `--examples` flag
-- **Technical Reference**: Run any skill with `--reference` flag
+### Quick Start Guides
+- **[Quick Start Guide](.claude/skills/workflow/quick-start.md)** - Get started in 30-60 minutes
+- **[README.md](README.md)** - This file - overview and installation
+
+### Core Navigation
+- **[Workflow Map](.claude/skills/workflow/navigation/workflow-map.md)** - Visual overview of the 5-phase workflow
+- **[Skill Index](.claude/skills/workflow/navigation/skill-index.md)** - Complete command reference for all 13 skills
+- **[Phase Reference](.claude/skills/workflow/navigation/phase-reference.md)** - Quick reference for each phase
+- **[Complete Index](.claude/skills/workflow/navigation/index.md)** - Full navigation of all 71+ workflow files
+
+### Comprehensive Guides
+- **[Error Recovery](.claude/skills/workflow/error-recovery.md)** - Troubleshooting guide (1,169 lines, 9 scenarios)
+- **[Glossary](.claude/skills/workflow/glossary.md)** - Complete terminology reference (72 terms)
+- **[Agents Guide](.claude/skills/workflow/agents-guide.md)** - Understanding spec-implementer, spec-researcher, spec-analyzer
+- **[Progressive Disclosure](.claude/skills/workflow/progressive-disclosure.md)** - Using --examples and --reference flags
+- **[Integration Errors](.claude/skills/workflow/integration-errors.md)** - Handling MCP integration failures
+- **[Advanced Examples](.claude/skills/workflow/advanced-examples.md)** - 10 real-world advanced scenarios
+
+### Migration & Configuration
+- **Migration Guide** - Upgrading from v2.1 to v3.0 _(Coming soon)_
+- **Hooks User Guide** - Event hooks and automation _(Coming soon)_
+- **Custom Hooks API** - Hooks API reference _(Coming soon)_
+
+### Templates & Reference
+- **[Template Integration Guide](.claude/skills/workflow/templates/INTEGRATION-GUIDE.md)** - How templates connect to functions
+- **[Templates Overview](.claude/skills/workflow/templates/README.md)** - All 11 templates organized by category
+- **[Shared Resources](.claude/skills/shared/)** - State management, integration patterns, workflow patterns
+
+### Quality & Review
+- **[Workflow Review](.claude/skills/workflow/workflow-review.md)** - Architecture and design review
+- **[Consistency Review Report](.claude/skills/workflow/consistency-review-report.md)** - Documentation quality audit
+- **[Link Audit Report](.claude/skills/workflow/link-audit-report.md)** - Link health validation
+
+### Progressive Learning
+- **Beginner**: Start with Quick Start → Workflow Map → Error Recovery
+- **Intermediate**: Read Skill Index → Phase Reference → Templates
+- **Advanced**: Study Agents Guide → Advanced Examples → Integration Errors
+- **Customization**: Review Hooks guides → Templates → Shared Resources
 
 ---
 

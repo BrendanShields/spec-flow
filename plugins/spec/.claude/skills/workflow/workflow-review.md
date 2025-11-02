@@ -54,10 +54,11 @@ workflow/
 │   ├── 3-design/               # plan, analyze
 │   ├── 4-build/                # tasks, implement
 │   └── 5-track/                # update, metrics, orchestrate
-├── ../../docs/                 # 3 reference files
+├── navigation/                 # Navigation reference files
 │   ├── workflow-map.md
 │   ├── skill-index.md
-│   └── phase-reference.md
+│   ├── phase-reference.md
+│   └── index.md
 └── templates/                  # 5 categories, 11 files
     ├── artifacts/
     ├── project-setup/

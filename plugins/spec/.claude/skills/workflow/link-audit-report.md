@@ -77,7 +77,7 @@ The documentation already follows good practices:
 
 **4 Orphaned Files Integrated:**
 
-All orphaned files were added to `../../docs/index.md`:
+All orphaned files were added to `navigation/index.md`:
 
 | File | Added To | Purpose |
 |------|----------|---------|
@@ -92,7 +92,7 @@ All orphaned files were added to `../../docs/index.md`:
 
 1. `/advanced-examples.md` - Fixed 3 broken links
 2. `/templates/artifacts/spec-template.md` - Escaped 1 template placeholder
-3. `/../../docs/index.md` - Added 4 orphaned files, updated counts
+3. `/navigation/index.md` - Added 4 orphaned files, updated counts
 
 ### Final Results
 
@@ -167,7 +167,7 @@ python3 /tmp/audit_links_v2.py
 When adding new documentation files:
 
 1. **Create the file** in appropriate directory
-2. **Add to navigation** - Update `../../docs/index.md`
+2. **Add to navigation** - Update `navigation/index.md`
 3. **Update counts** - Increment file totals in INDEX.md
 4. **Verify** - Run audit script to confirm no broken links
 

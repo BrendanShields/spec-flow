@@ -111,7 +111,7 @@ If user needs more detail:
 - **Function guide** → Load individual function guide.md
 - **Examples** → Load function examples.md
 - **Technical details** → Load function reference.md
-- **Complete map** → Load `../../docs/workflow-map.md`
+- **Complete map** → Load `navigation/workflow-map.md`
 
 ## Quick Reference
 
@@ -145,9 +145,9 @@ For detailed phase information:
 - **Phase 5**: See `phases/5-track/README.md` (update, metrics, orchestrate)
 
 For complete workflow visualization:
-- **Workflow Map**: See `../../docs/workflow-map.md`
-- **Phase Reference**: See `../../docs/phase-reference.md`
-- **Skill Index**: See `../../docs/skill-index.md`
+- **Workflow Map**: See `navigation/workflow-map.md`
+- **Phase Reference**: See `navigation/phase-reference.md`
+- **Skill Index**: See `navigation/skill-index.md`
 
 For individual skill details, navigate to:
 - **`phases/1-initialize/init/guide.md`** - Initialize workflow
@@ -209,7 +209,7 @@ Spec Workflow Map
 
 Current Progress: ████████░░ 40% overall
 
-For visual workflow map: ../../docs/workflow-map.md
+For visual workflow map: navigation/workflow-map.md
 For phase details: phases/[phase-number]-[name].md
 ```
 
@@ -236,9 +236,9 @@ For phase details: phases/[phase-number]-[name].md
 - **Workflow Review**: `workflow-review.md` - Comprehensive analysis and improvements
 
 **Navigation**:
-- **Workflow Map**: `../../docs/workflow-map.md` - Visual workflow guide
-- **Skill Index**: `../../docs/skill-index.md` - Complete function reference
-- **Phase Reference**: `../../docs/phase-reference.md` - Detailed phase documentation
+- **Workflow Map**: `navigation/workflow-map.md` - Visual workflow guide
+- **Skill Index**: `navigation/skill-index.md` - Complete function reference
+- **Phase Reference**: `navigation/phase-reference.md` - Detailed phase documentation
 
 **Templates**:
 - **Template Guide**: `templates/README.md` - All 11 templates documented

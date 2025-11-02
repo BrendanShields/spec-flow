@@ -210,7 +210,7 @@ Need more detail? Read phases/3-design/README.md
 
 # See complete workflow
 "Show me the workflow map"
-# Or read ../../docs/workflow-map.md
+# Or read navigation/workflow-map.md
 ```
 
 ---
@@ -1151,7 +1151,7 @@ When something goes wrong:
 
 - **Quick Start**: `quick-start.md` - Get started guide
 - **Glossary**: `glossary.md` - Term definitions
-- **Workflow Map**: `../../docs/workflow-map.md` - Visual guide
+- **Workflow Map**: `navigation/workflow-map.md` - Visual guide
 - **Review**: `workflow-review.md` - Comprehensive analysis
 
 ---

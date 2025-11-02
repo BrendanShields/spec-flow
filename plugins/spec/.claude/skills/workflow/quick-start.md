@@ -274,7 +274,7 @@ Shows:
 "Show me the complete workflow map"
 ```
 
-Or read: `../../docs/workflow-map.md`
+Or read: `navigation/workflow-map.md`
 
 ---
 
@@ -440,7 +440,7 @@ Checkpoint protection!
 
 - **Glossary**: `glossary.md` - Understand terminology
 - **Error Recovery**: `error-recovery.md` - Troubleshooting guide
-- **Workflow Map**: `../../docs/workflow-map.md` - Visual guide
+- **Workflow Map**: `navigation/workflow-map.md` - Visual guide
 - **Full Review**: `workflow-review.md` - Comprehensive analysis
 
 ### Customize
