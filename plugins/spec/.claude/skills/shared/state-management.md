@@ -940,7 +940,7 @@ fi
 
 - `shared/workflow-patterns.md` - Common workflow patterns using state
 - `shared/integration-patterns.md` - MCP integration state tracking
-- `ERROR-RECOVERY.md` - Complete error recovery procedures
+- `error-recovery.md` - Complete error recovery procedures
 - Individual skill REFERENCEs for skill-specific state usage
 
 ---

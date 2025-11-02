@@ -1165,7 +1165,7 @@ All features synced successfully.
 ## Related Resources
 
 - **Integration Patterns**: `shared/integration-patterns.md` - MCP integration patterns
-- **Error Recovery**: `ERROR-RECOVERY.md` - General error handling guide
+- **Error Recovery**: `error-recovery.md` - General error handling guide
 - **Configuration**: Project CLAUDE.md - Integration configuration examples
 - **MCP Documentation**: [Model Context Protocol](https://modelcontextprotocol.com)
 
@@ -1213,4 +1213,4 @@ cat .spec-state/integration-errors.log
 
 **Remember**: Integrations enhance the workflow but never block it. Local artifacts are always created, and external syncing is a convenience. When in doubt, continue locally and sync later.
 
-**Questions?** See ERROR-RECOVERY.md or CLAUDE.md configuration examples.
+**Questions?** See error-recovery.md or CLAUDE.md configuration examples.

@@ -1686,10 +1686,10 @@ SPEC_CONFLICT_RESOLUTION=prompt  # vs auto, manual
 
 ## Related Resources
 
-- **Quick Start**: `QUICK-START.md` - Get started in 5 commands
-- **Error Recovery**: `ERROR-RECOVERY.md` - Troubleshooting guide
-- **Workflow Map**: `navigation/workflow-map.md` - Visual workflow guide
-- **Review**: `WORKFLOW-REVIEW.md` - Comprehensive analysis
+- **Quick Start**: `quick-start.md` - Get started in 5 commands
+- **Error Recovery**: `error-recovery.md` - Troubleshooting guide
+- **Workflow Map**: `../../docs/workflow-map.md` - Visual workflow guide
+- **Review**: `workflow-review.md` - Comprehensive analysis
 
 ---
 

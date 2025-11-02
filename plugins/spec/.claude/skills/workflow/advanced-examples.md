@@ -939,10 +939,10 @@ EOF
 
 ## Related Documentation
 
-- [ERROR-RECOVERY.md](./ERROR-RECOVERY.md) - Error handling and recovery
-- [WORKFLOW-REVIEW.md](./WORKFLOW-REVIEW.md) - Core workflow documentation
+- [error-recovery.md](./error-recovery.md) - Error handling and recovery
+- [workflow-review.md](./workflow-review.md) - Core workflow documentation
 - [README.md](./README.md) - Command reference
-- [INTEGRATION-ERRORS.md](./INTEGRATION-ERRORS.md) - Integration guide
+- [integration-errors.md](./integration-errors.md) - Integration guide
 
 ---
 

@@ -70,29 +70,29 @@ The documentation already follows good practices:
 
 | File | Line | Before | After | Reason |
 |------|------|--------|-------|--------|
-| ADVANCED-EXAMPLES.md | 943 | WORKFLOW.md | WORKFLOW-REVIEW.md | File renamed |
-| ADVANCED-EXAMPLES.md | 944 | REFERENCE.md | README.md | File doesn't exist |
-| ADVANCED-EXAMPLES.md | 945 | INTEGRATION.md | INTEGRATION-ERRORS.md | Updated name |
+| advanced-examples.md | 943 | WORKFLOW.md | workflow-review.md | File renamed |
+| advanced-examples.md | 944 | REFERENCE.md | README.md | File doesn't exist |
+| advanced-examples.md | 945 | INTEGRATION.md | integration-errors.md | Updated name |
 | templates/artifacts/spec-template.md | 13 | [JIRA-ID](JIRA-URL) | [[JIRA-ID]](JIRA-URL) | Escaped placeholder |
 
 **4 Orphaned Files Integrated:**
 
-All orphaned files were added to `navigation/INDEX.md`:
+All orphaned files were added to `../../docs/index.md`:
 
 | File | Added To | Purpose |
 |------|----------|---------|
-| ADVANCED-EXAMPLES.md | Core Navigation | Advanced workflow examples & patterns |
-| LINK-AUDIT-REPORT.md | Core Navigation | Documentation link health report (this file) |
-| CONSISTENCY-REVIEW-REPORT.md | Core Navigation | Documentation consistency analysis |
+| advanced-examples.md | Core Navigation | Advanced workflow examples & patterns |
+| link-audit-report.md | Core Navigation | Documentation link health report (this file) |
+| consistency-review-report.md | Core Navigation | Documentation consistency analysis |
 | templates/INTEGRATION-GUIDE.md | Integration Templates | Complete integration guide & setup |
 
 ### Files Modified
 
 **Total: 3 files**
 
-1. `/ADVANCED-EXAMPLES.md` - Fixed 3 broken links
+1. `/advanced-examples.md` - Fixed 3 broken links
 2. `/templates/artifacts/spec-template.md` - Escaped 1 template placeholder
-3. `/navigation/INDEX.md` - Added 4 orphaned files, updated counts
+3. `/../../docs/index.md` - Added 4 orphaned files, updated counts
 
 ### Final Results
 
@@ -167,7 +167,7 @@ python3 /tmp/audit_links_v2.py
 When adding new documentation files:
 
 1. **Create the file** in appropriate directory
-2. **Add to navigation** - Update `navigation/INDEX.md`
+2. **Add to navigation** - Update `../../docs/index.md`
 3. **Update counts** - Increment file totals in INDEX.md
 4. **Verify** - Run audit script to confirm no broken links
 

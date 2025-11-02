@@ -15,7 +15,7 @@ workflow/
 ├── SKILL.md                      # Main router (~300 tokens)
 │                                 # Always loaded, provides orientation
 │
-├── navigation/                   # Quick reference guides
+├── ../../docs/                   # Quick reference guides
 │   ├── workflow-map.md           # Visual workflow diagram (~600 tokens)
 │   ├── skill-index.md            # All 13 skills reference (~800 tokens)
 │   └── phase-reference.md        # Phase details and transitions (~900 tokens)
@@ -193,13 +193,13 @@ Token cost: ~300
 
 **Understand workflow**:
 ```
-Load: navigation/workflow-map.md
+Load: ../../docs/workflow-map.md
 Token cost: ~600
 ```
 
 **View all skills**:
 ```
-Load: navigation/skill-index.md
+Load: ../../docs/skill-index.md
 Token cost: ~800
 ```
 
@@ -307,7 +307,7 @@ workflow/
 ├── SKILL.md                      # ✅ Main router
 ├── README.md                     # ✅ This file
 │
-├── navigation/                   # ✅ Quick references
+├── ../../docs/                   # ✅ Quick references
 │   ├── workflow-map.md           # ✅ Visual diagram
 │   ├── skill-index.md            # ✅ All skills reference
 │   └── phase-reference.md        # ✅ Phase details
@@ -340,17 +340,17 @@ workflow/
 
 ### Adding New Skills
 1. Create skill in `spec-[name]/` directory
-2. Add to `navigation/skill-index.md`
+2. Add to `../../docs/skill-index.md`
 3. Add to appropriate phase guide
 4. Update `workflow/SKILL.md` router references
 
 ### Updating Phases
 1. Modify `phases/[N]-[name].md`
-2. Update `navigation/phase-reference.md` if transitions change
-3. Update `navigation/workflow-map.md` if flow changes
+2. Update `../../docs/phase-reference.md` if transitions change
+3. Update `../../docs/workflow-map.md` if flow changes
 
 ### Updating Navigation
-1. Keep `navigation/*.md` in sync with skills
+1. Keep `../../docs/*.md` in sync with skills
 2. Update token estimates if files grow
 3. Maintain cross-references
 
@@ -374,4 +374,4 @@ Validate routing works correctly:
 
 **For usage**: Load `workflow/SKILL.md` to start navigation
 **For architecture**: This README
-**For visual guide**: `navigation/workflow-map.md`
+**For visual guide**: `../../docs/workflow-map.md`

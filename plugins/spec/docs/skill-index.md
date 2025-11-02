@@ -227,7 +227,7 @@ Each skill has 3 documentation levels:
 
 ## Navigation Tips
 
-**Need overview?** → Load `navigation/workflow-map.md`
+**Need overview?** → Load `workflow-map.md`
 **Need phase details?** → Load `phases/[N]-[name]/README.md`
 **Need skill details?** → Load `phases/[N]-[name]/[function]/guide.md`
 **Need examples?** → Load `phases/[N]-[name]/[function]/examples.md`

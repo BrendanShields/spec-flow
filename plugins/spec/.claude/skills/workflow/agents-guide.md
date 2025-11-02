@@ -1177,8 +1177,8 @@ chmod 644 .spec-state/*
 ---
 
 **Related Documentation**:
-- **Quick Start**: `QUICK-START.md` - Get started with workflow
-- **Error Recovery**: `ERROR-RECOVERY.md` - Troubleshooting guide
+- **Quick Start**: `quick-start.md` - Get started with workflow
+- **Error Recovery**: `error-recovery.md` - Troubleshooting guide
 - **Individual Agent Docs**: `.claude/agents/spec-*/agent.md` - Deep dives per agent
 
 ---

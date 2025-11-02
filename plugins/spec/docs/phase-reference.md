@@ -360,6 +360,6 @@ Optional phases that can be skipped:
 
 ---
 
-**For visual workflow**: See `navigation/workflow-map.md`
-**For skill details**: See `navigation/skill-index.md`
+**For visual workflow**: See `workflow-map.md`
+**For skill details**: See `skill-index.md`
 **For phase deep-dive**: See `phases/[N]-[name].md`

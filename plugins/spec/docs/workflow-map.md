@@ -245,7 +245,7 @@ COMPLETE → ready_for_next_feature
 ## Navigation by Context
 
 **I'm stuck, need help**:
-- Load `navigation/phase-reference.md` for detailed phase guide
+- Load `phase-reference.md` for detailed phase guide
 - Load specific skill's `EXAMPLES.md` for patterns
 - Check `CLAUDE.md` in plugin root for troubleshooting
 

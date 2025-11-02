@@ -210,7 +210,7 @@ Need more detail? Read phases/3-design/README.md
 
 # See complete workflow
 "Show me the workflow map"
-# Or read navigation/workflow-map.md
+# Or read ../../docs/workflow-map.md
 ```
 
 ---
@@ -1090,10 +1090,10 @@ cp .spec-state/checkpoints/before-update.md .spec-state/current-session.md
 "I'm getting error X, how do I fix it?"
 
 # Or check this guide
-# Read ERROR-RECOVERY.md (this file)
+# Read error-recovery.md (this file)
 
 # Or check glossary
-# Read GLOSSARY.md for terms
+# Read glossary.md for terms
 ```
 
 ---
@@ -1149,10 +1149,10 @@ When something goes wrong:
 
 ## Related Resources
 
-- **Quick Start**: `QUICK-START.md` - Get started guide
-- **Glossary**: `GLOSSARY.md` - Term definitions
-- **Workflow Map**: `navigation/workflow-map.md` - Visual guide
-- **Review**: `WORKFLOW-REVIEW.md` - Comprehensive analysis
+- **Quick Start**: `quick-start.md` - Get started guide
+- **Glossary**: `glossary.md` - Term definitions
+- **Workflow Map**: `../../docs/workflow-map.md` - Visual guide
+- **Review**: `workflow-review.md` - Comprehensive analysis
 
 ---
 

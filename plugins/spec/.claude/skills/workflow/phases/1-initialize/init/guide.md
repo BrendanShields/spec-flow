@@ -119,7 +119,7 @@ ls src/ package.json *.py 2>/dev/null | wc -l
    2. Run spec:specify to create first feature
    3. Or run spec:discover for brownfield analysis
 
-📖 Learn more: docs/QUICK-START.md
+📖 Learn more: docs/quick-start.md
 ```
 
 ## Brownfield Projects

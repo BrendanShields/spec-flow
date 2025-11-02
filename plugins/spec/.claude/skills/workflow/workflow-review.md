@@ -54,7 +54,7 @@ workflow/
 │   ├── 3-design/               # plan, analyze
 │   ├── 4-build/                # tasks, implement
 │   └── 5-track/                # update, metrics, orchestrate
-├── navigation/                 # 3 reference files
+├── ../../docs/                 # 3 reference files
 │   ├── workflow-map.md
 │   ├── skill-index.md
 │   └── phase-reference.md
@@ -370,7 +370,7 @@ scripts/generate-navigation.sh
 
 #### 4.2.1 Quick Start Guide
 
-**Create**: `workflow/QUICK-START.md` (~800 tokens)
+**Create**: `workflow/quick-start.md` (~800 tokens)
 
 **Content**:
 ```markdown
@@ -410,7 +410,7 @@ scripts/generate-navigation.sh
 
 #### 4.2.2 Terminology Glossary
 
-**Create**: `workflow/GLOSSARY.md` (~600 tokens)
+**Create**: `workflow/glossary.md` (~600 tokens)
 
 **Content**:
 ```markdown
@@ -444,7 +444,7 @@ scripts/generate-navigation.sh
 
 #### 4.2.3 Error Recovery Guide
 
-**Create**: `workflow/ERROR-RECOVERY.md` (~1,000 tokens)
+**Create**: `workflow/error-recovery.md` (~1,000 tokens)
 
 **Content**:
 ```markdown
@@ -792,7 +792,7 @@ test_templates_valid() {
 - **Why**: Reduces onboarding friction
 - **Impact**: High - affects all new users
 - **Effort**: Low - 2-3 hours
-- **Files**: Create `QUICK-START.md`
+- **Files**: Create `quick-start.md`
 - **Deliverable**: Single-page guide with 5-command workflow
 
 #### R1.2: Standardize Naming
@@ -806,7 +806,7 @@ test_templates_valid() {
 - **Why**: Reduces support burden
 - **Impact**: High - users get unstuck faster
 - **Effort**: Medium - 6-8 hours
-- **Files**: Create `ERROR-RECOVERY.md`
+- **Files**: Create `error-recovery.md`
 - **Deliverable**: Comprehensive error catalog with solutions
 
 #### R1.4: Template-Function Linking
@@ -836,7 +836,7 @@ test_templates_valid() {
 - **Why**: Defines terminology consistently
 - **Impact**: Medium - helps new users
 - **Effort**: Low - 2-3 hours
-- **Files**: Create `GLOSSARY.md`
+- **Files**: Create `glossary.md`
 - **Deliverable**: Comprehensive term definitions
 
 #### R2.4: Visual Progress Indicators
@@ -885,11 +885,11 @@ test_templates_valid() {
 **Goal**: Fix critical issues, improve onboarding
 
 **Tasks**:
-1. ✅ Create QUICK-START.md (~3h)
+1. ✅ Create quick-start.md (~3h)
 2. ✅ Standardize naming conventions (~6h)
-3. ✅ Create ERROR-RECOVERY.md (~8h)
+3. ✅ Create error-recovery.md (~8h)
 4. ✅ Add template references to guides (~3h)
-5. ✅ Create GLOSSARY.md (~3h)
+5. ✅ Create glossary.md (~3h)
 
 **Deliverables**:
 - Quick start guide

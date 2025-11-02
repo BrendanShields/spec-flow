@@ -274,7 +274,7 @@ Shows:
 "Show me the complete workflow map"
 ```
 
-Or read: `navigation/workflow-map.md`
+Or read: `../../docs/workflow-map.md`
 
 ---
 
@@ -438,10 +438,10 @@ Checkpoint protection!
 
 ### Learn More
 
-- **Glossary**: `GLOSSARY.md` - Understand terminology
-- **Error Recovery**: `ERROR-RECOVERY.md` - Troubleshooting guide
-- **Workflow Map**: `navigation/workflow-map.md` - Visual guide
-- **Full Review**: `WORKFLOW-REVIEW.md` - Comprehensive analysis
+- **Glossary**: `glossary.md` - Understand terminology
+- **Error Recovery**: `error-recovery.md` - Troubleshooting guide
+- **Workflow Map**: `../../docs/workflow-map.md` - Visual guide
+- **Full Review**: `workflow-review.md` - Comprehensive analysis
 
 ### Customize
 
@@ -453,7 +453,7 @@ Checkpoint protection!
 
 - **In-session**: Ask "What should I do next?"
 - **Documentation**: Read `README.md` in plugin root
-- **Support**: Check `ERROR-RECOVERY.md` for common issues
+- **Support**: Check `error-recovery.md` for common issues
 
 ---
 

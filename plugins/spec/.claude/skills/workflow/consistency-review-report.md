@@ -51,9 +51,9 @@
 - `phases/2-define/generate/guide.md`: Lines 2, 119, 138, 273
 - `phases/3-design/plan/guide.md`: Lines 2, 204
 - `phases/4-build/tasks/guide.md`: Lines 2
-- `QUICK-START.md`: Consistently uses `/spec` (12-484)
-- `GLOSSARY.md`: Uses both `/spec` (651-667) and `spec:` in links
-- `ERROR-RECOVERY.md`: Consistently uses `/spec` throughout
+- `quick-start.md`: Consistently uses `/spec` (12-484)
+- `glossary.md`: Uses both `/spec` (651-667) and `spec:` in links
+- `error-recovery.md`: Consistently uses `/spec` throughout
 
 **Analysis**:
 - **Skill/guide files** (guide.md, reference.md): Use `spec:skillname` format in YAML frontmatter and internal references
@@ -83,12 +83,12 @@ The spec:generate skill invokes /spec generate
 **Pattern**: Mixed `--flag` vs `--flag=value` vs `-flag`
 
 **Files Affected**:
-- `QUICK-START.md:232`: `/spec implement --continue`
-- `QUICK-START.md:237`: `/spec implement --task=T003`
-- `QUICK-START.md:248`: `/spec tasks --update`
-- `GLOSSARY.md:651-653`: `--examples`, `--reference` (no value)
-- `ERROR-RECOVERY.md:356`: `/spec plan --force`
-- `AGENTS-GUIDE.md:253-258`: Mixed usage
+- `quick-start.md:232`: `/spec implement --continue`
+- `quick-start.md:237`: `/spec implement --task=T003`
+- `quick-start.md:248`: `/spec tasks --update`
+- `glossary.md:651-653`: `--examples`, `--reference` (no value)
+- `error-recovery.md:356`: `/spec plan --force`
+- `agents-guide.md:253-258`: Mixed usage
 
 **Current Patterns**:
 1. Boolean flags: `--continue`, `--force`, `--skip-tests`
@@ -109,11 +109,11 @@ The spec:generate skill invokes /spec generate
 **Files Affected**:
 - `phases/1-initialize/init/examples.md`: Mix of inline and block commands
 - `phases/2-define/clarify/examples.md`: Comments after commands vs separate lines
-- `QUICK-START.md`: Consistently uses block format with comments
+- `quick-start.md`: Consistently uses block format with comments
 
 **Patterns Found**:
 ```bash
-# Pattern A (QUICK-START.md - consistent):
+# Pattern A (quick-start.md - consistent):
 ```bash
 /spec init
 ```
@@ -142,7 +142,7 @@ $ ls -la    # Shows files
 **Files Affected**:
 - `init/guide.md:41-53`: Uses relative paths without prefix
 - `discover/examples.md`: Uses absolute paths `/Users/dev/...`
-- `QUICK-START.md:36`: Uses relative paths with prefix `features/001-...`
+- `quick-start.md:36`: Uses relative paths with prefix `features/001-...`
 
 **Recommendation**: Standardize to:
 - Project-relative paths: `features/###-name/spec.md`
@@ -191,7 +191,7 @@ $ ls -la    # Shows files
 **Files Affected**:
 - `init/guide.md:104-123`: Uses emoji bullets
 - `generate/guide.md:217-236`: Uses checkboxes
-- `QUICK-START.md:106-110`: Uses emoji checkboxes
+- `quick-start.md:106-110`: Uses emoji checkboxes
 
 **Current Patterns**:
 1. Emoji bullets: `✅ Spec workflow initialized!`
@@ -223,18 +223,18 @@ $ ls -la    # Shows files
 
 **Usage Analysis**:
 - **"skill"**: Used in guide.md YAML (`name: spec:generate`), technical docs
-- **"function"**: Used in GLOSSARY.md ("Function Types"), old references
+- **"function"**: Used in glossary.md ("Function Types"), old references
 - **"command"**: Used in user-facing docs (`/spec generate`)
 
 **Files Affected**:
-- `GLOSSARY.md:170-204`: "Function Types" section (should be "Skill Types")
-- `navigation/skill-index.md`: Correctly uses "skill" throughout
+- `glossary.md:170-204`: "Function Types" section (should be "Skill Types")
+- `../../docs/skill-index.md`: Correctly uses "skill" throughout
 - `phases/*/guide.md`: Use "skill" in frontmatter but "function" in some text
-- `QUICK-START.md:164-186`: Uses "Commands" for user-facing (correct)
+- `quick-start.md:164-186`: Uses "Commands" for user-facing (correct)
 
 **Current State**:
-- `GLOSSARY.md:11`: "Function Types" (should be Skill Types)
-- `GLOSSARY.md:615`: "Function Invocation" (should be Command Invocation)
+- `glossary.md:11`: "Function Types" (should be Skill Types)
+- `glossary.md:615`: "Function Invocation" (should be Command Invocation)
 
 **Recommendation**: Clear hierarchy:
 1. **User perspective**: "command" (`/spec generate` is a command)
@@ -242,8 +242,8 @@ $ ls -la    # Shows files
 3. **Architecture**: "function" (deprecated - remove)
 
 **Specific Fixes**:
-- GLOSSARY.md: Rename "Function Types" → "Skill Types"
-- GLOSSARY.md: Rename "Function Invocation" → "Command Syntax"
+- glossary.md: Rename "Function Types" → "Skill Types"
+- glossary.md: Rename "Function Invocation" → "Command Syntax"
 - All guide.md: Use "skill" when referring to the implementation
 - All user docs: Use "command" when referring to user invocation
 
@@ -254,10 +254,10 @@ $ ls -la    # Shows files
 **Count**: 7 instances
 
 **Files Affected**:
-- `GLOSSARY.md:10,83-167`: "Workflow Phases" (consistent)
+- `glossary.md:10,83-167`: "Workflow Phases" (consistent)
 - `workflow-map.md:33-73`: "PHASE 1: INITIALIZE" (consistent)
 - `phases/README.md` files: All use "Phase" (consistent)
-- `ERROR-RECOVERY.md:707`: "Function-Specific Issues" (should reference phases)
+- `error-recovery.md:707`: "Function-Specific Issues" (should reference phases)
 
 **Finding**: Actually consistent! "Phase" is used correctly throughout. Only issue is occasional "stage" in informal text.
 
@@ -286,7 +286,7 @@ $ ls -la    # Shows files
 **Count**: 9 instances
 
 **Files Affected**:
-- `GLOSSARY.md:322`: "Session State"
+- `glossary.md:322`: "Session State"
 - `init/guide.md:15`: "session tracking"
 - `generate/guide.md:36`: "current session"
 
@@ -429,10 +429,10 @@ $ ls -la    # Shows files
 **Count**: 12 instances
 
 **Files Affected**:
-- `GLOSSARY.md:645`: States guide.md = ~1,500 tokens
-- `GLOSSARY.md:652`: States guide + examples = ~4,500 tokens
-- `GLOSSARY.md:653`: States guide + reference = ~3,500 tokens
-- `ERROR-RECOVERY.md:440`: States guide only = ~1,500 tokens
+- `glossary.md:645`: States guide.md = ~1,500 tokens
+- `glossary.md:652`: States guide + examples = ~4,500 tokens
+- `glossary.md:653`: States guide + reference = ~3,500 tokens
+- `error-recovery.md:440`: States guide only = ~1,500 tokens
 - `tasks/guide.md:252`: States ~1,450 tokens
 
 **Actual Token Counts** (measured):
@@ -451,10 +451,10 @@ $ ls -la    # Shows files
 **Count**: 7 files
 
 **Files Missing Estimates**:
-- `ERROR-RECOVERY.md` (no estimate given)
+- `error-recovery.md` (no estimate given)
 - `WORKFLOW-MAP.md:263`: States ~600 tokens (should verify)
-- `AGENTS-GUIDE.md` (no estimate)
-- `PROGRESSIVE-DISCLOSURE.md` (no estimate)
+- `agents-guide.md` (no estimate)
+- `progressive-disclosure.md` (no estimate)
 
 **Recommendation**: Add "Token Budget: ~XXX tokens" to bottom of each major doc file.
 
@@ -462,7 +462,7 @@ $ ls -la    # Shows files
 
 ## Specific File Issues
 
-### QUICK-START.md
+### quick-start.md
 
 **Issues Found**: 3
 
@@ -472,7 +472,7 @@ $ ls -la    # Shows files
 
 **Status**: Mostly consistent, minor improvements possible
 
-### GLOSSARY.md
+### glossary.md
 
 **Issues Found**: 8
 
@@ -491,7 +491,7 @@ $ ls -la    # Shows files
 3. [Skill Types](#skill-types)
 ```
 
-### ERROR-RECOVERY.md
+### error-recovery.md
 
 **Issues Found**: 5
 
@@ -532,16 +532,16 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 
 ### Workflow Phase Descriptions
 
-**Files**: `GLOSSARY.md`, `workflow-map.md`, `phases/*/README.md`
+**Files**: `glossary.md`, `workflow-map.md`, `phases/*/README.md`
 
 **Analysis**:
-- GLOSSARY.md lines 83-167: Defines 5 phases with detailed descriptions
+- glossary.md lines 83-167: Defines 5 phases with detailed descriptions
 - workflow-map.md lines 88-118: Repeats phase descriptions (slight variations)
 - Phase README.md files: Different descriptions again
 
 **Example Inconsistency**:
 ```markdown
-# GLOSSARY.md (Line 100):
+# glossary.md (Line 100):
 **Exit**: Ready to create first feature
 
 # workflow-map.md (Line 93):
@@ -552,17 +552,17 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 ```
 
 **Recommendation**: Single source of truth for phase descriptions:
-- GLOSSARY.md = authoritative definitions
+- glossary.md = authoritative definitions
 - workflow-map.md = reference GLOSSARY
 - Phase READMEs = add phase-specific context only
 
 ### Priority Definitions
 
-**Files**: `GLOSSARY.md`, `QUICK-START.md`, multiple guide.md files
+**Files**: `glossary.md`, `quick-start.md`, multiple guide.md files
 
 **Analysis**: Priority levels (P1/P2/P3) defined consistently:
-- GLOSSARY.md: Lines 23-81 (comprehensive)
-- QUICK-START.md: Lines 283-288 (brief)
+- glossary.md: Lines 23-81 (comprehensive)
+- quick-start.md: Lines 283-288 (brief)
 - All match ✓
 
 **Recommendation**: No changes needed.
@@ -585,11 +585,11 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 ### Immediate (Critical)
 
 1. **Replace all `spec:` with `/spec` in user-facing docs**
-   - QUICK-START.md ✓ (already correct)
-   - ERROR-RECOVERY.md ✓ (already correct)
-   - GLOSSARY.md: Update command examples
+   - quick-start.md ✓ (already correct)
+   - error-recovery.md ✓ (already correct)
+   - glossary.md: Update command examples
 
-2. **Update GLOSSARY.md terminology**
+2. **Update glossary.md terminology**
    - "Function Types" → "Skill Types"
    - "Function Invocation" → "Command Syntax"
 
@@ -621,7 +621,7 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 ## Files Requiring Updates
 
 ### Priority 1 (Critical)
-1. `GLOSSARY.md` - 8 issues (terminology, headers, tokens)
+1. `glossary.md` - 8 issues (terminology, headers, tokens)
 2. `phases/1-initialize/README.md` - Multiple H1 headings
 3. `templates/INTEGRATION-GUIDE.md` - Multiple H1 headings
 
@@ -630,7 +630,7 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 5. `plan/guide.md` - Terminology updates
 6. `tasks/guide.md` - Token estimate
 7. `implement/guide.md` - Token estimate, examples
-8. `ERROR-RECOVERY.md` - Add token budget, minor terminology
+8. `error-recovery.md` - Add token budget, minor terminology
 
 ### Priority 3 (Medium)
 9-21. All `reference.md` files - Update token estimates, fix heading levels
@@ -668,7 +668,7 @@ VARIABLES: {feature-id}, {feature-name}, {date}
 ### Phase 1: Critical Fixes - IDENTIFIED
 Due to file locking issues during batch editing, fixes have been IDENTIFIED and DOCUMENTED but not yet applied. The following changes are ready to implement:
 
-**GLOSSARY.md - 31 terminology updates needed**:
+**glossary.md - 31 terminology updates needed**:
 1. ✓ Line 11: "Function Types" → "Skill Types" (TOC)
 2. ✓ Line 206: "## Function Types" → "## Skill Types"
 3. ✓ Line 208: "Core Workflow Function" → "Core Workflow Skill"
@@ -804,7 +804,7 @@ The workflow documentation is **generally well-structured** with consistent patt
 - Complete consistency: 12-15 hours
 
 **Recommended Approach**:
-1. Fix critical issues immediately (GLOSSARY.md, H1 headings)
+1. Fix critical issues immediately (glossary.md, H1 headings)
 2. Update token estimates in batch
 3. Create style guide for future consistency
 4. Address cosmetic issues in maintenance windows
@@ -828,19 +828,19 @@ During the fix implementation phase, encountered file locking/modification error
 Given the file locking issues, recommend the following approach:
 
 **Option A: Manual Fixes** (Safest)
-1. Open GLOSSARY.md in editor
+1. Open glossary.md in editor
 2. Apply the 31 documented changes manually
 3. Save and verify
 4. Proceed to other high-priority files
 
 **Option B: Scripted Fixes** (Faster)
 1. Create a sed/awk script with all replacements
-2. Run script on GLOSSARY.md
+2. Run script on glossary.md
 3. Verify changes with diff
 4. Apply to remaining files
 
 **Option C: Staged Approach** (Most reliable)
-1. Fix GLOSSARY.md first (most critical)
+1. Fix glossary.md first (most critical)
 2. Commit changes
 3. Fix token estimates next batch
 4. Commit changes
@@ -848,7 +848,7 @@ Given the file locking issues, recommend the following approach:
 6. Final commit
 
 ### Priority Recommendation
-**Start with GLOSSARY.md** - it's the single most impactful file with 26% of all identified issues.
+**Start with glossary.md** - it's the single most impactful file with 26% of all identified issues.
 
 ### Next Actions
 1. Apply GLOSSARYmd fixes (31 changes)
