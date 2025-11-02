@@ -168,12 +168,12 @@ Next: Run `spec:generate "Your First Feature"` to begin development
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/project-setup/architecture-blueprint-template.md` → `{config.paths.spec_root}/architecture-blueprint.md`
+- `templates/architecture-blueprint-template.md` → `{config.paths.spec_root}/architecture-blueprint.md`
 
 **Purpose**: Provides comprehensive structure for documenting project architecture, technical standards, and ADRs
 
 **Customization**:
-1. Copy template to `{config.paths.spec_root}/templates/architecture-blueprint-template.md` in your project
+1. Template structure: `.claude/skills/workflow/templates/architecture-blueprint-template.md`
 2. Modify sections to match your organization's architecture documentation standards
 3. Add/remove sections as needed for your tech stack
 

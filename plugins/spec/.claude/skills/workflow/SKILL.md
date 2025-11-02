@@ -120,8 +120,8 @@ All paths are configurable via `.claude/.spec-config.yml`:
 **Available config variables**:
 - `{config.paths.spec_root}` - Default: `.spec`
 - `{config.paths.features}` - Default: `features`
-- `{config.paths.state}` - Default: `.spec-state`
-- `{config.paths.memory}` - Default: `.spec-memory`
+- `{config.paths.state}` - Default: `{config.paths.state}`
+- `{config.paths.memory}` - Default: `{config.paths.memory}`
 - `{config.paths.templates}` - Default: `.spec/templates`
 - `{config.naming.feature_directory}` - Default: `{id:000}-{slug}`
 - `{config.naming.files.spec}` - Default: `spec.md`

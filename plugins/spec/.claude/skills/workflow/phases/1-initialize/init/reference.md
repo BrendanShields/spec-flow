@@ -73,7 +73,7 @@ project-root/
 
 ```bash
 # All directories: 755 (rwxr-xr-x)
-chmod 755 .spec .spec-state .spec-memory
+chmod 755 .spec {config.paths.state} {config.paths.memory}
 
 # Scripts: 755 (executable)
 chmod 755 {config.paths.spec_root}/scripts/*.sh
@@ -634,7 +634,7 @@ else
 fi
 
 # Append if missing
-if ! echo "$GITIGNORE" | grep -q ".spec-state"; then
+if ! echo "$GITIGNORE" | grep -q "{config.paths.state}"; then
   echo "" >> .gitignore
   echo "# Spec Workflow - Session State" >> .gitignore
   echo "{config.paths.state}/" >> .gitignore
@@ -711,7 +711,7 @@ spec:validate
 spec:init --force
 
 # Option 3: Manual cleanup
-rm -rf .spec .spec-state
+rm -rf .spec {config.paths.state}
 spec:init
 ```
 
@@ -777,13 +777,13 @@ done
 ```bash
 # Backup existing
 mv .spec .spec.backup.$(date +%Y%m%d)
-mv .spec-state .spec-state.backup.$(date +%Y%m%d)
+mv {config.paths.state} {config.paths.state}.backup.$(date +%Y%m%d)
 
 # Reinitialize
 spec:init
 
 # Restore memory (has history)
-cp -r .spec-memory.backup.$(date +%Y%m%d)/* {config.paths.memory}/
+cp -r {config.paths.memory}.backup.$(date +%Y%m%d)/* {config.paths.memory}/
 ```
 
 ---
@@ -856,8 +856,8 @@ After `spec:init`, validate with:
 ```bash
 # Structure check
 test -d .spec && echo "✅ Config directory"
-test -d .spec-state && echo "✅ State directory"
-test -d .spec-memory && echo "✅ Memory directory"
+test -d {config.paths.state} && echo "✅ State directory"
+test -d {config.paths.memory} && echo "✅ Memory directory"
 
 # File check
 test -f {config.paths.spec_root}/product-requirements.md && echo "✅ PRD"

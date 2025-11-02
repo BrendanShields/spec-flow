@@ -755,7 +755,7 @@ spec:implement
 3. **Backup Before Major Changes**
    ```bash
    # Before major refactoring or updates:
-   cp -r .spec-memory .spec-memory.backup-$(date +%Y%m%d)
+   cp -r {config.paths.memory} {config.paths.memory}.backup-$(date +%Y%m%d)
    ```
 
 4. **Review Progress Regularly**

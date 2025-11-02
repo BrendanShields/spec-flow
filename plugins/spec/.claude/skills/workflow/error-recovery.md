@@ -263,7 +263,7 @@ EOF
 **Solution C: Start Fresh** (last resort)
 ```bash
 # Archive old state
-mv .spec-state .spec-state.backup
+mv {config.paths.state} {config.paths.state}.backup
 
 # Reinitialize
 /spec init

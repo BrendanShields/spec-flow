@@ -165,12 +165,12 @@ See examples.md for:
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/quality/checklist-template.md` → `{config.paths.features}/###-name/checklists/*.md`
+- `templates/checklist-template.md` → `{config.paths.features}/###-name/checklists/*.md`
 
 **Purpose**: Provides domain-specific quality validation checklists (UX, API, Security, Performance)
 
 **Customization**:
-1. Copy template to `{config.paths.spec_root}/templates/checklist-template.md` in your project
+1. Template structure: `.claude/skills/workflow/templates/checklist-template.md`
 2. Modify quality dimensions to match your standards (e.g., add accessibility, localization)
 3. checklist/ will use your custom template for all generated checklists
 

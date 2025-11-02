@@ -290,14 +290,14 @@ so that [benefit].
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/spec-template.md` → `{config.paths.features}/###-name/{config.naming.files.spec}`
+- `templates/spec-template.md` → `{config.paths.features}/###-name/{config.naming.files.spec}`
 
 **Purpose**: Provides structure for feature specifications with user stories, acceptance criteria, and requirements
 
-**Customization**:
-1. Copy template to `{config.paths.spec_root}/templates/spec-template.md` in your project
-2. Modify sections, add/remove fields as needed
-3. generate/ will automatically use your custom template
+**Template Reference**:
+- Template structure: `.claude/skills/workflow/templates/artifacts/spec-template.md`
+- Use this as a reference for what the generated spec should contain
+- Customization: Modify the template in the plugin if you want to change the default structure
 
 **Template includes**:
 - Feature overview section

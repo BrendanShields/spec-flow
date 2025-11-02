@@ -165,7 +165,7 @@ Next steps:
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/plan-template.md` → `{config.paths.features}/###-name/{config.naming.files.plan}`
+- `templates/plan-template.md` → `{config.paths.features}/###-name/{config.naming.files.plan}`
 
 **Purpose**: Provides structure for technical design with architecture decisions, data models, and implementation strategy
 
@@ -173,9 +173,9 @@ This function uses the following templates:
 - `templates/integrations/openapi-template.yaml` → `{config.paths.features}/###-name/openapi.yaml` (for API-focused features)
 
 **Customization**:
-1. Copy template to `{config.paths.spec_root}/templates/plan-template.md` in your project
+1. Template structure: `.claude/skills/workflow/templates/plan-template.md`
 2. Modify sections to match your architecture standards
-3. plan/ will automatically use your custom template
+3. plan/ Use this as a reference for what should be generated
 
 **Template includes**:
 - Architecture overview section

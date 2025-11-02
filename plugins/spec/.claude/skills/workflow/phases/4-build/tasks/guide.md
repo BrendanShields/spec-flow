@@ -214,14 +214,14 @@ Updates `{config.paths.memory}/CHANGES-PLANNED.md` with task entries.
 This function uses the following templates:
 
 **Primary Template**:
-- `templates/artifacts/tasks-template.md` → `{config.paths.features}/###-name/{config.naming.files.tasks}`
+- `templates/tasks-template.md` → `{config.paths.features}/###-name/{config.naming.files.tasks}`
 
 **Purpose**: Provides structure for task breakdown with IDs, dependencies, priorities, and estimates
 
 **Customization**:
-1. Copy template to `{config.paths.spec_root}/templates/tasks-template.md` in your project
+1. Template structure: `.claude/skills/workflow/templates/tasks-template.md`
 2. Modify task format, add custom fields (e.g., assignee, sprint)
-3. tasks/ will automatically use your custom template
+3. tasks/ Use this as a reference for what should be generated
 
 **Template includes**:
 - Task ID format (T001, T002, etc.)

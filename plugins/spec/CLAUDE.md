@@ -1,387 +1,273 @@
-# Spec Plugin - Instructions for Claude Code
+# Spec Plugin - Claude Code Instructions
 
-This file provides guidance to Claude Code when working with the Spec plugin.
+Specification-driven development workflow plugin:
+- Define what to build (specs, user stories)
+- Design how to build (plans, ADRs, components)
+- Execute with tasks (dependencies, priorities)
+- Track progress across sessions
+- Maintain decision history + metrics
 
-## Plugin Overview
+## Core Features
+- TDD mode (3 enforcement levels)
+- Multi-agent coordination (6 strategies: Sequential, Parallel, Hierarchical, DAG, Group Chat, Event-Driven)
+- Smart hook auto-detection on init
+- **Auto-template initialization** (copies default templates on first run)
+- Interactive menu interface (2 commands)
+- Progressive disclosure (3-tier lazy loading)
+- State caching + AskUserQuestion guidance
 
-**Spec v3.0** is a specification-driven development workflow plugin that helps developers:
-- Define what to build (specifications with user stories)
-- Design how to build it (technical plans with ADRs)
-- Execute with clear tasks (implementation with dependencies)
-- Track progress across Claude Code sessions
-- Maintain decision history and metrics
+## Commands
 
-**Key v3.0 Features**:
-- 81% token efficiency improvement
-- Unified `/spec` hub command with intelligent routing
-- Progressive disclosure architecture (3-tier lazy loading)
-- State caching (80% reduction in state overhead)
-- 13 specialized skills
+### `/workflow:spec` - Main Workflow
+Primary command. Context-aware menus adapt to state.
+
+**When to use**: Always. Main interface for all work.
+
+**Flow**:
+1. Reads `{config.paths.state}/current-session.md` for context
+2. AskUserQuestion presents menu
+3. Invokes workflow skill
+4. Skill loads phase guide (e.g., `phases/2-define/generate/guide.md`)
+5. Returns to menu or continues
+
+**Menus by state**:
+- Not initialized: Initialize, Learn, Help
+- No feature: Auto Mode, Define Feature, Track
+- In spec: Auto Mode, Move to Design, Refine, View
+- In planning: Auto Mode, Move to Build, Refine, View
+- In implementation: Auto Mode, Continue, View Progress, Validate
+- Complete: Validate, Metrics, New Feature
+
+**Auto Mode**: Executes phases automatically, AskUserQuestion at checkpoints (Continue/Refine/Review/Exit). Resumes if interrupted.
+
+### `/workflow:track` - Metrics/Maintenance
+Progress monitoring, quality checks, spec updates.
+
+**When to use**: Check progress/metrics, update specs, consistency checks, JIRA/Confluence sync.
+
+**Menu**: View Metrics, Update Spec, Analyze Consistency, Quality Checklist, Sync External, View Docs.
 
 ## Plugin Structure
-
 ```
-plugins/spec/
-├── CLAUDE.md                   # This file - plugin instructions
-├── README.md                   # User-facing documentation
-│
-├── docs/                       # Complete user documentation
-│   ├── MIGRATION-V2-TO-V3.md  # Migration guide
-│   ├── HOOKS-USER-GUIDE.md    # Event hooks guide
-│   └── CUSTOM-HOOKS-API.md    # Hooks API reference
-│
-├── .claude/                    # Claude Code integration
-│   ├── commands/               # Slash commands
-│   │   ├── spec.md            # Unified hub command
-│   │   └── router.sh          # Command routing logic
-│   │
-│   ├── skills/                # Spec skills (13 total)
-│   │   ├── spec-init/         # Initialize project
-│   │   ├── spec-generate/     # Create specifications
-│   │   ├── spec-clarify/      # Resolve ambiguities
-│   │   ├── spec-plan/         # Technical design
-│   │   ├── spec-tasks/        # Task breakdown
-│   │   ├── spec-implement/    # Execute implementation
-│   │   ├── spec-update/       # Update specifications
-│   │   ├── spec-blueprint/    # Define architecture
-│   │   ├── spec-orchestrate/  # Full workflow automation
-│   │   ├── spec-analyze/      # Validate consistency
-│   │   ├── spec-discover/     # Brownfield analysis
-│   │   ├── spec-checklist/    # Quality checklists
-│   │   ├── spec-metrics/      # Development metrics
-│   │   └── shared/            # Shared resources
-│   │       ├── integration-patterns.md
-│   │       ├── workflow-patterns.md
-│   │       └── state-management.md
-│   │
-│   ├── agents/                # Specialized agents
-│   │   ├── spec-implementer/  # Parallel task execution
-│   │   ├── spec-researcher/   # Research-backed decisions
-│   │   └── spec-analyzer/     # Deep consistency validation
-│   │
-│   └── hooks/                 # Event hooks
-│       ├── hooks.json
-│       └── [hook scripts]
-│
-├── .spec-state/            # Session state templates
-│   └── current-session-template.md
-│
-├── .spec-memory/           # Memory file templates
-│   ├── WORKFLOW-PROGRESS.md
-│   ├── DECISIONS-LOG.md
-│   ├── CHANGES-PLANNED.md
-│   └── CHANGES-COMPLETED.md
-│
-└── templates/                 # Document templates
+.claude/
+├── commands/
+│   ├── workflow:spec.md    # Main workflow
+│   └── workflow:track.md   # Tracking
+├── skills/workflow/phases/
+│   ├── 1-initialize/init/guide.md
+│   ├── 2-define/{generate,clarify,checklist}/guide.md
+│   ├── 3-design/{plan,blueprint,analyze}/guide.md
+│   ├── 4-build/{tasks,implement,discover}/guide.md
+│   ├── 5-track/{metrics,update}/guide.md
+│   └── shared/{integration,workflow,state}-*.md
+├── agents/
+│   ├── spec-implementer/   # Parallel execution
+│   ├── spec-researcher/    # Research-backed decisions
+│   └── spec-analyzer/      # Consistency validation
+└── hooks/                  # Event hooks
 ```
 
-## User Workflow Files
-
-When Spec is used in a project, it creates:
-
+## User Project Files
+Config-driven paths from `.claude/.spec-config.yml`:
 ```
-User Project/
-├── .spec/                     # Project configuration
-│   ├── product-requirements.md
-│   ├── architecture-blueprint.md
-│   ├── templates/
-│   └── scripts/
-│
-├── .spec-state/               # Session tracking (git-ignored)
-│   ├── current-session.md
-│   └── checkpoints/
-│
-├── .spec-memory/              # Persistent memory (committed)
-│   ├── WORKFLOW-PROGRESS.md
-│   ├── DECISIONS-LOG.md
-│   ├── CHANGES-PLANNED.md
-│   └── CHANGES-COMPLETED.md
-│
-└── features/                  # Feature artifacts
-    └── ###-feature-name/
-        ├── spec.md
-        ├── plan.md
-        └── tasks.md
+{config.paths.spec_root}/              # Config, requirements, blueprint
+{config.paths.state}/                  # Session tracking (git-ignored)
+{config.paths.memory}/                 # Persistent memory (committed)
+  ├── WORKFLOW-PROGRESS.md
+  ├── DECISIONS-LOG.md
+  ├── CHANGES-PLANNED.md
+  └── CHANGES-COMPLETED.md
+{config.paths.features}/{config.naming.feature_directory}/
+  ├── {config.naming.files.spec}
+  ├── {config.naming.files.plan}
+  └── {config.naming.files.tasks}
 ```
 
-## Key Concepts
+**Defaults**: `.spec/`, `.spec/state/`, `.spec/memory/`, `.spec/features/`, `###-name/`, `spec.md`, `plan.md`, `tasks.md`
 
-### Workflow Phases
+**Note**: All paths (state, memory, features) are relative to `spec_root` by default. Templates are stored in the plugin at `.claude/skills/workflow/templates/`.
 
-1. **Initialize** (`/spec init`) - Set up Spec in project
-2. **Generate** (`/spec generate` or `/spec "Feature"`) - Create feature specification
-3. **Clarify** (`/spec clarify`) - Resolve ambiguities (optional)
-4. **Plan** (`/spec plan`) - Create technical design
-5. **Tasks** (`/spec tasks`) - Break into actionable tasks
-6. **Implement** (`/spec implement`) - Execute implementation
+## Workflow Phases
+1. **Initialize** - Setup `{config.paths.spec_root}/`, state, memory files
+2. **Generate** - Create spec (user stories, acceptance criteria)
+3. **Clarify** - Resolve ambiguities ([CLARIFY] tags)
+4. **Plan** - Technical design (architecture, ADRs, components)
+5. **Tasks** - Break into actionable tasks (dependencies, priorities)
+6. **Implement** - Execute (parallel execution, progress tracking)
 
-### Priority System
+## Priority System
+- **P1** (Must Have) - Core, blocks release
+- **P2** (Should Have) - Important, can defer
+- **P3** (Nice to Have) - Optional
 
-- **P1** (Must Have) - Core functionality, blocks release
-- **P2** (Should Have) - Important but can defer
-- **P3** (Nice to Have) - Optional enhancements
+## State Management
+**Session** (`{config.paths.state}/`): Current feature/phase, task progress, checkpoints. Git-ignored.
+**Memory** (`{config.paths.memory}/`): Progress/metrics, decisions (ADRs), planned/completed changes. Git-committed.
 
-### State Management
+## Command Behavior
 
-**Session State** (`.spec-state/`):
-- Current feature and phase
-- Task progress
-- Session checkpoints
-- Git-ignored (session-specific)
+**How commands work**:
+1. Read `{config.paths.state}/current-session.md` for context
+2. AskUserQuestion with state-appropriate options
+3. User selects
+4. Invoke workflow skill → loads phase guide
+5. Phase guide executes (Read/Write/Edit/Bash)
+6. Updates state files
+7. Returns to menu
 
-**Persistent Memory** (`.spec-memory/`):
-- Workflow progress and metrics
-- Architecture decisions (ADRs)
-- Planned/completed changes
-- Git-committed (project history)
+**Phase guides**:
+- `phases/1-initialize/init/guide.md` - Initialize project
+- `phases/1-initialize/discover/guide.md` - Brownfield analysis
+- `phases/1-initialize/blueprint/guide.md` - Architecture
+- `phases/2-define/generate/guide.md` - Create spec
+- `phases/2-define/clarify/guide.md` - Resolve ambiguities
+- `phases/2-define/checklist/guide.md` - Quality checklists
+- `phases/3-design/plan/guide.md` - Technical planning
+- `phases/3-design/analyze/guide.md` - Consistency validation
+- `phases/4-build/tasks/guide.md` - Task breakdown
+- `phases/4-build/implement/guide.md` - Implementation
+- `phases/5-track/metrics/guide.md` - Metrics
+- `phases/5-track/update/guide.md` - Spec updates
+- `phases/5-track/orchestrate/guide.md` - Full workflow automation
 
-## Command Guidelines
+**State updates by phase**:
+- Initialize: Creates dirs, init tracking
+- Generate: Updates `current-session.md`, adds to `WORKFLOW-PROGRESS.md`
+- Plan: Updates phase to "planning", logs to `DECISIONS-LOG.md`
+- Tasks: Updates to "implementation", adds to `CHANGES-PLANNED.md`
+- Implement: Updates progress, moves to `CHANGES-COMPLETED.md`
 
-### Hub Command
+**Subagent delegation**:
+- Implement → `spec-implementer` (parallel execution + progress)
+- Plan → `spec-researcher` (research-backed decisions)
+- Analyze → `spec-analyzer` (deep consistency validation)
 
-Users invoke Spec with the unified `/spec` command:
+## Docs References
+**Users**: `./README.md`
+**Hooks**: `.claude/hooks/README.md`
+**Devs**: Phase guides (~1,500 tokens each), `.claude/commands/*.md`, `.claude/skills/workflow/phases/shared/*.md`
 
-```bash
-/spec init                    # Initialize Spec
-/spec "Feature description"   # Create specification
-/spec                         # Context-aware: continues from current phase
-/spec plan                    # Explicit: run specific phase
-/spec --help                  # Context-aware help
+## Config
+**Location**: `.claude/.spec-config.yml` (auto-generated on init with smart defaults)
+
+**Key paths** (customizable):
+```yaml
+paths:
+  spec_root: ".spec"           # Root directory
+
+  # Simple relative paths (relative to spec_root)
+  features: "features"         # → .spec/features
+  state: "state"               # → .spec/state
+  memory: "memory"             # → .spec/memory
+
+  # Variable interpolation (advanced)
+  # features: "{spec_root}/features"     # Explicit with variable
+  # state: "{cwd}/.tmp/state"            # Use project root variable
+  # memory: "{spec_root}/docs/memory"    # Custom location
+
+  # Explicit or absolute paths
+  # features: ".spec/features"     # Explicit (same result)
+  # features: "my-features"        # → .spec/my-features
+  # features: "../shared-features" # Outside spec_root
+  # features: "/absolute/path"     # Absolute path
+
+naming:
+  feature_directory: "{id:000}-{slug}"  # 001-feature-name
+  files:
+    spec: "spec.md"
+    plan: "plan.md"
+    tasks: "tasks.md"
 ```
 
-**Routing Logic**:
-- `/spec` alone → Context-aware continuation
-- `/spec init|generate|plan|tasks|implement|...` → Explicit skill invocation
-- `/spec "Text with spaces"` → Smart: detects specification text, runs generate
+**Path Resolution Logic:**
+1. **Variable Interpolation** (recommended for maintainability):
+   - Supports `{spec_root}`, `{cwd}`, or any `config.paths` key
+   - Example: `"{spec_root}/features"` → `.spec/features`
+   - Benefit: Change `spec_root` once, all paths update automatically
 
-### Core Workflow Commands
+2. **Simple Relative** (default):
+   - Simple name (`"features"`) → Relative to spec_root (`.spec/features`)
+   - Clean config, automatic path resolution
 
-```bash
-/spec init                    # Initialize project
-/spec generate "Feature"      # Create specification
-/spec "Feature"               # Shorthand for generate
-/spec clarify                 # Resolve [CLARIFY] tags
-/spec plan                    # Create technical plan
-/spec tasks                   # Break into tasks
-/spec implement               # Execute implementation
+3. **Explicit/Absolute**:
+   - Starts with spec_root (`.spec/`) → Use as-is from project root
+   - Absolute path (`/...`) → Use absolute path
+   - Full control for special cases
+
+This gives users full flexibility while keeping defaults clean and maintainable.
+
+**Advanced settings** (from `CLAUDE.md` in user projects):
 ```
-
-### Supporting Commands
-
-```bash
-/spec update "Changes"        # Update specification
-/spec blueprint               # Define architecture
-/spec orchestrate             # Full workflow automation
-/spec analyze                 # Validate consistency
-/spec discover                # Brownfield analysis
-/spec metrics                 # Show development metrics
-/spec checklist               # Generate quality checklists
-/spec validate                # Validate all artifacts
-/spec status                  # Check current state
-```
-
-### Progressive Disclosure Flags
-
-```bash
-/spec plan --examples         # Load EXAMPLES.md (~3,000 extra tokens)
-/spec tasks --reference       # Load REFERENCE.md (~2,000 extra tokens)
-/spec --verbose               # Detailed execution output
-```
-
-## Skill Integration
-
-### When Skills Update State
-
-Skills should update state files appropriately:
-
-**`spec:init`**:
-- Creates `.spec/`, `.spec-state/`, `.spec-memory/`
-- Initializes tracking files
-
-**`spec:generate`**:
-- Updates `current-session.md` with new feature
-- Adds entry to `WORKFLOW-PROGRESS.md`
-
-**`spec:plan`**:
-- Updates session phase to "planning"
-- Logs architecture decisions to `DECISIONS-LOG.md`
-
-**`spec:tasks`**:
-- Updates session phase to "implementation"
-- Adds tasks to `CHANGES-PLANNED.md`
-
-**`spec:implement`**:
-- Updates task progress in session
-- Moves completed tasks to `CHANGES-COMPLETED.md`
-- Updates `WORKFLOW-PROGRESS.md`
-
-### Subagent Delegation
-
-Complex skills delegate to specialized subagents:
-
-- `spec:implement` → `spec:implementer` (parallel task execution with progress tracking)
-- `spec:plan` → `spec:researcher` (research-backed technical decisions)
-- `spec:analyze` → `spec:analyzer` (deep consistency validation across artifacts)
-
-See individual agent directories in `.claude/agents/spec-*/`
-
-## Documentation References
-
-### For Users
-
-**Getting Started:**
-- `./README.md` - Plugin overview and quick start
-- `./docs/MIGRATION-V2-TO-V3.md` - Migration from v2.1
-
-**Advanced:**
-- `./docs/HOOKS-USER-GUIDE.md` - Event hooks guide
-- `./docs/CUSTOM-HOOKS-API.md` - Hooks API reference
-
-### For Developers
-
-**Skill Documentation** (each skill has 3 files):
-- `SKILL.md` - Core logic and workflow (~1,500 tokens)
-- `EXAMPLES.md` - Comprehensive usage scenarios (~3,000 tokens)
-- `REFERENCE.md` - Full technical reference (~2,000 tokens)
-
-**Load with flags**:
-```bash
-/spec plan                    # Loads SKILL.md only
-/spec plan --examples         # Loads SKILL.md + EXAMPLES.md
-/spec plan --reference        # Loads SKILL.md + REFERENCE.md
-```
-
-**Shared Resources**:
-- `.claude/skills/shared/integration-patterns.md` - MCP integration patterns
-- `.claude/skills/shared/workflow-patterns.md` - Common workflow patterns
-- `.claude/skills/shared/state-management.md` - State file specifications
-
-## Configuration
-
-Spec reads configuration from `CLAUDE.md` in user projects:
-
-```markdown
-# Spec Configuration
-
-## Basic Settings
-SPEC_AUTO_CHECKPOINT=true        # Auto-save session state
-SPEC_VALIDATE_ON_SAVE=true       # Auto-validate before completion
-
-## MCP Integrations (Optional)
+SPEC_AUTO_CHECKPOINT=true
+SPEC_VALIDATE_ON_SAVE=true
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_JIRA_PROJECT_KEY=PROJ
 SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
-
-## Workflow Preferences
 SPEC_ORCHESTRATE_MODE=interactive|auto
-SPEC_ORCHESTRATE_SKIP_ANALYZE=false
-
-## Skill-Specific
-SPEC_IMPLEMENT_MAX_PARALLEL=3       # Max parallel tasks
-SPEC_CLARIFY_MAX_QUESTIONS=4        # Questions per session
+SPEC_IMPLEMENT_MAX_PARALLEL=3
+SPEC_CLARIFY_MAX_QUESTIONS=4
 ```
 
 ## Best Practices
 
-### When Helping Users
+**When helping users**:
+1. Always recommend `/workflow:spec` first
+2. Let menus guide (don't explain all options)
+3. Trust workflow (phase guides handle state)
+4. Use `/workflow:track` for progress/metrics
+5. Suggest auto mode for speed, checkpoints for control
 
-1. **Read context first**: Use `/spec status` to understand current state
-2. **Follow workflow**: generate → clarify → plan → tasks → implement
-3. **Update state**: Keep `.spec-state/` and `.spec-memory/` current
-4. **Use progressive disclosure**: Don't load --examples unless needed
-5. **Validate often**: Run `/spec validate` after changes
+**Token efficiency**:
+- Commands cache state (guides don't re-read)
+- Guides load ~1,500 tokens each
+- AskUserQuestion adds ~200 tokens
+- Auto mode batches efficiently
 
-### Token Efficiency
+**Do**:
+- Let phase guides handle state
+- Invoke workflow skill from commands
+- Use AskUserQuestion for choices
+- Keep commands menu-focused
+- Reference config paths correctly
 
-**v3.0 Achievements**:
-- 81% token reduction per skill (6,800 → 1,283 tokens)
-- 80% state overhead reduction (10,000 → 2,000 tokens)
-- 3-5x faster execution
-
-**Best Practices**:
-- Default: Use skills without flags (1,500 tokens)
-- Examples: Add `--examples` when user needs patterns (6,600 tokens)
-- Reference: Add `--reference` for full API docs (11,600 tokens)
-- State: Hub caches state, don't re-read in skills
-
-### File Organization
-
-✅ **Do:**
-- Keep user guides in `./docs/`
-- Update state files during workflow
-- Log decisions to `DECISIONS-LOG.md`
-- Maintain session checkpoints
-- Use skill naming: `spec:*` (not `spec:*`)
-
-❌ **Don't:**
-- Modify user's `features/` directly without workflow
-- Skip state updates
-- Forget to create checkpoints
-- Leave inconsistent state
-- Use old `spec-*` command names
+**Don't**:
+- Modify state files from commands
+- Bypass menu system
+- Re-read cached state
+- Create new command files (2 is right)
+- Reference old command names
 
 ## Common Patterns
 
-### New Feature Workflow
-
+**New feature (interactive)**:
 ```bash
-/spec init
-/spec "Feature description"
-/spec plan
-/spec tasks
-/spec validate
-/spec implement
+/workflow:spec
+# Menu: Initialize Project → Auto Mode
+# Prompts for requirements
+# Auto-executes: define → design → build (checkpoints)
 ```
 
-### Resume After Interruption
-
+**Resume after interruption**:
 ```bash
-/spec status
-/spec                         # Context-aware continue
-# OR
-/spec implement --continue
+/workflow:spec
+# Shows: Current: Implementation, Progress: 8/12 (67%)
+# Options: Auto Mode / Continue Building
 ```
 
-### Requirements Changed
-
+**Check progress**:
 ```bash
-/spec update "Revised requirements"
-/spec analyze
-/spec tasks --update
-/spec implement --continue
-```
-
-### Full Automation
-
-```bash
-/spec orchestrate
-# Runs: generate → clarify → plan → tasks → implement
-# With prompts at decision points
+/workflow:track
+# Menu: View Metrics
+# Shows velocity, completion rates
 ```
 
 ## Troubleshooting
-
-When users encounter issues:
-
-1. Check `/spec status` for current state
-2. Run `/spec validate` to check consistency
-3. Review skill-specific EXAMPLES.md: `/spec <command> --examples`
-4. Check session state: `cat .spec-state/current-session.md`
-5. Use verbose mode: `/spec <command> --verbose`
-
-## Version Information
-
-- **Current Version**: 3.0.0
-- **Command Interface**: `/spec` hub with subcommands
-- **Skills**: 13 specialized skills (spec:*)
-- **Agents**: 3 specialized agents (spec-*)
-- **Token Efficiency**: 81% reduction vs v2.1
-- **Migration**: See docs/MIGRATION-V2-TO-V3.md
+1. Run `/workflow:spec` → "❓ Get Help"
+2. Run `/workflow:track` → "📊 View Progress"
+3. Run `/workflow:track` → "🔍 Analyze Consistency"
+4. Check `{config.paths.state}/current-session.md` manually
+5. Use help mode for topic selection
 
 ---
-
-**For complete documentation**: See `./README.md` and `./docs/`
-
-**For user support**: Direct users to README.md Quick Start section
-
-**For migration**: See docs/MIGRATION-V2-TO-V3.md
+Docs: `./README.md`
+Support: README Quick Start

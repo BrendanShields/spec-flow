@@ -30,10 +30,10 @@ $ tree .spec*
 └── scripts/
     └── config.sh
 
-.spec-state
+{config.paths.state}
 └── current-session.md
 
-.spec-memory
+{config.paths.memory}
 ├── WORKFLOW-PROGRESS.md
 ├── DECISIONS-LOG.md
 ├── CHANGES-PLANNED.md

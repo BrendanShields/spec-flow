@@ -1,561 +1,677 @@
-# Spec Hooks Documentation
+# Spec Plugin Hooks System
 
-Claude Code hooks that enhance the Spec plugin with automated workflows, quality checks, and integrations.
+Professional TypeScript-based hooks system for the Spec plugin, providing automated workflow support, metrics tracking, validation, and session management.
 
 ## Overview
 
-Spec uses **11 specialized hooks** that execute at different lifecycle points to provide:
-- **Workflow automation** (intent detection, prerequisite validation, workflow tracking)
-- **Quality enhancement** (code formatting, metrics tracking)
-- **Session management** (save/restore state)
-- **Integration support** (JIRA/Confluence sync via pre/post-specify hooks)
+The hooks system extends Claude Code with automated behaviors triggered by various events:
 
-## Hook Inventory
+- **Session Management** - Initialize config, restore/save session state
+- **Code Quality** - Validate prerequisites, auto-format code
+- **Progress Tracking** - Track workflow status, code metrics
+- **Result Aggregation** - Combine subagent outputs
 
-| Hook | Type | Triggers | Purpose | Blocking? |
-|------|------|----------|---------|-----------|
-| **session-init.js** | Session start | SessionStart | Initialize config, validate setup, load state | No |
-| **restore-session.js** | Session start | SessionStart | Restores previous workflow state | No |
-| **detect-intent.js** | Pre-execution | User input | Suggests Spec skills based on prompt | No |
-| **validate-prerequisites.js** | Pre-execution | Before Spec skills | Checks required artifacts exist | **Yes** (exits 1) |
-| **pre-specify.js** | Pre-skill | Before spec:generate | Prepares environment, loads templates | No |
-| **post-specify.js** | Post-skill | After spec:generate | Triggers clarify, syncs JIRA/Confluence | No |
-| **format-code.js** | Post-tool | After Write/Edit | Auto-formats code files | No |
-| **track-metrics.js** | Post-tool | After file operations | Tracks AI vs human code metrics | No |
-| **update-workflow-status.js** | Post-skill | After any Spec skill | Updates .spec/.state.json | No |
-| **aggregate-results.js** | Subagent stop | SubagentStop | Aggregates results from parallel execution | No |
-| **save-session.js** | Session end | On session end | Saves workflow state | No |
+All hooks are written in TypeScript with strict type checking, compiled to JavaScript, and executed via Node.js.
 
-## Execution Flow
+## Architecture
+
+### Directory Structure
 
 ```
-Session Start
-  ├─> session-init.js (initialize config, validate setup)
-  └─> restore-session.js (loads previous state)
-
-User Input
-  └─> detect-intent.js (suggests skills)
-
-Before Spec Skill (e.g., spec:plan)
-  └─> validate-prerequisites.js (checks spec.md exists) [BLOCKS if missing]
-  └─> pre-specify.js (if spec:generate)
-
-Spec Skill Executes
-  └─> [Skill runs...]
-      └─> SubagentStop → aggregate-results.js (if parallel execution)
-
-After Spec Skill
-  └─> post-specify.js (if spec:generate - triggers clarify, JIRA sync)
-  └─> update-workflow-status.js (updates progress)
-
-After Write/Edit Tools
-  └─> format-code.js (auto-formats)
-  └─> track-metrics.js (tracks code generation)
-
-Session End
-  └─> save-session.js (saves state for next time)
+.claude/hooks/
+├── src/                      # TypeScript source files
+│   ├── types/               # Type definitions
+│   │   ├── config.ts        # SpecConfig, paths, naming
+│   │   ├── hook-context.ts  # Hook execution context
+│   │   ├── session.ts       # Session state types
+│   │   ├── metrics.ts       # Metrics data structures
+│   │   └── index.ts         # Central exports
+│   │
+│   ├── core/                # Core infrastructure
+│   │   ├── config-loader.ts # Load/cache .spec-config.yml
+│   │   ├── path-resolver.ts # Config-driven path resolution
+│   │   ├── logger.ts        # Structured JSON logging
+│   │   ├── base-hook.ts     # Abstract hook base class
+│   │   └── index.ts         # Core exports
+│   │
+│   ├── utils/               # Utility functions
+│   │   ├── file-utils.ts    # File operations
+│   │   ├── yaml-utils.ts    # YAML parsing
+│   │   ├── validation.ts    # Input validation
+│   │   └── index.ts         # Utility exports
+│   │
+│   └── hooks/               # Hook implementations
+│       ├── session/         # Session hooks
+│       │   ├── session-init.ts
+│       │   ├── restore-session.ts
+│       │   ├── save-session.ts
+│       │   └── index.ts
+│       │
+│       ├── validation/      # Validation hooks
+│       │   ├── validate-prerequisites.ts
+│       │   ├── format-code.ts
+│       │   └── index.ts
+│       │
+│       ├── tracking/        # Tracking hooks
+│       │   ├── track-metrics.ts
+│       │   ├── update-workflow-status.ts
+│       │   └── index.ts
+│       │
+│       └── aggregation/     # Aggregation hooks
+│           ├── aggregate-results.ts
+│           └── index.ts
+│
+├── dist/                    # Compiled JavaScript (git-ignored)
+│   └── hooks/               # Compiled hook files
+│
+├── node_modules/            # Dependencies (git-ignored)
+├── package.json             # Project configuration
+├── tsconfig.json            # TypeScript configuration
+├── .eslintrc.js             # ESLint configuration
+├── .prettierrc              # Prettier configuration
+└── README.md                # This file
 ```
 
-## Hook Details
+### Hook Lifecycle
 
-### 1. detect-intent.js
+1. **Event Trigger** - Claude Code triggers hook event (SessionStart, PreToolUse, etc.)
+2. **Context Passed** - Event context passed to hook via stdin (JSON)
+3. **Hook Executes** - Node.js runs compiled JavaScript hook
+4. **Config Loaded** - Hook loads `.spec-config.yml` (cached)
+5. **Action Performed** - Hook executes its logic
+6. **Output Returned** - Structured JSON output to stdout
+7. **Claude Receives** - Claude Code processes hook output
 
-**Purpose**: Analyzes user prompts to suggest appropriate Spec skills
+## Hooks Reference
 
-**Features**:
-- Pattern matching against 60+ intent patterns
-- Context-aware (detects JIRA URLs, user story format)
-- Workflow continuation hints (suggests next step)
-- Confidence scoring (high/medium/low/none)
+### Session Hooks
 
-**Example**:
-```
-User: "I need to implement a new login feature"
-Hook: 🎯 Detected intent: spec:generate
-      Consider using: spec:generate
-```
+#### `session-init.ts`
+**Event:** SessionStart
+**Purpose:** Initialize project configuration and directory structure
 
-**Configuration**: None
+**Features:**
+- Auto-detects project type, language, framework, build tool
+- Creates `.claude/.spec-config.yml` with smart defaults
+- Validates/creates required directories (supports variable interpolation)
+- Loads previous session state
+- Outputs session summary to Claude
 
----
+**Note:** Templates are stored in the plugin at `.claude/skills/workflow/templates/` and used as reference by workflow phases.
 
-### 2. validate-prerequisites.js
-
-**Purpose**: Ensures workflow prerequisites are met before skill execution
-
-**Features**:
-- Required file validation (blocks execution if missing)
-- Optional file warnings (suggests but doesn't block)
-- anyOf validation (requires at least one from a set)
-- Glob pattern support (features/*/spec.md)
-
-**Example**:
-```bash
-# User runs: spec:plan
-# Hook checks: spec.md exists? ✓
-# Result: Proceeds
-
-# User runs: spec:plan (but no spec.md)
-# Hook checks: spec.md exists? ✗
-# Result: BLOCKS with error + suggestion to run spec:generate first
+**Output:**
+```json
+{
+  "type": "session-initialized",
+  "message": "Session initialized",
+  "details": {
+    "config": { "version": "3.3.0", "paths": {...}, ... },
+    "session": { "feature": "...", "phase": "...", ... },
+    "firstRun": false
+  }
+}
 ```
 
-**Configuration**:
-Edit `PREREQUISITES` object in validate-prerequisites.js to add/modify rules.
+#### `restore-session.ts`
+**Event:** SessionStart
+**Purpose:** Restore previous session and suggest next steps
 
----
+**Features:**
+- Loads `.spec/.session.json` and `.spec/.state.json`
+- Calculates time since last session
+- Generates continuation suggestions
+- Displays welcome message with context
 
-### 3. pre-specify.js
-
-**Purpose**: Prepares environment before specification generation
-
-**Features**:
-- Project type detection (greenfield vs brownfield)
-- Domain detection (e-commerce, SaaS, API, social, analytics, CMS, fintech)
-- Template loading (domain-specific requirements, user stories)
-- Research task queuing
-- AI inference level adjustment
-
-**Example**:
-```
-User: spec:generate "Build an e-commerce checkout flow"
-Hook: ✓ Auto-detected project type: greenfield
-      ✓ Detected domain: e-commerce. Loading specialized templates.
-      ✓ Queued 3 research tasks for AI analysis
-```
-
-**Configuration**: None (auto-detects)
-
----
-
-### 4. post-specify.js
-
-**Purpose**: Executes follow-up actions after specification creation
-
-**Features**:
-- Clarification detection ([NEEDS CLARIFICATION] markers)
-- Auto-triggers spec:clarify if needed
-- JIRA sync (creates/updates stories)
-- Confluence publishing (auto-publishes specs)
-- Quality assessment (completeness, clarity, testability scores)
-- Telemetry tracking
-
-**Example**:
-```
-After spec:generate completes:
-Hook: ✓ Specification created with 3 clarifications needed. Auto-triggering spec:clarify...
-      ✓ Synced with JIRA: PROJ-123
-      ✓ Published to Confluence: https://company.atlassian.net/wiki/...
-      ⚠ Specification quality score: 72%. Consider improving completeness and clarity.
+**Output:**
+```json
+{
+  "type": "session-restored",
+  "message": "🔄 Session Restored\n\nLast session: 2 hours ago\n...",
+  "details": {
+    "hasSession": true,
+    "feature": "user-authentication",
+    "suggestions": ["Continue working on: user-authentication"]
+  }
+}
 ```
 
-**Configuration**: See CLAUDE.md for JIRA/Confluence settings
+#### `save-session.ts`
+**Event:** Stop
+**Purpose:** Save session state for next startup
 
----
+**Features:**
+- Captures current feature context
+- Tracks recently modified files (last hour)
+- Counts pending tasks from tasks.md files
+- Records environment details
+- Writes `.spec/.session.json`
 
-### 5. format-code.js
+### Validation Hooks
 
-**Purpose**: Auto-formats code files after Write/Edit operations
+#### `validate-prerequisites.ts`
+**Event:** PreToolUse (Skill matcher)
+**Purpose:** Validate required tools exist before skill execution
 
-**Features**:
-- Multi-language support (JS/TS, Python, Go, Rust, Ruby, Java, C/C++, YAML, MD)
-- Automatic formatter detection
-- Graceful degradation if formatter not installed
-- **Security**: Properly quotes shell variables
+**Features:**
+- Checks for Git installation
+- Validates node_modules exists
+- Warns about missing dependencies
+- Non-blocking (logs warnings only)
 
-**Supported Formatters**:
-- **JavaScript/TypeScript**: Prettier
-- **Python**: Black
-- **Go**: gofmt
-- **Rust**: rustfmt
-- **Ruby**: RuboCop
-- **Java**: google-java-format
-- **C/C++**: clang-format
-- **YAML/Markdown**: Prettier
+**Validates:**
+- `spec:implement` → Git required
+- Build/test commands → node_modules required
 
-**Example**:
-```
-After writing src/components/Button.tsx:
-Hook: ✨ Auto-formatted Button.tsx
-```
+#### `format-code.ts`
+**Event:** PreToolUse (Write|Edit matcher)
+**Purpose:** Auto-format code before write operations
 
-**Configuration**:
-Edit `FORMATTERS` object to add/modify formatters.
+**Features:**
+- Detects formatter based on file extension
+- Runs Prettier for JS/TS/JSON/CSS/MD
+- Runs Black for Python
+- Runs gofmt for Go
+- Runs rustfmt for Rust
+- Silent failure (logs warning on error)
 
-**Security Note**: Fixed command injection vulnerability (properly quotes variables).
+### Tracking Hooks
 
----
+#### `track-metrics.ts`
+**Event:** PostToolUse (Write|Edit matcher)
+**Purpose:** Track AI vs human code contributions
 
-### 6. track-metrics.js
+**Features:**
+- Detects AI-generated code (via `spec:` commands, `spec-` agents)
+- Tracks file modifications (AI/human created/modified)
+- Calculates statistics (percentages, velocity, top skills)
+- Saves metrics to `.spec/.metrics.json`
+- Generates dashboard in `.spec/metrics-dashboard.md`
+- Historical snapshots in `.spec/metrics-history/`
 
-**Purpose**: Tracks AI-generated vs human-modified code metrics
-
-**Features**:
-- AI vs human code tracking
-- Skill usage patterns
-- Development velocity (lines/hour)
+**Metrics Tracked:**
+- AI generated lines/files
+- Human written lines/files
 - File type distribution
-- Historical snapshots (hourly)
-- Metrics dashboard generation
+- Skill usage patterns
+- Hourly activity
+- Generation velocity (lines/hour)
 
-**Output**:
-- `.spec/.metrics.json` - Current metrics
-- `.spec/metrics-history/` - Hourly snapshots
-- `.spec/metrics-dashboard.md` - Visual dashboard
+**Key Fix:** All Flow→Spec migration issues resolved:
+- Uses `spec:` commands (not `flow:`)
+- Uses `spec-` agents (not `flow-`)
+- Uses config-driven paths (not `.flow/`)
 
-**Example Dashboard**:
-```markdown
-## Code Distribution
-AI Generated:    ████████████░░░░░░░░ 65%
-Human Written:   ███████░░░░░░░░░░░░░ 35%
+#### `update-workflow-status.ts`
+**Event:** PostToolUse (Skill matcher)
+**Purpose:** Update workflow phase and progress
 
-## Statistics
-| Metric | Value |
-|--------|-------|
-| Total Lines | 12,543 |
-| Generation Velocity | 42 lines/hour |
-| Most Used Skill | spec:implement |
+**Features:**
+- Extracts workflow phase from command
+- Updates `.spec/state/current-session.md`
+- Appends to `.spec/memory/WORKFLOW-PROGRESS.md`
+- Calculates progress percentage by phase
+- Tracks tasks completed/total
+
+**Phases Tracked:**
+- initialize (10%), generate (25%), clarify (35%), plan (50%)
+- tasks (60%), implement (80%), validate (90%), complete (100%)
+
+### Aggregation Hooks
+
+#### `aggregate-results.ts`
+**Event:** SubagentStop
+**Purpose:** Aggregate results from multiple subagent executions
+
+**Features:**
+- Records each subagent's result (success/failure)
+- Calculates aggregate statistics
+- Generates summary report
+- Saves to `.spec/memory/SUBAGENT-SUMMARY.md`
+- Tracks success rate, total duration
+
+## Development
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm >= 8.0.0
+
+### Building from Source
+
+```bash
+# Install dependencies
+npm install
+
+# Compile TypeScript
+npm run build
+
+# Watch mode (auto-rebuild on changes)
+npm run build:watch
+
+# Clean build artifacts
+npm run clean
+
+# Full rebuild
+npm run rebuild
 ```
 
-**Configuration**: None
+### Project Commands
 
----
-
-### 7. update-workflow-status.js
-
-**Purpose**: Tracks workflow progress across skill executions
-
-**Features**:
-- Phase tracking (setup → specification → planning → validation → implementation)
-- Progress percentage (0-100%)
-- Execution history (last 50 operations)
-- Time estimation (average time per skill × remaining steps)
-- Next step suggestions
-
-**Output**: `.spec/.state.json`
-
-**Example**:
-```
-After spec:tasks completes:
-Hook: 📊 Workflow Progress: ███████░░░ 70%
-      Phase: planning
-      Steps: 5/10
-      Next step: spec:analyze or spec:implement
-      Estimated time: ~15 minutes
+```bash
+npm run build         # Compile TypeScript → JavaScript
+npm run build:watch   # Watch mode with auto-rebuild
+npm run clean         # Remove dist/ directory
+npm run rebuild       # Clean + build
+npm run lint          # Run ESLint
+npm run lint:fix      # Auto-fix ESLint issues
+npm run format        # Format code with Prettier
+npm run type-check    # Type-check without emitting
 ```
 
-**Configuration**: None
+### Creating a New Hook
 
----
+1. **Create TypeScript file** in appropriate category:
+   ```typescript
+   // src/hooks/category/my-hook.ts
+   import { BaseHook } from '../../core/base-hook';
+   import { HookContext } from '../../types';
 
-### 8. save-session.js
+   export class MyHook extends BaseHook {
+     constructor() {
+       super('my-hook');
+     }
 
-**Purpose**: Saves workflow state at session end
+     async execute(context: HookContext): Promise<void> {
+       // Hook logic here
+       this.logger.info('My hook executed');
+     }
+   }
 
-**Features**:
-- Feature context preservation
-- Task progress tracking
-- Recent file tracking (last hour)
-- Environment capture
+   // Main execution
+   async function main(): Promise<void> {
+     const hook = new MyHook();
+     await hook.run();
+   }
 
-**Output**: `.spec/.session.json`
+   main();
+   ```
 
-**Example**:
-```
-On session end:
-Hook: 💾 Session saved successfully
-      Feature: features/001-login-flow
-      Tasks: 12/25 complete (48%)
-      Files modified: 8
-```
+2. **Export from index.ts**:
+   ```typescript
+   // src/hooks/category/index.ts
+   export * from './my-hook';
+   ```
 
-**Configuration**: None
+3. **Build the project**:
+   ```bash
+   npm run build
+   ```
 
----
+4. **Register in settings.json**:
+   ```json
+   {
+     "hooks": {
+       "EventName": [{
+         "hooks": [{
+           "type": "command",
+           "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/category/my-hook.js\""
+         }]
+       }]
+     }
+   }
+   ```
 
-### 9. restore-session.js
+### Using the BaseHook Class
 
-**Purpose**: Restores workflow state on session start
+All hooks should extend `BaseHook` for consistency:
 
-**Features**:
-- Session continuity
-- Time since last session calculation
-- Pending task summary
-- Workflow continuation suggestions
-
-**Example**:
-```
-On session start:
-Hook: 🔄 Session Restored
-      Last session: 2 hours ago
-      Feature: features/001-login-flow
-      Tasks: 12/25 complete (48%)
-      
-      📝 Suggestions:
-        • Continue working on: features/001-login-flow
-        • Resume implementation: 13 tasks pending (48% complete)
-        • Next workflow step: spec:implement
-```
-
-**Configuration**: None
-
----
-
-## Security Considerations
-
-### Vulnerability Audit Results
-
-✅ **8/9 hooks are secure** (no shell execution or safe operations only)
-
-❌ **1 vulnerability found and FIXED**:
-- **format-code.js** (lines 54, 75) - Command injection risk with unquoted shell variables
-  - **Fix applied**: Properly quote all shell command variables
-  - **Status**: ✅ RESOLVED
-
-### Security Best Practices
-
-All hooks follow these security guidelines:
-
-1. **Shell Command Safety**:
-   - Always quote variables: `"${variable}"`
-   - Validate inputs before execution
-   - Use `fs` APIs instead of shell commands when possible
-
-2. **Path Traversal Prevention**:
-   - Limit recursion depth (save-session.js: max depth 3)
-   - Skip dangerous directories (.git, node_modules)
-   - Validate file paths
-
-3. **Error Handling**:
-   - Silent failures for non-critical operations
-   - Exit code 1 for blocking errors (validate-prerequisites.js)
-   - Try-catch wrapping for all file operations
-
-4. **Input Validation**:
-   - Regex pattern validation
-   - File existence checks before operations
-   - JSON parsing with error handling
-
----
-
-## Development Guide
-
-### Adding a New Hook
-
-1. **Create hook file**:
-```javascript
-#!/usr/bin/env node
-
-/**
- * @fileoverview My New Hook
- * 
- * Description of what the hook does.
- * 
- * @requires fs
- * @author Spec Plugin Team
- */
-
-const fs = require('fs');
-
-async function main() {
-  try {
-    const input = JSON.parse(fs.readFileSync(0, 'utf8'));
-    
-    // Hook logic here
-    
-    console.log(JSON.stringify({
-      type: 'my-hook-result',
-      message: 'Success'
-    }, null, 2));
-    
-    process.exit(0);
-  } catch (error) {
-    console.error(JSON.stringify({
-      type: 'error',
-      message: error.message
-    }));
-    process.exit(0); // Don't block on errors unless critical
+```typescript
+export class MyHook extends BaseHook {
+  constructor() {
+    super('hook-name'); // Sets hook name for logging
   }
-}
 
-main();
-```
+  async execute(context: HookContext): Promise<void> {
+    // Access config (auto-loaded)
+    console.log(this.config.version);
 
-2. **Make executable**:
-```bash
-chmod +x .claude/hooks/my-new-hook.js
-```
+    // Access CWD
+    console.log(this.cwd);
 
-3. **Register in Claude Code**:
-Add to `.claude/hooks.json` (if exists) or hook configuration.
+    // Use scoped logger
+    this.logger.info('Message');
+    this.logger.warn('Warning', { details: {...} });
+    this.logger.error('Error', error);
+    this.logger.success('Success!');
 
-4. **Test**:
-```bash
-echo '{"test": "input"}' | node .claude/hooks/my-new-hook.js
-```
+    // Validate context
+    this.validateContext(context, ['required_field']);
 
-### Hook Input Format
+    // Use path resolver (supports variable interpolation)
+    const statePath = resolveStatePath(this.config, this.cwd);
+    // Automatically handles:
+    //   "state" → .spec/state
+    //   "{spec_root}/state" → .spec/state
+    //   "{cwd}/.tmp/state" → /project/.tmp/state
 
-Hooks receive JSON via stdin:
+    const featurePath = resolveFeaturePath(this.config, 1, 'user-auth', this.cwd);
+    // → .spec/features/001-user-auth (using naming pattern)
 
-```json
-{
-  "tool": "Write",
-  "command": "spec:implement",
-  "output": "File created successfully at: src/Button.tsx",
-  "file_path": "src/Button.tsx",
-  "context": {
-    "feature": "001-login-flow",
-    "workingDir": "/app"
+    // Use utilities
+    const data = readJSON('file.json');
+    writeJSON('output.json', data);
   }
 }
 ```
 
-### Hook Output Format
+### Path Resolution with Variables
 
-Hooks output JSON to stdout:
+The path resolver supports three modes for maximum flexibility:
 
-```json
-{
-  "type": "hook-type",
-  "message": "Human-readable message",
-  "data": {
-    "key": "value"
-  }
-}
+**1. Simple Relative Paths** (recommended default):
+```typescript
+// Config: state: "state"
+resolveStatePath(config, cwd);
+// → /project/.spec/state
 ```
 
-### Blocking vs Non-Blocking
+**2. Variable Interpolation** (for maintainability):
+```typescript
+// Config: features: "{spec_root}/features"
+resolveFeaturesPath(config, cwd);
+// → /project/.spec/features
 
-**Blocking hooks** (exit code 1 stops execution):
-- Use for critical validation (validate-prerequisites.js)
-- Provide clear error messages
-- Suggest remediation steps
-
-**Non-blocking hooks** (always exit 0):
-- Use for enhancements (formatting, metrics)
-- Silent failures acceptable
-- Log errors but don't block
-
----
-
-## Troubleshooting
-
-### Hook Not Executing
-
-1. **Check executable permissions**:
-```bash
-chmod +x .claude/hooks/*.js
+// Config: state: "{cwd}/.tmp/state"
+resolveStatePath(config, cwd);
+// → /project/.tmp/state
 ```
 
-2. **Check Node.js version**:
-```bash
-node --version  # Should be 14+
+**3. Explicit/Absolute Paths** (for special cases):
+```typescript
+// Config: features: "/absolute/path"
+resolveFeaturesPath(config, cwd);
+// → /absolute/path
 ```
 
-3. **Test hook directly**:
-```bash
-echo '{}' | node .claude/hooks/your-hook.js
+**Benefits of Variable Interpolation:**
+- Change `spec_root` once, all paths update automatically
+- Clear intent in configuration
+- Support for complex directory structures
+- Backward compatible with simple relative paths
+
+### Available Utilities
+
+#### Core Utilities
+
+```typescript
+// Config loading
+import { loadConfig, configExists, getConfig } from './core/config-loader';
+
+// Path resolution with variable interpolation
+import {
+  resolvePath,
+  resolveStatePath,
+  resolveMemoryPath,
+  resolveTemplatesPath,
+  resolveFeaturesPath,
+  resolveSpecRoot,
+  resolveFeaturePath,
+  resolveStateFile,
+  resolveMemoryFile,
+  resolveFeatureFile
+} from './core/path-resolver';
+
+// Example usage:
+const statePath = resolveStatePath(config, cwd);
+// With variable interpolation: "{spec_root}/state" → /project/.spec/state
+const memoryPath = resolveMemoryPath(config, cwd);
+// Simple relative: "memory" → /project/.spec/memory
+
+// Logging
+import { Logger, createScopedLogger } from './core/logger';
+Logger.info('Message');
+Logger.warn('Warning', { details });
+Logger.error('Error', error);
+
+// File operations
+import {
+  readJSON,
+  writeJSON,
+  readFile,
+  writeFile,
+  ensureDirectory,
+  fileExists,
+  listFiles
+} from './utils/file-utils';
+
+// YAML operations
+import { loadYAML, parseYAML, toYAML, writeYAML } from './utils/yaml-utils';
+
+// Validation
+import {
+  validateHookContext,
+  validateNonEmptyString,
+  validateFilePath
+} from './utils/validation';
 ```
-
-### Hook Execution Blocked
-
-If `validate-prerequisites.js` blocks execution:
-
-```
-❌ validation-error
-   Skill: spec:plan
-   Missing: spec.md
-   Suggestion: Run spec:generate first to create a specification
-```
-
-**Resolution**: Follow the suggestion (run the prerequisite skill first)
-
-### Formatter Not Found
-
-If `format-code.js` skips formatting:
-
-```
-Hook: (silent skip - prettier not installed)
-```
-
-**Resolution**: Install the formatter:
-```bash
-npm install -g prettier  # For JS/TS/YAML/MD
-pip install black        # For Python
-# etc.
-```
-
----
-
-## Metrics and Analytics
-
-### Viewing Metrics Dashboard
-
-```bash
-cat .spec/metrics-dashboard.md
-```
-
-### Viewing Workflow State
-
-```bash
-cat .spec/.state.json | jq .
-```
-
-### Viewing Session History
-
-```bash
-cat .spec/.session.json | jq .
-```
-
-### Historical Metrics
-
-```bash
-ls .spec/metrics-history/
-# Hourly snapshots kept for 30 days
-```
-
----
 
 ## Configuration
 
-Most hooks are **zero-configuration** and work automatically.
+Hooks read configuration from `.claude/.spec-config.yml`:
 
-**Configurable hooks**:
+```yaml
+version: "3.3.0"
+paths:
+  spec_root: ".spec"      # Root directory for all spec files
 
-1. **post-specify.js** / **pre-specify.js**:
-   - JIRA/Confluence integration
-   - See `CLAUDE.md` for configuration
+  # Simple relative paths (relative to spec_root)
+  features: "features"    # → .spec/features
+  state: "state"          # → .spec/state
+  memory: "memory"        # → .spec/memory
+  templates: "templates"  # → .spec/templates
 
-2. **validate-prerequisites.js**:
-   - Edit `PREREQUISITES` object to modify validation rules
+  # Advanced: Override with explicit or absolute paths
+  # features: "my-features"        # → .spec/my-features
+  # features: "../shared-features" # Outside spec_root
+  # features: "/absolute/path"     # Absolute path
 
-3. **format-code.js**:
-   - Edit `FORMATTERS` object to add/modify formatters
+naming:
+  feature_directory: "{id:000}-{slug}"  # e.g., 001-user-auth
+  files:
+    spec: "spec.md"
+    plan: "plan.md"
+    tasks: "tasks.md"
 
----
+project:
+  type: "app"             # app | library | monorepo | microservice
+  language: "typescript"
+  framework: "nextjs"
+  build_tool: "turbo"
 
-## Related Documentation
+# ... additional config ...
+```
 
-- **Skills**: See `.claude/skills/*/SKILL.md` for Spec skill documentation
-- **Agents**: See `.claude/agents/*/PROMPT.md` for agent documentation
-- **Configuration**: See `CLAUDE.md` for project-level configuration
-- **Architecture**: See `plan.md` for plugin architecture overview
+**Path Resolution:**
 
----
+The hooks system supports three ways to specify paths:
+
+1. **Simple Relative Paths** (recommended for most users):
+   ```yaml
+   features: "features"    # → .spec/features
+   state: "state"          # → .spec/state
+   ```
+   - Resolved relative to `spec_root`
+   - Clean, simple configuration
+   - Automatically updates if you move spec_root
+
+2. **Variable Interpolation** (for advanced customization):
+   ```yaml
+   features: "{spec_root}/features"     # Explicit with variable
+   state: "{cwd}/.tmp/state"            # Use project root variable
+   memory: "{spec_root}/docs/memory"    # Custom location within spec_root
+   ```
+   - Supported variables: `{spec_root}`, `{cwd}`, or any key from `config.paths`
+   - Ensures paths update automatically when base directories change
+   - Useful for complex directory structures
+
+3. **Explicit/Absolute Paths** (for special cases):
+   ```yaml
+   features: ".spec/my-features"        # Explicit from project root
+   state: "../shared-state"             # Outside project
+   templates: "/absolute/path"          # Absolute path
+   ```
+   - Full control over exact location
+   - Useful for shared directories or specific requirements
+
+**Examples:**
+- `"features"` → `.spec/features` (relative to spec_root)
+- `"{spec_root}/features"` → `.spec/features` (variable interpolation)
+- `".spec/features"` → `.spec/features` (explicit path from project root)
+- `"{cwd}/shared"` → `/project/shared` (project root variable)
+- `"/absolute"` → `/absolute` (absolute path)
+
+This gives users full flexibility while keeping defaults clean and maintainable.
+
+## TypeScript Configuration
+
+### Strict Mode Enabled
+
+The project uses strict TypeScript settings for maximum type safety:
+
+```json
+{
+  "strict": true,
+  "noImplicitAny": true,
+  "strictNullChecks": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "noImplicitReturns": true
+}
+```
+
+### Target & Module
+
+- **Target:** ES2020
+- **Module:** CommonJS (for Node.js compatibility)
+- **Output:** `dist/` directory with source maps
+
+## Code Quality
+
+### ESLint
+
+Configured with TypeScript support and Prettier integration:
+
+```bash
+npm run lint       # Check for issues
+npm run lint:fix   # Auto-fix issues
+```
+
+### Prettier
+
+Code formatting with consistent style:
+
+```bash
+npm run format     # Format all files
+```
+
+### Type Checking
+
+```bash
+npm run type-check  # Check types without building
+```
+
+## Troubleshooting
+
+### Hooks Not Running
+
+1. **Check settings.json** - Ensure paths point to `dist/hooks/...`
+2. **Rebuild** - Run `npm run build` to recompile
+3. **Check Node version** - Requires Node.js >= 18.0.0
+4. **View logs** - Hooks output JSON to stdout/stderr
+
+### Build Errors
+
+```bash
+# Clean and rebuild
+npm run rebuild
+
+# Check for missing dependencies
+npm install
+
+# Verify TypeScript version
+npx tsc --version
+```
+
+### Hook Execution Errors
+
+Hooks exit with code 0 (success) even on errors to avoid blocking Claude Code. Check hook output for error messages:
+
+```json
+{
+  "type": "error",
+  "message": "Error description",
+  "details": { "stack": "..." }
+}
+```
+
+## Best Practices
+
+1. **Extend BaseHook** - Use the base class for all hooks
+2. **Type Everything** - Leverage TypeScript's type system
+3. **Config-Driven Paths** - Always use path-resolver functions, never hardcode paths
+   - Use `resolveStatePath()`, `resolveFeaturesPath()`, etc.
+   - Supports simple relative, variable interpolation, and absolute paths
+   - Example: `const statePath = resolveStatePath(this.config, this.cwd);`
+4. **Structured Logging** - Use Logger class for consistent output
+5. **Graceful Failure** - Handle errors, don't block Claude Code
+6. **Test Locally** - Build and test before committing
+7. **Document Changes** - Update README when adding hooks
+8. **Variable Interpolation** - Recommend using `{spec_root}` for paths that should move with spec_root
+
+## Migration Notes
+
+This hooks system was migrated from JavaScript to TypeScript in v3.3.0:
+
+### Key Changes
+
+- **Flow → Spec** - All Flow plugin references replaced with Spec
+- **Hardcoded paths** → Config-driven paths via path-resolver with variable interpolation
+- **Loose typing** → Strict TypeScript with full type safety
+- **No structure** → Professional architecture with BaseHook pattern
+- **Manual setup** → Auto-detection and zero-config experience
+- **Variable Support** - Added `{spec_root}`, `{cwd}`, and custom variable interpolation
+
+### Backward Compatibility
+
+Old `.js` hooks have been removed. All hooks now use TypeScript compiled versions in `dist/`.
 
 ## Contributing
 
-When modifying hooks:
+When contributing new hooks:
 
-1. **Maintain JSDoc**: All functions should have comprehensive JSDoc
-2. **Security review**: Check for shell command injection, path traversal
-3. **Error handling**: Always wrap in try-catch, fail gracefully
-4. **Testing**: Test both success and error paths
-5. **Documentation**: Update this README.md
+1. Follow the existing architecture (extend BaseHook)
+2. Use TypeScript with strict mode
+3. Add proper types for all data structures
+4. Include JSDoc comments for public APIs
+5. Test compilation (`npm run build`)
+6. Ensure ESLint passes (`npm run lint`)
+7. Format code (`npm run format`)
+8. Update this README with hook documentation
 
----
+## Resources
+
+- **Spec Plugin Docs** - `plugins/spec/README.md`
+- **Claude Code Hooks** - https://docs.claude.com/claude-code/hooks
+- **TypeScript Handbook** - https://www.typescriptlang.org/docs/
+- **Migration Plan** - `TYPESCRIPT-MIGRATION-PLAN.md`
+- **Implementation Status** - `IMPLEMENTATION-STATUS.md`
 
 ## License
 
-MIT License - Spec Plugin Team
+MIT - See LICENSE file in plugin root directory
+
+---
+
+**Version:** 3.3.0
+**Last Updated:** 2025-01-02
+**Maintainer:** Spec Plugin Team
