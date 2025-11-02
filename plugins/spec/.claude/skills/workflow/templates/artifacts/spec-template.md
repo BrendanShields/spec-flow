@@ -10,7 +10,7 @@ sync_direction: [bidirectional/local-only]
 
 # Feature Specification: [FEATURE NAME]
 
-**Branch**: `[BRANCH-NAME]` | **Number**: [###] | **JIRA**: [JIRA-ID](JIRA-URL)
+**Branch**: `[BRANCH-NAME]` | **Number**: [###] | **JIRA**: [[JIRA-ID]](JIRA-URL)
 **Status**: Draft | **Created**: [DATE]
 
 ## Project Artifacts
