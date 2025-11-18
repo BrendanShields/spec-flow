@@ -64,9 +64,9 @@ Progress monitoring, quality checks, spec updates.
 │   ├── state-management.md
 │   └── workflow-patterns.md
 ├── agents/
-│   ├── spec-implementer/   # Parallel execution
-│   ├── spec-researcher/    # Research-backed decisions
-│   └── spec-analyzer/      # Consistency validation
+│   ├── spec-implementer.md   # Task execution workflow
+│   ├── spec-researcher.md    # Research-backed decisions
+│   └── spec-analyzer.md      # Codebase reconnaissance
 └── hooks/                  # Event hooks
 ```
 

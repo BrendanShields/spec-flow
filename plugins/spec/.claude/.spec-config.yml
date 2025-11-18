@@ -1,9 +1,11 @@
 version: "3.3.0"
+
 paths:
   spec_root: ".spec"
   features: "features"
   state: "state"
   memory: "{state}/memory"
+
 naming:
   feature_directory: "{id:000}-{slug}"
   feature_singular: "feature"
@@ -12,24 +14,7 @@ naming:
     spec: "spec.md"
     plan: "plan.md"
     tasks: "tasks.md"
-project:
-  type: "library"
-  language: "typescript"
-  framework: null
-  build_tool: null
-agents:
-  implementer:
-    strategy: "parallel"
-    max_parallel: 3
-    timeout: 1800
-    retry_attempts: 3
-  researcher:
-    confidence_threshold: 0.75
-    cache_ttl: 86400
-  analyzer:
-    validation_depth: "standard"
-    auto_fix: false
-integrations: {}
+
 workflow:
   auto_checkpoint: true
   validate_on_save: true
