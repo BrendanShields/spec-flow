@@ -18,7 +18,7 @@ $ ls -la
 total 8
 drwxr-xr-x   2 user  staff    64 Oct 31 10:00 .
 drwxr-xr-x  15 user  staff   480 Oct 31 09:59 ..
--rw-r--r--   1 user  staff   123 Oct 31 10:00 README.md
+-rw-r--r--   1 user  staff   123 Oct 31 10:00 readme.md
 
 # Result: Greenfield (no source files)
 
@@ -34,10 +34,10 @@ $ tree .spec*
 └── current-session.md
 
 {config.paths.memory}
-├── WORKFLOW-PROGRESS.md
-├── DECISIONS-LOG.md
-├── CHANGES-PLANNED.md
-└── CHANGES-COMPLETED.md
+├── workflow-progress.md
+├── decisions-log.md
+├── changes-planned.md
+└── changes-completed.md
 
 # Phase 4: Update .gitignore
 $ cat .gitignore
@@ -52,7 +52,7 @@ dist/
 
 📁 Structure created
 📝 6 files written
-🎯 Ready for: /workflow:spec → "📝 Define Feature" "User Authentication"
+🎯 Ready for: /spec → "📝 Define Feature" "User Authentication"
 
 💡 Tip: Edit {config.paths.spec_root}/product-requirements.md first
 ```
@@ -100,9 +100,9 @@ src/
 🎯 Recommended next steps:
    1. Run discover phase to analyze existing architecture
    2. Run blueprint phase to document current patterns
-   3. Then /workflow:spec → "📝 Define Feature" for new features
+   3. Then /spec → "📝 Define Feature" for new features
 
-💡 Or skip analysis: /workflow:spec → "📝 Define Feature" "New Feature"
+💡 Or skip analysis: /spec → "📝 Define Feature" "New Feature"
 ```
 
 **Follow-up**:
@@ -204,7 +204,7 @@ Found: {config.paths.spec_root}/ directory (3 files)
 Options:
 1. Validate structure: spec:validate
 2. Force reinitialize: initialize phase --force (⚠️  overwrites files)
-3. Resume work: /workflow:spec → "📝 Define Feature" "Feature Name"
+3. Resume work: /spec → "📝 Define Feature" "Feature Name"
 
 Choose an option or provide custom input:
 ```
@@ -221,7 +221,7 @@ Choose an option or provide custom input:
 
 ⚠️  Memory preserved: {config.paths.memory}/ (contains history)
 
-🎯 Next: /workflow:spec → "📝 Define Feature" to continue
+🎯 Next: /spec → "📝 Define Feature" to continue
 ```
 
 ---
@@ -330,9 +330,9 @@ $ tree {config.paths.spec_root}/templates/
 🎯 Next steps:
    1. Edit templates in {config.paths.spec_root}/templates/
    2. Create architecture blueprint: blueprint phase
-   3. Create first feature: /workflow:spec → "📝 Define Feature" "Feature"
+   3. Create first feature: /spec → "📝 Define Feature" "Feature"
 
-📖 Template docs: {config.paths.spec_root}/templates/README.md
+📖 Template docs: {config.paths.spec_root}/templates/readme.md
 ```
 
 ---
@@ -343,7 +343,7 @@ $ tree {config.paths.spec_root}/templates/
 ```bash
 initialize phase
 # Edit product requirements
-/workflow:spec → "📝 Define Feature" "First Feature"
+/spec → "📝 Define Feature" "First Feature"
 ```
 
 ### Pattern 2: Brownfield Analysis
@@ -351,7 +351,7 @@ initialize phase
 initialize phase
 discover phase              # Analyze existing code
 blueprint phase            # Document architecture
-/workflow:spec → "📝 Define Feature" "New Feature"
+/spec → "📝 Define Feature" "New Feature"
 ```
 
 ### Pattern 3: Team Onboarding
@@ -386,7 +386,7 @@ spec:validate
 spec:status
 
 # Start first feature
-/workflow:spec → "📝 Define Feature" "Feature Name"
+/spec → "📝 Define Feature" "Feature Name"
 ```
 
 ---

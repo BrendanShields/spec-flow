@@ -639,7 +639,7 @@ If analyze phaser unavailable:
 
 ### User Configuration
 
-**In CLAUDE.md**:
+**In claude.md**:
 ```markdown
 # Spec Analyze Configuration
 
@@ -686,7 +686,7 @@ analyze phase --verbose         # Show all details
 4. Progressive disclosure (basic → detailed)
 
 **Token estimates**:
-- SKILL.md core: ~1,200 tokens
+- skill.md core: ~1,200 tokens
 - EXAMPLES.md: ~2,500 tokens
 - REFERENCE.md: ~2,000 tokens
 - Total skill: ~5,700 tokens
@@ -751,11 +751,11 @@ if not available("analyze phaser"):
 
 ## Related Documentation
 
-- **SKILL.md**: Core skill definition
+- **skill.md**: Core skill definition
 - **EXAMPLES.md**: Concrete usage scenarios
-- `shared/workflow-patterns.md`: Validation patterns
-- `shared/state-management.md`: State file access
-- `analyze phaser/SKILL.md`: Subagent details
+- `docs/patterns/workflow-patterns.md`: Validation patterns
+- `docs/patterns/state-management.md`: State file access
+- `analyze phaser/skill.md`: Subagent details
 
 ---
 

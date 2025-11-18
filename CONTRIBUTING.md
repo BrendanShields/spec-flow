@@ -76,20 +76,19 @@ your-plugin-name/
 │   └── hooks/           # Event hooks
 ├── src/                 # Source code
 ├── tests/               # Test files
-├── README.md           # Documentation
 ├── LICENSE             # License file
 └── package.json        # Dependencies (if needed)
 ```
 
 ### 4. Document Thoroughly
 
-Your README.md should include:
+Ensure `/help` (or command descriptions) include:
 
 - Clear description of what the plugin does
-- Installation instructions
+- Any installation/setup steps
 - Usage examples with expected output
 - Configuration options
-- Troubleshooting section
+- Troubleshooting guidance
 - Author and support information
 
 ### 5. Test Locally
@@ -112,10 +111,10 @@ Test your plugin before submission:
 ### Plugin Requirements
 
 #### Required Files
-- `README.md` - Comprehensive documentation
 - `LICENSE` - Open source license
 - `.claude/` - Claude-specific configuration
 - At least one command or skill
+- `/help` entries or inline docs covering usage
 
 #### Plugin Naming
 - Use lowercase kebab-case: `my-plugin-name`
@@ -129,7 +128,7 @@ Test your plugin before submission:
 - Update version in all relevant files:
   - `marketplace.json`
   - `package.json` (if applicable)
-  - `README.md`
+  - Any `/help` references or command descriptions
 
 ### Quality Standards
 
@@ -138,7 +137,7 @@ Test your plugin before submission:
 - Provide real-world examples
 - Document all commands and options
 - Include screenshots/GIFs if helpful
-- Keep README under 1000 lines
+- Keep `/help` concise (<1000 tokens)
 
 #### Code Quality
 - Clean, readable code
@@ -354,7 +353,7 @@ Brief description of what your plugin does
 
 ### Checklist
 - [ ] Plugin follows directory structure
-- [ ] README.md is comprehensive
+- [ ] `/help` output is comprehensive
 - [ ] LICENSE file included
 - [ ] Tests pass locally
 - [ ] marketplace.json updated

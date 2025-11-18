@@ -16,7 +16,7 @@ Frequency: Multiple times daily
 Complexity: Multi-step workflow
 ```
 
-#### Step 2: Generated SKILL.md
+#### Step 2: Generated skill.md
 ```yaml
 ---
 name: code-reviewer
@@ -98,7 +98,7 @@ description: Transform CSV files to multiple formats with filtering, column sele
 ```
 
 #### Key Design Decisions
-- **Progressive Disclosure**: Core transformations in SKILL.md, advanced options in reference.md
+- **Progressive Disclosure**: Core transformations in skill.md, advanced options in reference.md
 - **Tool Restrictions**: `allowed-tools: Read, Write, Bash` (no Edit needed)
 - **Error Handling**: File size limits, format validation, encoding detection
 
@@ -113,7 +113,7 @@ description: Transform CSV files to multiple formats with filtering, column sele
 
 ```
 doc-generator/
-├── SKILL.md (2.8 KB)
+├── skill.md (2.8 KB)
 │   - Core documentation logic
 │   - Language detection
 │   - Output format selection
@@ -161,7 +161,7 @@ Primary triggers:
 #### Progressive Disclosure Structure
 ```
 Level 1 (Metadata): Name + Description
-Level 2 (SKILL.md): Test generation logic
+Level 2 (skill.md): Test generation logic
 Level 3 (On-demand):
   - examples.md: Test patterns for each language
   - reference.md: Testing frameworks and assertions

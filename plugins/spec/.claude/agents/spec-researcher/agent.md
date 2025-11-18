@@ -5,7 +5,7 @@ tools: WebSearch, WebFetch, Read, Write
 model: sonnet
 ---
 
-# Flow Research Agent
+# Spec Research Agent
 
 Autonomous agent that conducts technical research, evaluates alternatives, and documents architectural decisions to support intelligent specification and planning.
 
@@ -71,9 +71,9 @@ See [examples.md](./examples.md) for detailed research strategy templates.
 
 ## Integration Points
 
-See [shared/integration-patterns.md](../shared/integration-patterns.md) for complete integration details.
+See [docs/patterns/integration-patterns.md](../docs/patterns/integration-patterns.md) for complete integration details.
 
-**Integration with Flow workflow:**
+**Integration with Spec workflow:**
 - **spec:generate** → Domain best practices, requirement suggestions, edge cases
 - **spec:plan** → Technology evaluation, ADRs, risk assessment
 - **spec:implement** → Code examples, troubleshooting, optimization tips

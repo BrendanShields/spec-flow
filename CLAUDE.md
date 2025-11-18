@@ -45,7 +45,7 @@ cd plugins/your-plugin-name
 
 # Initialize plugin structure
 touch .claude/commands/your-command.md
-touch .claude/skills/your-skill/SKILL.md
+touch .claude/skills/your-skill/skill.md
 touch .mcp.json  # If using MCP integration
 
 # Test locally
@@ -68,10 +68,10 @@ spec-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json        # Marketplace catalog
 ├── plugins/                    # Plugin collection
-│   ├── flow/                   # Example: Flow plugin
+│   ├── examples/              # Example Spec bundles
 │   │   ├── .claude/            # Claude-specific files
 │   │   ├── .mcp.json           # MCP configuration
-│   │   └── README.md           # Plugin documentation
+│   │   └── (usage via /help)   # Runtime docs live inside Claude
 │   └── your-plugin/            # Your plugin here
 ├── scripts/                    # Maintenance scripts
 │   ├── validate.sh            # Validate marketplace.json
@@ -82,7 +82,7 @@ spec-marketplace/
 │   ├── REVIEW-CHECKLIST.md    # PR review checklist
 │   └── API.md                 # API documentation
 ├── claude.md                   # This file
-└── README.md                   # User-facing documentation
+└── (run /help)                 # Usage instructions delivered in Claude
 ```
 
 ### Marketplace Configuration
@@ -138,7 +138,7 @@ your-plugin/
 │   │   └── your-command.md    # Command definition
 │   ├── skills/                # Skills (advanced commands)
 │   │   └── your-skill/
-│   │       ├── SKILL.md       # Skill definition
+│   │       ├── skill.md       # Skill definition
 │   │       ├── examples.md    # Usage examples
 │   │       └── reference.md   # Technical reference
 │   ├── agents/                # AI agents (optional)
@@ -149,7 +149,6 @@ your-plugin/
 ├── .mcp.json                  # MCP server config (optional)
 ├── src/                       # Source code (if applicable)
 ├── tests/                     # Test files
-├── README.md                  # Plugin documentation (required)
 ├── LICENSE                    # License file (required)
 └── package.json              # Dependencies (if Node.js)
 ```
@@ -190,7 +189,7 @@ Execute specialized task for your domain
 
 Skills are complex, multi-step operations. Create in `.claude/skills/your-skill/`:
 
-**SKILL.md:**
+**skill.md:**
 ```markdown
 # Your Skill Name
 
@@ -332,7 +331,7 @@ For Model Context Protocol servers, create `.mcp.json`:
 Your plugin will be reviewed for:
 
 - **Functionality**: Does it work as described?
-- **Documentation**: Clear README and examples?
+- **Documentation**: `/help` output and in-command guidance
 - **Structure**: Follows required format?
 - **Quality**: Clean code, no errors?
 - **Security**: No malicious code?
@@ -350,7 +349,7 @@ Follow semantic versioning (semver):
 Update version in:
 1. `marketplace.json` plugin entry
 2. Plugin's `package.json` (if applicable)
-3. Plugin's README.md
+3. User-facing `/help` text or command descriptions
 
 ---
 
@@ -471,7 +470,7 @@ jobs:
 ### Validation Checklist
 
 - [ ] Plugin follows directory structure
-- [ ] README.md exists and is comprehensive
+- [ ] `/help` output clearly explains usage
 - [ ] Commands have proper markdown format
 - [ ] Skills include examples and triggers
 - [ ] No syntax errors in JSON files
@@ -489,7 +488,7 @@ jobs:
 
 1. **Single Responsibility**: Each plugin should do one thing well
 2. **Clear Naming**: Use descriptive, kebab-case names
-3. **Comprehensive Docs**: Include examples, API reference, troubleshooting
+3. **Comprehensive Help**: `/help` and inline prompts cover examples/troubleshooting
 4. **Error Handling**: Gracefully handle edge cases
 5. **Performance**: Optimize for Claude's context window
 6. **Compatibility**: Test with latest Claude Code version
@@ -687,7 +686,7 @@ cat ~/.claude/logs/plugin-install.log
 
 ### Getting Help
 
-1. **Documentation**: Check plugin's README.md
+1. **Documentation**: Run `/help` within Claude Code
 2. **Issues**: Search/create GitHub issues
 3. **Community**: Join Discord/Slack channels
 4. **Support**: Contact plugin author

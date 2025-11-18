@@ -14,7 +14,7 @@ Resolve underspecified areas in specifications through intelligent Q&A with best
 - Prioritizes clarifications by impact (blocking → nice-to-have)
 - Asks focused questions (max 4 per session) with recommended options
 - Updates spec.md with clarified requirements
-- Logs decisions to DECISIONS-LOG.md
+- Logs decisions to decisions-log.md
 
 ## When to Use
 
@@ -107,7 +107,7 @@ B. < 200ms p95 - Fast (balanced performance/cost)
 C. < 500ms p95 - Acceptable (simpler implementation)
 ```
 
-For workflow patterns, see: shared/workflow-patterns.md
+For workflow patterns, see: docs/patterns/workflow-patterns.md
 
 ### Phase 4: Update Specification
 
@@ -130,7 +130,7 @@ Response times must be < 200ms (p95 latency) for API requests
 
 **Log decision**:
 ```
-Add entry to {config.paths.memory}/DECISIONS-LOG.md:
+Add entry to {config.paths.memory}/decisions-log.md:
 
 ## CLR-001: API Response Time Target
 
@@ -140,7 +140,7 @@ Decision: < 200ms p95 latency requirement
 Rationale: Balance between user experience and implementation cost
 ```
 
-For state management details, see: shared/state-management.md
+For state management details, see: docs/patterns/state-management.md
 
 ### Phase 5: Validate & Report
 
@@ -160,7 +160,7 @@ Clarifications completed: 4/7
 - CLR-004: File upload limit (10MB)
 
 Remaining ambiguities: 3 [CLARIFY] tags
-Run /workflow:spec → "🔍 Clarify" again to resolve remaining items
+Run /spec → "🔍 Clarify" again to resolve remaining items
 ```
 
 ## Error Handling
@@ -174,7 +174,7 @@ Run /workflow:spec → "🔍 Clarify" again to resolve remaining items
 
 **User skips question**:
 ```
-- Record as "Deferred" in DECISIONS-LOG.md
+- Record as "Deferred" in decisions-log.md
 - Keep [CLARIFY] tag in spec.md
 - Continue to next question
 ```
@@ -203,10 +203,10 @@ Resolved:
 
 Updated Files:
 - {config.paths.features}/###-name/{config.naming.files.spec} (4 clarifications)
-- {config.paths.memory}/DECISIONS-LOG.md (4 new entries)
+- {config.paths.memory}/decisions-log.md (4 new entries)
 
 Remaining: 3 [CLARIFY] tags
-Next: Run /workflow:spec → "🔍 Clarify" again OR proceed to /workflow:spec → "🎨 Move to Design"
+Next: Run /spec → "🔍 Clarify" again OR proceed to /spec → "🎨 Move to Design"
 ```
 
 ## Examples

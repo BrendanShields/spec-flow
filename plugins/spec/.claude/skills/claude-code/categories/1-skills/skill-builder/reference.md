@@ -122,7 +122,7 @@ Total aim: <5000 tokens
 
 ### Content Distribution Strategy
 
-#### What Goes in SKILL.md
+#### What Goes in skill.md
 ✅ Include:
 - Core execution flow
 - Essential decision logic
@@ -135,7 +135,7 @@ Total aim: <5000 tokens
 - API documentation (→ reference.md)
 - Edge cases (→ reference.md)
 - Alternative approaches (→ reference.md)
-- Historical context (→ README.md)
+- Historical context (→ readme.md)
 
 #### What Goes in examples.md
 ✅ Include:
@@ -172,29 +172,29 @@ Structure:
 ### Simple Skill (Single File)
 ```
 skill-name/
-└── SKILL.md
+└── skill.md
 ```
 
 ### Standard Skill (With Examples)
 ```
 skill-name/
-├── SKILL.md
+├── skill.md
 └── examples.md
 ```
 
 ### Comprehensive Skill (Full Documentation)
 ```
 skill-name/
-├── SKILL.md
+├── skill.md
 ├── examples.md
 ├── reference.md
-└── README.md
+└── readme.md
 ```
 
 ### Complex Skill (With Resources)
 ```
 skill-name/
-├── SKILL.md
+├── skill.md
 ├── examples.md
 ├── reference.md
 ├── templates/
@@ -283,7 +283,7 @@ Use for: User-guided workflows
 - [ ] No vague terms ("helps", "various", "stuff")
 
 ### Structural Validation
-- [ ] SKILL.md exists and is valid
+- [ ] skill.md exists and is valid
 - [ ] File paths are correct
 - [ ] References to other files work
 - [ ] Scripts are executable (if present)
@@ -301,7 +301,7 @@ Use for: User-guided workflows
 
 #### Baseline Metrics
 - Metadata: ~100 tokens (always)
-- SKILL.md: 2000-5000 tokens (on activation)
+- skill.md: 2000-5000 tokens (on activation)
 - Each reference: 0 tokens (until needed)
 
 #### Optimization Strategies
@@ -442,7 +442,7 @@ Validation methods:
 **Solution**: Add specific "Use when:" scenarios
 
 ### Pitfall 3: Context Overflow
-**Problem**: Too much in SKILL.md
+**Problem**: Too much in skill.md
 **Solution**: Implement progressive disclosure
 
 ### Pitfall 4: Missing Error Handling

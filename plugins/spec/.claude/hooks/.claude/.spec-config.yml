@@ -3,7 +3,7 @@
 # This file was auto-generated with smart defaults based on your project.
 # Feel free to customize paths, naming conventions, and workflow preferences.
 #
-# Documentation: See plugins/spec/.claude/hooks/README.md
+# Documentation: See plugins/spec/.claude/hooks/readme.md
 #
 
 version: 3.3.0

@@ -505,7 +505,7 @@ cd services/user-service
 discover phase --mode standard
 
 # Exclude large directories in config
-# Add to CLAUDE.md:
+# Add to claude.md:
 # SPEC_DISCOVER_EXCLUDE_PATHS=node_modules,dist,build,.git
 ```
 

@@ -1,11 +1,11 @@
 ---
-description: Update README.md based on current codebase
+description: Update readme.md based on current codebase
 allowed-tools: Read, Write, Glob, Bash(npm:*)
 model: sonnet
 ---
 
 Current README:
-@README.md
+@readme.md
 
 Package configuration:
 @package.json

@@ -47,10 +47,10 @@ ls src/ package.json *.py 2>/dev/null | wc -l
 └── current-session.md         # Active work tracking
 
 {config.paths.memory}/               # Persistent memory (committed)
-├── WORKFLOW-PROGRESS.md       # Feature metrics
-├── DECISIONS-LOG.md           # Architecture decisions
-├── CHANGES-PLANNED.md         # Pending tasks
-└── CHANGES-COMPLETED.md       # Completed work
+├── workflow-progress.md       # Feature metrics
+├── decisions-log.md           # Architecture decisions
+├── changes-planned.md         # Pending tasks
+└── changes-completed.md       # Completed work
 ```
 
 **Use Write tool** to create each file from templates (see REFERENCE.md for full templates).
@@ -86,20 +86,20 @@ For each state file:
    - Template: `templates/state/current-session.md`
    - Destination: Session tracking (git-ignored)
 
-2. `{config.paths.memory}/WORKFLOW-PROGRESS.md`
-   - Template: `templates/state/WORKFLOW-PROGRESS.md`
+2. `{config.paths.memory}/workflow-progress.md`
+   - Template: `templates/state/workflow-progress.md`
    - Destination: Feature metrics (committed)
 
-3. `{config.paths.memory}/DECISIONS-LOG.md`
-   - Template: `templates/state/DECISIONS-LOG.md`
+3. `{config.paths.memory}/decisions-log.md`
+   - Template: `templates/state/decisions-log.md`
    - Destination: ADR log (committed)
 
-4. `{config.paths.memory}/CHANGES-PLANNED.md`
-   - Template: `templates/state/CHANGES-PLANNED.md`
+4. `{config.paths.memory}/changes-planned.md`
+   - Template: `templates/state/changes-planned.md`
    - Destination: Pending tasks (committed)
 
-5. `{config.paths.memory}/CHANGES-COMPLETED.md`
-   - Template: `templates/state/CHANGES-COMPLETED.md`
+5. `{config.paths.memory}/changes-completed.md`
+   - Template: `templates/state/changes-completed.md`
    - Destination: Completion audit trail (committed)
 
 **Error Handling**:
@@ -137,8 +137,8 @@ For each state file:
 ```
 
 **Optional features** (ask user):
-- Architecture blueprint (via `/workflow:spec` → "📐 Create Blueprint")
-- Brownfield discovery (via `/workflow:spec` → "🔍 Discover Existing")
+- Architecture blueprint (via `/spec` → "📐 Create Blueprint")
+- Brownfield discovery (via `/spec` → "🔍 Discover Existing")
 - Team collaboration settings
 
 ### Phase 6: Smart Hook Auto-Detection
@@ -148,7 +148,7 @@ If `workflow.auto_detect_hooks.enabled: true` in config, detect project tooling 
 **Detection Algorithm**:
 ```bash
 # Read config
-config=$(cat .claude/.spec-config.yml)
+config=$(cat .spec/.spec-config.yml)
 if [[ ! "$config" =~ "auto_detect_hooks:\s*enabled:\s*true" ]]; then
   exit 0  # Skip if disabled
 fi
@@ -403,13 +403,13 @@ Test hooks:
 📝 Files created:
    product-requirements.md
    current-session.md
-   WORKFLOW-PROGRESS.md
-   DECISIONS-LOG.md
+   workflow-progress.md
+   decisions-log.md
 
 🎯 Next steps:
    1. Edit {config.paths.spec_root}/product-requirements.md
-   2. Run /workflow:spec → "📝 Define Feature" to create first feature
-   3. Or run /workflow:spec → "🔍 Discover Existing" for brownfield analysis
+   2. Run /spec → "📝 Define Feature" to create first feature
+   3. Or run /spec → "🔍 Discover Existing" for brownfield analysis
 
 📖 Learn more: ../../../quick-start.md
 ```
@@ -421,13 +421,13 @@ If existing code detected (>5 source files), suggest:
 ```
 🔍 Existing codebase detected!
 
-Run /workflow:spec → "🔍 Discover Existing" to:
+Run /spec → "🔍 Discover Existing" to:
 - Analyze current architecture
 - Identify integration points
 - Generate baseline blueprint
 - Map existing features
 
-Or continue with /workflow:spec → "📝 Define Feature" for new features.
+Or continue with /spec → "📝 Define Feature" for new features.
 ```
 
 ## Templates Used
@@ -460,7 +460,7 @@ This function uses the following templates:
 - ADR (Architecture Decision Record) framework
 
 **See also**:
-- `templates/README.md` for complete template documentation
+- `templates/readme.md` for complete template documentation
 - `blueprint/guide.md` for architecture documentation details
 
 ## Error Handling
@@ -472,9 +472,9 @@ This function uses the following templates:
 Found: {config.paths.spec_root}/ directory
 
 Options:
-- Reinitialize: /workflow:spec → "🔄 Reinitialize"
-- Validate: /workflow:track → "🔍 Analyze Consistency"
-- Continue: /workflow:spec → "📝 Define Feature"
+- Reinitialize: /spec → "🔄 Reinitialize"
+- Validate: /spec-track → "🔍 Analyze Consistency"
+- Continue: /spec → "📝 Define Feature"
 ```
 
 **Git not initialized**:
@@ -486,7 +486,7 @@ Initialize git first:
   git add .
   git commit -m "Initial commit"
 
-Then run: /workflow:spec → "🚀 Initialize Project"
+Then run: /spec → "🚀 Initialize Project"
 ```
 
 ## Examples
@@ -508,7 +508,7 @@ See [REFERENCE.md](./REFERENCE.md) for:
 
 ## Related Workflow Options
 
-- **/workflow:spec** → "🔍 Discover Existing": Analyze existing codebase (brownfield)
-- **/workflow:spec** → "📐 Create Blueprint": Define architecture guidelines
-- **/workflow:spec** → "📝 Define Feature": Create first feature specification
-- **/workflow:track** → "🔍 Analyze Consistency": Check workflow consistency
+- **/spec** → "🔍 Discover Existing": Analyze existing codebase (brownfield)
+- **/spec** → "📐 Create Blueprint": Define architecture guidelines
+- **/spec** → "📝 Define Feature": Create first feature specification
+- **/spec-track** → "🔍 Analyze Consistency": Check workflow consistency

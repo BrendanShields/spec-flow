@@ -830,7 +830,7 @@ Alternatives: PostgreSQL (schema-per-tenant), MongoDB, MySQL
 
 **When to Publish**:
 - After plan.md generated
-- If `SPEC_ATLASSIAN_SYNC=enabled` in CLAUDE.md
+- If `SPEC_ATLASSIAN_SYNC=enabled` in claude.md
 - User confirms publish action
 
 **Confluence Page Structure**:
@@ -856,7 +856,7 @@ Last synced: YYYY-MM-DD HH:MM:SS
 ```typescript
 // Pseudocode for MCP integration
 async function publishToConfluence(plan: Plan) {
-  const config = readConfig('CLAUDE.md');
+  const config = readConfig('claude.md');
 
   if (!config.SPEC_ATLASSIAN_SYNC) {
     return; // Skip if not enabled
@@ -970,7 +970,7 @@ fi
 
 ### Token Efficiency
 
-**Core SKILL.md**: ~1,400 tokens
+**Core skill.md**: ~1,400 tokens
 **EXAMPLES.md**: ~3,000 tokens (loaded on demand)
 **REFERENCE.md**: ~4,500 tokens (loaded on demand)
 
@@ -978,7 +978,7 @@ fi
 
 ### Progressive Disclosure Strategy
 
-**Level 1** (Always loaded): SKILL.md
+**Level 1** (Always loaded): skill.md
 - Core workflow
 - When to use
 - Error handling basics
@@ -1004,9 +1004,9 @@ fi
 ## Related Files
 
 **Shared Resources**:
-- `../shared/workflow-patterns.md` - Phase transitions, validation
-- `../shared/integration-patterns.md` - MCP publishing patterns
-- `../shared/state-management.md` - State file specifications
+- `../docs/patterns/workflow-patterns.md` - Phase transitions, validation
+- `../docs/patterns/integration-patterns.md` - MCP publishing patterns
+- `../docs/patterns/state-management.md` - State file specifications
 
 **Related Skills**:
 - `../2-define/generate/` - Creates spec.md (prerequisite)

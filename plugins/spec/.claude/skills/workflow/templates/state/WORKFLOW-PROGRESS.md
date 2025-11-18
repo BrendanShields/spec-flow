@@ -80,7 +80,7 @@
 
 - Workflow tracking initialized on {date}
 - Metrics will populate as features are developed
-- Run `/workflow:track` → "📊 View Metrics" for detailed analytics
+- Run `/spec-track` → "📊 View Metrics" for detailed analytics
 
 ---
 

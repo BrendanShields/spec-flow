@@ -37,7 +37,7 @@ Tier 5: Reference       +2,000 tokens  (--reference flag)
 
 ### Tier 1: Router Only (300 tokens)
 
-**What**: SKILL.md - Context-aware navigation and routing
+**What**: skill.md - Context-aware navigation and routing
 
 **Contains**:
 - Workflow phase overview (5 phases)
@@ -66,7 +66,7 @@ Tier 5: Reference       +2,000 tokens  (--reference flag)
 
 ### Tier 2: Phase Guide (+500 tokens = 800 total)
 
-**What**: phases/X/README.md - Detailed phase overview
+**What**: phases/X/readme.md - Detailed phase overview
 
 **Contains**:
 - Phase purpose and objectives
@@ -83,7 +83,7 @@ Tier 5: Reference       +2,000 tokens  (--reference flag)
 **Example**:
 ```bash
 /spec                    # Router detects you're in Phase 2
-                        # Loads phases/2-define/README.md
+                        # Loads phases/2-define/readme.md
 ```
 
 **What You Get**:
@@ -420,7 +420,7 @@ The workflow router caches session state to avoid redundant loading:
 ```bash
 /spec generate
 # Reads: {config.paths.state}/current-session.md
-# Reads: {config.paths.memory}/WORKFLOW-PROGRESS.md
+# Reads: {config.paths.memory}/workflow-progress.md
 # Caches state in memory
 ```
 

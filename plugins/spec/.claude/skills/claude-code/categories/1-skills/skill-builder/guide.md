@@ -13,7 +13,7 @@ Comprehensive skill creation system that follows all Claude Code best practices 
 1. **Analyzes** requirements to determine skill purpose and triggers
 2. **Designs** effective descriptions for autonomous discovery
 3. **Structures** content for progressive disclosure
-4. **Generates** SKILL.md with proper YAML frontmatter
+4. **Generates** skill.md with proper YAML frontmatter
 5. **Creates** supporting files (examples, reference, scripts)
 6. **Validates** skill syntax and discoverability
 7. **Tests** activation patterns
@@ -73,7 +73,7 @@ Level 1: Metadata (Always Loaded) ~100 tokens
 └── allowed-tools
 
 Level 2: Instructions (Loaded on Trigger) ~2-5k tokens
-└── SKILL.md body content
+└── skill.md body content
 
 Level 3: Resources (Loaded on Demand) Unlimited
 ├── examples.md
@@ -84,7 +84,7 @@ Level 3: Resources (Loaded on Demand) Unlimited
 
 #### 3.2 Content Distribution Strategy
 
-**SKILL.md** (Core Instructions):
+**skill.md** (Core Instructions):
 - Essential steps
 - Primary workflows
 - Critical decision points
@@ -124,7 +124,7 @@ model: claude-3  # Model preference (if specific)
 
 ### Phase 5: Skill Content Structure
 
-#### 5.1 SKILL.md Template
+#### 5.1 skill.md Template
 ```markdown
 ---
 name: [skill-name]
@@ -273,7 +273,7 @@ allowed-tools: Bash, Write  # Script execution
 
 Based on requirements, this skill generates:
 
-1. **Primary SKILL.md** with optimized frontmatter
+1. **Primary skill.md** with optimized frontmatter
 2. **examples.md** with 3-5 concrete scenarios
 3. **reference.md** with technical details
 4. **Installation instructions** for skill placement
@@ -285,13 +285,13 @@ Based on requirements, this skill generates:
 
 **Skills are DOCUMENTATION, not EXECUTABLE CODE.**
 
-When Claude loads a skill, it reads the SKILL.md as INSTRUCTIONS to follow. The "implementation" is Claude applying those instructions.
+When Claude loads a skill, it reads the skill.md as INSTRUCTIONS to follow. The "implementation" is Claude applying those instructions.
 
 **What Goes Where:**
 
 ```
 skill-name/
-├── SKILL.md          # Instructions for Claude to follow
+├── skill.md          # Instructions for Claude to follow
 ├── examples.md       # Examples of following those instructions
 ├── reference.md      # Technical reference for instructions
 ├── scripts/          # Executable helper scripts (optional)
@@ -322,7 +322,7 @@ skill-name/
 3. Format with actionable feedback
 ```
 
-**Key Point**: SKILL.md contains INSTRUCTIONS for using tools, not implementation code.
+**Key Point**: skill.md contains INSTRUCTIONS for using tools, not implementation code.
 
 #### 9.2 When to Include Helper Scripts
 
@@ -338,7 +338,7 @@ Include scripts in `scripts/` directory when:
 jq '.dependencies, .devDependencies' package.json | jq -r 'keys[]'
 ```
 
-SKILL.md then references: "Run scripts/parse-dependencies.sh via Bash tool"
+skill.md then references: "Run scripts/parse-dependencies.sh via Bash tool"
 
 #### 9.3 When to Include Templates
 
@@ -358,18 +358,18 @@ Include templates in `templates/` directory when:
 {{AUTH_METHOD}}
 ```
 
-SKILL.md then instructs: "Load templates/api-doc.md, replace {{PLACEHOLDERS}}"
+skill.md then instructs: "Load templates/api-doc.md, replace {{PLACEHOLDERS}}"
 
 ### Phase 10: Cross-Reference Standards
 
 #### 10.1 Standard Reference Phrases
 
-**Referencing examples.md from SKILL.md:**
+**Referencing examples.md from skill.md:**
 ```markdown
 See examples.md for concrete usage scenarios
 ```
 
-**Referencing reference.md from SKILL.md:**
+**Referencing reference.md from skill.md:**
 ```markdown
 For complete API documentation, see reference.md
 For advanced configuration options, see reference.md
@@ -383,13 +383,13 @@ See reference.md, Section 2.3 for authentication patterns
 ```
 
 **When to reference vs inline:**
-- **Inline** (in SKILL.md): Core concepts, primary workflow, essential patterns
+- **Inline** (in skill.md): Core concepts, primary workflow, essential patterns
 - **Reference** (link to other files): Extended examples, comprehensive API docs, edge cases
 
 #### 10.2 File Relationship Structure
 
 ```
-SKILL.md (Core instructions)
+skill.md (Core instructions)
 ├─→ examples.md (Referenced when: user needs concrete example)
 ├─→ reference.md (Referenced when: detailed specs needed)
 ├─→ templates/ (Used when: generating output)
@@ -489,7 +489,7 @@ Create test file `test-activation.md`:
 - Support files up to 1GB
 
 ### Expected Output
-- SKILL.md with proper frontmatter
+- skill.md with proper frontmatter
 - Execution flow with Bash/Read/Write tools
 - Error handling for large files
 - Examples showing CSV → JSON transformation
@@ -537,13 +537,13 @@ Create `scripts/validate-skill.sh`:
 # Validates skill structure and syntax
 
 SKILL_DIR=$1
-SKILL_FILE="$SKILL_DIR/SKILL.md"
+SKILL_FILE="$SKILL_DIR/skill.md"
 
 echo "Validating $SKILL_DIR..."
 
-# Check SKILL.md exists
+# Check skill.md exists
 if [ ! -f "$SKILL_FILE" ]; then
-  echo "❌ SKILL.md not found"
+  echo "❌ skill.md not found"
   exit 1
 fi
 
@@ -654,7 +654,7 @@ description: Use when code review requested, technical debt assessment needed, o
 ## Common Mistakes
 
 ### Mistake 1: Treating Skills as Code
-❌ **Wrong**: Writing Python/JavaScript implementation in SKILL.md
+❌ **Wrong**: Writing Python/JavaScript implementation in skill.md
 ✅ **Right**: Writing instructions for Claude to follow using tools
 
 **Example:**
@@ -708,12 +708,12 @@ When creating a skill, this builder produces:
 
 ```
 Created: [skill-name]/
-├── SKILL.md (2.3 KB)
+├── skill.md (2.3 KB)
 ├── examples.md (1.8 KB)
 ├── reference.md (3.2 KB)
 ├── scripts/
 │   └── helper.sh (0.5 KB)
-└── README.md (1.0 KB)
+└── readme.md (1.0 KB)
 
 ✅ Skill Validated:
 - YAML syntax: Valid

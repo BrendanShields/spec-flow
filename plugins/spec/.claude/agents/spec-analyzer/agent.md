@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
 
-# Flow Analyzer Agent
+# Spec Analyzer Agent
 
 An autonomous agent that performs deep codebase analysis, extracting patterns, discovering architecture, and inferring project conventions.
 
@@ -197,9 +197,9 @@ const patterns = {
 
 ## Integration Points
 
-See [shared/integration-patterns.md](../shared/integration-patterns.md) for complete integration details.
+See [docs/patterns/integration-patterns.md](../docs/patterns/integration-patterns.md) for complete integration details.
 
-**Integration with Flow workflow:**
+**Integration with Spec workflow:**
 - **spec:generate** → Existing patterns, technology constraints, conventions
 - **spec:plan** → Current architecture, available components, reusable patterns
 - **spec:implement** → Code style, patterns to follow, integration points

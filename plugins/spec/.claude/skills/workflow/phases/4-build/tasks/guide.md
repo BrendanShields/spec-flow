@@ -16,7 +16,7 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
 - Identifies task dependencies and execution order
 - Marks parallel-executable tasks with [P] markers
 - Groups tasks by user stories from spec
-- Updates {config.paths.memory}/CHANGES-PLANNED.md
+- Updates {config.paths.memory}/changes-planned.md
 - Optional: Creates issues in JIRA/Linear/GitHub via MCP if configured
 
 ## When to Use
@@ -87,15 +87,15 @@ Breaks down technical plan into executable tasks with priorities, dependencies, 
    - See EXAMPLES.md for complete format
 
 2. **Update state files**
-   - Append task list to `{config.paths.memory}/CHANGES-PLANNED.md`
+   - Append task list to `{config.paths.memory}/changes-planned.md`
    - Update `{config.paths.state}/current-session.md` phase to "tasks_complete"
-   - Update `{config.paths.memory}/WORKFLOW-PROGRESS.md` with task count
+   - Update `{config.paths.memory}/workflow-progress.md` with task count
 
 3. **Optional: Create external issues**
-   - If MCP configured (check CLAUDE.md), ask user preference
+   - If MCP configured (check claude.md), ask user preference
    - Use MCP tools to create JIRA/Linear/GitHub issues
    - Store issue references in tasks.md metadata
-   - See `shared/integration-patterns.md` for MCP details
+   - See `docs/patterns/integration-patterns.md` for MCP details
 
 ### Phase 4: Validate and Report
 
@@ -207,7 +207,7 @@ US1.3: T006 → T007
 3. Track progress in current-session.md
 ```
 
-Updates `{config.paths.memory}/CHANGES-PLANNED.md` with task entries.
+Updates `{config.paths.memory}/changes-planned.md` with task entries.
 
 ## Templates Used
 
@@ -233,15 +233,15 @@ This function uses the following templates:
 - Acceptance criteria per task
 - Testing requirements
 
-**See also**: `templates/README.md` for complete template documentation
+**See also**: `templates/readme.md` for complete template documentation
 
 ## Integration Points
 
-**Workflow**: For phase patterns, see `shared/workflow-patterns.md`
+**Workflow**: For phase patterns, see `docs/patterns/workflow-patterns.md`
 
-**State**: For state file updates, see `shared/state-management.md`
+**State**: For state file updates, see `docs/patterns/state-management.md`
 
-**MCP**: For external issue sync, see `shared/integration-patterns.md`
+**MCP**: For external issue sync, see `docs/patterns/integration-patterns.md`
 
 **Examples**: For complete scenarios, see EXAMPLES.md
 

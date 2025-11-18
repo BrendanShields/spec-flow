@@ -479,7 +479,7 @@ Authentication: JWT tokens with refresh token rotation
 1. spec.md exists and is readable
 2. Spec has required sections (User Stories, Acceptance Criteria)
 3. At least one ambiguity detected
-4. {config.paths.memory}/DECISIONS-LOG.md exists
+4. {config.paths.memory}/decisions-log.md exists
 ```
 
 ### Post-Clarification Validation
@@ -597,7 +597,7 @@ generate phase
 
 **plan phase**:
 - Reads clarified spec.md
-- References DECISIONS-LOG.md for context
+- References decisions-log.md for context
 - May add technical decisions (ADR) to supplement clarifications (CLR)
 
 **update phase**:
@@ -611,7 +611,7 @@ generate phase
 **This reference file**: ~1,800 tokens
 
 **Total skill tokens**:
-- SKILL.md: ~1,150 tokens
+- skill.md: ~1,150 tokens
 - examples.md: ~1,900 tokens
 - reference.md: ~1,800 tokens
 - **Total**: ~4,850 tokens
@@ -622,6 +622,6 @@ generate phase
 - Examples/reference loaded on demand: ~3,700 tokens
 
 **Compared to original** (clarify phase):
-- Original SKILL.md: ~650 tokens
-- New SKILL.md: ~1,150 tokens (+77% detail, still under 1,200 target)
+- Original skill.md: ~650 tokens
+- New skill.md: ~1,150 tokens (+77% detail, still under 1,200 target)
 - Total documentation: More comprehensive with better examples

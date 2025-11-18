@@ -45,7 +45,7 @@ You can always continue your development work. External syncing is a bonus, not 
 **Error Message**:
 ```
 Warning: MCP integration not configured
-SPEC_ATLASSIAN_SYNC not found in CLAUDE.md
+SPEC_ATLASSIAN_SYNC not found in claude.md
 Continuing with local workflow only.
 ```
 
@@ -67,7 +67,7 @@ Continuing with local workflow only.
 
 **Option 1**: Configure MCP integration (if desired)
 ```markdown
-# Edit CLAUDE.md in project root
+# Edit claude.md in project root
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_JIRA_PROJECT_KEY=PROJ
 SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
@@ -280,7 +280,7 @@ Check page exists and is accessible.
 
 **JIRA Integration**:
 ```markdown
-# Required in CLAUDE.md:
+# Required in claude.md:
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_JIRA_PROJECT_KEY=PROJ        ← Often missing
 SPEC_JIRA_API_TOKEN=[token]       ← Or invalid
@@ -302,13 +302,13 @@ SPEC_LINEAR_TEAM_ID=TEAM123       ← Often missing
 
 **Step 1**: Check current configuration
 ```bash
-cat CLAUDE.md | grep SPEC_
+cat claude.md | grep SPEC_
 # Shows all Spec-related config
 ```
 
 **Step 2**: Add missing fields
 ```markdown
-# Edit CLAUDE.md
+# Edit claude.md
 
 # For JIRA:
 SPEC_JIRA_PROJECT_KEY=MYPROJ
@@ -512,7 +512,7 @@ Cannot create story without required custom fields.
 
 **Resolution**:
 ```markdown
-# Add custom fields to CLAUDE.md:
+# Add custom fields to claude.md:
 SPEC_JIRA_CUSTOM_FIELD_SPRINT=customfield_10001
 SPEC_JIRA_CUSTOM_FIELD_TEAM=customfield_10002
 
@@ -603,7 +603,7 @@ Check SPEC_CONFLUENCE_SPACE configuration.
 ```bash
 # List available spaces (via Confluence API or UI)
 # Update config with valid space key
-nano CLAUDE.md
+nano claude.md
 # Set: SPEC_CONFLUENCE_SPACE=VALID
 ```
 
@@ -716,10 +716,10 @@ Even if all integrations fail, these operations always succeed:
 {config.paths.state}/current-session.md updated ✓
 
 # Decision logging
-{config.paths.memory}/DECISIONS-LOG.md updated ✓
+{config.paths.memory}/decisions-log.md updated ✓
 
 # Progress tracking
-{config.paths.memory}/WORKFLOW-PROGRESS.md updated ✓
+{config.paths.memory}/workflow-progress.md updated ✓
 ```
 
 #### 3. Git Operations
@@ -815,7 +815,7 @@ Summary:
 
 ### 1. Configure Integrations as Optional
 
-**In CLAUDE.md**:
+**In claude.md**:
 ```markdown
 # Integration Configuration
 # Note: All integrations are optional
@@ -998,7 +998,7 @@ echo $HTTPS_PROXY
 # 1. Visit: https://id.atlassian.com/manage/api-tokens
 # 2. Create API Token → Label: "Claude Spec Plugin"
 # 3. Copy token
-# 4. Update config (MCP settings or CLAUDE.md)
+# 4. Update config (MCP settings or claude.md)
 # 5. Restart Claude Code
 # 6. Retry: /spec sync --feature=003
 ```
@@ -1017,7 +1017,7 @@ Output:
 "DEV"
 "OPS"
 
-# Update CLAUDE.md with correct key
+# Update claude.md with correct key
 ```
 
 #### Fix 3: Fix Firewall/Proxy Issues
@@ -1038,7 +1038,7 @@ curl https://api.atlassian.com
 **If rate limits are issue**:
 ```bash
 # Use manual sync instead of automatic
-# Configure in CLAUDE.md:
+# Configure in claude.md:
 SPEC_SYNC_MODE=manual  # Not automatic
 
 # Sync explicitly when ready
@@ -1164,9 +1164,9 @@ All features synced successfully.
 
 ## Related Resources
 
-- **Integration Patterns**: `shared/integration-patterns.md` - MCP integration patterns
+- **Integration Patterns**: `docs/patterns/integration-patterns.md` - MCP integration patterns
 - **Error Recovery**: `error-recovery.md` - General error handling guide
-- **Configuration**: Project CLAUDE.md - Integration configuration examples
+- **Configuration**: Project claude.md - Integration configuration examples
 - **MCP Documentation**: [Model Context Protocol](https://modelcontextprotocol.com)
 
 ---
@@ -1213,4 +1213,4 @@ cat {config.paths.state}/integration-errors.log
 
 **Remember**: Integrations enhance the workflow but never block it. Local artifacts are always created, and external syncing is a convenience. When in doubt, continue locally and sync later.
 
-**Questions?** See error-recovery.md or CLAUDE.md configuration examples.
+**Questions?** See error-recovery.md or claude.md configuration examples.

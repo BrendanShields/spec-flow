@@ -452,7 +452,7 @@ Checkpoint protection!
 ### Get Help
 
 - **In-session**: Ask "What should I do next?"
-- **Documentation**: Read `README.md` in plugin root
+- **Documentation**: Read `readme.md` in plugin root
 - **Support**: Check `error-recovery.md` for common issues
 
 ---

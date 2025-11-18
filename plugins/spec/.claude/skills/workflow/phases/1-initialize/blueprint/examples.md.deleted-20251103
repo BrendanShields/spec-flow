@@ -761,7 +761,7 @@ test(tasks): add unit tests for task service
 
 ## ADRs (Architecture Decision Records)
 
-See `{config.paths.memory}/DECISIONS-LOG.md` for complete ADRs:
+See `{config.paths.memory}/decisions-log.md` for complete ADRs:
 
 1. **ADR-001**: Use Node.js + TypeScript for backend
 2. **ADR-002**: PostgreSQL with row-level security for multi-tenancy
@@ -782,7 +782,7 @@ See `{config.paths.memory}/DECISIONS-LOG.md` for complete ADRs:
 
 ### Step 3: ADR Generation
 
-The skill adds ADRs to `{config.paths.memory}/DECISIONS-LOG.md`:
+The skill adds ADRs to `{config.paths.memory}/decisions-log.md`:
 
 ```markdown
 ## ADR-001: Use Node.js + TypeScript for backend
@@ -854,7 +854,7 @@ CREATE POLICY tenant_isolation ON projects
 
 ### Step 4: State Update
 
-Updates `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
+Updates `{config.paths.memory}/workflow-progress.md`:
 
 ```markdown
 ## Feature 000: Architecture Blueprint
@@ -911,8 +911,8 @@ Next Steps:
 
 **Files Created**:
 - `{config.paths.spec_root}/architecture-blueprint.md` (3,200 tokens)
-- `{config.paths.memory}/DECISIONS-LOG.md` (updated with 8 ADRs)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.memory}/decisions-log.md` (updated with 8 ADRs)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 completed)
 
 ---
 
@@ -1632,7 +1632,7 @@ Result: 47% overall coverage
 
 ## ADRs (Architecture Decision Records)
 
-See `{config.paths.memory}/DECISIONS-LOG.md` for documented decisions:
+See `{config.paths.memory}/decisions-log.md` for documented decisions:
 
 1. **ADR-001**: Django MTV pattern with app separation (existing)
 2. **ADR-002**: Django Rest Framework for API layer (existing)
@@ -1698,8 +1698,8 @@ Next Steps:
 
 **Files Created**:
 - `{config.paths.spec_root}/architecture-blueprint.md` (2,800 tokens, includes [TODO] tags)
-- `{config.paths.memory}/DECISIONS-LOG.md` (updated with 5 ADRs documenting existing)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.memory}/decisions-log.md` (updated with 5 ADRs documenting existing)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 completed)
 
 ---
 
@@ -1962,7 +1962,7 @@ routes:
 
 ## New ADRs (Migration)
 
-See `{config.paths.memory}/DECISIONS-LOG.md`:
+See `{config.paths.memory}/decisions-log.md`:
 
 6. **ADR-006**: Strangler pattern for microservices migration
 7. **ADR-007**: Kong API Gateway for service routing
@@ -1980,7 +1980,7 @@ See `{config.paths.memory}/DECISIONS-LOG.md`:
 
 ### Step 4: ADR for Migration Strategy
 
-Adds ADR-006 to `{config.paths.memory}/DECISIONS-LOG.md`:
+Adds ADR-006 to `{config.paths.memory}/decisions-log.md`:
 
 ```markdown
 ## ADR-006: Strangler Pattern for Microservices Migration
@@ -2071,8 +2071,8 @@ Next Steps:
 
 **Files Updated**:
 - `{config.paths.spec_root}/architecture-blueprint.md` (migration sections added)
-- `{config.paths.memory}/DECISIONS-LOG.md` (5 new ADRs)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 updated)
+- `{config.paths.memory}/decisions-log.md` (5 new ADRs)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 updated)
 
 ---
 
@@ -2816,7 +2816,7 @@ const hashedPassword = await argon2.hash(password, {
 
 ## ADRs (HIPAA-Focused)
 
-See `{config.paths.memory}/DECISIONS-LOG.md`:
+See `{config.paths.memory}/decisions-log.md`:
 
 1. **ADR-001**: AWS as cloud provider (HIPAA-eligible services)
 2. **ADR-002**: AES-256-GCM for application-level PHI encryption
@@ -2891,8 +2891,8 @@ Compliance Reminder:
 
 **Files Created**:
 - `{config.paths.spec_root}/architecture-blueprint.md` (4,500 tokens, compliance-focused)
-- `{config.paths.memory}/DECISIONS-LOG.md` (8 security ADRs)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.memory}/decisions-log.md` (8 security ADRs)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 completed)
 
 ---
 
@@ -3409,8 +3409,8 @@ Next Steps:
 
 **Files Created**:
 - `{config.paths.spec_root}/architecture-blueprint.md` (3,400 tokens, real-time focus)
-- `{config.paths.memory}/DECISIONS-LOG.md` (6 ADRs)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 completed)
+- `{config.paths.memory}/decisions-log.md` (6 ADRs)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 completed)
 
 ---
 

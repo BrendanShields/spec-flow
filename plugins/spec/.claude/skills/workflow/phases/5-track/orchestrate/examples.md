@@ -195,7 +195,7 @@ ADR-003: Use bcrypt for password hashing
 - Decision: bcrypt with cost factor 10
 - Consequences: Slower auth but industry standard
 
-Logged to: {config.paths.memory}/DECISIONS-LOG.md
+Logged to: {config.paths.memory}/decisions-log.md
 
 Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (324 lines)
 
@@ -315,7 +315,7 @@ Task summary:
 - Estimated completion time: 3-4 hours
 
 Created: {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} (187 lines)
-Updated: {config.paths.memory}/CHANGES-PLANNED.md with 28 new entries
+Updated: {config.paths.memory}/changes-planned.md with 28 new entries
 
 Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-38-27-post-tasks.md
 
@@ -544,8 +544,8 @@ Progress: 28/28 tasks complete (100%)
 
 Updated files:
 - {config.paths.state}/current-session.md (status: complete)
-- {config.paths.memory}/CHANGES-COMPLETED.md (28 entries added)
-- {config.paths.memory}/WORKFLOW-PROGRESS.md (updated metrics)
+- {config.paths.memory}/changes-completed.md (28 entries added)
+- {config.paths.memory}/workflow-progress.md (updated metrics)
 
 Checkpoint saved: {config.paths.state}/checkpoints/2025-10-31-14-48-15-complete.md
 
@@ -581,7 +581,7 @@ Artifacts Created:
   - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.spec} (142 lines)
   - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (324 lines)
   - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.tasks} (187 lines)
-  - 3 ADRs in {config.paths.memory}/DECISIONS-LOG.md
+  - 3 ADRs in {config.paths.memory}/decisions-log.md
 
 Implementation Summary:
   - Files created: 18 files
@@ -779,14 +779,14 @@ Issue 4: Vague admin dashboard
   - Rate limit override controls
   - User tier management interface
 
-Updating DECISIONS-LOG.md...
+Updating decisions-log.md...
 
 ✓ ADR-011: Use single Redis instance (sufficient for current scale)
 ✓ ADR-012: Implement tier management with Stripe integration
 
 Files updated:
   - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (+127 lines)
-  - {config.paths.memory}/DECISIONS-LOG.md (+2 ADRs)
+  - {config.paths.memory}/decisions-log.md (+2 ADRs)
 
 Auto-fix complete (3m 18s)
 ```
@@ -1236,10 +1236,10 @@ Switch to interactive mode:
 ---
 
 **For More Information:**
-- **SKILL.md**: Complete skill documentation
+- **skill.md**: Complete skill documentation
 - **REFERENCE.md**: Technical algorithms and configuration
-- **shared/workflow-patterns.md**: Orchestration patterns library
-- **shared/state-management.md**: Checkpoint and resume internals
+- **docs/patterns/workflow-patterns.md**: Orchestration patterns library
+- **docs/patterns/state-management.md**: Checkpoint and resume internals
 
 ---
 

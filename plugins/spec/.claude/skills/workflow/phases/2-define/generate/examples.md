@@ -616,7 +616,7 @@ so that I stay informed.
 6. [CLARIFY: User notification preferences/settings?]
 7. [CLARIFY: Notification retention period?]
 
-**Next Step:** Run /workflow:spec → "🔍 Clarify" to resolve these questions before planning.
+**Next Step:** Run /spec → "🔍 Clarify" to resolve these questions before planning.
 ```
 
 ---

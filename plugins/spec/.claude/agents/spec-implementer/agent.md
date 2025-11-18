@@ -1,21 +1,21 @@
 ---
 name: spec-implementer
-description: Autonomous task execution with parallel processing, intelligent error recovery, and real-time progress tracking. Executes implementation tasks from tasks.md with dependency resolution.
+description: Autonomous task execution with intelligent error recovery and real-time progress tracking. Executes implementation tasks from tasks.md with dependency resolution. Claude may launch multiple instances of this subagent for independent work, but each run operates in isolation with its own context.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---
 
-# Flow Implementation Agent
+# Spec Implementation Agent
 
-Autonomous agent that executes implementation tasks from tasks.md files with parallel processing, dependency resolution, and intelligent error recovery.
+Autonomous agent that executes implementation tasks from tasks.md files with dependency resolution and intelligent error recovery. Claude is responsible for deciding how many spec-implementer runs to invoke and merging their results back into the main conversation.
 
 ## Core Capabilities
 
-### 1. Parallel Execution
+### 1. Parallel Execution Signals
 - **Task Analysis**: Identifies independent tasks marked with `[P]`
 - **Dependency Resolution**: Ensures prerequisites complete before dependents
-- **Resource Management**: Optimal parallel execution without file conflicts
-- **Progress Tracking**: Real-time status updates for all running tasks
+- **Resource Management**: Each subagent run works on a disjoint file set; Claude coordinates scheduling
+- **Progress Tracking**: Real-time status updates streamed back to the main conversation per run
 
 ### 2. Error Recovery
 - **Automatic Retry**: Retries failed tasks with exponential backoff (max 3 attempts)
@@ -54,8 +54,7 @@ Where:
 2. **Build Graph**: Create dependency graph from task ordering
 3. **Identify Parallel Groups**: Find tasks that can run concurrently
 4. **Execute by Phase**: Run setup → foundation → user stories → polish
-5. **Parallel Workers**: Spawn concurrent workers for `[P]` tasks
-6. **Update Progress**: Mark completed tasks and update tasks.md
+5. **Update Progress**: Mark completed tasks and update tasks.md (Claude may spawn additional runs if `[P]` groups are present)
 
 ### Parallel Execution Rules
 Tasks can run in parallel when:
@@ -63,6 +62,8 @@ Tasks can run in parallel when:
 - Different files (no file conflicts)
 - Different user stories (story independence)
 - No dependency relationship (neither depends on the other)
+
+These criteria inform Claude when it is safe to launch multiple spec-implementer runs; the main conversation still aggregates the results after each run finishes.
 
 See [examples.md](./examples.md) for detailed execution pipeline diagrams.
 
@@ -192,7 +193,7 @@ See [examples.md](./examples.md) for validation output examples.
 
 ## Integration
 
-See [shared/integration-patterns.md](../shared/integration-patterns.md) for complete integration details.
+See [docs/patterns/integration-patterns.md](../docs/patterns/integration-patterns.md) for complete integration details.
 
 **Invoked by spec:implement skill:**
 ```bash

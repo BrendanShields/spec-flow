@@ -825,12 +825,12 @@ blocked: []
 2. Update current-session.md for progress
 3. Write implementation.log for audit trail
 4. Write implementation-metrics.json for analytics
-5. Move completed tasks to CHANGES-COMPLETED.md
+5. Move completed tasks to changes-completed.md
 
 ### State Files → Memory
-1. Append completed tasks to CHANGES-COMPLETED.md
-2. Update WORKFLOW-PROGRESS.md with metrics
-3. Log decisions to DECISIONS-LOG.md
+1. Append completed tasks to changes-completed.md
+2. Update workflow-progress.md with metrics
+3. Log decisions to decisions-log.md
 4. Save checkpoint to checkpoints/
 
 ---

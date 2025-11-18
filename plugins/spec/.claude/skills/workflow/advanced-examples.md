@@ -10,7 +10,7 @@ This guide provides real-world scenarios for advanced state management and troub
 - Handling complex multi-feature scenarios
 - Customizing workflow for team-specific needs
 
-**Prerequisites**: Familiarity with basic workflow commands and state files (WORKFLOW-PROGRESS.md, .workflow-session.json, ACTIVE-CONTEXT.md).
+**Prerequisites**: Familiarity with basic workflow commands and state files (workflow-progress.md, .workflow-session.json, ACTIVE-CONTEXT.md).
 
 ---
 
@@ -32,8 +32,8 @@ Cannot parse .workflow-session.json
 # 1. Backup corrupted state
 cp .workflow-session.json .workflow-session.json.backup
 
-# 2. Check WORKFLOW-PROGRESS.md for last known state
-cat WORKFLOW-PROGRESS.md
+# 2. Check workflow-progress.md for last known state
+cat workflow-progress.md
 ```
 
 **Expected output**:
@@ -67,7 +67,7 @@ Progress: 45%
 /spec workflow:status
 ```
 
-**What's happening**: The `--recover-from=progress` flag tells the workflow to rebuild session state from WORKFLOW-PROGRESS.md. It:
+**What's happening**: The `--recover-from=progress` flag tells the workflow to rebuild session state from workflow-progress.md. It:
 - Reads completed tasks
 - Identifies current phase
 - Reconstructs context from ACTIVE-CONTEXT.md
@@ -100,7 +100,7 @@ ls -la | grep -E '(WORKFLOW|ACTIVE|\.workflow)'
 **Files to copy**:
 ```
 .workflow-session.json          # Current session state
-WORKFLOW-PROGRESS.md            # Progress tracking
+workflow-progress.md            # Progress tracking
 ACTIVE-CONTEXT.md               # Current context
 docs/spec/feature-name.spec.md  # Specification
 .workflow-checkpoints/          # Checkpoints (optional)
@@ -111,14 +111,14 @@ docs/spec/feature-name.spec.md  # Specification
 # Using rsync
 rsync -av \
   .workflow-session.json \
-  WORKFLOW-PROGRESS.md \
+  workflow-progress.md \
   ACTIVE-CONTEXT.md \
   docs/spec/ \
   .workflow-checkpoints/ \
   user@desktop:/path/to/project/
 
 # Or commit and pull
-git add .workflow-session.json WORKFLOW-PROGRESS.md ACTIVE-CONTEXT.md docs/spec/
+git add .workflow-session.json workflow-progress.md ACTIVE-CONTEXT.md docs/spec/
 git commit -m "chore: checkpoint workflow state"
 git push
 ```
@@ -157,14 +157,14 @@ Ready to continue: Yes
 
 ### Example 3: Debugging State Inconsistencies
 
-**Scenario**: WORKFLOW-PROGRESS.md shows feature complete, but session shows still in progress.
+**Scenario**: workflow-progress.md shows feature complete, but session shows still in progress.
 
 **Symptoms**:
 ```bash
 /spec workflow:status
 # Shows: Phase: IMPLEMENTING, Progress: 85%
 
-grep "Status:" WORKFLOW-PROGRESS.md
+grep "Status:" workflow-progress.md
 # Shows: Status: COMPLETE
 ```
 
@@ -173,11 +173,11 @@ grep "Status:" WORKFLOW-PROGRESS.md
 ```bash
 # 1. Compare session state with progress file
 jq '.phase, .status' .workflow-session.json
-cat WORKFLOW-PROGRESS.md | grep -E "Status:|Phase:"
+cat workflow-progress.md | grep -E "Status:|Phase:"
 
 # 2. Check for timestamp mismatch
 jq '.lastUpdated' .workflow-session.json
-stat -f "%Sm" WORKFLOW-PROGRESS.md
+stat -f "%Sm" workflow-progress.md
 ```
 
 **Output**:
@@ -189,7 +189,7 @@ stat -f "%Sm" WORKFLOW-PROGRESS.md
   "lastUpdated": "2025-11-02T10:30:00Z"
 }
 
-// WORKFLOW-PROGRESS.md modified: Nov 2 14:45
+// workflow-progress.md modified: Nov 2 14:45
 ```
 
 **Problem identified**: Progress file updated manually or by another process.
@@ -481,13 +481,13 @@ Implementation complete: 15/15 tasks
 
 # This creates:
 echo "- [ ] T007: Integrate with Redis (DEFERRED - dependency issue)" \
-  >> WORKFLOW-PROGRESS.md
+  >> workflow-progress.md
 ```
 
 **Reviewing skipped tasks**:
 ```bash
 # List deferred tasks
-grep "DEFERRED" WORKFLOW-PROGRESS.md
+grep "DEFERRED" workflow-progress.md
 
 # Re-attempt after fixing
 /spec implement --only=T007
@@ -770,7 +770,7 @@ git commit -m "feat: add custom spec template for team"
 git push
 
 # Document usage
-cat > team-templates/README.md <<EOF
+cat > team-templates/readme.md <<EOF
 # Team Spec Templates
 
 ## Usage
@@ -941,7 +941,7 @@ EOF
 
 - [error-recovery.md](./error-recovery.md) - Error handling and recovery
 - [workflow-review.md](./workflow-review.md) - Core workflow documentation
-- [README.md](./README.md) - Command reference
+- [readme.md](./readme.md) - Command reference
 - [integration-errors.md](./integration-errors.md) - Integration guide
 
 ---

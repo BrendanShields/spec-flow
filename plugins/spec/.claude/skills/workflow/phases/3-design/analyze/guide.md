@@ -17,7 +17,7 @@ Validate consistency across specification, plan, and tasks to catch issues befor
 - Verifies acceptance criteria coverage
 - Analyzes cross-document consistency
 - Generates categorized issue report with severity levels
-- Uses analyze phaser subagent for deep analysis
+- Uses the `spec-analyzer` subagent for deep analysis (Claude may spin up multiple analyzer runs to cover large codebases; each run is isolated, so summarize results back in the main thread before delegating the next region)
 
 ## When to Use
 
@@ -302,8 +302,8 @@ See [REFERENCE.md](./REFERENCE.md) for:
 
 ## Shared Resources
 
-- `shared/workflow-patterns.md` - Validation patterns
-- `shared/state-management.md` - State file access
+- `docs/patterns/workflow-patterns.md` - Validation patterns
+- `docs/patterns/state-management.md` - State file access
 
 ## Related Skills
 

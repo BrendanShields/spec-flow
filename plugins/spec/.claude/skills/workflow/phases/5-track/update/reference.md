@@ -19,7 +19,7 @@ Technical reference for update strategies, migration patterns, and MCP configura
 1. Append new content to spec.md
 2. Add corresponding plan.md sections
 3. Add new tasks to tasks.md (queued)
-4. Update CHANGES-PLANNED.md
+4. Update changes-planned.md
 5. Log decision
 ```
 
@@ -180,7 +180,7 @@ Phase 4: Remove old approach (sessions)
 
 ### JIRA Integration
 
-**Configuration** (in project CLAUDE.md):
+**Configuration** (in project claude.md):
 ```markdown
 # Spec Configuration
 
@@ -499,11 +499,11 @@ Brief description of proposed change.
 ```
 {config.paths.features}/{id}/{config.naming.files.spec} ←→ {config.paths.features}/{id}/{config.naming.files.plan} ←→ {config.paths.features}/{id}/{config.naming.files.tasks}
                 ↓                     ↓                        ↓
-        {config.paths.memory}/DECISIONS-LOG.md
+        {config.paths.memory}/decisions-log.md
                         ↓
-        {config.paths.memory}/WORKFLOW-PROGRESS.md
+        {config.paths.memory}/workflow-progress.md
                         ↓
-        {config.paths.memory}/CHANGES-PLANNED.md
+        {config.paths.memory}/changes-planned.md
                         ↓
         {config.paths.state}/current-session.md
 ```
@@ -516,9 +516,9 @@ Brief description of proposed change.
 3. Update plan.md sections as needed
 4. Check tasks.md for affected tasks
 5. Update tasks.md as needed
-6. Update DECISIONS-LOG.md (log decision)
-7. Update WORKFLOW-PROGRESS.md (track progress)
-8. Update CHANGES-PLANNED.md (task queue)
+6. Update decisions-log.md (log decision)
+7. Update workflow-progress.md (track progress)
+8. Update changes-planned.md (task queue)
 9. Update current-session.md (active state)
 10. If MCP enabled: Sync to external tools
 ```
@@ -571,7 +571,7 @@ Brief description of proposed change.
    b. Regenerate plan from spec
    c. Regenerate tasks from plan
    d. Manual reconciliation
-4. Log resolution in DECISIONS-LOG.md
+4. Log resolution in decisions-log.md
 ```
 
 **Conflicting concurrent changes**:
@@ -687,11 +687,11 @@ Do:
 
 ## Related Documentation
 
-- **Workflow patterns**: See `shared/workflow-patterns.md`
-- **MCP integration details**: See `shared/integration-patterns.md`
-- **State specifications**: See `shared/state-management.md`
+- **Workflow patterns**: See `docs/patterns/workflow-patterns.md`
+- **MCP integration details**: See `docs/patterns/integration-patterns.md`
+- **State specifications**: See `docs/patterns/state-management.md`
 - **Concrete examples**: See `EXAMPLES.md`
-- **Core skill**: See `SKILL.md`
+- **Core skill**: See `skill.md`
 
 ---
 

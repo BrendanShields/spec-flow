@@ -243,13 +243,13 @@ Checklist phase
 {config.paths.features}/{config.naming.feature_directory}/
 ├── spec.md
 └── checklists/
-    ├── README.md
+    ├── readme.md
     ├── ux.md              # 12 items
     ├── api.md             # 15 items
     └── security.md        # 18 items
 ```
 
-**Summary** (checklists/README.md):
+**Summary** (checklists/readme.md):
 ```markdown
 # Quality Checklists for Feature 042: User Profile
 

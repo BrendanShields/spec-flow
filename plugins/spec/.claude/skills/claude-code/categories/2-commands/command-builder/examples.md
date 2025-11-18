@@ -101,12 +101,12 @@ Focus on getting tests to pass while maintaining correctness.
 
 ```markdown
 ---
-description: Update README.md based on current codebase
+description: Update readme.md based on current codebase
 allowed-tools: Read, Write, Glob
 ---
 
 Current README:
-@README.md
+@readme.md
 
 Package configuration:
 @package.json

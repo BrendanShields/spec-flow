@@ -296,7 +296,7 @@ cp workflow/templates/quality/checklist-template.md {config.paths.spec_root}/tem
 
 **Output**: JIRA story via MCP API (not a file)
 
-**Auto-loaded**: Only if `SPEC_ATLASSIAN_SYNC=enabled` in CLAUDE.md
+**Auto-loaded**: Only if `SPEC_ATLASSIAN_SYNC=enabled` in claude.md
 
 **Purpose**: JIRA-compatible user story format with story points, epic links, and labels
 
@@ -309,7 +309,7 @@ cp workflow/templates/quality/checklist-template.md {config.paths.spec_root}/tem
 
 **Configuration**:
 ```markdown
-# In CLAUDE.md
+# In claude.md
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_JIRA_PROJECT_KEY=PROJ
 ```
@@ -339,7 +339,7 @@ cp workflow/templates/integrations/jira-story-template.md {config.paths.spec_roo
 
 **Configuration**:
 ```markdown
-# In CLAUDE.md
+# In claude.md
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_CONFLUENCE_ROOT_PAGE_ID=123456
 ```
@@ -582,7 +582,7 @@ Available when **integrations are enabled**:
 **During generation**, replace manually or via config:
 ```bash
 # Option 1: Edit after generation
-# Option 2: Add to CLAUDE.md config
+# Option 2: Add to claude.md config
 SPEC_TARGET_ENV=production
 SPEC_AWS_REGION=us-east-1
 ```
@@ -924,9 +924,9 @@ diff workflow/templates/artifacts/spec-template.md {config.paths.spec_root}/temp
 
 ## Related Documentation
 
-**Template Reference**: See `templates/README.md` for complete template catalog
+**Template Reference**: See `templates/readme.md` for complete template catalog
 
-**Workflow Guide**: See `workflow/SKILL.md` for phase-by-phase workflow
+**Workflow Guide**: See `workflow/skill.md` for phase-by-phase workflow
 
 **Customization Examples**: See phase guides (e.g., `phases/2-define/generate/examples.md`)
 

@@ -143,8 +143,8 @@ so that I can regain access to my account.
 **JIRA Integration (if enabled):**
 ```bash
 # Check configuration
-Read CLAUDE.md for SPEC_ATLASSIAN_SYNC
-Read CLAUDE.md for SPEC_JIRA_PROJECT_KEY
+Read claude.md for SPEC_ATLASSIAN_SYNC
+Read claude.md for SPEC_JIRA_PROJECT_KEY
 
 # Create JIRA epic via MCP (if configured)
 # Link user stories to JIRA tickets
@@ -153,7 +153,7 @@ Read CLAUDE.md for SPEC_JIRA_PROJECT_KEY
 **Confluence Integration (if enabled):**
 ```bash
 # Check configuration
-Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
+Read claude.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 
 # Publish spec to Confluence page via MCP
 # Update page with specification content
@@ -179,7 +179,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 - [ ] Plan - Technical design
 ```
 
-**Update WORKFLOW-PROGRESS.md:**
+**Update workflow-progress.md:**
 ```markdown
 ### Active Features
 | Feature | Phase | Progress | Started | ETA | Blocked |
@@ -191,7 +191,7 @@ Read CLAUDE.md for SPEC_CONFLUENCE_ROOT_PAGE_ID
 
 **Missing Spec Initialization:**
 - Detect: {config.paths.state}/ directory not found
-- Action: Inform user to run /workflow:spec → "🚀 Initialize Project" first
+- Action: Inform user to run /spec → "🚀 Initialize Project" first
 - Recovery: Provide initialization command
 
 **Incomplete Requirements:**
@@ -222,15 +222,15 @@ Clarifications: 2 open questions
 
 Next steps:
 1. Review spec.md and resolve [CLARIFY] tags if needed
-2. Run /workflow:spec → "🔍 Clarify" to address open questions
-3. Run /workflow:spec → "🎨 Move to Design" to create technical design
+2. Run /spec → "🔍 Clarify" to address open questions
+3. Run /spec → "🎨 Move to Design" to create technical design
 
 Files created:
 - {config.paths.features}/NNN-feature-name/{config.naming.files.spec} (242 lines)
 
 Workflow state updated:
 - {config.paths.state}/current-session.md
-- {config.paths.memory}/WORKFLOW-PROGRESS.md
+- {config.paths.memory}/workflow-progress.md
 ```
 
 **Spec.md Preview:**
@@ -279,9 +279,9 @@ so that [benefit].
 - GitHub - Links to issues/PRs
 
 **State Files:**
-- Reads: {config.paths.state}/current-session.md, WORKFLOW-PROGRESS.md
+- Reads: {config.paths.state}/current-session.md, workflow-progress.md
 - Writes: {config.paths.features}/NNN-feature-name/{config.naming.files.spec}
-- Updates: current-session.md, WORKFLOW-PROGRESS.md
+- Updates: current-session.md, workflow-progress.md
 
 ## Templates Used
 
@@ -307,7 +307,7 @@ This function uses the following templates:
 - Out of scope section
 - Open questions ([CLARIFY] tags)
 
-**See also**: `templates/README.md` for complete template documentation
+**See also**: `templates/readme.md` for complete template documentation
 
 ## Progressive Disclosure
 

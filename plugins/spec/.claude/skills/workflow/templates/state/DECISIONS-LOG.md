@@ -87,4 +87,4 @@ Record of all significant technical and architectural decisions made during deve
 ---
 
 *Maintained by Spec Workflow System*
-*Use `/workflow:track` → "📋 Decision Log" to add new decisions*
+*Use `/spec-track` → "📋 Decision Log" to add new decisions*

@@ -247,10 +247,10 @@ COMPLETE → ready_for_next_feature
 **I'm stuck, need help**:
 - Load `phase-reference.md` for detailed phase guide
 - Load specific skill's `EXAMPLES.md` for patterns
-- Check `CLAUDE.md` in plugin root for troubleshooting
+- Check `claude.md` in plugin root for troubleshooting
 
 **I want to understand everything**:
-- Read `README.md` in plugin root
+- Read `readme.md` in plugin root
 - Read `docs/MIGRATION-V2-TO-V3.md` for architecture
 - Load each skill's `REFERENCE.md` for deep dive
 

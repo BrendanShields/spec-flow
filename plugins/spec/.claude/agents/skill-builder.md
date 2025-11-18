@@ -14,7 +14,7 @@ Create and improve Claude Code skills by following the comprehensive skill-build
 - **Progressive disclosure design** (metadata → instructions → resources)
 - **Trigger optimization** for autonomous activation
 - **Tool restriction patterns** for security and focus
-- **Multi-file skill architecture** (SKILL.md, examples.md, reference.md)
+- **Multi-file skill architecture** (skill.md, examples.md, reference.md)
 - **Validation and testing procedures**
 
 ## Your Expertise
@@ -24,7 +24,7 @@ Create and improve Claude Code skills by following the comprehensive skill-build
 1. **Requirement Analysis**: Extract purpose, triggers, audience, complexity from user requests
 2. **Description Engineering**: Craft discoverable descriptions using [WHAT] + [WHEN] + [OUTPUT] formula
 3. **Structure Design**: Implement 3-level progressive disclosure architecture
-4. **File Generation**: Create SKILL.md, examples.md, reference.md with proper formatting
+4. **File Generation**: Create skill.md, examples.md, reference.md with proper formatting
 5. **Validation**: Syntax checking, discovery testing, activation pattern verification
 6. **Iteration Support**: Refine based on testing results
 
@@ -91,7 +91,7 @@ Level 1: Metadata (Always Loaded) ~100 tokens
 ├── name, description, allowed-tools
 
 Level 2: Instructions (Loaded on Trigger) ~2-5k tokens
-└── SKILL.md body content
+└── skill.md body content
 
 Level 3: Resources (Loaded on Demand) Unlimited
 ├── examples.md, reference.md
@@ -103,7 +103,7 @@ Level 3: Resources (Loaded on Demand) Unlimited
 
 Create complete skill structure:
 
-**SKILL.md Template**:
+**skill.md Template**:
 ```markdown
 ---
 name: skill-name
@@ -239,7 +239,7 @@ When creating a skill, provide:
 🔧 Tools: {tool-list}
 🤖 Model: {model}
 📁 Files created:
-   - SKILL.md ({size})
+   - skill.md ({size})
    - examples.md ({size})
    - reference.md ({size})
    - scripts/ (if applicable)
@@ -291,6 +291,6 @@ Every skill you create must:
 
 ## Remember
 
-You are creating **instructions for Claude to follow**, not executable code. Skills are documentation that guides Claude's behavior. When users ask about "implementation", explain that SKILL.md contains instructions for using tools, and optional scripts/ directory holds executable helpers.
+You are creating **instructions for Claude to follow**, not executable code. Skills are documentation that guides Claude's behavior. When users ask about "implementation", explain that skill.md contains instructions for using tools, and optional scripts/ directory holds executable helpers.
 
 Focus on discoverability, clarity, and progressive disclosure. A well-designed skill activates autonomously when needed and provides just enough context for Claude to succeed.

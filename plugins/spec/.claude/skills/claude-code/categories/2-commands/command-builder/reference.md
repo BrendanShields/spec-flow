@@ -293,7 +293,7 @@ Review this file:
 **Relative** (recommended):
 ```markdown
 @src/components/Button.tsx
-@README.md
+@readme.md
 @package.json
 ```
 
@@ -411,7 +411,7 @@ allowed-tools: Read, Write
 ---
 
 Current README:
-@README.md
+@readme.md
 
 Current package.json:
 @package.json
@@ -488,7 +488,7 @@ Extended thinking keywords: "think deeply", "analyze thoroughly", "comprehensive
 7. **Use file references for context**
    ```markdown
    @package.json
-   @README.md
+   @readme.md
    ```
 
 ### ❌ DON'T

@@ -1,21 +1,21 @@
 ---
 name: spec:implement
-description: Use when implementing tasks, building features, executing code, user says "implement this", "build it", "execute tasks", "run implementation" - autonomously executes implementation tasks with parallel processing and progress tracking
+description: Use when implementing tasks, building features, executing code, user says "implement this", "build it", "execute tasks", "run implementation" - delegates execution to the spec-implementer subagent. Claude decides whether to run multiple implementer instances, but each run operates independently to avoid file conflicts.
 allowed-tools: Read, Write, Edit
 model: sonnet
 ---
 
 # Implementation Executor
 
-Execute implementation tasks from tasks.md with parallel processing, dependency resolution, and real-time progress tracking.
+Execute implementation tasks from tasks.md with dependency awareness and real-time progress tracking. Claude may invoke multiple spec-implementer runs for independent work, but each run is isolated—summaries must be merged back in the main thread.
 
 ## What This Skill Does
 
 - Reads task list from {config.paths.features}/###-name/{config.naming.files.tasks}
-- Identifies parallelizable tasks (marked with [P])
-- Delegates execution to implement phaseer subagent
+- Identifies tasks marked with [P] so Claude knows which work items are safe to delegate to separate spec-implementer runs
+- Delegates execution to the spec-implementer subagent (Claude controls concurrency)
 - Tracks progress in {config.paths.state}/current-session.md
-- Moves completed tasks to {config.paths.memory}/CHANGES-COMPLETED.md
+- Moves completed tasks to {config.paths.memory}/changes-completed.md
 - Runs tests after implementation phases
 - Creates git commits (optional)
 - Supports resumption after interruption
@@ -44,7 +44,7 @@ Execute implementation tasks from tasks.md with parallel processing, dependency 
 
 ### Phase 2.5: TDD Mode Detection
 
-Read `.claude/.spec-config.yml` to check if TDD mode is enabled:
+Read `.spec/.spec-config.yml` to check if TDD mode is enabled:
 
 ```yaml
 workflow:
@@ -371,7 +371,7 @@ function validateTDDCompliance(tasks: Task[], config: TDDConfig): ValidationResu
 
    Options:
    - Add missing tests now
-   - Mark as technical debt (track in CHANGES-PLANNED.md)
+   - Mark as technical debt (track in changes-planned.md)
    - Adjust coverage threshold in config
    ```
 
@@ -385,7 +385,7 @@ function validateTDDCompliance(tasks: Task[], config: TDDConfig): ValidationResu
    - Adjust threshold for this feature
    ```
 
-3. Move completed tasks to {config.paths.memory}/CHANGES-COMPLETED.md using Edit
+3. Move completed tasks to {config.paths.memory}/changes-completed.md using Edit
    - Include TDD metrics if enabled:
      ```markdown
      ## T011 - User Service [COMPLETED]
@@ -395,7 +395,7 @@ function validateTDDCompliance(tasks: Task[], config: TDDConfig): ValidationResu
      - TDD Cycle: ✅ (RED → GREEN → REFACTOR)
      ```
 
-4. Update {config.paths.memory}/WORKFLOW-PROGRESS.md metrics
+4. Update {config.paths.memory}/workflow-progress.md metrics
    - Add TDD-specific metrics:
      ```markdown
      ### TDD Metrics
@@ -417,11 +417,12 @@ Execute all pending P1 tasks sequentially:
 implement phase
 ```
 
-### Parallel Mode
-Enable parallel execution for [P] tasks:
+### Parallel Hint Mode
+Suggest that Claude launch separate spec-implementer runs for [P] tasks (each run still works in isolation):
 ```
 implement phase --parallel
 ```
+Claude decides whether concurrent runs make sense based on the repository state and permissions. Use this flag only when tasks touch unrelated files.
 
 ### Filtered Execution
 Execute specific tasks:
@@ -472,9 +473,9 @@ Files Modified: 23 files
 Git Commit: abc1234 "Implement user authentication"
 
 Next Steps:
-- Run /workflow:track → "🔍 Analyze Consistency" to check consistency
-- Run /workflow:track → "✅ Quality Checklist" for quality review
-- Run /workflow:track → "📊 View Metrics" for performance baseline
+- Run /spec-track → "🔍 Analyze Consistency" to check consistency
+- Run /spec-track → "✅ Quality Checklist" for quality review
+- Run /spec-track → "📊 View Metrics" for performance baseline
 ```
 
 ### Progress Output (During Execution)
@@ -512,13 +513,13 @@ Resume Command:
 ## Configuration
 
 Configuration options:
-- `--parallel`: Enable parallel execution for [P] tasks
+- `--parallel`: Hint to Claude that [P] tasks can be delegated to separate spec-implementer runs
 - `--skip-tests`: Skip test execution after implementation
 - `--commit`: Create git commits after completion
 - `--filter=P1|P2|P3|US#`: Execute specific priority or user story
 - `--continue`: Resume from last checkpoint
 
-See CLAUDE.md for SPEC_IMPLEMENT_* configuration variables.
+See claude.md for SPEC_IMPLEMENT_* configuration variables.
 
 ## Integration
 
@@ -529,12 +530,12 @@ This skill delegates to implement phaseer subagent:
 - Progress: Updates current-session.md in real-time
 
 ### State Management
-See shared/state-management.md for state file structure.
+See docs/patterns/state-management.md for state file structure.
 
 Progress tracked in:
 - `{config.paths.state}/current-session.md` - Active progress
-- `{config.paths.memory}/CHANGES-COMPLETED.md` - Completion log
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` - Metrics
+- `{config.paths.memory}/changes-completed.md` - Completion log
+- `{config.paths.memory}/workflow-progress.md` - Metrics
 
 ### Workflow Integration
 Follows workflow sequence:

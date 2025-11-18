@@ -82,7 +82,7 @@ When adding new planned changes, use this format:
 (Changes added in last 7 days will appear here)
 
 ### Recently Completed
-(Completed changes are moved to CHANGES-COMPLETED.md)
+(Completed changes are moved to changes-completed.md)
 
 ---
 

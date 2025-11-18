@@ -9,8 +9,8 @@ Specification-driven development workflow plugin:
 
 ## Core Features
 - TDD mode (3 enforcement levels)
-- Multi-agent coordination (6 strategies: Sequential, Parallel, Hierarchical, DAG, Group Chat, Event-Driven)
-- Smart hook auto-detection on init
+- Specialized subagent library (spec-researcher, spec-analyzer, spec-implementer). Claude autonomously decides when and how to invoke/parallelize them; plugins simply define their prompts and permissions.
+- Smart hook auto-detection on init (session/cache/notification hooks)
 - **Auto-template initialization** (copies default templates on first run)
 - Interactive menu interface (2 commands)
 - Progressive disclosure (3-tier lazy loading)
@@ -18,17 +18,17 @@ Specification-driven development workflow plugin:
 
 ## Commands
 
-### `/workflow:spec` - Main Workflow
+### `/spec` - Main Workflow
 Primary command. Context-aware menus adapt to state.
 
 **When to use**: Always. Main interface for all work.
 
-**Flow**:
-1. Reads `{config.paths.state}/current-session.md` for context
-2. AskUserQuestion presents menu
-3. Invokes workflow skill
-4. Skill loads phase guide (e.g., `phases/2-define/generate/guide.md`)
-5. Returns to menu or continues
+**How it works**:
+1. Reads `{config.paths.state}/NEXT-STEP.json` (cached by hooks) and `{config.paths.state}/current-session.md`.
+2. AskUserQuestion presents menu shell.
+3. Invokes workflow skill.
+4. Skill loads phase guide (e.g., `phases/2-define/generate/guide.md`) and executes instructions.
+5. Returns to menu or continues.
 
 **Menus by state**:
 - Not initialized: Initialize, Learn, Help
@@ -40,7 +40,7 @@ Primary command. Context-aware menus adapt to state.
 
 **Auto Mode**: Executes phases automatically, AskUserQuestion at checkpoints (Continue/Refine/Review/Exit). Resumes if interrupted.
 
-### `/workflow:track` - Metrics/Maintenance
+### `/spec-track` - Metrics/Maintenance
 Progress monitoring, quality checks, spec updates.
 
 **When to use**: Check progress/metrics, update specs, consistency checks, JIRA/Confluence sync.
@@ -51,15 +51,18 @@ Progress monitoring, quality checks, spec updates.
 ```
 .claude/
 ├── commands/
-│   ├── workflow:spec.md    # Main workflow
-│   └── workflow:track.md   # Tracking
+│   ├── spec.md    # Main workflow
+│   └── spec-track.md   # Tracking
 ├── skills/workflow/phases/
 │   ├── 1-initialize/init/guide.md
 │   ├── 2-define/{generate,clarify,checklist}/guide.md
 │   ├── 3-design/{plan,blueprint,analyze}/guide.md
 │   ├── 4-build/{tasks,implement,discover}/guide.md
-│   ├── 5-track/{metrics,update}/guide.md
-│   └── shared/{integration,workflow,state}-*.md
+│   └── 5-track/{metrics,update}/guide.md
+├── docs/patterns/
+│   ├── integration-patterns.md
+│   ├── state-management.md
+│   └── workflow-patterns.md
 ├── agents/
 │   ├── spec-implementer/   # Parallel execution
 │   ├── spec-researcher/    # Research-backed decisions
@@ -67,16 +70,23 @@ Progress monitoring, quality checks, spec updates.
 └── hooks/                  # Event hooks
 ```
 
+### Hooks & Automation
+- All hooks live in `.claude/hooks/*.sh` and run on Bash (Git Bash/WSL on Windows).
+- Configuration lives in `.spec/.spec-config.yml`. Hooks autogenerate it with sane defaults if missing.
+- `SessionStart` hooks prep directories, restore state, and compute `.spec/state/NEXT-STEP.json`.
+- `UserPromptSubmit` and `Notification` hooks append `[Spec Workflow Context]` and surface the next recommended action.
+- `PostToolUse` hooks format files, update workflow status, refresh the next-step cache, track metrics, and (optionally) run `npm test`. Set `SPEC_SKIP_AUTO_TESTS=1` to disable the automatic test hook.
+
 ## User Project Files
-Config-driven paths from `.claude/.spec-config.yml`:
+Config-driven paths from `.spec/.spec-config.yml`:
 ```
 {config.paths.spec_root}/              # Config, requirements, blueprint
 {config.paths.state}/                  # Session tracking (git-ignored)
 {config.paths.memory}/                 # Persistent memory (committed)
-  ├── WORKFLOW-PROGRESS.md
-  ├── DECISIONS-LOG.md
-  ├── CHANGES-PLANNED.md
-  └── CHANGES-COMPLETED.md
+  ├── workflow-progress.md
+  ├── decisions-log.md
+  ├── changes-planned.md
+  └── changes-completed.md
 {config.paths.features}/{config.naming.feature_directory}/
   ├── {config.naming.files.spec}
   ├── {config.naming.files.plan}
@@ -93,7 +103,7 @@ Config-driven paths from `.claude/.spec-config.yml`:
 3. **Clarify** - Resolve ambiguities ([CLARIFY] tags)
 4. **Plan** - Technical design (architecture, ADRs, components)
 5. **Tasks** - Break into actionable tasks (dependencies, priorities)
-6. **Implement** - Execute (parallel execution, progress tracking)
+6. **Implement** - Execute (Claude may delegate to spec-implementer and stream progress)
 
 ## Priority System
 - **P1** (Must Have) - Core, blocks release
@@ -132,23 +142,23 @@ Config-driven paths from `.claude/.spec-config.yml`:
 
 **State updates by phase**:
 - Initialize: Creates dirs, init tracking
-- Generate: Updates `current-session.md`, adds to `WORKFLOW-PROGRESS.md`
-- Plan: Updates phase to "planning", logs to `DECISIONS-LOG.md`
-- Tasks: Updates to "implementation", adds to `CHANGES-PLANNED.md`
-- Implement: Updates progress, moves to `CHANGES-COMPLETED.md`
+- Generate: Updates `current-session.md`, adds to `workflow-progress.md`
+- Plan: Updates phase to "planning", logs to `decisions-log.md`
+- Tasks: Updates to "implementation", adds to `changes-planned.md`
+- Implement: Updates progress, moves to `changes-completed.md`
 
 **Subagent delegation**:
-- Implement → `spec-implementer` (parallel execution + progress)
+- Implement → `spec-implementer` (Claude may spawn/resume implementer runs to execute tasks)
 - Plan → `spec-researcher` (research-backed decisions)
 - Analyze → `spec-analyzer` (deep consistency validation)
 
 ## Docs References
-**Users**: `./README.md`
-**Hooks**: `.claude/hooks/README.md`
-**Devs**: Phase guides (~1,500 tokens each), `.claude/commands/*.md`, `.claude/skills/workflow/phases/shared/*.md`
+**Users**: Run `/help` → Spec entry
+**Hooks**: Inspect `.claude/hooks/*.sh` (inline comments explain behavior)
+**Devs**: Phase guides (~1,500 tokens each), `.claude/commands/*.md`, `docs/patterns/*.md`
 
 ## Config
-**Location**: `.claude/.spec-config.yml` (auto-generated on init with smart defaults)
+**Location**: `.spec/.spec-config.yml` (auto-generated on init with smart defaults)
 
 **Key paths** (customizable):
 ```yaml
@@ -196,7 +206,7 @@ naming:
 
 This gives users full flexibility while keeping defaults clean and maintainable.
 
-**Advanced settings** (from `CLAUDE.md` in user projects):
+**Advanced settings** (from `claude.md` in user projects):
 ```
 SPEC_AUTO_CHECKPOINT=true
 SPEC_VALIDATE_ON_SAVE=true
@@ -211,10 +221,10 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 ## Best Practices
 
 **When helping users**:
-1. Always recommend `/workflow:spec` first
+1. Always recommend `/spec` first
 2. Let menus guide (don't explain all options)
 3. Trust workflow (phase guides handle state)
-4. Use `/workflow:track` for progress/metrics
+4. Use `/spec-track` for progress/metrics
 5. Suggest auto mode for speed, checkpoints for control
 
 **Token efficiency**:
@@ -241,7 +251,7 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 
 **New feature (interactive)**:
 ```bash
-/workflow:spec
+/spec
 # Menu: Initialize Project → Auto Mode
 # Prompts for requirements
 # Auto-executes: define → design → build (checkpoints)
@@ -249,25 +259,25 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 
 **Resume after interruption**:
 ```bash
-/workflow:spec
+/spec
 # Shows: Current: Implementation, Progress: 8/12 (67%)
 # Options: Auto Mode / Continue Building
 ```
 
 **Check progress**:
 ```bash
-/workflow:track
+/spec-track
 # Menu: View Metrics
 # Shows velocity, completion rates
 ```
 
 ## Troubleshooting
-1. Run `/workflow:spec` → "❓ Get Help"
-2. Run `/workflow:track` → "📊 View Progress"
-3. Run `/workflow:track` → "🔍 Analyze Consistency"
+1. Run `/spec` → "❓ Get Help"
+2. Run `/spec-track` → "📊 View Progress"
+3. Run `/spec-track` → "🔍 Analyze Consistency"
 4. Check `{config.paths.state}/current-session.md` manually
 5. Use help mode for topic selection
 
 ---
-Docs: `./README.md`
-Support: README Quick Start
+Docs: Use `/help`
+Support: `/help` → Spec troubleshooting

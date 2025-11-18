@@ -18,7 +18,7 @@ Update existing feature specifications with new requirements, MCP integrations, 
 - Incorporate [CLARIFY] resolutions
 - Propagate changes to plan.md and tasks.md
 - Create migration plan for breaking changes
-- Log updates in DECISIONS-LOG.md
+- Log updates in decisions-log.md
 
 ## When to Use
 
@@ -37,7 +37,7 @@ Update existing feature specifications with new requirements, MCP integrations, 
 ```
 1. Read {config.paths.state}/current-session.md → get active feature
 2. Read {config.paths.features}/{feature-id}/{config.naming.files.spec} → current specification
-3. Read {config.paths.memory}/WORKFLOW-PROGRESS.md → feature status
+3. Read {config.paths.memory}/workflow-progress.md → feature status
 ```
 
 **Identify update type**:
@@ -69,7 +69,7 @@ Use AskUserQuestion to confirm:
 
 **For MCP integration**:
 ```
-1. Read shared/integration-patterns.md for MCP setup
+1. Read docs/patterns/integration-patterns.md for MCP setup
 2. Add MCP metadata to spec frontmatter:
    - JIRA: issue_key, project_key
    - Confluence: page_id, space_key
@@ -134,14 +134,14 @@ For additive changes:
 
 **Log the decision**:
 ```
-1. Append to {config.paths.memory}/DECISIONS-LOG.md:
+1. Append to {config.paths.memory}/decisions-log.md:
    - ADR number (auto-increment)
    - Date and context
    - What changed and why
    - Alternatives considered
    - Consequences
 
-2. Update {config.paths.memory}/WORKFLOW-PROGRESS.md:
+2. Update {config.paths.memory}/workflow-progress.md:
    - Note spec update
    - Add timestamp
    - Link to updated spec
@@ -158,9 +158,9 @@ Edit {config.paths.state}/current-session.md:
 **Move tasks if needed**:
 ```
 If tasks obsoleted:
-1. Read from {config.paths.memory}/CHANGES-PLANNED.md
-2. Move obsolete tasks to CHANGES-COMPLETED.md with "obsolete" status
-3. Add new tasks to CHANGES-PLANNED.md
+1. Read from {config.paths.memory}/changes-planned.md
+2. Move obsolete tasks to changes-completed.md with "obsolete" status
+3. Add new tasks to changes-planned.md
 ```
 
 ### Phase 5: Validate & Report
@@ -262,11 +262,11 @@ Format:
 
 **Core workflow**: See above execution flow
 
-**Common patterns**: See `shared/workflow-patterns.md` (Pattern 3: Requirements Update)
+**Common patterns**: See `docs/patterns/workflow-patterns.md` (Pattern 3: Requirements Update)
 
-**MCP integration details**: See `shared/integration-patterns.md`
+**MCP integration details**: See `docs/patterns/integration-patterns.md`
 
-**State file specifications**: See `shared/state-management.md`
+**State file specifications**: See `docs/patterns/state-management.md`
 
 **Concrete examples**: See `EXAMPLES.md` (5 update scenarios)
 

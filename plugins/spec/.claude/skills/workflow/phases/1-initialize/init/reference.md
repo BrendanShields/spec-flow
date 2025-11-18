@@ -45,10 +45,10 @@ project-root/
 │       └── checkpoint-002.md
 │
 ├── {config.paths.memory}/                   # Persistent memory (committed to git)
-│   ├── WORKFLOW-PROGRESS.md           # Feature completion metrics
-│   ├── DECISIONS-LOG.md               # Architecture Decision Records
-│   ├── CHANGES-PLANNED.md             # Pending implementation tasks
-│   └── CHANGES-COMPLETED.md           # Completed work history
+│   ├── workflow-progress.md           # Feature completion metrics
+│   ├── decisions-log.md               # Architecture Decision Records
+│   ├── changes-planned.md             # Pending implementation tasks
+│   └── changes-completed.md           # Completed work history
 │
 ├── {config.paths.features}/                          # Feature artifacts (created by generate phase)
 │   └── 001-feature-name/
@@ -65,8 +65,8 @@ project-root/
 |------|--------------|----------|
 | `product-requirements.md` | 50-200 lines | 500 lines |
 | `current-session.md` | 100-300 lines | 1000 lines |
-| `WORKFLOW-PROGRESS.md` | 50-500 lines | 2000 lines |
-| `DECISIONS-LOG.md` | 10-100 entries | Unlimited |
+| `workflow-progress.md` | 50-500 lines | 2000 lines |
+| `decisions-log.md` | 10-100 entries | Unlimited |
 | `architecture-blueprint.md` | 200-800 lines | 2000 lines |
 
 ### Directory Permissions
@@ -287,7 +287,7 @@ spec:validate
 *Initialized: [Timestamp]*
 ```
 
-### Template 3: WORKFLOW-PROGRESS.md
+### Template 3: workflow-progress.md
 
 ```markdown
 # Workflow Progress
@@ -360,7 +360,7 @@ spec:validate
 *Project Version: [Version]*
 ```
 
-### Template 4: DECISIONS-LOG.md
+### Template 4: decisions-log.md
 
 ```markdown
 # Architecture Decisions Log
@@ -762,7 +762,7 @@ Initialize phase
 REQUIRED_FILES=(
   "{config.paths.spec_root}/product-requirements.md"
   "{config.paths.state}/current-session.md"
-  "{config.paths.memory}/WORKFLOW-PROGRESS.md"
+  "{config.paths.memory}/workflow-progress.md"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -862,8 +862,8 @@ test -d {config.paths.memory} && echo "✅ Memory directory"
 # File check
 test -f {config.paths.spec_root}/product-requirements.md && echo "✅ PRD"
 test -f {config.paths.state}/current-session.md && echo "✅ Session"
-test -f {config.paths.memory}/WORKFLOW-PROGRESS.md && echo "✅ Progress"
-test -f {config.paths.memory}/DECISIONS-LOG.md && echo "✅ Decisions"
+test -f {config.paths.memory}/workflow-progress.md && echo "✅ Progress"
+test -f {config.paths.memory}/decisions-log.md && echo "✅ Decisions"
 
 # Git check
 grep -q "{config.paths.state}/" .gitignore && echo "✅ .gitignore"
@@ -885,10 +885,10 @@ Templates source (in plugin):
 ├── {config.paths.state}/
 │   └── current-session-template.md
 ├── {config.paths.memory}/
-│   ├── WORKFLOW-PROGRESS.md
-│   ├── DECISIONS-LOG.md
-│   ├── CHANGES-PLANNED.md
-│   └── CHANGES-COMPLETED.md
+│   ├── workflow-progress.md
+│   ├── decisions-log.md
+│   ├── changes-planned.md
+│   └── changes-completed.md
 └── templates/
     └── product-requirements.md
 ```

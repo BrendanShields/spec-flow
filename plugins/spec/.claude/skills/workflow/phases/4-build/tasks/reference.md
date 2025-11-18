@@ -425,7 +425,7 @@ def validate_tasks(tasks):
 
 ## State File Updates
 
-### CHANGES-PLANNED.md Structure
+### changes-planned.md Structure
 
 ```markdown
 # Changes Planned
@@ -469,7 +469,7 @@ def validate_tasks(tasks):
 ```python
 def update_changes_planned(feature_id, tasks):
     # Read existing file
-    content = read_file('{config.paths.memory}/CHANGES-PLANNED.md')
+    content = read_file('{config.paths.memory}/changes-planned.md')
 
     # Find or create feature section
     if feature_section_exists(content, feature_id):
@@ -483,7 +483,7 @@ def update_changes_planned(feature_id, tasks):
     content = update_timestamp(content)
 
     # Write atomically
-    write_file('{config.paths.memory}/CHANGES-PLANNED.md', content)
+    write_file('{config.paths.memory}/changes-planned.md', content)
 ```
 
 ## MCP Integration
@@ -532,7 +532,7 @@ def create_external_issues(tasks, config):
 ### Sync Pattern
 
 ```markdown
-For MCP integration patterns and sync logic, see: `shared/integration-patterns.md`
+For MCP integration patterns and sync logic, see: `docs/patterns/integration-patterns.md`
 
 Common MCP operations:
 - create_issue(project, summary, description)
@@ -581,9 +581,9 @@ Recovery:
 ## Related Files
 
 - **workflow-patterns.md**: Phase transition patterns, validation checkpoints
-- **state-management.md**: CHANGES-PLANNED.md format, update patterns
+- **state-management.md**: changes-planned.md format, update patterns
 - **integration-patterns.md**: MCP sync details, external issue creation
-- **SKILL.md**: Core execution logic
+- **skill.md**: Core execution logic
 - **EXAMPLES.md**: Concrete usage scenarios
 
 ---

@@ -22,8 +22,8 @@ Essential files for understanding and using the workflow system.
 
 | File | Purpose | Size |
 |------|---------|------|
-| [SKILL.md](../.claude/skills/workflow/SKILL.md) | Router & context-aware entry point | ~400 words |
-| [README.md](../.claude/skills/workflow/README.md) | Workflow system overview | ~300 words |
+| [skill.md](../.claude/skills/workflow/skill.md) | Router & context-aware entry point | ~400 words |
+| [readme.md](../.claude/skills/workflow/readme.md) | Workflow system overview | ~300 words |
 | [quick-start.md](../.claude/skills/workflow/quick-start.md) | Get started in 30-60 minutes | ~800 words |
 | [error-recovery.md](../.claude/skills/workflow/error-recovery.md) | Troubleshooting & recovery patterns | ~600 words |
 | [glossary.md](../.claude/skills/workflow/glossary.md) | Terminology reference | ~500 words |
@@ -47,11 +47,11 @@ High-level guides for each phase of the workflow.
 
 | Phase | File | Purpose |
 |-------|------|---------|
-| **Phase 1** | [phases/1-initialize/README.md](../.claude/skills/workflow/phases/1-initialize/README.md) | Project initialization & discovery |
-| **Phase 2** | [phases/2-define/README.md](../.claude/skills/workflow/phases/2-define/README.md) | Requirements & specification |
-| **Phase 3** | [phases/3-design/README.md](../.claude/skills/workflow/phases/3-design/README.md) | Architecture & planning |
-| **Phase 4** | [phases/4-build/README.md](../.claude/skills/workflow/phases/4-build/README.md) | Implementation & execution |
-| **Phase 5** | [phases/5-track/README.md](../.claude/skills/workflow/phases/5-track/README.md) | Progress tracking & metrics |
+| **Phase 1** | [phases/1-initialize/readme.md](../.claude/skills/workflow/phases/1-initialize/readme.md) | Project initialization & discovery |
+| **Phase 2** | [phases/2-define/readme.md](../.claude/skills/workflow/phases/2-define/readme.md) | Requirements & specification |
+| **Phase 3** | [phases/3-design/readme.md](../.claude/skills/workflow/phases/3-design/readme.md) | Architecture & planning |
+| **Phase 4** | [phases/4-build/readme.md](../.claude/skills/workflow/phases/4-build/readme.md) | Implementation & execution |
+| **Phase 5** | [phases/5-track/readme.md](../.claude/skills/workflow/phases/5-track/readme.md) | Progress tracking & metrics |
 
 ### Phase 1: Initialize (9 files)
 Commands: `/init`, `/discover`, `/blueprint`
@@ -137,7 +137,7 @@ Commands: `/update`, `/orchestrate`, `/metrics`
 Ready-to-use templates for artifacts, integrations, and project setup.
 
 **Template Overview**
-- [templates/README.md](../.claude/skills/workflow/templates/README.md) - Template catalog & usage guide
+- [templates/readme.md](../.claude/skills/workflow/templates/readme.md) - Template catalog & usage guide
 
 **Artifact Templates (3 files)** - Core workflow outputs
 - [templates/artifacts/spec-template.md](../.claude/skills/workflow/templates/artifacts/spec-template.md) - Specification artifact
@@ -148,7 +148,7 @@ Ready-to-use templates for artifacts, integrations, and project setup.
 - [templates/integrations/jira-story-template.md](../.claude/skills/workflow/templates/integrations/jira-story-template.md) - JIRA user story format
 - [templates/integrations/confluence-page.md](../.claude/skills/workflow/templates/integrations/confluence-page.md) - Confluence documentation
 - [templates/integrations/openapi-template.yaml](../.claude/skills/workflow/templates/integrations/openapi-template.yaml) - OpenAPI specification
-- [templates/INTEGRATION-GUIDE.md](../.claude/skills/workflow/templates/INTEGRATION-GUIDE.md) - Complete integration guide & setup
+- [templates/integration-guide.md](../.claude/skills/workflow/templates/integration-guide.md) - Complete integration guide & setup
 
 **Project Setup Templates (2 files)** - Initialize projects
 - [templates/project-setup/product-requirements-template.md](../.claude/skills/workflow/templates/project-setup/product-requirements-template.md) - PRD template
@@ -187,7 +187,7 @@ Ready-to-use templates for artifacts, integrations, and project setup.
 3. `phases/{phase}/{command}/examples.md` - See it in action
 
 **Need a template**
-1. [templates/README.md](../.claude/skills/workflow/templates/README.md) - Browse templates
+1. [templates/readme.md](../.claude/skills/workflow/templates/readme.md) - Browse templates
 2. Choose specific template for your need
 3. Copy and customize
 
@@ -216,27 +216,27 @@ Ready-to-use templates for artifacts, integrations, and project setup.
 ### By Phase
 
 **Phase 1: Initialize** - Set up project foundation
-- Start: [phases/1-initialize/README.md](../.claude/skills/workflow/phases/1-initialize/README.md)
+- Start: [phases/1-initialize/readme.md](../.claude/skills/workflow/phases/1-initialize/readme.md)
 - Commands: `/init`, `/discover`, `/blueprint`
 - Output: Project context, architecture blueprint
 
 **Phase 2: Define** - Clarify what to build
-- Start: [phases/2-define/README.md](../.claude/skills/workflow/phases/2-define/README.md)
+- Start: [phases/2-define/readme.md](../.claude/skills/workflow/phases/2-define/readme.md)
 - Commands: `/clarify`, `/generate`, `/checklist`
 - Output: Specification, acceptance criteria
 
 **Phase 3: Design** - Plan how to build
-- Start: [phases/3-design/README.md](../.claude/skills/workflow/phases/3-design/README.md)
+- Start: [phases/3-design/readme.md](../.claude/skills/workflow/phases/3-design/readme.md)
 - Commands: `/analyze`, `/plan`
 - Output: Implementation plan
 
 **Phase 4: Build** - Execute the work
-- Start: [phases/4-build/README.md](../.claude/skills/workflow/phases/4-build/README.md)
+- Start: [phases/4-build/readme.md](../.claude/skills/workflow/phases/4-build/readme.md)
 - Commands: `/tasks`, `/implement`
 - Output: Working code, completed tasks
 
 **Phase 5: Track** - Monitor & maintain
-- Start: [phases/5-track/README.md](../.claude/skills/workflow/phases/5-track/README.md)
+- Start: [phases/5-track/readme.md](../.claude/skills/workflow/phases/5-track/readme.md)
 - Commands: `/update`, `/orchestrate`, `/metrics`
 - Output: Status updates, analytics
 
@@ -360,7 +360,7 @@ grep -r "template" templates/
 - Command files: `phases/{phase}/{command}/*.md`
 
 **By phase**
-- Phase overview: `phases/{N}-{name}/README.md`
+- Phase overview: `phases/{N}-{name}/readme.md`
 - Phase commands: `phases/{N}-{name}/*/guide.md`
 
 ---

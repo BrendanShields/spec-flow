@@ -885,14 +885,14 @@ grep -E "(postgres|mysql|mongodb|redis)" package.json requirements.txt docker-co
 
 ## Token Budget
 
-**SKILL.md**: ~1,450 tokens (target: <1,500)
+**skill.md**: ~1,450 tokens (target: <1,500)
 **EXAMPLES.md**: ~2,400 tokens
 **REFERENCE.md**: ~4,800 tokens (this file)
 
 **Total**: ~8,650 tokens
 
 **Progressive Disclosure**:
-- Level 1: SKILL.md always loaded (~1,450 tokens)
+- Level 1: skill.md always loaded (~1,450 tokens)
 - Level 2: EXAMPLES.md loaded on "show examples" (~2,400 tokens)
 - Level 3: REFERENCE.md loaded on "show reference" or specific queries (~4,800 tokens)
 

@@ -78,9 +78,9 @@ last_updated: {timestamp}
 
 ## Next Steps
 
-1. Run `/workflow:spec` → "🚀 Initialize Project" if not initialized
-2. Run `/workflow:spec` → "📝 Define Feature" to start first feature
-3. Or run `/workflow:track` → "📊 View Metrics" for progress overview
+1. Run `/spec` → "🚀 Initialize Project" if not initialized
+2. Run `/spec` → "📝 Define Feature" to start first feature
+3. Or run `/spec-track` → "📊 View Metrics" for progress overview
 
 ---
 

@@ -77,7 +77,7 @@ Each checklist item references:
 
 ### Phase 4: Generate Summary
 
-Create `checklists/README.md`:
+Create `checklists/readme.md`:
 - List all generated checklists
 - Overall completion status
 - Instructions for validation workflow
@@ -122,7 +122,7 @@ Create `checklists/README.md`:
 {config.paths.features}/###-feature-name/
 ├── spec.md
 └── checklists/
-    ├── README.md          # Summary and instructions
+    ├── readme.md          # Summary and instructions
     ├── ux.md              # UX quality checklist
     ├── api.md             # API quality checklist
     ├── security.md        # Security quality checklist
@@ -137,7 +137,7 @@ Create `checklists/README.md`:
 
 ## Error Handling
 
-**No spec found**: Prompt user to run /workflow:spec → "📝 Define Feature" first
+**No spec found**: Prompt user to run /spec → "📝 Define Feature" first
 **Empty spec**: Cannot generate checklist without requirements
 **Invalid domain**: Show available domain types
 **File write fails**: Check directory permissions
@@ -187,7 +187,7 @@ This function uses the following templates:
 - `{config.paths.features}/###-name/checklists/security-checklist.md`
 - `{config.paths.features}/###-name/checklists/performance-checklist.md`
 
-**See also**: `templates/README.md` for complete template documentation
+**See also**: `templates/readme.md` for complete template documentation
 
 ## Reference
 

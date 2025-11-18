@@ -61,7 +61,7 @@ Execute workflow phases in sequence:
 
 **2.3 Plan Technical Design**
 - Run plan phase to create plan.md
-- Log architecture decisions to DECISIONS-LOG.md
+- Log architecture decisions to decisions-log.md
 - Save checkpoint: "post-plan"
 
 **2.4 Validate (Conditional)**
@@ -77,7 +77,7 @@ Execute workflow phases in sequence:
 
 **2.6 Execute Implementation**
 - Run implement phase
-- Update CHANGES-COMPLETED.md as tasks complete
+- Update changes-completed.md as tasks complete
 - Final validation
 - Save checkpoint: "complete"
 
@@ -200,7 +200,7 @@ All errors save current state for resumption.
 
 ## Configuration
 
-Set in project CLAUDE.md:
+Set in project claude.md:
 
 ```markdown
 SPEC_ORCHESTRATE_MODE=interactive|auto
@@ -250,5 +250,5 @@ See REFERENCE.md for:
 
 ## Shared Resources
 
-For workflow patterns: `shared/workflow-patterns.md`
-For state management: `shared/state-management.md`
+For workflow patterns: `docs/patterns/workflow-patterns.md`
+For state management: `docs/patterns/state-management.md`

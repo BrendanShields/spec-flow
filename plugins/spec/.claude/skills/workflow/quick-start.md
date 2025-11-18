@@ -1,6 +1,6 @@
 # Workflow Quick Start Guide
 
-**Get your first feature built in 5 steps using the /workflow:spec command**
+**Get your first feature built in 5 steps using the /spec command**
 
 ---
 
@@ -9,7 +9,7 @@
 ### Step 1: Run the Workflow Command
 
 ```bash
-/workflow:spec
+/spec
 ```
 
 **What happens**: Claude presents a context-aware menu based on your current state
@@ -30,7 +30,7 @@ What would you like to do?
 
 ### Step 2: Initialization Complete
 
-After initialization, run `/workflow:spec` again.
+After initialization, run `/spec` again.
 
 **You'll see**:
 ```
@@ -94,7 +94,7 @@ What would you like to do?
 If you pause or get interrupted, simply run:
 
 ```bash
-/workflow:spec
+/spec
 ```
 
 **You'll see**:
@@ -123,7 +123,7 @@ You've just completed your first feature using the Spec workflow!
 - ✅ Task breakdown (`tasks.md`)
 - ✅ Working implementation
 
-**Next**: Run `/workflow:spec` → Select "📝 Define Feature" to start your second feature!
+**Next**: Run `/spec` → Select "📝 Define Feature" to start your second feature!
 
 ---
 
@@ -132,7 +132,7 @@ You've just completed your first feature using the Spec workflow!
 ### Workflow A: Full Automation (Fastest)
 
 ```
-1. /workflow:spec
+1. /spec
 2. Select: 🚀 Auto Mode
 3. Enter feature description
 4. At each checkpoint: Select ✅ Continue
@@ -148,14 +148,14 @@ You've just completed your first feature using the Spec workflow!
 ### Workflow B: Manual Control (Most Control)
 
 ```
-1. /workflow:spec
+1. /spec
 2. Select: 📝 Define Feature
 3. Enter feature description
    [spec.md created]
-4. /workflow:spec
+4. /spec
 5. Select: Move to Design
    [plan.md created]
-6. /workflow:spec
+6. /spec
 7. Select: Move to Build
    [tasks.md created, implementation executes]
 8. Done!
@@ -170,7 +170,7 @@ You've just completed your first feature using the Spec workflow!
 ### Workflow C: Resume Interrupted Work
 
 ```
-1. /workflow:spec
+1. /spec
 2. See: "📍 Current: [Phase], Progress: [X%]"
 3. Select: 🚀 Continue [Phase]
 4. Work resumes from where you left off
@@ -244,23 +244,23 @@ You've just completed your first feature using the Spec workflow!
 START
 │
 ├─ First time using Spec?
-│  └─ Run: /workflow:spec → Select "Initialize Project"
+│  └─ Run: /spec → Select "Initialize Project"
 │
 ├─ Want to build a feature?
 │  ├─ Quick and automated? → Select "Auto Mode"
 │  └─ Want control? → Select "Define Feature" → Step through manually
 │
 ├─ Have incomplete work?
-│  └─ Run: /workflow:spec → Select "Continue [Phase]"
+│  └─ Run: /spec → Select "Continue [Phase]"
 │
 ├─ Need to change requirements?
-│  └─ Run: /workflow:spec → Select "Refine [Current Artifact]"
+│  └─ Run: /spec → Select "Refine [Current Artifact]"
 │
 ├─ Want to see progress?
-│  └─ Run: /workflow:track → Select "View Metrics"
+│  └─ Run: /spec-track → Select "View Metrics"
 │
 └─ Stuck or confused?
-   └─ Run: /workflow:spec → Select "Get Help"
+   └─ Run: /spec → Select "Get Help"
 ```
 
 ---
@@ -288,7 +288,7 @@ START
 cat .spec/state/current-session.md
 
 # If missing, reinitialize
-/workflow:spec → Select "Initialize Project"
+/spec → Select "Initialize Project"
 ```
 
 ---
@@ -298,7 +298,7 @@ cat .spec/state/current-session.md
 **Solution**: Use the Refine option at any checkpoint
 
 ```
-1. /workflow:spec
+1. /spec
 2. Select: 🔄 Refine [Current Artifact]
 3. Make your changes
 4. Continue from where you left off
@@ -312,7 +312,7 @@ cat .spec/state/current-session.md
 
 ```
 1. Complete or archive current feature
-2. /workflow:spec
+2. /spec
 3. Select: 📝 Start New Feature
 ```
 
@@ -322,7 +322,7 @@ cat .spec/state/current-session.md
 
 ### The Workflow Command
 
-**One command for everything**: `/workflow:spec`
+**One command for everything**: `/spec`
 
 - First time: Initializes project
 - No feature: Start new feature
@@ -395,7 +395,7 @@ cat .spec/state/current-session.md
 ### Example 1: Simple Feature (Auto Mode)
 
 ```
-User: /workflow:spec
+User: /spec
 
 Claude: [Shows menu]
 Spec is ready! What would you like to work on?
@@ -427,7 +427,7 @@ Claude: Feature complete! Start another?
 ### Example 2: Complex Feature (Manual Control)
 
 ```
-User: /workflow:spec
+User: /spec
 
 Claude: [Menu]
 
@@ -441,7 +441,7 @@ Claude: [Creates detailed spec.md]
 
 User: [Reviews spec.md, makes manual edits]
 
-User: /workflow:spec
+User: /spec
 
 Claude: [Menu shows "In Specification Phase"]
 
@@ -451,7 +451,7 @@ Claude: [Creates plan.md with architecture]
 
 User: [Reviews plan.md, adds ADRs]
 
-User: /workflow:spec
+User: /spec
 
 User: Selects "Move to Build"
 
@@ -467,7 +467,7 @@ Claude: [Creates tasks.md, starts implementation]
 ```
 # Yesterday, you started a feature and paused at planning
 
-User: /workflow:spec
+User: /spec
 
 Claude: [Detects state]
 📍 Current: Planning Phase
@@ -523,7 +523,7 @@ Don't blindly click Continue. At each checkpoint:
 ### 💡 Tip 4: Check Progress Regularly
 
 ```
-/workflow:track → Select "View Metrics"
+/spec-track → Select "View Metrics"
 ```
 
 Shows:
@@ -558,7 +558,7 @@ git commit -m "feat: Implement feature"
 
 ### Learn More
 
-Run `/workflow:spec` → Select "Get Help" for:
+Run `/spec` → Select "Get Help" for:
 - Detailed phase explanations
 - Best practices
 - Troubleshooting
@@ -567,12 +567,12 @@ Run `/workflow:spec` → Select "Get Help" for:
 ### Customize
 
 - **Templates**: Edit `.spec/templates/` to customize output format
-- **Config**: Modify `.claude/.spec-config.yml` for paths, naming conventions
+- **Config**: Modify `.spec/.spec-config.yml` for paths, naming conventions
 
 ### Get Help
 
-- **In-session**: `/workflow:spec` → "Get Help" → Ask specific question
-- **Documentation**: `CLAUDE.md` in plugin root
+- **In-session**: `/spec` → "Get Help" → Ask specific question
+- **Documentation**: `claude.md` in plugin root
 - **Issues**: Report problems at GitHub
 
 ---
@@ -580,7 +580,7 @@ Run `/workflow:spec` → Select "Get Help" for:
 ## Summary: The Essential Workflow
 
 ```
-1. /workflow:spec                                # Start
+1. /spec                                # Start
 2. Select: Initialize (first time only)
 3. Select: Auto Mode OR Define Feature           # Begin feature
 4. Enter: Feature description
@@ -597,8 +597,8 @@ Run `/workflow:spec` → Select "Get Help" for:
 You now have everything you need to build features systematically. The workflow guides you through specification → design → implementation with oversight at every step.
 
 **Questions?**
-- Run `/workflow:spec` → "Get Help"
-- Read `CLAUDE.md` for detailed documentation
+- Run `/spec` → "Get Help"
+- Read `claude.md` for detailed documentation
 - Ask Claude for guidance anytime
 
 *Happy building with Spec!*

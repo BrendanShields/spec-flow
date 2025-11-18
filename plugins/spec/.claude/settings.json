@@ -5,11 +5,39 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/session/session-init.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-init.sh\""
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/session/restore-session.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/restore-session.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-workflow-assets.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-next-step.sh\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/append-workflow-context.sh\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify-next-step.sh\""
           }
         ]
       }
@@ -20,7 +48,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/validation/validate-prerequisites.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-prerequisites.sh\""
           }
         ]
       },
@@ -29,7 +57,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/validation/format-code.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/format-code.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.sh\""
           }
         ]
       }
@@ -40,7 +72,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/tracking/update-workflow-status.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/update-workflow-status.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-next-step.sh\""
           }
         ]
       },
@@ -49,7 +85,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/tracking/track-metrics.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/track-metrics.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run-tests.sh\""
           }
         ]
       }
@@ -59,7 +99,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/aggregation/aggregate-results.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/aggregate-results.sh\""
           }
         ]
       }
@@ -69,7 +109,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/dist/hooks/session/save-session.js\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/save-session.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-summary.sh\""
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-summary.sh\""
           }
         ]
       }

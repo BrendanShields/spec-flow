@@ -666,9 +666,9 @@ tasks phase --update
 
 ## Migration Plan
 
-1. Move completed tasks (T001-T007) to CHANGES-COMPLETED.md
+1. Move completed tasks (T001-T007) to changes-completed.md
 2. Update in-progress task T008 with new requirements
-3. Add new tasks T016-T023 to CHANGES-PLANNED.md
+3. Add new tasks T016-T023 to changes-planned.md
 4. Update critical path estimate: 24h → 38h (+14h)
 
 ## Impact Analysis
@@ -685,11 +685,11 @@ tasks phase --update
 
 ## Token Budgets
 
-- **SKILL.md**: ~1,450 tokens (core execution logic)
+- **skill.md**: ~1,450 tokens (core execution logic)
 - **EXAMPLES.md**: ~3,800 tokens (this file - 4 detailed scenarios)
 - **REFERENCE.md**: ~2,000 tokens (task format specs, algorithms)
 
 **Total**: ~7,250 tokens with progressive disclosure:
-- Level 1 (always loaded): SKILL.md frontmatter (~100 tokens)
-- Level 2 (on activation): SKILL.md body (~1,450 tokens)
+- Level 1 (always loaded): skill.md frontmatter (~100 tokens)
+- Level 2 (on activation): skill.md body (~1,450 tokens)
 - Level 3 (on demand): EXAMPLES.md + REFERENCE.md (~5,800 tokens)

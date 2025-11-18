@@ -194,7 +194,7 @@ metrics phase (view analytics anytime)
 **Purpose**: View development analytics and progress
 **When**: Need progress report, sprint planning, process optimization
 **Tools**: Read, Bash
-**Inputs**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+**Inputs**: `{config.paths.memory}/workflow-progress.md`
 **Outputs**: Analytics dashboard, CSV/JSON exports
 **Next**: Use insights to optimize workflow
 
@@ -210,7 +210,7 @@ metrics phase (view analytics anytime)
 
 Each skill has 3 documentation levels:
 
-**Level 1: SKILL.md** (~1,500 tokens)
+**Level 1: skill.md** (~1,500 tokens)
 - Core workflow and execution steps
 - Load this first for basic understanding
 
@@ -228,13 +228,13 @@ Each skill has 3 documentation levels:
 ## Navigation Tips
 
 **Need overview?** → Load `workflow-map.md`
-**Need phase details?** → Load `phases/[N]-[name]/README.md`
+**Need phase details?** → Load `phases/[N]-[name]/readme.md`
 **Need skill details?** → Load `phases/[N]-[name]/[function]/guide.md`
 **Need examples?** → Load `phases/[N]-[name]/[function]/examples.md`
 **Need specs?** → Load `phases/[N]-[name]/[function]/reference.md`
 
 **Token efficiency**:
-- Start with phase README.md (~500 tokens)
+- Start with phase readme.md (~500 tokens)
 - Load function guide.md when needed (~1,500 tokens)
 - Load examples.md only if stuck (~3,000 tokens)
 - Load reference.md only for edge cases (~2,000 tokens)

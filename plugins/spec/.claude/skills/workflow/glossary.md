@@ -413,10 +413,10 @@ Epic: User Authentication (P1)
 **Git Status**: Committed (shared across team)
 
 **Contents**:
-- `WORKFLOW-PROGRESS.md` - Feature completion tracking
-- `DECISIONS-LOG.md` - Architecture decisions
-- `CHANGES-PLANNED.md` - Planned changes
-- `CHANGES-COMPLETED.md` - Completed changes
+- `workflow-progress.md` - Feature completion tracking
+- `decisions-log.md` - Architecture decisions
+- `changes-planned.md` - Planned changes
+- `changes-completed.md` - Completed changes
 
 **Lifespan**: Entire project lifecycle
 
@@ -424,7 +424,7 @@ Epic: User Authentication (P1)
 
 **Why Committed**: Team knowledge, project history, metrics tracking
 
-**See also**: [Persistent Memory](#persistent-memory), [WORKFLOW-PROGRESS.md](#workflow-progressmd)
+**See also**: [Persistent Memory](#persistent-memory), [workflow-progress.md](#workflow-progressmd)
 
 ---
 
@@ -473,10 +473,10 @@ Last Command: /spec implement --continue
 **Git Status**: Committed (shared across team)
 
 **Files**:
-- `WORKFLOW-PROGRESS.md` - Feature completion tracking
-- `DECISIONS-LOG.md` - Architecture decisions
-- `CHANGES-PLANNED.md` - Planned changes
-- `CHANGES-COMPLETED.md` - Completed changes
+- `workflow-progress.md` - Feature completion tracking
+- `decisions-log.md` - Architecture decisions
+- `changes-planned.md` - Planned changes
+- `changes-completed.md` - Completed changes
 
 **Lifespan**: Entire project lifecycle
 
@@ -489,7 +489,7 @@ Last Command: /spec implement --continue
 
 **Why Committed**: Team knowledge, project history, onboarding resource
 
-**See also**: [{config.paths.memory}/](#spec-memory), [WORKFLOW-PROGRESS.md](#workflow-progressmd), [DECISIONS-LOG.md](#decisions-logmd)
+**See also**: [{config.paths.memory}/](#spec-memory), [workflow-progress.md](#workflow-progressmd), [decisions-log.md](#decisions-logmd)
 
 ---
 
@@ -526,8 +526,8 @@ Last Command: /spec implement --continue
 
 ---
 
-### WORKFLOW-PROGRESS.md
-**Location**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+### workflow-progress.md
+**Location**: `{config.paths.memory}/workflow-progress.md`
 
 **Purpose**: Track feature completion and metrics across project
 
@@ -559,12 +559,12 @@ Last Command: /spec implement --continue
 
 **Usage**: Progress tracking, metrics, reporting
 
-**See also**: [Persistent Memory](#persistent-memory), [CHANGES-COMPLETED.md](#changes-completedmd)
+**See also**: [Persistent Memory](#persistent-memory), [changes-completed.md](#changes-completedmd)
 
 ---
 
-### DECISIONS-LOG.md
-**Location**: `{config.paths.memory}/DECISIONS-LOG.md`
+### decisions-log.md
+**Location**: `{config.paths.memory}/decisions-log.md`
 
 **Purpose**: Log architecture decisions and rationale
 
@@ -595,8 +595,8 @@ Last Command: /spec implement --continue
 
 ---
 
-### CHANGES-PLANNED.md
-**Location**: `{config.paths.memory}/CHANGES-PLANNED.md`
+### changes-planned.md
+**Location**: `{config.paths.memory}/changes-planned.md`
 
 **Purpose**: Track upcoming planned changes and tasks
 
@@ -621,12 +621,12 @@ Last Command: /spec implement --continue
 
 **Usage**: Track work queue, coordinate team efforts
 
-**See also**: [CHANGES-COMPLETED.md](#changes-completedmd), [tasks.md](#tasksmd)
+**See also**: [changes-completed.md](#changes-completedmd), [tasks.md](#tasksmd)
 
 ---
 
-### CHANGES-COMPLETED.md
-**Location**: `{config.paths.memory}/CHANGES-COMPLETED.md`
+### changes-completed.md
+**Location**: `{config.paths.memory}/changes-completed.md`
 
 **Purpose**: Archive completed changes and tasks
 
@@ -650,7 +650,7 @@ Last Command: /spec implement --continue
 
 **Usage**: Historical record, velocity tracking, retrospectives
 
-**See also**: [CHANGES-PLANNED.md](#changes-plannedmd), [WORKFLOW-PROGRESS.md](#workflow-progressmd)
+**See also**: [changes-planned.md](#changes-plannedmd), [workflow-progress.md](#workflow-progressmd)
 
 ---
 
@@ -879,7 +879,7 @@ T003: Create login endpoint → T002
 
 **Why Important**: Tracks "why" decisions were made for future reference
 
-**See also**: [DECISIONS-LOG.md](#decisions-logmd), [Blueprint](#blueprint)
+**See also**: [decisions-log.md](#decisions-logmd), [Blueprint](#blueprint)
 
 ---
 
@@ -935,7 +935,7 @@ T003: Create login endpoint → T002
 **Purpose**: Token efficiency - load minimal docs by default, expand on demand
 
 **Levels**:
-1. **SKILL.md** (~1,500 tokens) - Core workflow and instructions
+1. **skill.md** (~1,500 tokens) - Core workflow and instructions
 2. **EXAMPLES.md** (~3,000 tokens) - Comprehensive usage scenarios
 3. **REFERENCE.md** (~2,000 tokens) - Full technical API reference
 
@@ -1302,7 +1302,7 @@ Priority: P1
 
 **Files Auto-loaded**:
 - Template files (spec, plan, tasks)
-- Configuration from `CLAUDE.md`
+- Configuration from `claude.md`
 - State files
 - Architecture blueprints
 
@@ -1401,7 +1401,7 @@ Priority: P1
 - Confluence integration
 - GitHub integration
 
-**Configuration**: In project's `CLAUDE.md` file
+**Configuration**: In project's `claude.md` file
 
 **Benefits**: Seamless external system integration
 
@@ -1512,7 +1512,7 @@ SPEC_ATLASSIAN_SYNC=enabled  # If MCP available
 - After `tasks/` - create task tickets
 - After `implement/` - update task status
 
-**Configuration**: Via `CLAUDE.md` in project root
+**Configuration**: Via `claude.md` in project root
 
 **See also**: [Bidirectional Sync](#bidirectional-sync), [MCP](#mcp-model-context-protocol)
 
@@ -1641,15 +1641,15 @@ SPEC_CONFLICT_RESOLUTION=prompt  # vs auto, manual
 - **Bidirectional Sync**: [Integration Terms](#integration-terms)
 - **Blueprint**: [Architecture Terms](#architecture-terms)
 - **Brownfield**: [Project Types](#project-types)
-- **CHANGES-COMPLETED.md**: [State Management](#state-management)
-- **CHANGES-PLANNED.md**: [State Management](#state-management)
+- **changes-completed.md**: [State Management](#state-management)
+- **changes-planned.md**: [State Management](#state-management)
 - **Checkpoint**: [State Management](#state-management)
 - **Confluence Integration**: [Integration Terms](#integration-terms)
 - **Context Passing**: [Agent System](#agent-system)
 - **CORE Functions**: [Function Types](#function-types)
 - **current-session.md**: [State Management](#state-management)
 - **Data Model**: [Architecture Terms](#architecture-terms)
-- **DECISIONS-LOG.md**: [State Management](#state-management)
+- **decisions-log.md**: [State Management](#state-management)
 - **Epic Priority**: [Priority Levels](#priority-levels)
 - **Fallback Behavior**: [Integration Terms](#integration-terms)
 - **Graceful Degradation**: [Integration Terms](#integration-terms)
@@ -1680,7 +1680,7 @@ SPEC_CONFLICT_RESOLUTION=prompt  # vs auto, manual
 - **Token Efficiency**: [Architecture Terms](#architecture-terms)
 - **TOOL Functions**: [Function Types](#function-types)
 - **User Story ID (US#)**: [Markers & Tags](#markers--tags)
-- **WORKFLOW-PROGRESS.md**: [State Management](#state-management)
+- **workflow-progress.md**: [State Management](#state-management)
 
 ---
 

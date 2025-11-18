@@ -441,7 +441,7 @@ SPEC_ATLASSIAN_SYNC=[check if JIRA/Confluence enabled]
 SPEC_JIRA_PROJECT_KEY=[for epic creation]
 ```
 
-**`{config.paths.memory}/WORKFLOW-PROGRESS.md`**:
+**`{config.paths.memory}/workflow-progress.md`**:
 ```markdown
 ## Feature Progress Overview
 [Read to count existing features, determine next ID]
@@ -483,7 +483,7 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 - [ ] plan phase
 ```
 
-**`{config.paths.memory}/WORKFLOW-PROGRESS.md`**:
+**`{config.paths.memory}/workflow-progress.md`**:
 ```markdown
 ### Active Features
 | Feature | Phase | Progress | Started | ETA | Blocked |
@@ -502,7 +502,7 @@ SPEC_JIRA_PROJECT_KEY=[for epic creation]
 
 **Configuration Check**:
 ```bash
-# Read from project CLAUDE.md
+# Read from project claude.md
 SPEC_ATLASSIAN_SYNC=enabled
 SPEC_JIRA_PROJECT_KEY=PROJ
 ```
@@ -764,7 +764,7 @@ Read requirements.txt
 
 ## Token Optimization Strategies
 
-### Keep in SKILL.md (Core)
+### Keep in skill.md (Core)
 - YAML frontmatter (name, description, tools)
 - What/When/How sections (brief)
 - Execution flow (overview)
@@ -788,11 +788,11 @@ Read requirements.txt
 - API schemas
 
 ### Result
-- SKILL.md: ~1,200 tokens (core guidance)
+- skill.md: ~1,200 tokens (core guidance)
 - EXAMPLES.md: ~2,500 tokens (scenarios)
 - REFERENCE.md: ~3,000 tokens (technical)
 - Total: ~6,700 tokens (was ~10,000+ in monolithic design)
-- Lazy loading: Only SKILL.md loaded initially
+- Lazy loading: Only skill.md loaded initially
 
 ## Validation Checklist
 

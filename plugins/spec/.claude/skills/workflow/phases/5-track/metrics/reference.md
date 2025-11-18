@@ -33,14 +33,14 @@ Result in: features per sprint (decimal)
 ```
 Sum(story points completed in sprint) / Count(sprints)
 Result in: story points per sprint (decimal)
-Note: Only if story points tracked in WORKFLOW-PROGRESS.md
+Note: Only if story points tracked in workflow-progress.md
 ```
 
 ### Quality Metrics
 
 **Test Coverage**:
 ```
-Source: WORKFLOW-PROGRESS.md metrics section
+Source: workflow-progress.md metrics section
 Format: Percentage (0.0 to 1.0)
 Display: Percentage with progress bar
 ```
@@ -93,7 +93,7 @@ Target: < 5 switches per feature
 ```
 Count(tasks marked as rework) / Total tasks completed
 Result in: Percentage
-Source: CHANGES-COMPLETED.md with rework tag
+Source: changes-completed.md with rework tag
 ```
 
 ### AI Impact Metrics
@@ -125,9 +125,9 @@ Source: Session logs or manual tracking
 
 ## Data Source Specifications
 
-### Primary Data Source: WORKFLOW-PROGRESS.md
+### Primary Data Source: workflow-progress.md
 
-**Location**: `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+**Location**: `{config.paths.memory}/workflow-progress.md`
 
 **Required Sections**:
 ```markdown
@@ -191,9 +191,9 @@ Source: Session logs or manual tracking
 **Progress**: N/N tasks complete (N%)
 ```
 
-### Tertiary Data Source: CHANGES-COMPLETED.md
+### Tertiary Data Source: changes-completed.md
 
-**Location**: `{config.paths.memory}/CHANGES-COMPLETED.md`
+**Location**: `{config.paths.memory}/changes-completed.md`
 
 **Used For**:
 - Task-level timing data
@@ -454,7 +454,7 @@ metrics phase --verbose --category=quality --format=dashboard
 ### Performance Considerations
 
 **File Reading**:
-- WORKFLOW-PROGRESS.md typically < 10 KB
+- workflow-progress.md typically < 10 KB
 - Read once at skill start
 - Cache parsed data for multiple calculations
 
@@ -470,15 +470,15 @@ metrics phase --verbose --category=quality --format=dashboard
 
 ### Error Handling
 
-**Missing WORKFLOW-PROGRESS.md**:
+**Missing workflow-progress.md**:
 ```
 Error: Metrics data not found
-File: {config.paths.memory}/WORKFLOW-PROGRESS.md
+File: {config.paths.memory}/workflow-progress.md
 
 Solution: Initialize Spec tracking
 Command: /spec init
 
-Description: WORKFLOW-PROGRESS.md contains metric data.
+Description: workflow-progress.md contains metric data.
 Run /spec init to set up tracking infrastructure.
 ```
 
@@ -502,13 +502,13 @@ To enable missing metrics:
 
 **Parse Errors**:
 ```
-Error: Cannot parse WORKFLOW-PROGRESS.md
+Error: Cannot parse workflow-progress.md
 
 Issue: Invalid date format at line 42
 Expected: YYYY-MM-DD
 Found: 10/31/2025
 
-Solution: Fix date format in WORKFLOW-PROGRESS.md
+Solution: Fix date format in workflow-progress.md
 Run: /validate to check file format
 ```
 
@@ -526,7 +526,7 @@ Try: ./metrics.csv or ~/metrics.csv
 ### Data Validation
 
 **Before Calculation**:
-1. Verify WORKFLOW-PROGRESS.md exists
+1. Verify workflow-progress.md exists
 2. Check file is readable
 3. Validate required sections present
 4. Verify date formats (YYYY-MM-DD)
@@ -568,9 +568,9 @@ Try: ./metrics.csv or ~/metrics.csv
 
 ## Related Files
 
-**State Management**: `shared/state-management.md`
-**Workflow Patterns**: `shared/workflow-patterns.md`
-**Integration**: `shared/integration-patterns.md`
+**State Management**: `docs/patterns/state-management.md`
+**Workflow Patterns**: `docs/patterns/workflow-patterns.md`
+**Integration**: `docs/patterns/integration-patterns.md`
 
 ---
 

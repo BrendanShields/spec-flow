@@ -54,7 +54,7 @@
 ```bash
 # Edit spec.md directly
 # Replace [CLARIFY: question] with actual decision
-# Document decision in {config.paths.memory}/DECISIONS-LOG.md
+# Document decision in {config.paths.memory}/decisions-log.md
 ```
 
 **Prevention**:
@@ -200,7 +200,7 @@ Available in this phase:
 - /spec plan - Create technical plan (IN PROGRESS)
 - /spec analyze - Validate consistency
 
-Need more detail? Read phases/3-design/README.md
+Need more detail? Read phases/3-design/readme.md
 ```
 
 **Additional Context**:
@@ -576,15 +576,15 @@ Error: User story US2.3 missing acceptance criteria (required)
 **Full Message**:
 ```
 Integration error: JIRA not configured
-SPEC_JIRA_PROJECT_KEY not found in CLAUDE.md
+SPEC_JIRA_PROJECT_KEY not found in claude.md
 ```
 
 **Meaning**: External integration referenced but not set up
 
 **Fix**:
 ```bash
-# Add configuration to CLAUDE.md
-echo "SPEC_JIRA_PROJECT_KEY=PROJ" >> CLAUDE.md
+# Add configuration to claude.md
+echo "SPEC_JIRA_PROJECT_KEY=PROJ" >> claude.md
 
 # Or disable integration
 # Remove JIRA references from workflow
@@ -692,10 +692,10 @@ EOF
 
 ```bash
 # View workflow progress from memory
-cat {config.paths.memory}/WORKFLOW-PROGRESS.md
+cat {config.paths.memory}/workflow-progress.md
 
 # View decisions made
-cat {config.paths.memory}/DECISIONS-LOG.md
+cat {config.paths.memory}/decisions-log.md
 
 # Reconstruct state from memory files
 # Use workflow progress to determine current phase
@@ -913,13 +913,13 @@ Error: Task T007 failed in parallel execution
 **Problem**: "Cannot create JIRA epic"
 ```bash
 Error: JIRA API authentication failed
-Check credentials in CLAUDE.md
+Check credentials in claude.md
 ```
 
 **Fix**: Verify JIRA config
 ```bash
 # Check configuration
-cat CLAUDE.md | grep JIRA
+cat claude.md | grep JIRA
 
 # Ensure these exist:
 SPEC_ATLASSIAN_SYNC=enabled

@@ -560,7 +560,7 @@ function calculateVelocity(sprints) {
 
 ## Configuration Reference
 
-### CLAUDE.md Settings
+### claude.md Settings
 
 ```markdown
 # Spec Discover Configuration
@@ -749,7 +749,7 @@ cat discovery/updates/$(date +%Y-%m-%d).md
 
 ### State File Updates
 
-Discovery updates `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
+Discovery updates `{config.paths.memory}/workflow-progress.md`:
 
 ```markdown
 ## Discovery History

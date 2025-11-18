@@ -30,8 +30,8 @@ Create comprehensive technical plan from specification with architecture decisio
 
 ### Phase 1: Context Loading
 2. Read `{config.paths.features}/###-feature-name/{config.naming.files.spec}` for requirements
-3. Load `{config.paths.memory}/DECISIONS-LOG.md` for existing ADRs
-4. Check project's `CLAUDE.md` for tech stack constraints
+3. Load `{config.paths.memory}/decisions-log.md` for existing ADRs
+4. Check project's `claude.md` for tech stack constraints
 
 ### Phase 2: Technical Research
 1. Invoke `spec:researcher` agent for technology evaluation:
@@ -57,8 +57,8 @@ Create comprehensive technical plan from specification with architecture decisio
 1. Update `{config.paths.state}/current-session.md`:
    - Set phase to "planning"
    - Add plan.md artifact reference
-2. Append ADRs to `{config.paths.memory}/DECISIONS-LOG.md`
-3. Update `{config.paths.memory}/WORKFLOW-PROGRESS.md` with planning completion
+2. Append ADRs to `{config.paths.memory}/decisions-log.md`
+3. Update `{config.paths.memory}/workflow-progress.md` with planning completion
 4. Create checkpoint: `{config.paths.state}/checkpoints/YYYY-MM-DD-HH-MM.md`
 
 ### Phase 5: MCP Integration (Optional)
@@ -132,7 +132,7 @@ Plan created for Feature ###: [Feature Name]
 
 Files generated:
   - {config.paths.features}/###-feature-name/{config.naming.files.plan}
-  - {config.paths.memory}/DECISIONS-LOG.md (updated with ADRs)
+  - {config.paths.memory}/decisions-log.md (updated with ADRs)
 
 Architecture decisions documented:
   - ADR-###: [Technology choice]
@@ -187,26 +187,26 @@ This function uses the following templates:
 - Implementation approach
 - Dependencies and constraints
 
-**See also**: `templates/README.md` for complete template documentation
+**See also**: `templates/readme.md` for complete template documentation
 
 ## Integration Points
 
 **Shared Resources**:
-- See `shared/workflow-patterns.md` for phase transitions
-- See `shared/integration-patterns.md` for MCP publishing patterns
-- See `shared/state-management.md` for state file specifications
+- See `docs/patterns/workflow-patterns.md` for phase transitions
+- See `docs/patterns/integration-patterns.md` for MCP publishing patterns
+- See `docs/patterns/state-management.md` for state file specifications
 
 **Subagents**:
 - Calls `spec:researcher` agent for technical research and decision documentation
 
 **Commands**:
-- Invoked by `/workflow:spec` → "🎨 Move to Design" menu option
+- Invoked by `/spec` → "🎨 Move to Design" menu option
 - Invoked by Auto Mode workflow automation
 
 **State Files**:
-- Reads: spec.md, current-session.md, DECISIONS-LOG.md
-- Writes: plan.md, DECISIONS-LOG.md (append ADRs)
-- Updates: current-session.md, WORKFLOW-PROGRESS.md
+- Reads: spec.md, current-session.md, decisions-log.md
+- Writes: plan.md, decisions-log.md (append ADRs)
+- Updates: current-session.md, workflow-progress.md
 
 ---
 

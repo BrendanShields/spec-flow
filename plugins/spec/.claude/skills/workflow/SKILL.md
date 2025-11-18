@@ -1,7 +1,7 @@
 ---
 name: workflow
 description: Use when navigating spec workflow phases, need workflow guidance, starting features, understanding current phase, or user mentions "workflow", "spec process", "what's next" - intelligent router that provides context-aware navigation through initialization, definition, design, implementation, and tracking phases with progressive disclosure
-allowed-tools: Read, AskUserQuestion, Skill, Bash
+allowed-tools: Read, AskUserQuestion, AskUserAgent, Skill, Bash
 ---
 
 # Spec Workflow Navigator
@@ -69,227 +69,121 @@ The Spec workflow consists of 5 main phases:
 
 ### Step 1: Detect Current State
 
-I'll detect the workflow state by checking:
+State detection is two-tiered:
 
-1. **Does `.spec/` exist?**
+1. **Read cached hint**  
+   Hooks compute `.spec/state/NEXT-STEP.json` after SessionStart and PostToolUse events.  
    ```bash
-   test -d .spec && echo "INITIALIZED" || echo "NOT_INITIALIZED"
+   if test -f {config.paths.state}/NEXT-STEP.json; then
+     jq -r '.phase,.feature,.action' {config.paths.state}/NEXT-STEP.json
+   fi
    ```
+   Use the cached `action`/`phase`/`feature` to pre-select the recommended option.
 
-2. **If initialized, read session state:**
-   ```
-   Read {config.paths.state}/current-session.md
-   Parse YAML frontmatter fields:
-   - feature: (feature ID or "none")
-   - phase: (current phase or "none")
-   ```
+2. **Fallback to live inspection**  
+   If the cache is missing or empty:
+   - Check for `.spec/`; if missing → **NOT_INITIALIZED**.
+   - Read `{config.paths.state}/current-session.md` frontmatter (`feature`, `phase`).
+   - Map `phase` to a menu state:
+     - `none` → **NO_FEATURE**
+     - `specification` → **IN_SPECIFICATION**
+     - `planning` → **IN_PLANNING**
+     - `tasks` → **IN_TASKING**
+     - `implementation` → **IN_IMPLEMENTATION**
+     - `validate` → **VALIDATION**
+     - `complete` → **COMPLETE**
 
-3. **Map to workflow state:**
-   - `.spec/` doesn't exist → **NOT_INITIALIZED**
-   - feature = "none" → **NO_FEATURE**
-   - phase = "specification" → **IN_SPECIFICATION**
-   - phase = "planning" → **IN_PLANNING**
-   - phase = "implementation" → **IN_IMPLEMENTATION**
-   - All tasks complete → **COMPLETE**
+Keep the detection logic in sync with the hooks—if the hook schema changes, update this section immediately.
 
-### Step 2: Present Context-Aware Menu
+### Step 2: Present Context-Aware Menu (via AskUserAgent)
 
-Based on the detected state, I'll use AskUserQuestion to present appropriate options:
+Instead of hand-building separate menus for each workflow state, I now send a **single option catalog** to **AskUserAgent** along with the detected state, feature info, and cached recommendation. AskUserAgent ranks the options, highlights the most relevant subset, and returns the user’s choice. This keeps the prompts short and ensures Claude can dynamically adapt to unusual states.
 
-**State: NOT_INITIALIZED**
-```
-Question: "Welcome to Spec Workflow! You haven't initialized Spec yet. What would you like to do?"
+**Option Catalog (maintained in one place)**
 
-Options:
-- 🚀 Initialize Project → Set up Spec in this project
-- 📚 Learn About Spec → Understand the workflow
-- ❓ Ask a Question → Get specific help
-```
+| Option ID | Label | Description | Valid States | Action |
+|-----------|-------|-------------|--------------|--------|
+| `init` | 🚀 Initialize Project | Bootstrap `.spec/`, state, config | `NOT_INITIALIZED` | `phases/1-initialize/init/guide.md` |
+| `learn` | 📚 Learn Workflow | Explain phases, best practices | any | help topic |
+| `define` | 📝 Define Feature | Create new specification | `NO_FEATURE`, `COMPLETE` | `phases/2-define/generate/guide.md` |
+| `auto` | 🚀 Auto Mode | Run orchestrate skill (resume-aware) | any (except NOT_INITIALIZED) | `phases/5-track/orchestrate/guide.md` |
+| `plan` | 🎨 Move to Design | Create/expand plan | `IN_SPECIFICATION` | `phases/3-design/plan/guide.md` |
+| `refine-spec` | 🔄 Refine Spec | Resolve [CLARIFY] tags | `IN_SPECIFICATION` | `phases/2-define/clarify/guide.md` |
+| `tasks` | 🔨 Move to Build | Produce tasks | `IN_PLANNING` | `phases/4-build/tasks/guide.md` |
+| `refine-plan` | 🔄 Refine Design | Analyze consistency | `IN_PLANNING`, `IN_IMPLEMENTATION` | `phases/3-design/analyze/guide.md` |
+| `implement` | 🛠 Continue Building | Run implementation guide | `IN_IMPLEMENTATION` | `phases/4-build/implement/guide.md` |
+| `validate` | ✅ Validate | Analyze alignment before completing | `IN_IMPLEMENTATION`, `COMPLETE` | `phases/3-design/analyze/guide.md` |
+| `metrics` | 📊 View Metrics | Show tracking dashboards | any initialized state | `phases/5-track/metrics/guide.md` |
+| `update` | 📝 Update Spec | Maintain docs mid-flight | any initialized state | `phases/5-track/update/guide.md` |
+| `docs` | 📂 View Docs | Read key artifacts | any initialized state | Read tool |
+| `help` | ❓ Get Help | Context-aware FAQ | any | help topic |
 
-**State: NO_FEATURE**
-```
-Question: "Spec is ready! What would you like to work on?"
+Additional options (e.g., sync external tools) can be appended to the table above without touching runtime logic.
 
-Options:
-- 🚀 Auto Mode → Full automation for new feature
-- 📝 Define Feature → Create new specification
-- 📊 Track Progress → View metrics and status
-- ❓ Get Help → Guidance or questions
-```
-
-**State: IN_SPECIFICATION**
-```
-Question: "📍 Current: Specification Phase\nFeature: {feature-name}\nStatus: {spec-status}\n\nWhat would you like to do next?"
-
-Options:
-- 🚀 Auto Mode → Continue automatically to design → build
-- 🎨 Move to Design → Create technical plan
-- 🔄 Refine Specification → Improve quality, resolve [CLARIFY] tags
-- 📊 View Specification → Read spec.md
-- ❓ Get Help → Specification best practices
-```
-
-**State: IN_PLANNING**
-```
-Question: "📍 Current: Planning Phase\nFeature: {feature-name}\nStatus: {plan-status}\n\nWhat would you like to do next?"
-
-Options:
-- 🚀 Auto Mode → Continue automatically to build
-- 🔨 Move to Build → Break down into tasks and implement
-- 🔄 Refine Design → Review architecture, improve plan
-- 📊 View Plan → Read plan.md
-- ❓ Get Help → Planning best practices
-```
-
-**State: IN_IMPLEMENTATION**
-```
-Question: "📍 Current: Implementation\nFeature: {feature-name}\nProgress: {completed}/{total} tasks ({percentage}%)\n\nWhat would you like to do?"
-
-Options:
-- 🚀 Auto Mode → Continue implementation automatically
-- 🔨 Continue Building → Resume task execution
-- 🔄 Refine Approach → Improve code quality, add tests
-- 📊 View Progress → Detailed task status
-- ✅ Validate → Check consistency and quality
-- ❓ Get Help → Implementation strategies
-```
-
-**State: COMPLETE**
-```
-Question: "🎉 Feature Complete!\nFeature: {feature-name}\nAll tasks completed\n\nWhat would you like to do next?"
-
-Options:
-- ✅ Validate & Finalize → Run consistency checks and quality review
-- 📊 View Metrics → Development stats and performance
-- 📝 Start New Feature → Define next specification
-- 📦 Track & Maintain → Update docs, sync external systems
-- ❓ Get Help → Next steps guidance
-```
+**AskUserAgent Invocation**
+1. Build a payload with:
+   - `state_summary`: phase, feature, next step, progress string
+   - `options`: array of objects from the table (id, label, description, valid_states, action metadata)
+2. Filter out invalid options (state mismatch, missing files) but keep the payload ordering stable.
+3. Call `AskUserAgent` once. It decides how many options to surface and may highlight one as “Recommended” based on `NEXT-STEP.json`.
+4. Capture the returned option ID and feed it into Step 3.
 
 ### Step 3: Execute User Selection
 
-Based on menu selection, I'll route to the appropriate action:
+After AskUserAgent returns an `option_id`, look it up in a compact dispatch table (kept adjacent to the catalog so we only edit one area when flows change):
 
-**Phase Invocation (via Skill tool)**:
-- "Initialize Project" → Invoke skill targeting `phases/1-initialize/init/guide.md`
-- "Define Feature" → Invoke skill targeting `phases/2-define/generate/guide.md`
-- "Move to Design" → Invoke skill targeting `phases/3-design/plan/guide.md`
-- "Move to Build" → Invoke skill targeting `phases/4-build/tasks/guide.md`
-- "Continue Building" → Invoke skill targeting `phases/4-build/implement/guide.md`
-- "Validate" → Invoke skill targeting `phases/3-design/analyze/guide.md`
-- "View Metrics" → Invoke skill targeting `phases/5-track/metrics/guide.md`
+| Option ID | Tool | Target |
+|-----------|------|--------|
+| `init` | Skill | `phases/1-initialize/init/guide.md` |
+| `define` | Skill | `phases/2-define/generate/guide.md` |
+| `plan` | Skill | `phases/3-design/plan/guide.md` |
+| `refine-spec` | Skill | `phases/2-define/clarify/guide.md` |
+| `tasks` | Skill | `phases/4-build/tasks/guide.md` |
+| `refine-plan` \| `validate` | Skill | `phases/3-design/analyze/guide.md` |
+| `implement` | Skill | `phases/4-build/implement/guide.md` |
+| `auto` | Skill | `phases/5-track/orchestrate/guide.md` |
+| `metrics` | Skill | `phases/5-track/metrics/guide.md` |
+| `update` | Skill | `phases/5-track/update/guide.md` |
+| `docs` | Read | spec/plan/tasks/decision files (prompt user for which artifact) |
+| `help` | AskUserQuestion | Route to Help Mode (Step 5) |
 
-**Refinement Actions**:
-- "Refine Specification" → Invoke skill for `phases/2-define/clarify/guide.md`
-- "Refine Design" → Invoke skill for `phases/3-design/analyze/guide.md`
-- "Refine Approach" → Invoke skill for `phases/3-design/analyze/guide.md`
-
-**View Actions** (via Read tool):
-- "View Specification" → Read and display spec.md
-- "View Plan" → Read and display plan.md
-- "View Progress" → Read and display tasks.md with status
-
-**Auto Mode**:
-- "Auto Mode" → Invoke skill targeting `phases/5-track/orchestrate/guide.md`
-- The orchestrate skill provides full end-to-end workflow automation with checkpoints
-- See Step 4 below for auto mode details
-
-**Help Mode** (see Step 5)
+The dispatcher is straightforward pseudo-code:
+```python
+selected = ask_user_agent(...)
+action = ACTIONS[selected]
+if action.tool == "Skill":
+    Skill(action.target)
+elif action.tool == "Read":
+    Read(requested_file)
+elif action.tool == "AskUserQuestion":
+    run_help_flow()
+```
+This keeps the command token-light and guarantees every option stays in sync with the catalog.
 
 ### Step 4: Auto Mode Execution
 
-When user selects "Auto Mode", I delegate to the orchestrate skill for full workflow automation.
+Selecting `auto` simply calls `phases/5-track/orchestrate/guide.md`. That guide already handles:
+- State detection (new project vs resume)
+- Phase sequencing + checkpoints
+- Optional clarify/analyze steps
+- Completion summary output
 
-**Delegation**:
-```
-Invoke skill targeting `phases/5-track/orchestrate/guide.md`
-```
-
-**What Orchestrate Does**:
-
-The orchestrate skill provides comprehensive end-to-end workflow execution:
-
-1. **Assessment**: Determines starting point based on current state
-   - New project → Runs blueprint if needed
-   - New feature → Starts at generate
-   - Mid-workflow → Resumes from current phase
-
-2. **Phase Execution**: Runs complete workflow with intelligent routing
-   - generate → clarify (if [CLARIFY] tags) → plan → analyze (if complex) → tasks → implement
-   - Each phase invoked via Skill tool
-   - Progress tracked in state files
-
-3. **Checkpoints**: Saves state between phases for recovery
-   - post-generate, post-clarify, post-plan, post-analyze, post-tasks, complete
-   - Enables resume from interruptions
-
-4. **Completion Summary**: Provides execution report
-   - Duration, phases executed, artifacts created
-   - Metrics and next steps
-
-**State-Aware Behavior**:
-- **NO_FEATURE**: Full workflow (generate → implement)
-- **IN_SPECIFICATION**: Resumes from planning
-- **IN_PLANNING**: Resumes from tasks
-- **IN_IMPLEMENTATION**: Continues implementation
-
-**User Experience**:
-```
-User: Selects "🚀 Auto Mode"
-Claude: [Invokes orchestrate skill]
-Orchestrate: [Executes workflow phases]
-Orchestrate: [Shows completion summary]
-Claude: [Returns to main menu or shows next steps]
-```
-
-For detailed orchestrate implementation, see `phases/5-track/orchestrate/guide.md`
+No extra instructions live here—see the guide for full details.
 
 ### Step 5: Help Mode
 
-When user selects "Get Help" or "Ask a Question":
-
-**If NOT_INITIALIZED state:**
-```
-Question: "How can I help you?"
-
-Options:
-- 📚 What is Spec? → Overview of spec-driven development
-- 🚀 How do I start? → Step-by-step getting started
-- 💡 Show examples → See Spec in action
-- ❓ Ask a question → Type your specific question
-```
-
-**If in workflow (other states):**
-```
-Question: "Help Topics:"
-
-Options:
-- 📖 Explain current phase → What is {phase-name}?
-- 🎯 What should I do next? → Recommended next steps
-- 🔧 Troubleshooting → Common issues and solutions
-- 💡 Best practices → Tips for {phase-name}
-- 📚 Full workflow → Understand all phases
-- ❓ Ask a question → Type your specific question
-```
-
-**Handling "Ask a question":**
-If selected, I'll ask: "What would you like to know?" and provide a detailed, context-aware answer based on their current workflow state.
-
-**Handling other help topics:**
-- Load and display relevant documentation sections
-- Use Read tool to fetch specific guide content
-- Provide concise, actionable answers
+`help` stays a lightweight branch: AskUserQuestion surfaces a few context-aware topics (current phase explainer, what's next, troubleshooting, best practices, ask-anything). Each topic either prints a brief answer inline or reads the relevant section from navigation docs. No extra branching logic elsewhere.
 
 ### Step 6: State Persistence
 
 After executing any phase:
 1. Phase guides update `{config.paths.state}/current-session.md` automatically
-2. Progress recorded in `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+2. Progress recorded in `{config.paths.memory}/workflow-progress.md`
 3. Next invocation of workflow skill will detect new state
 
 ## Practical Execution Guide
 
-When invoked via `/workflow:spec`, I'll:
+When invoked via `/spec`, I'll:
 
 1. **Check if `.spec/` exists** (Bash tool):
    - If no → Show NOT_INITIALIZED menu
@@ -323,7 +217,7 @@ When invoked via `/workflow:spec`, I'll:
 
 ## Configuration Access
 
-All paths are configurable via `.claude/.spec-config.yml`:
+All paths are configurable via `.spec/.spec-config.yml`:
 
 **Available config variables**:
 - `{config.paths.spec_root}` - Default: `.spec`
@@ -338,7 +232,7 @@ All paths are configurable via `.claude/.spec-config.yml`:
 
 **How to access in skills**:
 1. Session-init hook provides config in session context
-2. Read from `.claude/.spec-config.yml` directly if needed
+2. Read from `.spec/.spec-config.yml` directly if needed
 3. Use config variables in all path references
 
 **Example**:
@@ -375,11 +269,11 @@ metrics   - Progress tracking
 ## Navigation Resources
 
 For detailed phase information:
-- **Phase 1**: See `phases/1-initialize/README.md` (init, discover, blueprint)
-- **Phase 2**: See `phases/2-define/README.md` (generate, clarify, checklist)
-- **Phase 3**: See `phases/3-design/README.md` (plan, analyze)
-- **Phase 4**: See `phases/4-build/README.md` (tasks, implement)
-- **Phase 5**: See `phases/5-track/README.md` (update, metrics, orchestrate)
+- **Phase 1**: See `phases/1-initialize/readme.md` (init, discover, blueprint)
+- **Phase 2**: See `phases/2-define/readme.md` (generate, clarify, checklist)
+- **Phase 3**: See `phases/3-design/readme.md` (plan, analyze)
+- **Phase 4**: See `phases/4-build/readme.md` (tasks, implement)
+- **Phase 5**: See `phases/5-track/readme.md` (update, metrics, orchestrate)
 
 For complete workflow visualization:
 - **Workflow Map**: See `navigation/workflow-map.md`
@@ -431,7 +325,7 @@ Available in this phase:
 - /spec clarify - Resolve ambiguities (IN PROGRESS)
 - /spec checklist - Validate requirements quality
 
-Need more detail? Load phases/2-define/README.md
+Need more detail? Load phases/2-define/readme.md
 ```
 
 **Workflow Overview**:
@@ -478,10 +372,10 @@ For phase details: phases/[phase-number]-[name].md
 - **Phase Reference**: `navigation/phase-reference.md` - Detailed phase documentation
 
 **Templates**:
-- **Template Guide**: `templates/README.md` - All 11 templates documented
+- **Template Guide**: `templates/readme.md` - All 11 templates documented
 
-**For developers**: See `CLAUDE.md` in plugin root
-**For users**: See `README.md` in plugin root
+**For developers**: See `claude.md` in plugin root
+**For users**: See `readme.md` in plugin root
 **For migration**: See `docs/MIGRATION-V2-TO-V3.md`
 
 ---

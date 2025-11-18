@@ -92,14 +92,14 @@ Create `{config.paths.spec_root}/architecture-blueprint.md` with 8 sections:
 ### Phase 3: ADR Generation
 
 For each major architectural decision:
-1. Create ADR entry in `{config.paths.memory}/DECISIONS-LOG.md`
+1. Create ADR entry in `{config.paths.memory}/decisions-log.md`
 2. Document: decision, context, rationale, consequences, alternatives
 
-See `shared/state-management.md` for ADR format.
+See `docs/patterns/state-management.md` for ADR format.
 
 ### Phase 4: State Update
 
-1. Update `{config.paths.memory}/WORKFLOW-PROGRESS.md`:
+1. Update `{config.paths.memory}/workflow-progress.md`:
    - Add Feature 000: Architecture Blueprint
    - Mark as completed
 2. Create checkpoint: Save to `{config.paths.state}/checkpoints/`
@@ -107,12 +107,12 @@ See `shared/state-management.md` for ADR format.
 ### Phase 5: MCP Integration (Optional)
 
 If Confluence MCP enabled:
-1. Check for `SPEC_ATLASSIAN_SYNC=enabled` in CLAUDE.md
+1. Check for `SPEC_ATLASSIAN_SYNC=enabled` in claude.md
 2. Ask user: "Publish blueprint to Confluence?"
 3. If yes: Use confluence_create_page to publish
 4. Store Confluence URL in blueprint metadata
 
-See `shared/integration-patterns.md` for MCP patterns.
+See `docs/patterns/integration-patterns.md` for MCP patterns.
 
 ### Phase 6: Next Steps
 
@@ -160,8 +160,8 @@ Next: Run `generate phase "Your First Feature"` to begin development
 **File Created**: `{config.paths.spec_root}/architecture-blueprint.md`
 
 **State Updated**:
-- `{config.paths.memory}/DECISIONS-LOG.md` (ADRs added)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (Feature 000 complete)
+- `{config.paths.memory}/decisions-log.md` (ADRs added)
+- `{config.paths.memory}/workflow-progress.md` (Feature 000 complete)
 
 ## Templates Used
 
@@ -188,18 +188,18 @@ This function uses the following templates:
 - ADR (Architecture Decision Record) framework
 - Cross-cutting concerns
 
-**See also**: `templates/README.md` for complete template documentation
+**See also**: `templates/readme.md` for complete template documentation
 
 ## Related Resources
 
 **For Complete Templates**:
 - Blueprint template: `../../templates/project-setup/architecture-blueprint-template.md`
-- See `../../templates/README.md` for all available templates
+- See `../../templates/readme.md` for all available templates
 
 For detailed section specifications and brownfield analysis patterns, see: `REFERENCE.md`
 
-For workflow integration patterns, see: `shared/workflow-patterns.md`
+For workflow integration patterns, see: `docs/patterns/workflow-patterns.md`
 
-For MCP publishing to Confluence, see: `shared/integration-patterns.md`
+For MCP publishing to Confluence, see: `docs/patterns/integration-patterns.md`
 
-For state management details, see: `shared/state-management.md`
+For state management details, see: `docs/patterns/state-management.md`

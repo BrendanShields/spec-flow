@@ -35,7 +35,7 @@ Analyze existing codebases for brownfield project onboarding. Discovers architec
 ### Phase 1: Initialize Discovery
 
 1. Check if project is brownfield (has existing code)
-2. Load discovery configuration from CLAUDE.md
+2. Load discovery configuration from claude.md
 3. Determine focus areas (full analysis or specific aspect)
 4. Initialize analyze phaser subagent
 
@@ -164,11 +164,11 @@ blueprint phase --from-discovery      # Create blueprint from findings
 generate phase "New Feature"          # Add features informed by discovery
 ```
 
-Updates workflow state in `{config.paths.memory}/WORKFLOW-PROGRESS.md` with discovery phase completion.
+Updates workflow state in `{config.paths.memory}/workflow-progress.md` with discovery phase completion.
 
 ## Configuration
 
-Set in CLAUDE.md:
+Set in claude.md:
 ```markdown
 SPEC_DISCOVER_MODE=standard           # quick|standard|deep
 SPEC_DISCOVER_INCLUDE_TESTS=true

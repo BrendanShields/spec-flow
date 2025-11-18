@@ -29,7 +29,7 @@ Read {config.paths.features}/{config.naming.feature_directory}/{config.naming.fi
 → Update task priorities from P2 to P1
 
 # 4. Log decision
-Append to {config.paths.memory}/DECISIONS-LOG.md:
+Append to {config.paths.memory}/decisions-log.md:
 ---
 ## ADR-012: Elevate Password Reset to P1
 
@@ -106,7 +106,7 @@ Edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.fi
   ---
 
 # 4. Log integration
-Append to {config.paths.memory}/WORKFLOW-PROGRESS.md:
+Append to {config.paths.memory}/workflow-progress.md:
   Feature 002: Product Search
   - JIRA: SHOP-42 (created)
 
@@ -119,7 +119,7 @@ Edit {config.paths.state}/current-session.md:
 ```
 ✓ Created JIRA issue: SHOP-42
 ✓ Updated spec.md with JIRA metadata
-✓ Logged in WORKFLOW-PROGRESS.md
+✓ Logged in workflow-progress.md
 → View issue: https://company.atlassian.net/browse/SHOP-42
 → Next: JIRA will auto-sync on future updates
 ```
@@ -234,11 +234,11 @@ Edit tasks.md, add new tasks:
 ---
 
 # 6. Update state files
-Append to {config.paths.memory}/CHANGES-PLANNED.md:
+Append to {config.paths.memory}/changes-planned.md:
   Feature 001: User Authentication
   - Added: T024-T029 (6 new tasks for OAuth)
 
-Edit {config.paths.memory}/DECISIONS-LOG.md:
+Edit {config.paths.memory}/decisions-log.md:
 ---
 ## ADR-013: Add OAuth Authentication
 
@@ -284,7 +284,7 @@ Edit {config.paths.state}/current-session.md:
 ✓ Added user story: US1.5 (OAuth authentication)
 ✓ Updated plan.md: Added OAuth integration section
 ✓ Added tasks.md: 6 new tasks (T024-T029)
-✓ Updated CHANGES-PLANNED.md: 6 tasks added
+✓ Updated changes-planned.md: 6 tasks added
 ✓ Logged decision: ADR-013
 
 Impact Assessment:
@@ -373,7 +373,7 @@ Edit {config.paths.features}/{config.naming.feature_directory}/{config.naming.fi
   - T017: Build escrow release workflow (new)
 
 # 5. Log clarification resolutions
-Append to {config.paths.memory}/DECISIONS-LOG.md:
+Append to {config.paths.memory}/decisions-log.md:
 ---
 ## ADR-014: Payment Processing Architecture
 
@@ -405,7 +405,7 @@ Append to {config.paths.memory}/DECISIONS-LOG.md:
 ---
 
 # 6. Update workflow progress
-Edit {config.paths.memory}/WORKFLOW-PROGRESS.md:
+Edit {config.paths.memory}/workflow-progress.md:
   Feature 003: Payment Processing
   - Status: Clarifications resolved, ready for planning
   - Added: Escrow requirement
@@ -480,7 +480,7 @@ Edit tasks.md:
   - ~~T008: Write session tests~~ [OBSOLETE]
 
 # 5. Update state files
-Move from {config.paths.memory}/CHANGES-PLANNED.md to CHANGES-COMPLETED.md:
+Move from {config.paths.memory}/changes-planned.md to changes-completed.md:
 ---
 ## Obsolete Tasks (Feature 001)
 
@@ -512,7 +512,7 @@ Move from {config.paths.memory}/CHANGES-PLANNED.md to CHANGES-COMPLETED.md:
 ---
 
 # 6. Log architecture decision
-Append to {config.paths.memory}/DECISIONS-LOG.md:
+Append to {config.paths.memory}/decisions-log.md:
 ---
 ## ADR-015: Remove Session-Based Authentication
 
@@ -559,7 +559,7 @@ Edit {config.paths.state}/current-session.md:
 ✓ Deprecated user story: US1.6 (session-based auth)
 ✓ Updated plan.md: Removed Redis session section
 ✓ Obsoleted tasks: T005-T008 (4 tasks)
-✓ Moved to CHANGES-COMPLETED.md with obsolete status
+✓ Moved to changes-completed.md with obsolete status
 ✓ Logged decision: ADR-015
 
 Impact Assessment:
@@ -593,10 +593,10 @@ Progress Update:
 All updates must:
 - Edit spec.md with changes
 - Check plan.md and tasks.md for impact
-- Log decision in DECISIONS-LOG.md
-- Update WORKFLOW-PROGRESS.md
+- Log decision in decisions-log.md
+- Update workflow-progress.md
 - Update current-session.md
-- Move tasks between CHANGES-PLANNED.md and CHANGES-COMPLETED.md
+- Move tasks between changes-planned.md and changes-completed.md
 
 ### When to Use Each Pattern
 

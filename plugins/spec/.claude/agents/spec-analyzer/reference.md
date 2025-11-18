@@ -1,4 +1,4 @@
-# Flow Analyzer: Reference Guide
+# Spec Analyzer: Reference Guide
 
 ## Analysis Patterns
 

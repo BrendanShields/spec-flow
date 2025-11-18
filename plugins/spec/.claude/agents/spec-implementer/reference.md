@@ -1,4 +1,4 @@
-# Flow Implementer: Reference Guide
+# Spec Implementer: Reference Guide
 
 ## Parallel Execution Algorithm
 
@@ -93,7 +93,7 @@ To Do → In Progress → Code Review → Testing → Done
 
 ### Comment Templates
 ```markdown
-**🤖 Flow Automated Update**
+**🤖 Spec Automated Update**
 
 Task: ${taskId} - ${taskDescription}
 Status: ${status}
@@ -102,7 +102,7 @@ Duration: ${duration}
 ${details}
 
 ---
-*Automated by Flow Implementation Agent*
+*Automated by Spec Implementation Agent*
 ```
 
 ## Common Implementation Patterns

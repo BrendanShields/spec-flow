@@ -1,6 +1,6 @@
 ---
 name: spec:metrics
-description: Use when showing metrics, progress report, development stats, workflow tracking, velocity analysis, quality metrics, efficiency metrics requested - generates comprehensive development metrics from WORKFLOW-PROGRESS.md with visualizations and export options
+description: Use when showing metrics, progress report, development stats, workflow tracking, velocity analysis, quality metrics, efficiency metrics requested - generates comprehensive development metrics from workflow-progress.md with visualizations and export options
 allowed-tools: Read, Bash
 ---
 
@@ -10,7 +10,7 @@ Display development metrics, progress tracking, and workflow analytics.
 
 ## What This Skill Does
 
-- Reads WORKFLOW-PROGRESS.md for feature tracking data
+- Reads workflow-progress.md for feature tracking data
 - Calculates velocity metrics ({config.paths.features}/sprint, duration, task rates)
 - Shows quality metrics (test coverage, bugs, tech debt)
 - Displays efficiency metrics (phase time ratios, bottlenecks)
@@ -32,13 +32,13 @@ Display development metrics, progress tracking, and workflow analytics.
 
 ### Phase 1: Load Tracking Data
 
-1. Read `{config.paths.memory}/WORKFLOW-PROGRESS.md` using Read tool
+1. Read `{config.paths.memory}/workflow-progress.md` using Read tool
 2. Parse feature list (completed, in-progress, planned)
 3. Extract metrics section (velocity, quality, efficiency)
 4. Read `{config.paths.state}/current-session.md` for active context
 5. Validate data availability and completeness
 
-**Error Handling**: If WORKFLOW-PROGRESS.md missing, inform user to run `/spec init` first.
+**Error Handling**: If workflow-progress.md missing, inform user to run `/spec init` first.
 
 ### Phase 2: Calculate Metrics
 
@@ -118,7 +118,7 @@ Generate actionable recommendations:
 
 ## Error Handling
 
-**No WORKFLOW-PROGRESS.md**:
+**No workflow-progress.md**:
 ```
 Error: Metrics not available
 Solution: Run /spec init to initialize tracking
@@ -232,16 +232,16 @@ See `REFERENCE.md` for metric calculation formulas and export specifications.
 ## Integration
 
 **State Files Used**:
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (primary source)
+- `{config.paths.memory}/workflow-progress.md` (primary source)
 - `{config.paths.state}/current-session.md` (current context)
-- `{config.paths.memory}/CHANGES-COMPLETED.md` (task details)
+- `{config.paths.memory}/changes-completed.md` (task details)
 
-See `shared/state-management.md` for file formats.
+See `docs/patterns/state-management.md` for file formats.
 
 **Related Commands**:
-- `/workflow:track` → "📊 View Metrics" - Quick progress check
-- `/workflow:track` → "🔍 Analyze Consistency" - Deep analysis of specific feature
-- `/workflow:track` → "✅ Quality Checklist" - Verify data consistency
+- `/spec-track` → "📊 View Metrics" - Quick progress check
+- `/spec-track` → "🔍 Analyze Consistency" - Deep analysis of specific feature
+- `/spec-track` → "✅ Quality Checklist" - Verify data consistency
 
 ## Notes
 
@@ -249,4 +249,4 @@ See `shared/state-management.md` for file formats.
 - Export formats compatible with Excel, Tableau, custom dashboards
 - Historical trends require 3+ completed features minimum
 - AI impact metrics track Claude Code contributions
-- Updates automatically when WORKFLOW-PROGRESS.md changes
+- Updates automatically when workflow-progress.md changes

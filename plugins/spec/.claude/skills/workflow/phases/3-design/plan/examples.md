@@ -121,7 +121,7 @@ Product Created → PostgreSQL → CDC → Elasticsearch → Search Query → AP
 
 **Step 3: Document ADRs**
 
-Appends to `{config.paths.memory}/DECISIONS-LOG.md`:
+Appends to `{config.paths.memory}/decisions-log.md`:
 ```markdown
 ## ADR-003: Use Elasticsearch for Product Search
 
@@ -161,7 +161,7 @@ Plan created for Feature 002: Product Search
 
 Files generated:
   - {config.paths.features}/{config.naming.feature_directory}/{config.naming.files.plan} (1,847 tokens)
-  - {config.paths.memory}/DECISIONS-LOG.md (updated with 1 ADR)
+  - {config.paths.memory}/decisions-log.md (updated with 1 ADR)
 
 Architecture decisions documented:
   - ADR-003: Use Elasticsearch for Product Search
@@ -498,7 +498,7 @@ async function tenantContext(req, res, next) {
 - US7.2: Changes sync when online [P1]
 ```
 
-**Project Constraints** (from CLAUDE.md):
+**Project Constraints** (from claude.md):
 ```markdown
 TECH_STACK=React Native
 DATABASE=SQLite (local)

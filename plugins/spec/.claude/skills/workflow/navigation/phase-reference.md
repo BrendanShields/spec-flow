@@ -51,8 +51,8 @@ Is this a new project?
 - `{config.paths.spec_root}/product-requirements.md`
 - `{config.paths.spec_root}/architecture-blueprint.md` (if blueprint run)
 - `{config.paths.state}/current-session.md`
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md`
-- `{config.paths.memory}/DECISIONS-LOG.md`
+- `{config.paths.memory}/workflow-progress.md`
+- `{config.paths.memory}/decisions-log.md`
 - `discovery/` reports (if discover run)
 
 ### Next Phase
@@ -102,7 +102,7 @@ Have requirements?
 ### Artifacts Created
 - `{config.paths.features}/NNN-feature-name/{config.naming.files.spec}`
 - `{config.paths.features}/NNN-feature-name/checklists/` (if checklist run)
-- Updated `{config.paths.memory}/DECISIONS-LOG.md` (clarifications)
+- Updated `{config.paths.memory}/decisions-log.md` (clarifications)
 
 ### Next Phase
 → Phase 3 (Design Solution)
@@ -147,7 +147,7 @@ plan phase (create technical design)
 
 ### Artifacts Created
 - `{config.paths.features}/NNN-feature-name/{config.naming.files.plan}`
-- `{config.paths.memory}/DECISIONS-LOG.md` (ADRs)
+- `{config.paths.memory}/decisions-log.md` (ADRs)
 - `{config.paths.state}/analysis-report-{timestamp}.md` (if analyze run)
 
 ### Next Phase
@@ -196,7 +196,7 @@ tasks phase (break down into tasks)
 ### Artifacts Created
 - `{config.paths.features}/NNN-feature-name/{config.naming.files.tasks}`
 - Implemented code changes
-- Updated `{config.paths.memory}/CHANGES-COMPLETED.md`
+- Updated `{config.paths.memory}/changes-completed.md`
 - Updated `{config.paths.state}/current-session.md`
 
 ### Next Phase
@@ -242,7 +242,7 @@ Phase 5 is continuous throughout project lifecycle
 - `spec.md` (via update phase)
 - `plan.md` (propagated from updates)
 - `tasks.md` (propagated from updates)
-- `{config.paths.memory}/WORKFLOW-PROGRESS.md` (metrics)
+- `{config.paths.memory}/workflow-progress.md` (metrics)
 - `{config.paths.state}/checkpoints/` (orchestrate)
 
 ---
@@ -292,7 +292,7 @@ Optional phases that can be skipped:
 - `implementation` - Phase 4 implementing
 - `complete` - Phase 4 done
 
-### Progress Tracking in `{config.paths.memory}/WORKFLOW-PROGRESS.md`
+### Progress Tracking in `{config.paths.memory}/workflow-progress.md`
 
 ```markdown
 ### Active Features

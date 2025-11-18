@@ -83,7 +83,7 @@ All validation checks passed. Ready to proceed:
 
 1. Run: `implement phase` to start implementation
 2. Session will track progress in {config.paths.state}/
-3. Tasks will move to CHANGES-COMPLETED.md as done
+3. Tasks will move to changes-completed.md as done
 ```
 
 **User Experience**:

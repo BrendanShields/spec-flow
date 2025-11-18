@@ -264,9 +264,9 @@ checkpoint_state:
 
   state_snapshot:
     workflow_progress: |
-      [Content of WORKFLOW-PROGRESS.md]
+      [Content of workflow-progress.md]
     decisions_log: |
-      [Content of DECISIONS-LOG.md]
+      [Content of decisions-log.md]
     current_session: |
       [Content of current-session.md]
 
@@ -306,7 +306,7 @@ function loadCheckpoint(checkpointId):
   // Restore state files
   restoreFile("{config.paths.state}/current-session.md",
               checkpoint.state.current_session)
-  restoreFile("{config.paths.memory}/WORKFLOW-PROGRESS.md",
+  restoreFile("{config.paths.memory}/workflow-progress.md",
               checkpoint.state.workflow_progress)
 
   // Verify artifacts still exist
@@ -329,7 +329,7 @@ function loadCheckpoint(checkpointId):
 function updateWorkflowState(phase, result):
   // 1. Read current state atomically
   currentSession = readFile("{config.paths.state}/current-session.md")
-  workflowProgress = readFile("{config.paths.memory}/WORKFLOW-PROGRESS.md")
+  workflowProgress = readFile("{config.paths.memory}/workflow-progress.md")
 
   // 2. Update relevant sections
   updatedSession = updatePhaseInSession(currentSession, phase, result)
@@ -342,7 +342,7 @@ function updateWorkflowState(phase, result):
 
   writeTempFile("{config.paths.memory}/WORKFLOW-PROGRESS.tmp", updatedProgress)
   rename("{config.paths.memory}/WORKFLOW-PROGRESS.tmp",
-         "{config.paths.memory}/WORKFLOW-PROGRESS.md")
+         "{config.paths.memory}/workflow-progress.md")
 
   // 4. Update timestamp
   updateTimestamp(phase)
@@ -357,7 +357,7 @@ function validateStateConsistency():
   // Check file existence
   requiredFiles = [
     "{config.paths.state}/current-session.md",
-    "{config.paths.memory}/WORKFLOW-PROGRESS.md"
+    "{config.paths.memory}/workflow-progress.md"
   ]
   for file in requiredFiles:
     if not exists(file):
@@ -500,7 +500,7 @@ SPEC_ORCHESTRATE_PROGRESS_UPDATES=verbose|normal|quiet
 
 ### Project-Level Configuration
 
-In `CLAUDE.md`:
+In `claude.md`:
 
 ```markdown
 # Spec Orchestration Configuration
@@ -767,10 +767,10 @@ hooks:
 
 ## Related Documentation
 
-- **SKILL.md**: Core orchestration instructions
+- **skill.md**: Core orchestration instructions
 - **EXAMPLES.md**: Concrete usage scenarios
-- **shared/workflow-patterns.md**: Common workflow patterns
-- **shared/state-management.md**: State file specifications
+- **docs/patterns/workflow-patterns.md**: Common workflow patterns
+- **docs/patterns/state-management.md**: State file specifications
 - **implement phase/REFERENCE.md**: Implementation phase details
 - **analyze phase/REFERENCE.md**: Validation phase details
 

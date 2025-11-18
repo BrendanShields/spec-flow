@@ -107,12 +107,12 @@ Phase Breakdown:
 
 State Updated:
 ✓ current-session.md → Implementation phase complete
-✓ CHANGES-COMPLETED.md → 8 tasks added
-✓ WORKFLOW-PROGRESS.md → Metrics updated
+✓ changes-completed.md → 8 tasks added
+✓ workflow-progress.md → Metrics updated
 
 Next Steps:
-  /workflow:track → "🔍 Analyze Consistency"  # Check consistency
-  /workflow:track → "✅ Quality Checklist"    # Quality review
+  /spec-track → "🔍 Analyze Consistency"  # Check consistency
+  /spec-track → "✅ Quality Checklist"    # Quality review
 ```
 
 ---
@@ -207,7 +207,7 @@ Parallel Performance:
 - Average Parallelism: 3.2 tasks/min
 
 Next Steps:
-  /workflow:track → "📊 View Metrics"    # Review performance baseline
+  /spec-track → "📊 View Metrics"    # Review performance baseline
 ```
 
 ---

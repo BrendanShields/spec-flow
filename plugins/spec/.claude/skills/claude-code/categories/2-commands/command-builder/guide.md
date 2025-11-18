@@ -103,7 +103,7 @@ cat EXAMPLES.md   # Real-world examples
 1. **Code review**: `!git diff` + review prompt
 2. **Git commit**: `!git status` + commit message generation
 3. **Test runner**: `!npm test` + failure analysis
-4. **Documentation**: `@README.md` + update prompt
+4. **Documentation**: `@readme.md` + update prompt
 5. **Refactoring**: Template prompt with file reference
 6. **Bug report**: Gather context + format as issue
 
