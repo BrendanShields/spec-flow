@@ -3,8 +3,12 @@
   "mode": "auto",
   "status": "running",
   "started_at": "2025-11-19T11:50:07Z",
-  "current_phase": "specification",
-  "completed_phases": [],
+  "current_phase": "tasks",
+  "completed_phases": [
+    "specification",
+    "clarification",
+    "planning"
+  ],
   "checkpoint_strategy": {
     "after_spec": true,
     "after_clarify": true,
@@ -16,5 +20,12 @@
   },
   "interruption_count": 0,
   "expires_at": "2025-11-20T11:50:07Z",
-  "metadata": {}
+  "metadata": {
+    "feature_name": "Context Preloading Hook System",
+    "feature_description": "Hook system that preloads information into context for the orbit workflow to reduce file I/O overhead",
+    "priority": "P1",
+    "feature_id": "002-context-preloading-hooks",
+    "clarifications_needed": 4,
+    "clarifications_resolved": 4
+  }
 }

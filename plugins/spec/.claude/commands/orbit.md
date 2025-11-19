@@ -111,10 +111,12 @@ Review saved files at: {feature_dir}/
   - Option 5: "View Help" → Show workflow overview
 
 **State: IN_SPECIFICATION (spec exists, has [CLARIFY] tags)**
-→ Single question: "Your spec has {N} clarifications needed. Next step?"
-  - Option 1: "Resolve Clarifications" → Invoke `orbit-lifecycle` (Clarify branch)
-  - Option 2: "Skip to Planning" → Invoke `orbit-planning` (Plan branch) with warning
-  - Option 3: "Validate Spec Quality" → Invoke `orbit-lifecycle` (Quality branch)
+→ Multi-question AskUserQuestion block:
+  1. Single-select question that lists each clarification headline (auto-generated options such as “Cache invalidation”, “Preloading scope”, etc.) so the user can choose which ones to answer now.
+  2. For each selected clarification, immediately present the follow-up options (per the guidelines: max 4 options + automatic “Other”).
+  - Include an option like “Answer All Now” to encourage resolving everything in one pass.
+  - After collection, invoke `orbit-lifecycle` (Clarify branch) with the chosen answers.
+  - Offer "Skip to Planning" (invokes `orbit-planning` with warning) and "Validate Spec Quality" (invokes `orbit-lifecycle` Quality branch) for users who intentionally defer.
 
 **State: IN_SPECIFICATION (spec validated, no [CLARIFY] tags)**
 → Single question: "Spec looks good! Ready to plan implementation?"

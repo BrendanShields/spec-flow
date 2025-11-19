@@ -1,6 +1,6 @@
 {
-  "action": "start-implementation",
-  "phase": "tasks",
-  "feature": "001-workflow-subagents",
-  "generated_at": "2025-11-19T11:49:18Z"
+  "action": "break-down-tasks",
+  "phase": "planning",
+  "feature": "002-context-preloading-hooks",
+  "generated_at": "2025-11-19T12:03:02Z"
 }

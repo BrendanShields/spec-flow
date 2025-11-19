@@ -29,7 +29,10 @@ Single skill that routes through every Orbit phase while keeping the functionali
 
 ### 2. Define + Clarify Specification
 - Ask for feature summary + priority, then create/update `{features}/{id}/spec.md` using the structure in reference.md §Specifications.
-- Scan for `[CLARIFY]` or vague wording. Group the top four items and ask clarifying questions (include recommended answers + trade-offs) before editing.
+- Immediately scan for `[CLARIFY]` or vague wording. Convert the top issues into a **single AskUserQuestion interaction** with 1–4 questions, each using the official guidelines (short header, 2–4 options + automatic “Other”).
+- For example, multiSelect=false per clarification (“Cache invalidation strategy?” → Event-based / Time-based / Manual / Other) so users can answer everything in one shot without extra back-and-forth.
+- Only fall back to free-form follow-up if the user explicitly chooses “Other”. This keeps clarifications front-loaded and reduces cycle time.
+- After recording answers, update the spec and, if more gaps remain, repeat with another AskUserQuestion block (never drip feed single yes/no prompts).
 - For quality gates, delegate to the `specification-analyzer` agent and store checklists under `{feature}/checklists/`.
 
 ### 3. Change Control / Updates
