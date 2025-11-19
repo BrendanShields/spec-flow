@@ -1411,12 +1411,11 @@ Gets the active feature directory path.
 **Implementation**:
 ```bash
 function get_current_feature_dir() {
-  # Read from current-session.md or state
+  # Prefer auto-mode metadata, fallback to session.json
   local feature_id=$(jq -r '.metadata.feature_id // empty' .spec/state/auto-mode-session.json 2>/dev/null)
 
-  if [ -z "$feature_id" ]; then
-    # Fallback: read from current-session.md
-    feature_id=$(grep -m 1 "^feature:" .spec/state/current-session.md 2>/dev/null | awk '{print $2}')
+  if [ -z "$feature_id" ] && [ -f .spec/state/session.json ]; then
+    feature_id=$(jq -r '.current.id // empty' .spec/state/session.json 2>/dev/null)
   fi
 
   if [ -n "$feature_id" ]; then

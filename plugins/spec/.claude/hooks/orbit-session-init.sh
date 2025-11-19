@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Prepare Spec workspace directories and configuration.
+# Prepare Orbit workspace directories and session state.
 
 set -euo pipefail
 
@@ -10,26 +10,15 @@ source "${SCRIPT_DIR}/lib.sh"
 CONTEXT="$(cat || true)"
 ensure_directories
 ensure_config
+ensure_session_file
 
-if [[ ! -d "${SPEC_DIR}" ]]; then
-  mkdir -p "${SPEC_DIR}"
-fi
-
-if [[ ! -f "${STATE_DIR}/current-session.md" ]]; then
-  cat >"${STATE_DIR}/current-session.md" <<'MARKDOWN'
----
-feature: none
-phase: initialize
-started: ''
-last_updated: ''
----
-
-# Current Session State
-
-Spec workflow is ready. Run `/orbit` to begin.
-MARKDOWN
+current_status="$(session_get "current.status")"
+if [[ -z "${current_status}" || "${current_status}" == "null" ]]; then
+  session_set_value "current.phase" "initialize"
+  session_set_value "current.status" "not_initialized"
+  session_set_value "timestamps.started" "$(timestamp)"
 fi
 
 record_next_step >/dev/null 2>&1 || true
 
-write_hook_output "orbit-session-init" "Spec workspace initialized" "{\"config\":\"${CONFIG_FILE}\",\"state_file\":\"${STATE_DIR}/current-session.md\"}"
+write_hook_output "orbit-session-init" "Orbit session initialized" "{\"session_file\":\"${SESSION_JSON}\"}"

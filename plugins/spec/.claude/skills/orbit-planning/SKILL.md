@@ -1,6 +1,6 @@
 ---
 name: orbit-planning
-description: Consolidates architecture, technical planning, task breakdown, and consistency validation into one Orbit skill with embedded templates/scripts. Use whenever `/spec` enters design/planning, the user asks for blueprints/tasks, or `/spec-track` requests validations before implementation.
+description: Consolidates architecture, technical planning, task breakdown, and consistency validation into one Orbit skill with embedded templates/scripts. Use whenever `/orbit` enters design/planning, the user asks for blueprints/tasks, or `/orbit-track` requests validations before implementation.
 allowed-tools: [Read, Write, Edit, AskUserQuestion, Bash, Skill]
 ---
 
@@ -9,7 +9,7 @@ allowed-tools: [Read, Write, Edit, AskUserQuestion, Bash, Skill]
 Replaces the individual architecture/plan/task/consistency skills while keeping their functionality intact.
 
 ## When to Invoke
-- `/spec` or Orbit Lifecycle escalates to "Plan" or "Tasks".
+- `/orbit` or Orbit Lifecycle escalates to "Plan" or "Tasks".
 - User requests "draft architecture", "create technical plan", "break into tasks", or "validate consistency".
 - Feature updates require re-planning or spec-plan drift checks.
 

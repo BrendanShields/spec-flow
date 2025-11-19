@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Produce a compact session summary on Stop/SessionEnd.
+# Persist a compact session snapshot when the main agent or session stops.
 
 set -euo pipefail
 
@@ -9,64 +9,91 @@ source "${SCRIPT_DIR}/lib.sh"
 
 CONTEXT="$(cat || true)"
 ensure_directories
+ensure_session_file
 
-# Snapshot current session metadata (inline former save-session logic)
-python3 - "${SESSION_FILE}" "${PROJECT_DIR}" <<'PY'
-import json, sys, time, pathlib, subprocess
-session_path = pathlib.Path(sys.argv[1])
-project = pathlib.Path(sys.argv[2])
-state_path = project / ".spec" / "state" / "current-session.md"
-try:
-    changed = subprocess.check_output(["git", "status", "--short"], cwd=project).decode().splitlines()
-except Exception:
-    changed = []
-data = {
-    "feature": "",
-    "phase": "",
-    "changed_files": [line.strip() for line in changed if line.strip()],
-    "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-}
-if state_path.exists():
-    lines = state_path.read_text(encoding='utf-8').splitlines()
-    if lines and lines[0].strip() == '---':
-        for line in lines[1:]:
-            if line.strip() == '---':
-                break
-            if ':' not in line:
-                continue
-            key, value = line.split(':', 1)
-            data[key.strip()] = value.strip()
-session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
+SESSION_JSON_SNAPSHOT="$(python3 - "${SESSION_JSON}" <<'PY'
+import json, sys, pathlib
+path = pathlib.Path(sys.argv[1])
+print(json.dumps(json.loads(path.read_text(encoding='utf-8'))))
 PY
+)"
+export SESSION_JSON_SNAPSHOT
 
-feature="$(frontmatter_value "feature")"
-phase="$(frontmatter_value "phase")"
-recent_progress="$(tail -n 5 "${PROGRESS_FILE}" 2>/dev/null || true)"
-recent_metrics="$(tail -n 5 "${METRICS_FILE}" 2>/dev/null || true)"
+feature_id="$(python3 - <<'PY'
+import json, os
+session = json.loads(os.environ.get('SESSION_JSON_SNAPSHOT') or '{}')
+print(session.get('current', {}).get('id') or '')
+PY
+)"
+
+feature_name="$(python3 - <<'PY'
+import json, os
+session = json.loads(os.environ.get('SESSION_JSON_SNAPSHOT') or '{}')
+print(session.get('current', {}).get('name') or '')
+PY
+)"
+
+phase="$(python3 - <<'PY'
+import json, os
+session = json.loads(os.environ.get('SESSION_JSON_SNAPSHOT') or '{}')
+print(session.get('current', {}).get('phase') or '')
+PY
+)"
+
+progress_json="$(python3 - <<'PY'
+import json, os
+session = json.loads(os.environ.get('SESSION_JSON_SNAPSHOT') or '{}')
+print(json.dumps(session.get('current', {}).get('progress') or []))
+PY
+)"
+export progress_json
+
+changed_files="$(git -C "${PROJECT_DIR}" status --short 2>/dev/null || true)"
+recent_activity="$(tail -n 10 "${ACTIVITY_LOG}" 2>/dev/null || true)"
+recent_metrics="$(tail -n 10 "${METRICS_FILE}" 2>/dev/null || true)"
 
 {
-  echo "# Orbit Session Summary ($(timestamp))"
-  echo
-  echo "- Feature: ${feature:-none}"
+  echo "## $(timestamp) Session Snapshot"
+  echo "- Feature: ${feature_id:-none}${feature_name:+ (${feature_name})}"
   echo "- Phase: ${phase:-initialize}"
   echo
-  echo "## Recent Progress"
-  if [[ -n "${recent_progress}" ]]; then
-    echo '```'
-    echo "${recent_progress}"
-    echo '```'
+  echo "### Progress"
+  if [[ -n "${progress_json}" && "${progress_json}" != "[]" ]]; then
+    python3 - <<'PY'
+import json, os
+progress = json.loads(os.environ.get('progress_json') or '[]')
+for item in progress[-5:]:
+    print(f"- {item}")
+PY
   else
-    echo "_No activity recorded yet._"
+    echo "_No progress recorded yet._"
   fi
   echo
-  echo "## Recent Metrics"
+  echo "### Recent Activity"
+  if [[ -n "${recent_activity}" ]]; then
+    echo '```'
+    echo "${recent_activity}"
+    echo '```'
+  else
+    echo "_Activity log empty._"
+  fi
+  echo
+  echo "### Recent Metrics"
   if [[ -n "${recent_metrics}" ]]; then
     echo '```'
     echo "${recent_metrics}"
     echo '```'
   else
-    echo "_No metrics collected._"
+    echo "_No metrics yet._"
   fi
-} >"${SUMMARY_FILE}"
+  echo
+  if [[ -n "${changed_files}" ]]; then
+    echo "### Pending Changes"
+    echo '```'
+    echo "${changed_files}"
+    echo '```'
+    echo
+  fi
+} >>"${HISTORY_FILE}"
 
-write_hook_output "orbit-session-summary" "Session summary saved" "{\"summary_file\":\"${SUMMARY_FILE}\"}"
+write_hook_output "orbit-session-summary" "Session snapshot recorded" "{\"feature\":\"${feature_id:-none}\",\"phase\":\"${phase:-initialize}\"}"

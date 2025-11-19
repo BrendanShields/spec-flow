@@ -14,11 +14,11 @@ Single skill that routes through every Orbit phase while keeping the functionali
 - Hooks or auto-mode warn about missing `.spec/` assets or incomplete implementation work.
 
 ## Intake Checklist
-1. **Detect phase** – read `{config.paths.state}/current-session.md` and `.spec/state/next-step.json` when available. If absent, ask the user to pick a branch (Initialize/Define/Clarify/Update/Implement/Track).
+1. **Detect phase** – read `.spec/state/session.json` (single source of truth) and fall back to AskUserQuestion when missing. If absent, ask the user to pick a branch (Initialize/Define/Clarify/Update/Implement/Track).
 2. **Confirm config** – ensure `.spec/.spec-config.yml` exists. Default to `.spec/` paths and prompt when overrides are needed.
 3. **Load templates** – the old `/docs/patterns` content now lives in `templates/state/*.md` and [reference.md](reference.md). Read them before creating or repairing files.
 4. **Check integrations** – scan `claude.md` for `SPEC_*_SYNC` flags so MCP sync recipes can be offered when relevant.
-5. **Lean on hooks** – let `orbit-update-status`, `orbit-prefetch-next-step`, and `orbit-session-summary` maintain `current-session.md`, `next-step.json`, and metrics. Use `scripts/update_state.sh` instead of hand-editing when hooks need a nudge.
+5. **Lean on hooks** – let `orbit-update-status`, `orbit-prefetch-next-step`, and `orbit-session-summary` maintain `state/session.json`, in-memory next-action hints, and metrics. Use `scripts/update_state.sh` instead of hand-editing when hooks need a nudge.
 
 ## Branches & Execution
 
@@ -42,7 +42,7 @@ Single skill that routes through every Orbit phase while keeping the functionali
 ### 4. Implement & Track
 - Load `{feature}/tasks.md`, pick the next ready task, and trigger `scripts/tdd_cycle.sh` to run the red/green/refactor flow (writes checkpoints, runs tests, updates tasks).
 - Delegate deeper execution to the `spec-implementer` subagent when asked; sync state afterwards via `scripts/update_state.sh`.
-- For `/spec-track` metrics, read `workflow-progress.md`, `changes-planned.md`, and `changes-completed.md`, then summarize velocity/blockers. Offer MCP sync using the playbooks in reference.md §Integrations.
+- For `/orbit-track` metrics, read `.spec/memory/activity-log.md` plus the latest blocks from `.spec/archive/history.md`, then summarize velocity/blockers. Offer MCP sync using the playbooks in reference.md §Integrations.
 
 ### 5. Monitor Progress Only
 - When the user just wants a status update, skip edits and generate the dashboard from memory/state files. Highlight overdue checkpoints, active blockers, and CTA (Resume Orbit, Enter Auto Mode, etc.).
@@ -51,15 +51,15 @@ Single skill that routes through every Orbit phase while keeping the functionali
 - **Templates** – `templates/state/*.md` contain the seeded markdown for session/memory/ADR files. Replace placeholders (`{timestamp}`, `{feature_id}`, `{owner}`) before writing.
 - **scripts/init_state.sh** – creates `.spec/` directories, copies template files, and appends ignores.
 - **scripts/tdd_cycle.sh** – enforces the TDD workflow and explicit `update_task_completion` calls (mirrors the old `implementing-features` instructions).
-- **scripts/update_state.sh** – helper to refresh `current-session.md`, `workflow-progress.md`, and `.spec/state/next-step.json` when hooks are unavailable.
+- **scripts/update_state.sh** – helper to refresh `state/session.json` (phase + feature metadata) when hooks need a manual nudge.
 
 ## Parallel Delegation
 - Spin up `spec-researcher` while `spec-implementer` (or the main Orbit branch) works so research-backed ADRs land before code starts.
-- For large features, run multiple `spec-implementer` sessions (different task groups) in parallel; Orbit hooks merge their summaries automatically via `orbit-aggregate-results`.
+- For large features, run multiple `spec-implementer` sessions (different task groups) in parallel; Orbit hooks now stream each summary into `.spec/archive/history.md` so the latest context is always in one place.
 - Call out which agent owns which file set so hooks can log accurate provenance in `subagent-summary.md`.
 
 ## Validation & Error Handling
-- After any run, confirm `current-session.md` frontmatter reflects the new phase + timestamps.
+- After any run, confirm `state/session.json` reflects the new phase + timestamps.
 - Append to `changes-planned.md` / `changes-completed.md` even if hook automation fails; the scripts expose functions for direct updates.
 - If MCP tools are missing, explain the fallback and point the user at reference.md for manual sync instructions.
 - Summarize artifacts touched and decisions made (include next recommended branch).

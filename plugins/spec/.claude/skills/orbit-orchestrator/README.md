@@ -14,7 +14,6 @@
 - [reference.md](./reference.md) - All 36 bash function implementations
 - [examples.md](./examples.md) - 10 real-world usage scenarios
 - [skill-integration.md](./skill-integration.md) - How skills integrate with auto-mode
-- [hooks-integration.md](./hooks-integration.md) - Hook implementation guide
 
 ---
 
@@ -196,7 +195,6 @@
    - Phase sequencing logic
    - Optional metadata format
 
-6. **hooks-integration.md** (1,000 lines)
    - Notification hook (keyword detection)
    - SessionStart hook (resume detection)
    - PostToolUse hook (state updates)
@@ -395,7 +393,7 @@ Continuing to task breakdown...
 - [x] `.claude/skills/orchestrating-workflow/reference.md`
 - [x] `.claude/skills/orchestrating-workflow/examples.md`
 - [x] `.claude/skills/orchestrating-workflow/skill-integration.md`
-- [x] `.claude/skills/orchestrating-workflow/hooks-integration.md`
+- [x] Hooks summarized inside SKILL + README (no standalone file)
 - [x] `.claude/skills/orchestrating-workflow/README.md` (this file)
 - [x] `.claude/commands/spec.md` (updated with auto-mode integration)
 
@@ -408,7 +406,7 @@ Continuing to task breakdown...
 - [x] `tests/test-e2e.sh` (15 tests)
 
 ### Documentation Updates
-- [x] `.spec/memory/workflow-progress.md` (Feature 002 complete)
+- [x] `.spec/memory/activity-log.md` (Feature 002 complete)
 - [x] Command integration guide
 - [x] Hook integration guide
 - [x] Skill integration guide

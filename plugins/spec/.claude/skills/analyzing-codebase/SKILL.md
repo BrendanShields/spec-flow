@@ -116,7 +116,7 @@ The codebase-analyzer agent generates:
 ## Integration Points
 
 - **Triggers**: orbit-planning (Architecture branch) skill (uses discovery reports to create blueprint)
-- **Updates**: workflow-progress.md (logs discovery completion)
+- **Updates**: `.spec/memory/activity-log.md` (logs discovery completion)
 - **Suggests**: Running orbit-planning (Architecture branch) to formalize findings
 
 ## Progressive Disclosure

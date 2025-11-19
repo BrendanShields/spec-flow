@@ -5,25 +5,37 @@ Primary slash command for the Orbit workflow. Provides context-aware guidance on
 ## What This Command Does
 
 - Detects project state (initialized, current phase, active feature)
-- Reads cached workflow hints from `{config.paths.state}/NEXT-STEP.json`
+- Reads `.spec/state/session.json` for current feature/phase + cached `nextAction`
 - Presents interactive `AskUserQuestion` interface for easy navigation
 - Invokes appropriate autonomous skill based on user selection
 - Guides the user through the workflow phases
+- Reminds Claude to lean on hooks/helper scripts for state updates instead of editing files directly
 
 **User Experience**: Interactive multi-tab questions where appropriate, allowing users to easily choose their next action without typing commands.
 
 ## Initial Status Message
 
-Always begin your response with a formatted Orbit status block so the user immediately sees the current phase and recommendation:
+Always begin your response with the Orbit ASCII banner followed by the status block. This keeps branding consistent and front-loads the summary before questions:
 
 ```
+---------------------------------------
+
+  ██████╗ ██████╗ ██████╗ ██╗████████╗
+ ██╔═══██╗██╔══██╗██╔══██╗██║╚══██╔══╝
+ ██║   ██║██████╔╝██████╔╝██║   ██║
+ ██║   ██║██╔══██╗██╔══██╗██║   ██║
+ ╚██████╔╝██║  ██║██████╔╝██║   ██║
+  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝   ╚═╝
+
 **🚀🌑 Orbit Status**
-- Phase: {phase or "not initialized"}
-- Feature: {feature id or "none"}
-- Next Step: {cached recommendation}
+- Phase: {phase or "Not initialized"}
+- Feature: {feature id or "None"}
+- Next Step: {nextAction.phase} – {nextAction.hint}
+
+---------------------------------------
 ```
 
-After printing the block, continue with the context summary and AskUserQuestion flow described below.
+After printing the block, include a one-sentence summary (phase, blockers, next action) and immediately launch the AskUserQuestion flow so clarifications are captured up front. Never start follow-up chit-chat before the question set.
 
 ## Workflow State Detection
 
@@ -36,8 +48,8 @@ After printing the block, continue with the context summary and AskUserQuestion 
    - If `.spec/` doesn't exist → recommend the **Orbit Lifecycle** skill (Initialize branch)
 
 3. **Read current state**
-   - Parse `{config.paths.state}/current-session.md` for current phase and feature
-   - Read `{config.paths.state}/NEXT-STEP.json` (cached by hooks) for recommended action
+   - Parse `.spec/state/session.json` for the current phase, feature metadata, and timestamps
+   - Use `nextAction` inside `session.json` (populated by hooks) as the recommendation instead of separate cache files
 
 4. **Determine current phase**
    - `NOT_INITIALIZED` → Initialize project
@@ -53,6 +65,8 @@ After printing the block, continue with the context summary and AskUserQuestion 
 - **orbit-planning** – Handles architecture blueprints, technical plans, task breakdown, and consistency checks.
 - **analyzing-codebase** – Optional brownfield reconnaissance before entering Orbit.
 - **orbit-orchestrator** – Auto mode wrapper chaining Orbit Lifecycle + Orbit Planning.
+
+Call out parallel options when phases allow it (e.g., run `spec-researcher` while `spec-implementer` tackles tasks) so Claude proactively suggests concurrent agents.
 
 ## Interactive Interface by State
 
@@ -162,7 +176,7 @@ Keep questions focused and actionable - avoid overwhelming users with too many o
 
 ## Hook Interaction
 
-- **SessionStart hook** - Computes `NEXT-STEP.json` with recommended skill
+- **SessionStart hook** - Computes `session.json.nextAction` with recommended skill
 - **UserPromptSubmit hook** - Appends workflow context to prompts
 - **PostToolUse hook** - Updates workflow state after skill execution
 - **Notification hook** - Surfaces next recommended skill
@@ -236,7 +250,7 @@ For fully autonomous execution across multiple phases:
    fi
    ```
 
-3. Read state from `{config.paths.state}/current-session.md` and `NEXT-STEP.json`
+3. Read state from `.spec/state/session.json`
 
 4. Present context summary (current phase, progress, recommendations)
 
@@ -349,7 +363,7 @@ if (userSelection === "Interactive") {
 
 **SessionStart Hook**:
 - Checks for auto-mode session on every new session
-- Updates `NEXT-STEP.json` to recommend resume if found
+- Updates `session.json.nextAction` to recommend resume if found
 - Cleans up expired sessions automatically
 
 **Notification Hook**:
@@ -371,7 +385,7 @@ if (userSelection === "Interactive") {
 | **Interactions** | ~10 | ~50 |
 | **Best for** | Well-defined features | Exploration, learning |
 | **Resume** | Automatic | Manual |
-| **State** | Session JSON | current-session.md |
+| **State** | Session JSON | `.spec/state/session.json` |
 
 ### Configuration
 

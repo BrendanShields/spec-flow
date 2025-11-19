@@ -12,6 +12,8 @@ if [[ -z "${CONTEXT// }" ]]; then
   exit 0
 fi
 
+ensure_session_file
+
 export CONTEXT_JSON="${CONTEXT}"
 PROMPT="$(python3 <<'PY'
 import json, os
@@ -26,7 +28,7 @@ if [[ -z "${PROMPT}" ]]; then
 fi
 
 active=0
-if [[ "${PROMPT}" == /orbit* || "${PROMPT}" == /spec-track* || "${PROMPT}" == */orbit* ]]; then
+if [[ "${PROMPT}" == /orbit* || "${PROMPT}" == /orbit-track* || "${PROMPT}" == */orbit* ]]; then
   active=1
   echo "$(timestamp)" >"${WORKFLOW_FLAG_FILE}"
 elif [[ -f "${WORKFLOW_FLAG_FILE}" ]]; then
@@ -50,23 +52,12 @@ if [[ "${active}" -eq 0 ]]; then
   exit 0
 fi
 
-feature="$(frontmatter_value "feature")"
-phase="$(frontmatter_value "phase")"
-next_action=""
-if [[ -f "${NEXT_STEP_FILE}" ]]; then
-  next_action="$(python3 - "${NEXT_STEP_FILE}" <<'PY'
-import json, sys, pathlib
-path = pathlib.Path(sys.argv[1])
-try:
-    data = json.loads(path.read_text(encoding='utf-8'))
-    print(data.get("action",""))
-except Exception:
-    print("")
-PY
-)"
-fi
+feature="$(session_get "current.id")"
+phase="$(session_get "current.phase")"
+next_phase="$(session_get "nextAction.phase")"
+next_hint="$(session_get "nextAction.hint")"
 
-context_block=$'\n\n'"[Spec Workflow Context]"$'\n'"Feature: ${feature:-none}"$'\n'"Phase: ${phase:-initialize}"$'\n'"Next: ${next_action:-initialize}"
+context_block=$'\n\n'"[Orbit Workflow Context]"$'\n'"Feature: ${feature:-none}"$'\n'"Phase: ${phase:-initialize}"$'\n'"Next: ${next_phase:-initialize} (${next_hint:-continue workflow})"
 
 export PROMPT
 export CONTEXT_BLOCK="${context_block}"

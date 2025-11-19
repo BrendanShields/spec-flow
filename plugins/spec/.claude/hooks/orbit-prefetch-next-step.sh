@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Compute and cache the recommended next workflow step.
+# Compute and store the recommended next workflow step inside session.json.
 
 set -euo pipefail
 
@@ -8,10 +8,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib.sh"
 
 CONTEXT="$(cat || true)"
-payload="$(record_next_step 2>/dev/null || true)"
+ensure_session_file
 
-if [[ -n "${payload}" ]]; then
-  write_hook_output "orbit-prefetch-next-step" "Next workflow step prefetched" "${payload}"
-else
-  write_hook_output "orbit-prefetch-next-step" "Next step unavailable"
-fi
+record_next_step >/dev/null 2>&1 || true
+
+next_phase="$(session_get "nextAction.phase")"
+next_hint="$(session_get "nextAction.hint")"
+
+write_hook_output "orbit-prefetch-next-step" "Next workflow step recorded" "{\"next\":{\"phase\":\"${next_phase}\",\"hint\":\"${next_hint}\"}}"

@@ -24,9 +24,15 @@ PY
 
 ensure_directories
 {
-  echo "## $(timestamp) - ${AGENT:-unknown} (${STATUS})"
-  echo "${OUTPUT}"
+  echo "## $(timestamp) - Subagent: ${AGENT:-unknown} (${STATUS})"
+  if [[ -n "${OUTPUT}" ]]; then
+    echo "${OUTPUT}"
+  else
+    echo "(no output captured)"
+  fi
   echo
-} >>"${SUBAGENT_SUMMARY_FILE}"
+} >>"${HISTORY_FILE}"
+
+append_log_line "${ACTIVITY_LOG}" "subagent=${AGENT:-unknown} status=${STATUS}"
 
 write_hook_output "orbit-aggregate-results" "Subagent result recorded" "{\"agent\":\"${AGENT}\",\"status\":\"${STATUS}\"}"

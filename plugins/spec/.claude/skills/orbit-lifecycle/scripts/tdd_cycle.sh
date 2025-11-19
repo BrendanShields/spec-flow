@@ -35,4 +35,4 @@ if command -v update_task_completion >/dev/null 2>&1; then
   update_task_completion "$task_id: $description" "$feature"
 fi
 
-log "Task complete; update current-session.md and workflow metrics"
+log "Task complete; hooks will update session.json and metrics"

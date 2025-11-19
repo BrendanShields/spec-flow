@@ -6,7 +6,7 @@ activation_patterns:
   - user says "auto mode"
   - user says "orchestrate workflow"
   - user says "run automatically"
-  - command /spec with auto-mode selection
+  - command /orbit with auto-mode selection
   - resuming interrupted auto-mode session
 tools:
   - Read
@@ -22,7 +22,7 @@ tools:
 **Purpose**: Automatically progress through workflow phases with minimal user interaction, strategic checkpoints, and robust interruption handling.
 
 **When to activate**:
-- User selects "Auto Mode" from `/spec` command
+- User selects "Auto Mode" from `/orbit` command
 - User types "auto mode" or "orchestrate" in conversation
 - Resuming an interrupted auto-mode session
 - User types "continue" after a phase completion (keyword detection)
@@ -40,7 +40,7 @@ tools:
 
 ### Scenario 1: Starting Auto-Mode
 
-**Trigger**: User selects "Auto Mode" from `/spec` command or types "auto mode"
+**Trigger**: User selects "Auto Mode" from `/orbit` command or types "auto mode"
 
 **Steps**:
 1. Check for interrupted session first (offer resume if found)
@@ -54,7 +54,7 @@ tools:
 **Trigger**: Auto-mode session interrupted (status = "interrupted" or "paused")
 
 **Steps**:
-1. Detect interrupted session on startup (via session-start hook or `/spec`)
+1. Detect interrupted session on startup (via session-start hook or `/orbit`)
 2. Display resume prompt with progress summary
 3. If user chooses "Resume", continue from interruption point
 4. If user chooses "Restart", clear session and start fresh
@@ -209,7 +209,7 @@ function handle_interruption(signal) {
   update_auto_mode_state(current_phase, "interrupted")
   increment_interruption_count()
 
-  echo "Progress saved. Run /spec to resume."
+  echo "Progress saved. Run /orbit to resume."
   exit 130
 }
 ```
@@ -327,7 +327,7 @@ Auto-mode workflow is designed to be resilient to interruptions. Sessions can be
    - Signal: SIGINT
    - State saved immediately
    - Status: `"interrupted"`
-   - Resume: Automatic detection on next `/spec`
+   - Resume: Automatic detection on next `/orbit`
 
 2. **System Interruption**
    - Signal: SIGTERM, errors, crashes
@@ -338,7 +338,7 @@ Auto-mode workflow is designed to be resilient to interruptions. Sessions can be
 3. **User Pause**
    - Triggered by "Pause" action at checkpoint
    - Status: `"paused"`
-   - Resume: User-initiated via `/spec`
+   - Resume: User-initiated via `/orbit`
 
 4. **Session Expiry**
    - After 24 hours (configurable)
@@ -349,7 +349,7 @@ Auto-mode workflow is designed to be resilient to interruptions. Sessions can be
 
 ```bash
 # 1. User starts auto-mode
-/spec
+/orbit
 → Auto Mode
 → "Authentication system, P1"
 
@@ -364,10 +364,10 @@ Q1: OAuth2 providers?
 ^C
 ⚠️  Auto-mode interrupted (SIGINT)
 Saving progress...
-Progress saved. Run /spec to resume.
+Progress saved. Run /orbit to resume.
 
 # 4. Resume later
-/spec
+/orbit
 
 ⚠️  Auto-mode interrupted during Clarifications phase
 
@@ -387,7 +387,7 @@ Resume from Clarifications phase?
 
 ### Resume Detection
 
-When `/spec` is run, auto-mode checks for interrupted sessions in this order:
+When `/orbit` is run, auto-mode checks for interrupted sessions in this order:
 
 1. **Check Session File**: `.spec/state/auto-mode-session.json` exists?
 2. **Check Status**: `status` is `"interrupted"` or `"paused"`?
@@ -445,7 +445,7 @@ Resume from Planning phase?
 
 3. **Interactive**
    - Exit auto-mode
-   - Return to manual `/spec` menu
+   - Return to manual `/orbit` menu
    - Session file removed
    - User controls each step
 
@@ -542,7 +542,7 @@ Session too old to resume automatically.
 Please start a new workflow.
 
 Review saved files at:
-  .spec/features/007-old-feature/spec.md
+  .spec/features/007-old-feature/orbit.md
   .spec/state/backups/ (manual inspection)
 
 Start new feature?
@@ -637,7 +637,7 @@ auto_mode:
 ✅ CHECKPOINT: Specification Complete
 
 Created:
-  📄 .spec/features/003-auth/spec.md (6 user stories)
+  📄 .spec/features/003-auth/orbit.md (6 user stories)
   📋 4 clarifications needed
 
 Next: Clarifications (Phase 2/5)
@@ -732,7 +732,7 @@ Each checkpoint offers four actions:
 - **Purpose**: Save progress and exit gracefully
 - **When to use**: Need to discuss with team, take a break, review offline
 - **Result**: Session saved to `.spec/state/auto-mode-session.json`
-- **Resume**: Run `/spec` again, select "Resume"
+- **Resume**: Run `/orbit` again, select "Resume"
 
 #### Exit
 - **Purpose**: Abandon auto-mode permanently
@@ -932,7 +932,7 @@ Resuming from planning phase...
 - Resume load: <3s
 
 **User Experience**:
-- Manual `/spec` runs: 6 → 1-2 (67-83% reduction)
+- Manual `/orbit` runs: 6 → 1-2 (67-83% reduction)
 - Total interactions: ~50 → ~10 (80% reduction)
 - Workflow time: 15min → 5min (67% faster)
 

@@ -8,19 +8,23 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib.sh"
 
 CONTEXT="$(cat || true)"
+ensure_session_file
 
-if [[ ! -f "${NEXT_STEP_FILE}" ]]; then
-  exit 0
-fi
-
-payload="$(python3 - "${NEXT_STEP_FILE}" <<'PY'
+payload="$(python3 - "${SESSION_JSON}" <<'PY'
 import json, sys, pathlib
 path = pathlib.Path(sys.argv[1])
 try:
     data = json.loads(path.read_text(encoding='utf-8'))
 except Exception:
     data = {}
-print(json.dumps(data))
+next_action = data.get("nextAction") or {}
+current = data.get("current") or {}
+message = {
+    "feature": current.get("id"),
+    "phase": current.get("phase"),
+    "next": next_action
+}
+print(json.dumps(message))
 PY
 )"
 

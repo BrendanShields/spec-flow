@@ -12,6 +12,8 @@ if [[ -z "${CONTEXT// }" ]]; then
   exit 0
 fi
 
+ensure_session_file
+
 export CONTEXT_JSON="${CONTEXT}"
 read -r COMMAND TOOL OUTPUT < <(python3 <<'PY'
 import json, os
@@ -24,31 +26,21 @@ PY
 
 phase="in-progress"
 case "${COMMAND}" in
-  *init*|*discover*)
-    phase="initialize"
-    ;;
-  *generate*|*define*|*clarify*)
-    phase="specification"
-    ;;
-  *plan*|*design*)
-    phase="planning"
-    ;;
-  *tasks*)
-    phase="tasks"
-    ;;
-  *implement*)
-    phase="implementation"
-    ;;
-  *validate*|*analyze*)
-    phase="validate"
-    ;;
-  *complete*)
-    phase="complete"
-    ;;
+  *init*|*discover*) phase="initialize" ;;
+  *generate*|*define*|*clarify*) phase="specification" ;;
+  *plan*|*design*) phase="planning" ;;
+  *tasks*) phase="tasks" ;;
+  *implement*) phase="implementation" ;;
+  *validate*|*analyze*) phase="validation" ;;
+  *complete*) phase="complete" ;;
+  *) phase="${phase}" ;;
 esac
 
-append_log_line "${PROGRESS_FILE}" "command=${COMMAND:-unknown} phase=${phase}"
-echo "$(timestamp)" >"${WORKFLOW_FLAG_FILE}"
+session_set_value "current.phase" "${phase}"
+append_log_line "${ACTIVITY_LOG}" "phase_transition=${phase} command=${COMMAND:-unknown}"
 record_next_step >/dev/null 2>&1 || true
 
-write_hook_output "orbit-update-status" "Workflow status updated" "{\"command\":\"${COMMAND}\",\"phase\":\"${phase}\"}"
+next_phase="$(session_get "nextAction.phase")"
+next_hint="$(session_get "nextAction.hint")"
+
+write_hook_output "orbit-update-status" "Workflow status updated" "{\"command\":\"${COMMAND}\",\"phase\":\"${phase}\",\"next\":{\"phase\":\"${next_phase}\",\"hint\":\"${next_hint}\"}}"

@@ -6,26 +6,24 @@ Migrated highlights from `docs/patterns/workflow-patterns.md`, `state-management
 ```
 Project Root/
 ├── {config.paths.spec_root}/
-│   ├── product-requirements.md
 │   ├── architecture/
 │   │   ├── architecture.md
 │   │   └── architecture-decision-record.md
+│   ├── archive/
+│   │   └── history.md
+│   ├── memory/
+│   │   └── activity-log.md
+│   ├── state/
+│   │   ├── session.json
+│   │   └── auto-mode-session.json
 │   └── features/{id}-{slug}/
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
-├── {config.paths.state}/ (gitignored)
-│   ├── current-session.md
-│   ├── next-step.json
-│   └── checkpoints/*.md
-└── {config.paths.memory}/ (committed)
-    ├── workflow-progress.md
-    ├── changes-planned.md
-    ├── changes-completed.md
-    └── session-summary.md
 ```
-- **Session state** tracks the active phase + checkpoints.
-- **Memory** stores history for metrics, ADRs, and subagent summaries.
+- **Session state** (`state/session.json`) tracks the active feature, phase, timestamps, and next recommended action.
+- **Memory** (`memory/activity-log.md`) stores append-only event lines for hooks and commands.
+- **History** (`archive/history.md`) aggregates rich summaries, subagent notes, and checklists (hooks append blocks automatically).
 - Templates for these files live under `templates/state/` in this skill.
 
 ## Feature Lifecycle (Orbit View)
@@ -41,7 +39,7 @@ Project Root/
 - **JIRA Story Creation**:
   1. Read `{feature}/spec.md`.
   2. Call `jira_create_issue` with summary + acceptance criteria.
-  3. Store the issue key in the spec metadata + `workflow-progress.md`.
+  3. Store the issue key in the spec metadata and append a line to `.spec/memory/activity-log.md` for history.
 - **Confluence Plan Publishing**:
   1. Read `{feature}/plan.md`.
   2. Call `confluence_create_page` (title: `[Feature] Technical Plan`).
@@ -53,10 +51,9 @@ Project Root/
 - Always gate these recipes behind `SPEC_*_SYNC=enabled` flags in `claude.md`.
 
 ## Template Overview
-- `templates/state/current-session.md` – frontmatter + sections for phase, tasks, checkpoints.
-- `workflow-progress.md` – feature log table with phase timestamps.
-- `changes-planned.md` / `changes-completed.md` – rolling change logs.
-- `architecture-decision-record.md` – ADR skeleton (Context → Decision → Consequences).
+- `templates/state/activity-log.md` – seeded header for append-only activity lines.
+- `templates/state/history.md` – starter page for hook-written session summaries.
+- `templates/state/architecture-decision-record.md` – ADR skeleton (Context → Decision → Consequences).
 
 ## Scripts
 - `init_state.sh` – idempotent creation of directories/files, `.gitignore` update, config bootstrap.
@@ -66,5 +63,5 @@ Project Root/
 ## Troubleshooting
 - **State missing** – rerun `scripts/init_state.sh`.
 - **Hooks skipped** – call `scripts/update_state.sh phase=<phase> feature=<id>`.
-- **Checklist failure** – re-run `specification-analyzer`; mark blockers in `current-session.md`.
+- **Checklist failure** – re-run `specification-analyzer`; append blockers into `archive/history.md` so hooks keep the authoritative record.
 - **MCP auth errors** – fall back to local files, instruct user to update credentials.

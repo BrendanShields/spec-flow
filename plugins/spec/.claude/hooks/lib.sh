@@ -10,18 +10,18 @@ SPEC_DIR="${PROJECT_DIR}/.spec"
 STATE_DIR="${SPEC_DIR}/state"
 MEMORY_DIR="${SPEC_DIR}/memory"
 CONFIG_FILE="${SPEC_DIR}/.spec-config.yml"
-SESSION_FILE="${SPEC_DIR}/.session.json"
-NEXT_STEP_FILE="${STATE_DIR}/next-step.json"
 WORKFLOW_FLAG_FILE="${STATE_DIR}/.workflow-active"
-SUMMARY_FILE="${MEMORY_DIR}/session-summary.md"
-SUBAGENT_SUMMARY_FILE="${MEMORY_DIR}/subagent-summary.md"
+SESSION_JSON="${STATE_DIR}/session.json"
+ARCHIVE_DIR="${SPEC_DIR}/archive"
+ACTIVITY_LOG="${MEMORY_DIR}/activity-log.md"
+HISTORY_FILE="${ARCHIVE_DIR}/history.md"
 METRICS_FILE="${MEMORY_DIR}/WORKFLOW-METRICS.log"
-PROGRESS_FILE="${MEMORY_DIR}/workflow-progress.md"
 TEST_LOG_FILE="${MEMORY_DIR}/TEST-RESULTS.log"
 ARCHITECTURE_DIR="${SPEC_DIR}/architecture"
 
 ensure_directories() {
-  mkdir -p "${STATE_DIR}" "${MEMORY_DIR}"
+  mkdir -p "${STATE_DIR}" "${MEMORY_DIR}" "${ARCHIVE_DIR}"
+  touch "${ACTIVITY_LOG}" "${HISTORY_FILE}" "${METRICS_FILE}" "${TEST_LOG_FILE}"
 }
 
 ensure_config() {
@@ -42,6 +42,91 @@ workflow:
     - ".git/"
 YAML
   fi
+}
+
+ensure_session_file() {
+  ensure_directories
+  if [[ ! -f "${SESSION_JSON}" ]]; then
+    cat >"${SESSION_JSON}" <<'JSON'
+{
+  "current": {
+    "id": null,
+    "name": null,
+    "phase": "initialize",
+    "status": "not_initialized",
+    "priority": null,
+    "progress": []
+  },
+  "nextAction": {
+    "phase": "initialize",
+    "hint": "Run /orbit to initialize the workspace"
+  },
+  "timestamps": {
+    "started": null,
+    "lastUpdated": null
+  }
+}
+JSON
+  fi
+}
+
+session_get() {
+  local path="$1"
+  ensure_session_file
+  python3 - "$SESSION_JSON" "$path" <<'PY'
+import json, sys, pathlib
+session_path = pathlib.Path(sys.argv[1])
+path = sys.argv[2].split('.')
+data = json.loads(session_path.read_text(encoding='utf-8'))
+value = data
+for key in path:
+    if isinstance(value, dict):
+        value = value.get(key)
+    else:
+        value = None
+        break
+if value is None:
+    print("")
+elif isinstance(value, (dict, list)):
+    print(json.dumps(value))
+else:
+    print(value)
+PY
+}
+
+session_set_value() {
+  local path="$1"
+  local value="$2"
+  ensure_session_file
+  python3 - "$SESSION_JSON" "$path" "$value" <<'PY'
+import json, sys, pathlib
+session_path = pathlib.Path(sys.argv[1])
+path = sys.argv[2].split('.')
+value = sys.argv[3]
+data = json.loads(session_path.read_text(encoding='utf-8'))
+cursor = data
+for key in path[:-1]:
+    cursor = cursor.setdefault(key, {})
+cursor[path[-1]] = value
+data.setdefault("timestamps", {})["lastUpdated"] = __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime())
+session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
+PY
+}
+
+session_append_progress() {
+  local message="$1"
+  ensure_session_file
+  python3 - "$SESSION_JSON" "$message" <<'PY'
+import json, sys, pathlib, time
+session_path = pathlib.Path(sys.argv[1])
+message = sys.argv[2]
+data = json.loads(session_path.read_text(encoding='utf-8'))
+progress = data.setdefault("current", {}).setdefault("progress", [])
+if message not in progress:
+    progress.append(message)
+data.setdefault("timestamps", {})["lastUpdated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
+PY
 }
 
 read_context_json() {
@@ -107,33 +192,6 @@ timestamp() {
   date -u +"%Y-%m-%dT%H:%M:%SZ"
 }
 
-frontmatter_value() {
-  local key="$1"
-  local file="${2:-${STATE_DIR}/current-session.md}"
-  python3 - "$key" "$file" <<'PY'
-import sys, pathlib
-key, path = sys.argv[1], pathlib.Path(sys.argv[2])
-if not path.exists():
-    print()
-    raise SystemExit
-lines = path.read_text(encoding='utf-8').splitlines()
-if not lines or lines[0].strip() != '---':
-    print()
-    raise SystemExit
-for line in lines[1:]:
-    if line.strip() == '---':
-        break
-    if ':' not in line:
-        continue
-    k, v = line.split(':', 1)
-    if k.strip() == key:
-        print(v.strip())
-        break
-else:
-    print()
-PY
-}
-
 determine_next_step() {
   local phase="${1:-}"
   local action="create-feature"
@@ -164,24 +222,56 @@ determine_next_step() {
 }
 
 record_next_step() {
-  ensure_directories
-  local phase
-  phase="$(frontmatter_value "phase" "${STATE_DIR}/current-session.md")"
-  local feature
-  feature="$(frontmatter_value "feature" "${STATE_DIR}/current-session.md")"
+  ensure_session_file
+  local current_phase
+  current_phase="$(session_get "current.phase")"
   local action
-  action="$(determine_next_step "${phase}")"
-  python3 - "$NEXT_STEP_FILE" "$action" "$phase" "$feature" <<'PY'
+  action="$(determine_next_step "${current_phase}")"
+  local target_phase=""
+  local hint=""
+  case "${action}" in
+    initialize)
+      target_phase="initialize"
+      hint="Initialize Orbit workspace"
+      ;;
+    create-feature|move-to-design)
+      target_phase="specification"
+      hint="Define or refine the feature specification"
+      ;;
+    break-down-tasks|start-implementation)
+      if [[ "${action}" == "break-down-tasks" ]]; then
+        target_phase="planning"
+        hint="Create technical plan and tasks"
+      else
+        target_phase="implementation"
+        hint="Begin implementing defined tasks"
+      fi
+      ;;
+    validate)
+      target_phase="validation"
+      hint="Run validation/consistency checks"
+      ;;
+    complete-feature)
+      target_phase="complete"
+      hint="Wrap up and archive the feature"
+      ;;
+    *)
+      target_phase="${action}"
+      hint="Continue Orbit workflow"
+      ;;
+  esac
+  python3 - "$SESSION_JSON" "$target_phase" "$hint" <<'PY'
 import json, sys, pathlib, time
-path, action, phase, feature = sys.argv[1:]
-data = {
-    "action": action,
-    "phase": phase or "",
-    "feature": feature or "",
+session_path = pathlib.Path(sys.argv[1])
+next_phase, hint = sys.argv[2], sys.argv[3]
+data = json.loads(session_path.read_text(encoding='utf-8'))
+data["nextAction"] = {
+    "phase": next_phase,
+    "hint": hint,
     "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 }
-pathlib.Path(path).write_text(json.dumps(data, indent=2), encoding='utf-8')
-print(json.dumps(data))
+session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
+print(json.dumps(data["nextAction"]))
 PY
 }
 
@@ -197,10 +287,9 @@ update_task_completion() {
   local feature="${2:-}"
   ensure_directories
 
-  # Log to workflow progress
-  append_log_line "${PROGRESS_FILE}" "task_completed=${task_name} feature=${feature}"
+  session_append_progress "Task completed: ${task_name}"
+  append_log_line "${ACTIVITY_LOG}" "task_completed=${task_name} feature=${feature}"
 
-  # Refresh next-step cache
   record_next_step >/dev/null 2>&1 || true
 }
 
@@ -209,47 +298,10 @@ update_phase() {
   local feature="${2:-}"
   ensure_directories
 
-  # Update current-session.md frontmatter
-  python3 - "${STATE_DIR}/current-session.md" "$new_phase" "$feature" <<'PY'
-import sys, pathlib, time
-session_file, new_phase, feature = sys.argv[1], sys.argv[2], sys.argv[3]
-path = pathlib.Path(session_file)
-
-if not path.exists():
-    print(f"Error: {session_file} does not exist", file=sys.stderr)
-    sys.exit(1)
-
-lines = path.read_text(encoding='utf-8').splitlines()
-new_lines = []
-in_frontmatter = False
-frontmatter_ended = False
-
-for i, line in enumerate(lines):
-    if i == 0 and line.strip() == '---':
-        in_frontmatter = True
-        new_lines.append(line)
-    elif in_frontmatter and line.strip() == '---':
-        in_frontmatter = False
-        frontmatter_ended = True
-        new_lines.append(line)
-    elif in_frontmatter:
-        if line.startswith('phase:'):
-            new_lines.append(f'phase: {new_phase}')
-        elif line.startswith('last_updated:'):
-            new_lines.append(f"last_updated: '{time.strftime('%Y-%m-%d')}'")
-        elif line.startswith('feature:') and feature:
-            new_lines.append(f'feature: {feature}')
-        else:
-            new_lines.append(line)
-    else:
-        new_lines.append(line)
-
-path.write_text('\n'.join(new_lines) + '\n', encoding='utf-8')
-print(f"✓ Updated phase to: {new_phase}")
-PY
-
-  # Log to workflow progress
-  append_log_line "${PROGRESS_FILE}" "phase_transition=${new_phase} feature=${feature}"
+  session_set_value "current.phase" "${new_phase}"
+  if [[ -n "${feature}" ]]; then
+    session_set_value "current.id" "${feature}"
+  fi
 
   # Refresh next-step cache
   record_next_step >/dev/null 2>&1 || true
@@ -261,7 +313,7 @@ mark_user_story_complete() {
   ensure_directories
 
   # Log completion
-  append_log_line "${PROGRESS_FILE}" "user_story_completed=${user_story} feature=${feature}"
+  append_log_line "${ACTIVITY_LOG}" "user_story_completed=${user_story} feature=${feature}"
 
   # Refresh next-step cache
   record_next_step >/dev/null 2>&1 || true

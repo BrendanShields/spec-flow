@@ -51,4 +51,4 @@ Implements custom `/command` files from the [Slash commands guide](https://code.
 
 ## References
 - Slash commands guide (structure, frontmatter, helper syntax).
-- `.claude/commands/spec.md` and `.claude/commands/spec-track.md` for real examples in this repo.
+- `.claude/commands/orbit.md` and `.claude/commands/orbit-track.md` for real examples in this repo.
