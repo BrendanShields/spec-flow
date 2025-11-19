@@ -9,36 +9,44 @@ Specification-driven development workflow plugin:
 
 ## Core Features
 - TDD mode (3 enforcement levels)
-- Specialized subagent library (spec-researcher, spec-analyzer, spec-implementer). Claude autonomously decides when and how to invoke/parallelize them; plugins simply define their prompts and permissions.
+- Specialized subagent library (spec-researcher, consistency-analyzer, specification-analyzer, spec-implementer). Claude autonomously decides when and how to invoke/parallelize them; plugins simply define their prompts and permissions.
 - Smart hook auto-detection on init (session/cache/notification hooks)
 - **Auto-template initialization** (copies default templates on first run)
 - Interactive menu interface (2 commands)
 - Progressive disclosure (3-tier lazy loading)
 - State caching + AskUserQuestion guidance
 
+### Orbit Skill Family
+
+All workflow automation now lives inside two branded skills:
+- **orbit-lifecycle** – Initialization through implementation + tracking with embedded templates/scripts.
+- **orbit-planning** – Architecture, technical planning, tasks, and consistency validation.
+
+Commands, hooks, and auto-mode reference these Orbit skills instead of the previous per-phase guides.
+
 ## Commands
 
-### `/spec` - Main Workflow
+### `/orbit` - Main Workflow
 Primary command. Context-aware menus adapt to state.
 
 **When to use**: Always. Main interface for all work.
 
 **How it works**:
-1. Reads `{config.paths.state}/NEXT-STEP.json` (cached by hooks) and `{config.paths.state}/current-session.md`.
-2. AskUserQuestion presents menu shell.
-3. Invokes workflow skill.
-4. Skill loads phase guide (e.g., `phases/2-define/generate/guide.md`) and executes instructions.
-5. Returns to menu or continues.
+1. Reads `{config.paths.state}/next-step.json` (cached by hooks) and `{config.paths.state}/current-session.md`.
+2. Prints a short state summary plus the recommended next action.
+3. Claude selects the appropriate Orbit skill (`orbit-lifecycle` or `orbit-planning`) based on the current conversation.
+4. Skills execute independently and update state files when they finish.
+5. `/orbit` reports completion and highlights the next suggested phase.
 
-**Menus by state**:
-- Not initialized: Initialize, Learn, Help
-- No feature: Auto Mode, Define Feature, Track
-- In spec: Auto Mode, Move to Design, Refine, View
-- In planning: Auto Mode, Move to Build, Refine, View
-- In implementation: Auto Mode, Continue, View Progress, Validate
-- Complete: Validate, Metrics, New Feature
+**Recommended skills by state** (no manual menus):
+- **Not initialized** → `orbit-lifecycle` (Initialize branch), optionally `analyzing-codebase` for brownfield analysis.
+- **No feature selected** → `orbit-lifecycle` (Define branch) or `orbit-planning` (Architecture branch) when a blueprint is needed.
+- **Specification phase** → `orbit-lifecycle` (Clarify/Quality branches).
+- **Planning phase** → `orbit-planning` (Plan → Tasks → Consistency branches).
+- **Implementation phase** → `orbit-lifecycle` (Implement branch) or Track branch for status checks.
+- **Completed feature** → `orbit-planning` (Consistency branch) for validation or `orbit-lifecycle` (Define branch) to start the next feature.
 
-**Auto Mode**: Executes phases automatically, AskUserQuestion at checkpoints (Continue/Refine/Review/Exit). Resumes if interrupted.
+**Auto Mode**: Say “auto mode” to trigger the `orbit-orchestrator` skill, which chains the standard phases and uses AskUserQuestion only at checkpoints (Continue/Refine/Review/Exit). It resumes automatically if interrupted.
 
 ### `/spec-track` - Metrics/Maintenance
 Progress monitoring, quality checks, spec updates.
@@ -51,31 +59,44 @@ Progress monitoring, quality checks, spec updates.
 ```
 .claude/
 ├── commands/
-│   ├── spec.md    # Main workflow
-│   └── spec-track.md   # Tracking
-├── skills/workflow/phases/
-│   ├── 1-initialize/init/guide.md
-│   ├── 2-define/{generate,clarify,checklist}/guide.md
-│   ├── 3-design/{plan,blueprint,analyze}/guide.md
-│   ├── 4-build/{tasks,implement,discover}/guide.md
-│   └── 5-track/{metrics,update}/guide.md
-├── docs/patterns/
-│   ├── integration-patterns.md
-│   ├── state-management.md
-│   └── workflow-patterns.md
+│   ├── orbit.md         # State-aware workflow entry point
+│   └── spec-track.md    # Metrics + maintenance entry point
+├── skills/
+│   ├── orbit-lifecycle/          # Init/spec/clarify/update/implement/track + templates/scripts
+│   ├── orbit-planning/           # Architecture/plan/tasks/consistency + templates/scripts
+│   ├── analyzing-codebase/
+│   ├── orbit-orchestrator/
+│   └── creation helpers (creating-*, maintaining-workflows)
 ├── agents/
-│   ├── spec-implementer.md   # Task execution workflow
-│   ├── spec-researcher.md    # Research-backed decisions
-│   └── spec-analyzer.md      # Codebase reconnaissance
-└── hooks/                  # Event hooks
+│   ├── spec-implementer.md
+│   ├── spec-researcher.md
+│   ├── codebase-analyzer.md
+│   ├── consistency-analyzer.md
+│   └── specification-analyzer.md
+└── hooks/                    # Event automation + migrations
+
+.spec/
+├── architecture/
+│   ├── architecture.md
+│   └── architecture-decision-record.md
+├── memory/
+│   ├── changes-planned.md
+│   ├── changes-completed.md
+│   ├── workflow-progress.md
+│   ├── session-summary.md
+│   └── subagent-summary.md
+└── state/
+    ├── current-session.md
+    └── next-step.json
 ```
 
 ### Hooks & Automation
-- All hooks live in `.claude/hooks/*.sh` and run on Bash (Git Bash/WSL on Windows).
+- All hooks live in `.claude/hooks/*.sh` (prefixed with `orbit-` to signal they're workflow-specific) and run with Bash (Git Bash/WSL on Windows).
 - Configuration lives in `.spec/.spec-config.yml`. Hooks autogenerate it with sane defaults if missing.
-- `SessionStart` hooks prep directories, restore state, and compute `.spec/state/NEXT-STEP.json`.
-- `UserPromptSubmit` and `Notification` hooks append `[Spec Workflow Context]` and surface the next recommended action.
-- `PostToolUse` hooks format files, update workflow status, refresh the next-step cache, track metrics, and (optionally) run `npm test`. Set `SPEC_SKIP_AUTO_TESTS=1` to disable the automatic test hook.
+- `SessionStart` hooks prep directories, restore state, run migrations, and recompute `.spec/state/next-step.json`.
+- `UserPromptSubmit` and `Notification` hooks append `[Spec Workflow Context]` and surface the next recommended action pulled from `next-step.json`.
+- `PostToolUse` hooks update workflow status logs, refresh the next-step cache, and track metrics. Treat them as the single source of truth for Orbit state—avoid manual file edits unless a recovery script explicitly tells you to.
+- Commands/scripts should call the provided helpers (`scripts/update_state.sh`, `orbit-prefetch-next-step`, etc.) instead of duplicating file I/O.
 
 ## User Project Files
 Config-driven paths from `.spec/.spec-config.yml`:
@@ -84,18 +105,20 @@ Config-driven paths from `.spec/.spec-config.yml`:
 {config.paths.state}/                  # Session tracking (git-ignored)
 {config.paths.memory}/                 # Persistent memory (committed)
   ├── workflow-progress.md
-  ├── decisions-log.md
   ├── changes-planned.md
   └── changes-completed.md
+{config.paths.architecture}/           # Architecture docs + ADRs
+  ├── architecture.md
+  └── architecture-decision-record.md
 {config.paths.features}/{config.naming.feature_directory}/
   ├── {config.naming.files.spec}
   ├── {config.naming.files.plan}
   └── {config.naming.files.tasks}
 ```
 
-**Defaults**: `.spec/`, `.spec/state/`, `.spec/memory/`, `.spec/features/`, `###-name/`, `spec.md`, `plan.md`, `tasks.md`
+**Defaults**: `.spec/`, `.spec/state/`, `.spec/memory/`, `.spec/architecture/`, `.spec/features/`, `###-name/`, `spec.md`, `plan.md`, `tasks.md`
 
-**Note**: All paths (state, memory, features) are relative to `spec_root` by default. Templates are stored in the plugin at `.claude/skills/workflow/templates/`.
+**Note**: All paths (state, memory, features) are relative to `spec_root` by default. Templates now live inside the Orbit skills (`.claude/skills/orbit-lifecycle/templates/` and `.claude/skills/orbit-planning/templates/`).
 
 ## Workflow Phases
 1. **Initialize** - Setup `{config.paths.spec_root}/`, state, memory files
@@ -117,45 +140,38 @@ Config-driven paths from `.spec/.spec-config.yml`:
 ## Command Behavior
 
 **How commands work**:
-1. Read `{config.paths.state}/current-session.md` for context
-2. AskUserQuestion with state-appropriate options
-3. User selects
-4. Invoke workflow skill → loads phase guide
-5. Phase guide executes (Read/Write/Edit/Bash)
-6. Updates state files
-7. Returns to menu
+1. Read `{config.paths.state}/current-session.md` and `next-step.json` for context.
+2. Print a short summary (phase, progress, recommended action).
+3. Claude automatically invokes the best-matching skill (no menu router).
+4. Skills run independently (Read/Write/Edit/Bash/WebSearch) and commit their own files.
+5. Hooks log the result, refresh `next-step.json`, and append state metrics.
 
-**Phase guides**:
-- `phases/1-initialize/init/guide.md` - Initialize project
-- `phases/1-initialize/discover/guide.md` - Brownfield analysis
-- `phases/1-initialize/blueprint/guide.md` - Architecture
-- `phases/2-define/generate/guide.md` - Create spec
-- `phases/2-define/clarify/guide.md` - Resolve ambiguities
-- `phases/2-define/checklist/guide.md` - Quality checklists
-- `phases/3-design/plan/guide.md` - Technical planning
-- `phases/3-design/analyze/guide.md` - Consistency validation
-- `phases/4-build/tasks/guide.md` - Task breakdown
-- `phases/4-build/implement/guide.md` - Implementation
-- `phases/5-track/metrics/guide.md` - Metrics
-- `phases/5-track/update/guide.md` - Spec updates
-- `phases/5-track/orchestrate/guide.md` - Full workflow automation
+**Skills**:
+- `.claude/skills/orbit-lifecycle/` – Project bootstrap, spec definition/clarification, change control, implementation, and tracking (templates + scripts included).
+- `.claude/skills/orbit-planning/` – Architecture blueprints, technical plans, task breakdown, consistency validation (templates + scripts included).
+- `.claude/skills/analyzing-codebase/` – Brownfield discovery.
+- `.claude/skills/orbit-orchestrator/` – Auto Mode (end-to-end Orbit routing).
 
 **State updates by phase**:
 - Initialize: Creates dirs, init tracking
 - Generate: Updates `current-session.md`, adds to `workflow-progress.md`
-- Plan: Updates phase to "planning", logs to `decisions-log.md`
+- Plan: Updates phase to "planning", logs to `.spec/architecture/architecture-decision-record.md`
 - Tasks: Updates to "implementation", adds to `changes-planned.md`
 - Implement: Updates progress, moves to `changes-completed.md`
 
 **Subagent delegation**:
 - Implement → `spec-implementer` (Claude may spawn/resume implementer runs to execute tasks)
-- Plan → `spec-researcher` (research-backed decisions)
-- Analyze → `spec-analyzer` (deep consistency validation)
+- Plan/research → `spec-researcher` (find references, write ADRs)
+- Brownfield reconnaissance → `codebase-analyzer`
+- Consistency sweeps → `consistency-analyzer`
+- Spec validation depth dives → `specification-analyzer`
+
+Orbit encourages running compatible agents in parallel (e.g., `spec-researcher` gathering data while `spec-implementer` executes tasks on other files). `orbit-aggregate-results` merges their outputs into `subagent-summary.md`, so don’t serialize work that can safely run concurrently.
 
 ## Docs References
-**Users**: Run `/help` → Spec entry
+**Users**: Run `/help` → Orbit entry
 **Hooks**: Inspect `.claude/hooks/*.sh` (inline comments explain behavior)
-**Devs**: Phase guides (~1,500 tokens each), `.claude/commands/*.md`, `docs/patterns/*.md`
+**Devs**: Orbit skills now embed all docs/templates → open `.claude/skills/orbit-lifecycle/**` and `.claude/skills/orbit-planning/**` (reference files + scripts + templates). Commands reference those assets directly.
 
 ## Config
 **Location**: `.spec/.spec-config.yml` (auto-generated on init with smart defaults)
@@ -221,11 +237,12 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 ## Best Practices
 
 **When helping users**:
-1. Always recommend `/spec` first
+1. Always recommend `/orbit` first
 2. Let menus guide (don't explain all options)
 3. Trust workflow (phase guides handle state)
 4. Use `/spec-track` for progress/metrics
 5. Suggest auto mode for speed, checkpoints for control
+6. Run compatible subagents in parallel and let Orbit hooks aggregate their results
 
 **Token efficiency**:
 - Commands cache state (guides don't re-read)
@@ -251,7 +268,7 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 
 **New feature (interactive)**:
 ```bash
-/spec
+/orbit
 # Menu: Initialize Project → Auto Mode
 # Prompts for requirements
 # Auto-executes: define → design → build (checkpoints)
@@ -259,7 +276,7 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 
 **Resume after interruption**:
 ```bash
-/spec
+/orbit
 # Shows: Current: Implementation, Progress: 8/12 (67%)
 # Options: Auto Mode / Continue Building
 ```
@@ -272,7 +289,7 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 ```
 
 ## Troubleshooting
-1. Run `/spec` → "❓ Get Help"
+1. Run `/orbit` → "❓ Get Help"
 2. Run `/spec-track` → "📊 View Progress"
 3. Run `/spec-track` → "🔍 Analyze Consistency"
 4. Check `{config.paths.state}/current-session.md` manually
@@ -280,4 +297,4 @@ SPEC_CLARIFY_MAX_QUESTIONS=4
 
 ---
 Docs: Use `/help`
-Support: `/help` → Spec troubleshooting
+Support: `/help` → Orbit troubleshooting

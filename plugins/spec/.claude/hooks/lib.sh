@@ -11,13 +11,14 @@ STATE_DIR="${SPEC_DIR}/state"
 MEMORY_DIR="${SPEC_DIR}/memory"
 CONFIG_FILE="${SPEC_DIR}/.spec-config.yml"
 SESSION_FILE="${SPEC_DIR}/.session.json"
-NEXT_STEP_FILE="${STATE_DIR}/NEXT-STEP.json"
+NEXT_STEP_FILE="${STATE_DIR}/next-step.json"
 WORKFLOW_FLAG_FILE="${STATE_DIR}/.workflow-active"
-SUMMARY_FILE="${MEMORY_DIR}/SESSION-SUMMARY.md"
-SUBAGENT_SUMMARY_FILE="${MEMORY_DIR}/SUBAGENT-SUMMARY.md"
+SUMMARY_FILE="${MEMORY_DIR}/session-summary.md"
+SUBAGENT_SUMMARY_FILE="${MEMORY_DIR}/subagent-summary.md"
 METRICS_FILE="${MEMORY_DIR}/WORKFLOW-METRICS.log"
 PROGRESS_FILE="${MEMORY_DIR}/workflow-progress.md"
 TEST_LOG_FILE="${MEMORY_DIR}/TEST-RESULTS.log"
+ARCHITECTURE_DIR="${SPEC_DIR}/architecture"
 
 ensure_directories() {
   mkdir -p "${STATE_DIR}" "${MEMORY_DIR}"
@@ -189,6 +190,81 @@ append_log_line() {
   local line="$2"
   mkdir -p "$(dirname "${file}")"
   printf '%s %s\n' "$(timestamp)" "${line}" >>"${file}"
+}
+
+update_task_completion() {
+  local task_name="$1"
+  local feature="${2:-}"
+  ensure_directories
+
+  # Log to workflow progress
+  append_log_line "${PROGRESS_FILE}" "task_completed=${task_name} feature=${feature}"
+
+  # Refresh next-step cache
+  record_next_step >/dev/null 2>&1 || true
+}
+
+update_phase() {
+  local new_phase="$1"
+  local feature="${2:-}"
+  ensure_directories
+
+  # Update current-session.md frontmatter
+  python3 - "${STATE_DIR}/current-session.md" "$new_phase" "$feature" <<'PY'
+import sys, pathlib, time
+session_file, new_phase, feature = sys.argv[1], sys.argv[2], sys.argv[3]
+path = pathlib.Path(session_file)
+
+if not path.exists():
+    print(f"Error: {session_file} does not exist", file=sys.stderr)
+    sys.exit(1)
+
+lines = path.read_text(encoding='utf-8').splitlines()
+new_lines = []
+in_frontmatter = False
+frontmatter_ended = False
+
+for i, line in enumerate(lines):
+    if i == 0 and line.strip() == '---':
+        in_frontmatter = True
+        new_lines.append(line)
+    elif in_frontmatter and line.strip() == '---':
+        in_frontmatter = False
+        frontmatter_ended = True
+        new_lines.append(line)
+    elif in_frontmatter:
+        if line.startswith('phase:'):
+            new_lines.append(f'phase: {new_phase}')
+        elif line.startswith('last_updated:'):
+            new_lines.append(f"last_updated: '{time.strftime('%Y-%m-%d')}'")
+        elif line.startswith('feature:') and feature:
+            new_lines.append(f'feature: {feature}')
+        else:
+            new_lines.append(line)
+    else:
+        new_lines.append(line)
+
+path.write_text('\n'.join(new_lines) + '\n', encoding='utf-8')
+print(f"✓ Updated phase to: {new_phase}")
+PY
+
+  # Log to workflow progress
+  append_log_line "${PROGRESS_FILE}" "phase_transition=${new_phase} feature=${feature}"
+
+  # Refresh next-step cache
+  record_next_step >/dev/null 2>&1 || true
+}
+
+mark_user_story_complete() {
+  local user_story="$1"
+  local feature="${2:-}"
+  ensure_directories
+
+  # Log completion
+  append_log_line "${PROGRESS_FILE}" "user_story_completed=${user_story} feature=${feature}"
+
+  # Refresh next-step cache
+  record_next_step >/dev/null 2>&1 || true
 }
 
 read_prompt_from_context() {

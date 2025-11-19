@@ -5,19 +5,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-init.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-init.sh\""
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/restore-session.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-restore-session.sh\""
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-workflow-assets.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-next-step.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-prefetch-next-step.sh\""
           }
         ]
       }
@@ -27,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/append-workflow-context.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-append-context.sh\""
           }
         ]
       }
@@ -37,31 +33,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify-next-step.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-notify-next-step.sh\""
           }
         ]
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-prerequisites.sh\""
-          }
-        ]
-      },
-      {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/format-code.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-protect-files.sh\""
           }
         ]
       }
@@ -72,11 +55,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/update-workflow-status.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-update-status.sh\""
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prefetch-next-step.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-prefetch-next-step.sh\""
           }
         ]
       },
@@ -85,11 +68,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/track-metrics.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run-tests.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-track-metrics.sh\""
           }
         ]
       }
@@ -99,7 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/aggregate-results.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-aggregate-results.sh\""
           }
         ]
       }
@@ -109,11 +88,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/save-session.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-summary.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-summary.sh\""
           }
         ]
       }
@@ -123,7 +98,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-summary.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-summary.sh\""
           }
         ]
       }

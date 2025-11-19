@@ -1,0 +1,20 @@
+{
+  "session_id": "orbit-auto-20251119-225007",
+  "mode": "auto",
+  "status": "running",
+  "started_at": "2025-11-19T11:50:07Z",
+  "current_phase": "specification",
+  "completed_phases": [],
+  "checkpoint_strategy": {
+    "after_spec": true,
+    "after_clarify": true,
+    "after_plan": true,
+    "after_tasks": true,
+    "before_implement": true,
+    "timeout": 10,
+    "default_action": "continue"
+  },
+  "interruption_count": 0,
+  "expires_at": "2025-11-20T11:50:07Z",
+  "metadata": {}
+}
