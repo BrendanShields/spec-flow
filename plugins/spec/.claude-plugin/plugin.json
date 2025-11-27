@@ -1,0 +1,12 @@
+{
+  "name": "spec",
+  "version": "3.0.0",
+  "description": "Specification-driven development workflow with Orbit",
+  "author": {
+    "name": "spec-flow"
+  },
+  "repository": "https://github.com/spec-flow/plugins",
+  "license": "MIT",
+  "keywords": ["workflow", "specification", "planning", "orbit"],
+  "hooks": "./hooks/hooks.json"
+}

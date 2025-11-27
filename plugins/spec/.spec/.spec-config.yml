@@ -1,9 +1,0 @@
-version: 1.0.0
-paths:
-  spec_root: ".spec"
-  features: "features"
-workflow:
-  protect:
-    - ".env"
-    - "package-lock.json"
-    - ".git/"
