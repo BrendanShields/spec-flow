@@ -5,35 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-init.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-restore-session.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-prefetch-next-step.sh\""
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-append-context.sh\""
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-notify-next-step.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-init.sh\""
           }
         ]
       }
@@ -44,31 +16,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-protect-files.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-protect.sh\""
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Skill",
+        "matcher": "Write|Edit|Skill",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-update-status.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-prefetch-next-step.sh\""
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-track-metrics.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-log.sh\""
           }
         ]
       }
@@ -78,27 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-aggregate-results.sh\""
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-summary.sh\""
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-session-summary.sh\""
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/orbit-log.sh\""
           }
         ]
       }

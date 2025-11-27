@@ -1,54 +1,186 @@
 ---
 name: creating-hooks
-description: Authors Claude Code lifecycle hooks with correct events, matchers, and security practices using the official hooks guide.
-allowed-tools: [Read, Write, Edit, Bash]
+description: |
+  Creates Claude Code hooks for automation and workflow customization.
+  Guides through hook events, configuration, and script creation.
+  Use when user wants to create a hook, automate Claude Code, or asks about hook events.
 ---
 
 # Creating Hooks
 
-Implements deterministic automation via Claude Code hooks following the [hooks quickstart](https://code.claude.com/docs/en/hooks-guide) and repository conventions (`.claude/hooks/*.sh`, `.claude/settings*.json`).
+Guides creation of Claude Code hooks for automation and workflow customization.
 
-## When to use
-- Need automation tied to lifecycle events (PreToolUse, PostToolUse, SessionStart, Notification, etc.).
-- Want script-level enforcement (formatters, logging, blocking writes) rather than relying on prompting.
-- The request references `/hooks`, hook events, matchers, or `.claude/hooks/`.
-- Unsure whether a hook or skill/command fits? Consult `maintaining-workflows`.
+## Quick Start
 
-## Intake checklist
-1. **Event trigger**: Which lifecycle event? (`PreToolUse`, `PostToolUse`, `SessionStart`, etc.)
-2. **Matcher scope**: Specific tool(s) or wildcard? Document reasoning to avoid unexpected executions.
-3. **Action**: Shell snippet or script path? Determine if multi-line script should live under `.claude/hooks/`.
-4. **Storage location**: Project (`.claude/settings.json`) vs user (`~/.claude/settings.json`).
-5. **Safety**: Required dependencies, permissions, and how to fail (block vs warn).
+1. Choose hook event (when should it trigger?)
+2. Configure in settings.json
+3. Create hook script
+4. Test the hook
 
-## Build workflow
-1. **Design the command**
-   - Favor scripts in `.claude/hooks/` with execute bits set (`chmod +x`).
-   - Include inline comments for security-sensitive logic.
-   - Accept JSON from stdin when parsing tool inputs (see guide examples).
-2. **Edit settings**
-   - Open `.claude/settings.json` (project) or instruct the user to edit their global settings.
-   - Follow the documented schema: `"hooks": { "<Event>": [ { "matcher": "...", "hooks": [ { "type": "command", "command": "..." } ] } ] }`.
-   - For multiple hooks under the same matcher, maintain deterministic order.
-3. **Handle security**
-   - Mention environment variables or filesystem paths touched.
-   - For blocking hooks, exit non-zero and print actionable feedback (guide recommends this).
-   - Warn about running third-party scripts and remind users hooks run with their credentials.
-4. **Test**
-   - Use `/hooks` UI to verify registration or manually inspect settings JSON.
-   - Trigger the event (e.g., run `Bash`, `Edit`) and capture stdout/stderr logs.
-   - Document failure/rollback steps (remove matcher, disable hook) in `CLAUDE.md` or the hook script header.
-5. **Document**
-   - Update `.claude/hooks/README.md` or relevant docs with usage instructions.
-   - Reference this skill from `maintaining-workflows` if automation choices need auditing.
+## Workflow: Create New Hook
 
-## Quality checklist
-- Matcher is as specific as possible (no accidental `*` unless intended).
-- Scripts live in repo-controlled paths, are executable, and log errors clearly.
-- Settings JSON remains valid (linted, trailing commas removed).
-- Security considerations from the guide (automatic execution, credential scope) are noted.
-- Testing + rollback guidance included.
+```
+Progress:
+- [ ] Select hook event
+- [ ] Add to settings.json
+- [ ] Create hook script
+- [ ] Test and validate
+```
 
-## References
-- Hooks guide sections: event list, matcher design, security considerations, debugging.
-- Existing repo hooks under `.claude/hooks/` for style and logging patterns.
+### Step 1: Select Hook Event
+
+| Event | When It Triggers | Common Use |
+|-------|------------------|------------|
+| `PreToolUse` | Before tool runs | Block/modify tools |
+| `PostToolUse` | After tool succeeds | Validate, log, feedback |
+| `UserPromptSubmit` | User sends message | Inject context, validate |
+| `SessionStart` | Session begins | Load context, init state |
+| `SessionEnd` | Session ends | Cleanup, save state |
+| `Stop` | Agent finishes | Decide if should continue |
+
+Full event reference: [reference.md](reference.md)
+
+### Step 2: Configure settings.json
+
+Location priority (highest wins):
+1. `.claude/settings.local.json` (local, not committed)
+2. `.claude/settings.json` (project)
+3. `~/.claude/settings.json` (user)
+
+Basic structure:
+```json
+{
+  "hooks": {
+    "EventName": [
+      {
+        "matcher": "ToolPattern",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/my-hook.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Step 3: Create Hook Script
+
+Use templates from [templates/](templates/) directory.
+
+Key requirements:
+- Read JSON from stdin
+- Use exit codes for control (0=success, 2=block)
+- Output JSON for decisions
+
+### Step 4: Test
+
+Run hook manually with test input:
+```bash
+echo '{"tool_name":"Write"}' | bash .claude/hooks/my-hook.sh
+```
+
+## Hook Configuration
+
+### Matcher Patterns
+
+```json
+"matcher": "Write"           // Exact match
+"matcher": "Edit|Write"      // Multiple tools
+"matcher": "mcp__.*"         // MCP tools (regex)
+"matcher": "*"               // All tools
+```
+
+Matchers apply to: `PreToolUse`, `PostToolUse`, `PermissionRequest`
+
+### Timeout
+
+```json
+{
+  "type": "command",
+  "command": "...",
+  "timeout": 120
+}
+```
+Default: 60 seconds. Max recommended: 300 seconds.
+
+## Exit Codes
+
+| Code | Meaning | Behavior |
+|------|---------|----------|
+| 0 | Success | Continue normally |
+| 2 | Block | Stop action, show error |
+| Other | Non-blocking error | Log only (verbose mode) |
+
+## JSON Output
+
+Return JSON to stdout for decisions:
+
+```json
+{
+  "decision": "block",
+  "reason": "Why blocked",
+  "additionalContext": "Info for Claude"
+}
+```
+
+Decision values by event:
+- `PreToolUse`: `allow`, `deny`, `ask`
+- `PostToolUse`: `block` (with reason)
+- `UserPromptSubmit`: `block` (with reason)
+- `Stop`: `block` (requires reason)
+
+## Security Best Practices
+
+1. **Quote all variables**: `"$VAR"` not `$VAR`
+2. **Use absolute paths**: `"$CLAUDE_PROJECT_DIR/..."`
+3. **Validate inputs**: Check before processing
+4. **Block path traversal**: Reject paths with `..`
+5. **Set timeouts**: Prevent runaway scripts
+
+## Environment Variables
+
+Available in all hooks:
+- `CLAUDE_PROJECT_DIR` - Project root path
+- `CLAUDE_CODE_REMOTE` - "true" if web environment
+
+SessionStart only:
+- `CLAUDE_ENV_FILE` - Path to persist env vars
+
+## Common Patterns
+
+### Inject Context on Session Start
+
+```bash
+#!/bin/bash
+# Output context for Claude
+echo '{"additionalContext": "Project uses TypeScript"}'
+exit 0
+```
+
+### Block Dangerous File Edits
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+if [[ "$FILE" == *".env"* ]]; then
+  echo "Blocking edit to sensitive file" >&2
+  exit 2
+fi
+exit 0
+```
+
+### Log All Tool Usage
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+TOOL=$(echo "$INPUT" | jq -r '.tool_name')
+echo "$(date -Iseconds) $TOOL" >> "$CLAUDE_PROJECT_DIR/.claude/tool.log"
+exit 0
+```
+
+See [reference.md](reference.md) for complete event details and more examples.

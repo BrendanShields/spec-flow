@@ -1,60 +1,174 @@
 ---
 name: creating-skills
-description: Builds new Claude Code Agent Skills end-to-end (metadata, instructions, progressive disclosure assets). Trigger when the user requests a reusable capability packaged as a skill or mentions the skills docs/blog.
-allowed-tools: [Read, Write, Edit, Bash]
+description: |
+  Creates new Claude Code skills following best practices. Guides through skill structure,
+  naming, descriptions, and progressive disclosure. Use when user wants to create a skill,
+  build a skill, make a new capability, or asks about skill best practices.
 ---
 
 # Creating Skills
 
-Guides Claude through building a complete Agent Skill directory following the official docs:
+Guides creation of Claude Code skills using documented best practices.
 
-- [Agent Skills guide](https://code.claude.com/docs/en/skills)
-- [Agent Skills overview](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
-- [Engineering blog](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
-- [Introducing Agent Skills blog](https://www.claude.com/blog/skills)
+## Quick Start
 
-## When to use
-- The user wants repeatable expertise bundled into `.claude/skills/**`.
-- Work requires multi-file references, scripts, or context that outgrows a slash command.
-- Documentation specifically cites Skills, progressive disclosure, or onboarding-style instructions.
-- Unsure whether a command, hook, skill, or agent is needed? Run `maintaining-workflows` first.
+For a new skill:
+1. Ask user for skill purpose and target users
+2. Generate using appropriate template
+3. Validate against checklist
 
-## Intake checklist
-1. Clarify the capability: task scope, prerequisites, success signals, failure handling.
-2. Capture triggers (phrases, file types, events) and required tools. Default to minimal tools; add Bash only if scaffolding or lookups actually require it.
-3. Determine inputs/outputs: state files, templates, scripts, or MCP calls.
-4. Identify supporting assets (examples, reference docs, scripts) and how they should be linked from the main skill.
-5. Record dependencies (packages, binaries, env vars) so they can be documented in the description per the skills guide.
+For reviewing existing skill:
+1. Read SKILL.md and supporting files
+2. Check against anti-patterns in [reference.md](reference.md)
+3. Report issues with fixes
 
-## Build workflow
-1. **Plan the structure**
-   - Follow the `my-skill/` layout from the docs (`SKILL.md`, optional `reference.md`, `examples.md`, `scripts/`, `templates/`).
-   - Use hyphen-case folder + `name`, keep ≤64 chars.
-   - Align metadata with the discovery model: description states *what* + *when* (≤1024 chars), include version note if applicable.
-2. **Draft `SKILL.md`**
-   - Start with YAML frontmatter (`name`, `description`, optional `allowed-tools`, `model`, `permissionMode`, `skills`).
-   - Body sections should mirror the onboarding style outlined in the engineering blog: quick overview, inputs, detailed workflow, fallbacks, validation, and references to linked files.
-   - Use progressive disclosure: keep the main file concise, move deep dives to linked files referenced via `[reference.md](reference.md)` etc.
-3. **Add supporting files**
-   - Create `reference.md`, `examples.md`, or scripts/templates only when referenced.
-   - For scripts, set execute bits via `chmod +x` and call out dependencies in `SKILL.md`.
-   - Store templates or large docs in subfolders to avoid bloating `SKILL.md`.
-4. **Wire into the workflow**
-   - If the skill should delegate to subagents, list them in the `skills:` or describe delegation points explicitly.
-   - Mention required config or state (`CLAUDE.md`, `.spec/**`, environment vars).
-   - Provide verification steps: `/skills`, scenario triggers, or log locations.
-5. **Validate**
-   - Run `/skills` to ensure Claude discovers the new skill (confirm metadata and allowed tools match expectations).
-   - Spot-check progressive disclosure: ensure additional files exist and are linked.
-   - Lint YAML (triple-dash separators, spaces not tabs) and confirm hyphen-case naming.
+## Workflow: Create New Skill
 
-## Quality checklist
-- Description explains both capability and triggers.
-- Allowed tools are minimal and justified.
-- Linked files exist and are referenced once.
-- Instructions mention error handling and AskUserQuestion moments when user choices are needed.
-- Validation + rollback guidance is present.
+```
+Progress:
+- [ ] Gather requirements (purpose, triggers, complexity)
+- [ ] Choose template (basic or advanced)
+- [ ] Generate skill structure
+- [ ] Customize content
+- [ ] Validate against checklist
+```
 
-## References
-- `.claude/skills/` in this repo for working patterns (e.g., `orbit-planning`, `orbit-lifecycle`).
-- Docs listed above for metadata rules, progressive disclosure, and distribution guidance.
+### Step 1: Gather Requirements
+
+Ask user with AskUserQuestion:
+- What should this skill do? (purpose)
+- When should it activate? (trigger words)
+- Simple or complex? (affects structure)
+
+### Step 2: Choose Structure
+
+| Complexity | Structure | When to Use |
+|------------|-----------|-------------|
+| Basic | Single SKILL.md | Simple workflows, < 200 lines |
+| Advanced | SKILL.md + references | Complex domains, multiple workflows |
+
+### Step 3: Generate Skill
+
+Use templates from `templates/` directory:
+- [templates/basic.md](templates/basic.md) - Single file skill
+- [templates/advanced.md](templates/advanced.md) - Multi-file with references
+
+Create in appropriate location:
+- `~/.claude/skills/` - Personal skills
+- `.claude/skills/` - Project skills (git-tracked)
+
+### Step 4: Validate
+
+Run through checklist before finishing:
+
+```
+Validation Checklist:
+- [ ] Name: gerund format (verb-ing), lowercase, hyphens only
+- [ ] Name: max 64 characters, no reserved words
+- [ ] Description: explains WHAT and WHEN to use
+- [ ] Description: third person, max 1024 characters
+- [ ] SKILL.md: under 500 lines (ideally under 300)
+- [ ] References: one level deep from SKILL.md
+- [ ] No time-sensitive info (dates, versions)
+- [ ] Consistent terminology throughout
+- [ ] Examples: concrete input/output pairs
+- [ ] Paths: Unix-style only (forward slashes)
+```
+
+## Naming Rules
+
+**Format**: `verb-ing-noun` (gerund form)
+- `processing-pdfs`
+- `analyzing-spreadsheets`
+- `managing-databases`
+
+**Constraints**:
+- Max 64 characters
+- Lowercase letters, numbers, hyphens only
+- No: `anthropic`, `claude`, XML tags
+
+## Description Best Practices
+
+The description determines when Claude activates the skill.
+
+**Include**:
+- What the skill does
+- When to use it
+- Trigger words users might say
+
+**Format**: Third person, active voice
+
+```yaml
+# Good
+description: |
+  Extracts text and tables from PDF files. Use when working with
+  PDFs, forms, or document extraction.
+
+# Bad - first person
+description: I help you process PDF files
+```
+
+## Progressive Disclosure
+
+Keep SKILL.md lean. Move details to reference files:
+
+```
+skill-name/
+├── SKILL.md          # Overview, workflow (always loaded)
+├── reference.md      # Detailed guidelines (loaded when needed)
+├── examples.md       # Extended examples
+└── templates/        # Reusable templates
+```
+
+**Key rule**: References should be one level deep. All reference files link directly from SKILL.md.
+
+See [reference.md](reference.md) for detailed best practices and anti-patterns.
+
+## Frontmatter Schema
+
+```yaml
+---
+name: skill-name-here
+description: |
+  What it does and when to use it. Include trigger words.
+allowed-tools: Read, Grep  # Optional: restrict available tools
+---
+```
+
+## Anti-Patterns (Quick Reference)
+
+| Avoid | Do Instead |
+|-------|------------|
+| Windows paths `scripts\file.py` | Unix paths `scripts/file.py` |
+| Too many options | Provide sensible default |
+| Assuming tools installed | List required packages |
+| Vague descriptions | Specific with trigger words |
+| Deeply nested references | One level deep |
+| Time-sensitive info | Avoid dates/versions |
+
+Full anti-patterns guide: [reference.md](reference.md)
+
+## Example: Basic Skill
+
+```yaml
+---
+name: formatting-markdown
+description: |
+  Formats and lints Markdown files. Use when user mentions
+  markdown formatting, MD files, or document styling.
+---
+
+# Formatting Markdown
+
+## Workflow
+
+1. Read target file
+2. Apply formatting rules
+3. Report changes
+
+## Rules
+
+- Headers: ATX style (#)
+- Lists: consistent markers
+- Code blocks: fenced with language
+```

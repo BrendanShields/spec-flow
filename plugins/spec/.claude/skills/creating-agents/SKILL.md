@@ -1,52 +1,156 @@
 ---
 name: creating-agents
-description: Designs Claude Code subagents (.claude/agents/*.md) with scoped prompts, tool lists, and skills attachments using the subagent framework documentation.
-allowed-tools: [Read, Write, Edit, Bash]
+description: |
+  Creates Claude Code subagents for task delegation. Guides through agent configuration,
+  tool selection, and system prompts. Use when user wants to create an agent, delegate
+  tasks to specialists, or asks about subagents.
 ---
 
 # Creating Agents
 
-Builds specialized Claude Code subagents per the [subagent guide](https://code.claude.com/docs/en/sub-agents). Focuses on scoping, tool permissions, and documentation so Claude can delegate safely.
+Guides creation of Claude Code subagents for task delegation.
 
-## When to use
-- Team needs a reusable persona (reviewer, debugger, researcher) with its own workflow.
-- Request references `/agents`, tool restrictions, or `permissionMode`.
-- We must document when Claude should delegate automatically vs on-demand.
-- If another asset (skill/command/hook) might suffice, confirm via `maintaining-workflows`.
+## Quick Start
 
-## Intake checklist
-1. **Purpose & triggers**: Problem space, when to run automatically, and when not to.
-2. **Tooling**: Explicit list of tools (Read, Grep, Bash, MCP, etc.) required for the tasks.
-3. **Model + permissions**: Preferred model (`sonnet`, `opus`, etc.) and `permissionMode` (`default`, `plan`, etc.).
-4. **Supporting skills**: Any skills that should auto-load with the agent (comma-separated list).
-5. **Workflow outline**: Steps the agent should follow, escalation paths, logging/reporting expectations.
+1. Define agent purpose (what task does it handle?)
+2. Choose location (project or user level)
+3. Select tools (minimal set needed)
+4. Write system prompt
+5. Save to `.claude/agents/`
 
-## Build workflow
-1. **File scaffold**
-   - Path: `.claude/agents/<agent-name>.md` (lowercase hyphen or snake case).
-   - YAML frontmatter fields from the doc: `name`, `description`, `tools`, `model`, `permissionMode`, `skills`.
-   - Description should state both expertise and invocation guidance (“Use proactively after …”).
-2. **Prompt body**
-   - Include sections for mission, step-by-step workflow, decision criteria, and reporting format.
-   - Define escalation/stop conditions and when to ask the user for clarification.
-   - Reference relevant skills, hooks, or docs (e.g., `docs/patterns/state-management.md`).
-3. **Tool discipline**
-   - Only grant tools that match the workflow. If shell commands are required, specify `Bash` explicitly.
-   - Mention MCP dependencies or credential requirements if applicable.
-4. **Testing plan**
-   - Provide instructions to invoke the agent explicitly (`Use the <name> subagent…`) and expected outputs.
-   - Note how to inspect transcripts (`agent-<id>.jsonl`) per the doc.
-5. **Documentation**
-   - Update `agents.md` or CLAUDE.md with agent purpose, version, and owner.
-   - Remind maintainers to re-run `/agents` after edits to confirm metadata loads correctly.
+## Workflow: Create New Agent
 
-## Quality checklist
-- Frontmatter matches the documented schema.
-- Prompt includes clear workflow, guardrails, and success criteria.
-- Tool list is minimal yet sufficient; permission mode chosen intentionally.
-- Related skills and hooks are referenced for context reuse.
-- Testing + rollback steps documented.
+```
+Progress:
+- [ ] Define purpose and triggers
+- [ ] Choose storage location
+- [ ] Select tools and model
+- [ ] Write system prompt
+- [ ] Create agent file
+```
 
-## References
-- Subagent guide for storage precedence, CLI overrides, and best practices.
-- Existing agents in `.claude/agents/` (e.g., `spec-implementer.md`) for tone and structure.
+### Step 1: Define Purpose
+
+Ask user:
+- What specific task should this agent handle?
+- When should it be invoked? (trigger phrases)
+- Should it run proactively or on-demand?
+
+### Step 2: Choose Location
+
+| Location | Path | Use For |
+|----------|------|---------|
+| Project | `.claude/agents/` | Team-shared, project-specific |
+| User | `~/.claude/agents/` | Personal, cross-project |
+
+Project agents take priority over user agents.
+
+### Step 3: Select Tools and Model
+
+**Tools** - Grant minimum needed:
+
+| Tool | Purpose |
+|------|---------|
+| Read | Read files |
+| Write | Create files |
+| Edit | Modify files |
+| Glob | Find files |
+| Grep | Search content |
+| Bash | Run commands |
+| Task | Spawn subagents |
+
+**Model** - Choose based on task:
+
+| Model | Best For |
+|-------|----------|
+| `opus` | Complex reasoning, nuanced decisions |
+| `sonnet` | General tasks (default) |
+| `haiku` | Quick lookups, simple analysis |
+| `inherit` | Use parent's model |
+
+### Step 4: Write System Prompt
+
+Keep prompts focused:
+- State the agent's role clearly
+- Define scope and constraints
+- Provide examples if helpful
+- Avoid unnecessary detail
+
+### Step 5: Create Agent File
+
+```markdown
+---
+name: {agent-name}
+description: {when to use - include trigger words}
+tools: Read, Grep, Glob
+model: sonnet
+---
+
+{System prompt here}
+```
+
+Save to `.claude/agents/{name}.md`
+
+## Agent File Format
+
+```yaml
+---
+name: agent-name          # Required: lowercase, hyphens
+description: |            # Required: when to invoke
+  Reviews code for quality issues.
+  Use when user asks for code review.
+tools: Read, Grep, Glob   # Optional: omit to inherit all
+model: sonnet             # Optional: opus, sonnet, haiku, inherit
+permissionMode: default   # Optional: permission handling
+skills: skill1, skill2    # Optional: auto-load skills
+---
+
+System prompt defining the agent's behavior.
+```
+
+## Built-in Agents
+
+Before creating custom agents, know what's built-in:
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| general-purpose | sonnet | All | Complex multi-step tasks |
+| plan | haiku | Read, Glob, Grep, Bash | Research and strategy |
+| explore | haiku | Read, Glob, Grep | Fast codebase exploration |
+
+**When to create custom agents:**
+- Need different tool restrictions
+- Want domain-specific prompts
+- Need proactive invocation
+
+## When to Use Each Type
+
+| Need | Use |
+|------|-----|
+| Quick file search | Built-in `explore` |
+| Research before planning | Built-in `plan` |
+| Multi-step code changes | Built-in `general-purpose` |
+| Code review with specific rules | Custom reviewer agent |
+| Security analysis | Custom security agent |
+| Domain expertise (DB, API, etc.) | Custom specialist agent |
+
+## Proactive Invocation
+
+To make Claude automatically use your agent, include in description:
+- "PROACTIVELY" or "MUST BE USED"
+- Clear trigger conditions
+
+```yaml
+description: |
+  PROACTIVELY reviews all code changes before commit.
+  MUST BE USED when user mentions "review" or "check code".
+```
+
+## Templates
+
+Use templates from `templates/` directory:
+- [templates/reviewer.md](templates/reviewer.md) - Code review agent
+- [templates/researcher.md](templates/researcher.md) - Read-only research
+- [templates/specialist.md](templates/specialist.md) - Domain expert
+
+See [reference.md](reference.md) for complete configuration details.

@@ -1,332 +1,303 @@
 #!/usr/bin/env bash
 
-# Shared helpers for Spec workflow hooks.
+# Helpers for Orbit hooks and workflow.
+# Philosophy: Artifacts are truth. Frontmatter tracks state.
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 SPEC_DIR="${PROJECT_DIR}/.spec"
-STATE_DIR="${SPEC_DIR}/state"
-MEMORY_DIR="${SPEC_DIR}/memory"
-CONFIG_FILE="${SPEC_DIR}/.spec-config.yml"
-WORKFLOW_FLAG_FILE="${STATE_DIR}/.workflow-active"
-SESSION_JSON="${STATE_DIR}/session.json"
+SESSION_FILE="${SPEC_DIR}/state/session.json"
 ARCHIVE_DIR="${SPEC_DIR}/archive"
-ACTIVITY_LOG="${MEMORY_DIR}/activity-log.md"
-HISTORY_FILE="${ARCHIVE_DIR}/history.md"
-METRICS_FILE="${MEMORY_DIR}/WORKFLOW-METRICS.log"
-TEST_LOG_FILE="${MEMORY_DIR}/TEST-RESULTS.log"
-ARCHITECTURE_DIR="${SPEC_DIR}/architecture"
 
-ensure_directories() {
-  mkdir -p "${STATE_DIR}" "${MEMORY_DIR}" "${ARCHIVE_DIR}"
-  touch "${ACTIVITY_LOG}" "${HISTORY_FILE}" "${METRICS_FILE}" "${TEST_LOG_FILE}"
-}
+# Get current feature from session or find most recent
+get_feature() {
+  if [[ -f "${SESSION_FILE}" ]]; then
+    local feature
+    feature=$(python3 -c "import json; print(json.load(open('${SESSION_FILE}')).get('feature',''))" 2>/dev/null || echo "")
+    if [[ -n "${feature}" && -d "${SPEC_DIR}/features/${feature}" ]]; then
+      echo "${feature}"
+      return
+    fi
+  fi
 
-ensure_config() {
-  if [[ ! -f "${CONFIG_FILE}" ]]; then
-    mkdir -p "$(dirname "${CONFIG_FILE}")"
-    cat >"${CONFIG_FILE}" <<'YAML'
-version: 3.3.0
-paths:
-  spec_root: ".spec"
-  state: ".spec/state"
-  memory: ".spec/memory"
-workflow:
-  auto_validate: true
-  auto_checkpoint: true
-  protect:
-    - ".env"
-    - "package-lock.json"
-    - ".git/"
-YAML
+  # Find most recent feature
+  if [[ -d "${SPEC_DIR}/features" ]]; then
+    ls -t "${SPEC_DIR}/features" 2>/dev/null | head -1
   fi
 }
 
-ensure_session_file() {
-  ensure_directories
-  if [[ ! -f "${SESSION_JSON}" ]]; then
-    cat >"${SESSION_JSON}" <<'JSON'
-{
-  "current": {
-    "id": null,
-    "name": null,
-    "phase": "initialize",
-    "status": "not_initialized",
-    "priority": null,
-    "progress": []
-  },
-  "nextAction": {
-    "phase": "initialize",
-    "hint": "Run /orbit to initialize the workspace"
-  },
-  "timestamps": {
-    "started": null,
-    "lastUpdated": null
-  }
-}
-JSON
-  fi
-}
-
-session_get() {
-  local path="$1"
-  ensure_session_file
-  python3 - "$SESSION_JSON" "$path" <<'PY'
-import json, sys, pathlib
-session_path = pathlib.Path(sys.argv[1])
-path = sys.argv[2].split('.')
-data = json.loads(session_path.read_text(encoding='utf-8'))
-value = data
-for key in path:
-    if isinstance(value, dict):
-        value = value.get(key)
-    else:
-        value = None
-        break
-if value is None:
-    print("")
-elif isinstance(value, (dict, list)):
-    print(json.dumps(value))
-else:
-    print(value)
-PY
-}
-
-session_set_value() {
-  local path="$1"
-  local value="$2"
-  ensure_session_file
-  python3 - "$SESSION_JSON" "$path" "$value" <<'PY'
-import json, sys, pathlib
-session_path = pathlib.Path(sys.argv[1])
-path = sys.argv[2].split('.')
-value = sys.argv[3]
-data = json.loads(session_path.read_text(encoding='utf-8'))
-cursor = data
-for key in path[:-1]:
-    cursor = cursor.setdefault(key, {})
-cursor[path[-1]] = value
-data.setdefault("timestamps", {})["lastUpdated"] = __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime())
-session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
-PY
-}
-
-session_append_progress() {
-  local message="$1"
-  ensure_session_file
-  python3 - "$SESSION_JSON" "$message" <<'PY'
-import json, sys, pathlib, time
-session_path = pathlib.Path(sys.argv[1])
-message = sys.argv[2]
-data = json.loads(session_path.read_text(encoding='utf-8'))
-progress = data.setdefault("current", {}).setdefault("progress", [])
-if message not in progress:
-    progress.append(message)
-data.setdefault("timestamps", {})["lastUpdated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
-PY
-}
-
-read_context_json() {
-  python3 - "$@" <<'PY'
-import json, sys
-data = sys.stdin.read()
-if not data.strip():
-    ctx = {}
-else:
-    ctx = json.loads(data)
-if len(sys.argv) == 1:
-    print(json.dumps(ctx))
-else:
-    for key in sys.argv[1:]:
-        value = ctx
-        for part in key.split('.'):
-            if isinstance(value, dict):
-                value = value.get(part)
-            else:
-                value = None
-                break
-        if value is None:
-            print()
-        else:
-            print(value)
-PY
-}
-
-write_hook_output() {
-  local type="$1"
-  local message="$2"
-  local details="${3:-}"
-  if [[ -n "${details}" ]]; then
-    python3 - "$type" "$message" "$details" <<'PY'
-import json, sys
-t, msg, details_raw = sys.argv[1], sys.argv[2], sys.argv[3]
-try:
-    details = json.loads(details_raw)
-except json.JSONDecodeError:
-    details = {"raw": details_raw}
-print(json.dumps({"type": t, "message": msg, "details": details}))
-PY
-  else
-    python3 - "$type" "$message" <<'PY'
-import json, sys
-print(json.dumps({"type": sys.argv[1], "message": sys.argv[2]}))
-PY
-  fi
-}
-
-relative_path() {
-  python3 - "$PROJECT_DIR" "$1" <<'PY'
-import os, sys
-base, path = sys.argv[1], sys.argv[2]
-try:
-    print(os.path.relpath(path, base))
-except ValueError:
-    print(path)
-PY
-}
-
-timestamp() {
-  date -u +"%Y-%m-%dT%H:%M:%SZ"
-}
-
-determine_next_step() {
-  local phase="${1:-}"
-  local action="create-feature"
-  case "${phase}" in
-    ""|"none")
-      action="initialize"
-      ;;
-    generate|define|clarify|specification)
-      action="move-to-design"
-      ;;
-    plan|planning|design)
-      action="break-down-tasks"
-      ;;
-    tasks)
-      action="start-implementation"
-      ;;
-    implement|implementation)
-      action="validate"
-      ;;
-    validate|validation)
-      action="complete-feature"
-      ;;
-    complete)
-      action="start-new-feature"
-      ;;
-  esac
-  echo "${action}"
-}
-
-record_next_step() {
-  ensure_session_file
-  local current_phase
-  current_phase="$(session_get "current.phase")"
-  local action
-  action="$(determine_next_step "${current_phase}")"
-  local target_phase=""
-  local hint=""
-  case "${action}" in
-    initialize)
-      target_phase="initialize"
-      hint="Initialize Orbit workspace"
-      ;;
-    create-feature|move-to-design)
-      target_phase="specification"
-      hint="Define or refine the feature specification"
-      ;;
-    break-down-tasks|start-implementation)
-      if [[ "${action}" == "break-down-tasks" ]]; then
-        target_phase="planning"
-        hint="Create technical plan and tasks"
-      else
-        target_phase="implementation"
-        hint="Begin implementing defined tasks"
-      fi
-      ;;
-    validate)
-      target_phase="validation"
-      hint="Run validation/consistency checks"
-      ;;
-    complete-feature)
-      target_phase="complete"
-      hint="Wrap up and archive the feature"
-      ;;
-    *)
-      target_phase="${action}"
-      hint="Continue Orbit workflow"
-      ;;
-  esac
-  python3 - "$SESSION_JSON" "$target_phase" "$hint" <<'PY'
-import json, sys, pathlib, time
-session_path = pathlib.Path(sys.argv[1])
-next_phase, hint = sys.argv[2], sys.argv[3]
-data = json.loads(session_path.read_text(encoding='utf-8'))
-data["nextAction"] = {
-    "phase": next_phase,
-    "hint": hint,
-    "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-}
-session_path.write_text(json.dumps(data, indent=2), encoding='utf-8')
-print(json.dumps(data["nextAction"]))
-PY
-}
-
-append_log_line() {
-  local file="$1"
-  local line="$2"
-  mkdir -p "$(dirname "${file}")"
-  printf '%s %s\n' "$(timestamp)" "${line}" >>"${file}"
-}
-
-update_task_completion() {
-  local task_name="$1"
-  local feature="${2:-}"
-  ensure_directories
-
-  session_append_progress "Task completed: ${task_name}"
-  append_log_line "${ACTIVITY_LOG}" "task_completed=${task_name} feature=${feature}"
-
-  record_next_step >/dev/null 2>&1 || true
-}
-
-update_phase() {
-  local new_phase="$1"
-  local feature="${2:-}"
-  ensure_directories
-
-  session_set_value "current.phase" "${new_phase}"
+# Get feature directory path
+get_feature_dir() {
+  local feature="${1:-$(get_feature)}"
   if [[ -n "${feature}" ]]; then
-    session_set_value "current.id" "${feature}"
+    echo "${SPEC_DIR}/features/${feature}"
+  fi
+}
+
+# Get metrics.md path for current feature
+get_metrics_file() {
+  local feature
+  feature=$(get_feature)
+  if [[ -n "${feature}" ]]; then
+    echo "${SPEC_DIR}/features/${feature}/metrics.md"
+  fi
+}
+
+# Append line to metrics.md activity log
+log_activity() {
+  local event="$1"
+  local metrics_file
+  metrics_file=$(get_metrics_file)
+
+  [[ -z "${metrics_file}" ]] && return
+  [[ ! -f "${metrics_file}" ]] && return
+
+  local timestamp
+  timestamp=$(date -u +"%H:%M")
+
+  echo "| ${timestamp} | ${event} |" >> "${metrics_file}"
+}
+
+# Initialize .spec directory structure
+init_spec_dir() {
+  mkdir -p "${SPEC_DIR}/features" "${SPEC_DIR}/architecture" "${SPEC_DIR}/state" "${ARCHIVE_DIR}"
+
+  if [[ ! -f "${SESSION_FILE}" ]]; then
+    mkdir -p "$(dirname "${SESSION_FILE}")"
+    echo '{"feature": null}' > "${SESSION_FILE}"
+  fi
+}
+
+# Set current feature in session
+set_feature() {
+  local feature="$1"
+  mkdir -p "$(dirname "${SESSION_FILE}")"
+  echo "{\"feature\": \"${feature}\"}" > "${SESSION_FILE}"
+}
+
+# Update frontmatter field in a markdown file
+# Usage: update_frontmatter <file> <key> <value>
+update_frontmatter() {
+  local file="$1"
+  local key="$2"
+  local value="$3"
+
+  [[ ! -f "${file}" ]] && return 1
+
+  python3 << PYTHON
+import sys
+
+file_path = "${file}"
+key = "${key}"
+value = "${value}"
+
+with open(file_path, 'r') as f:
+    content = f.read()
+
+if not content.startswith('---'):
+    # No frontmatter, add it
+    new_content = f"---\\n{key}: {value}\\n---\\n\\n{content}"
+else:
+    # Find end of frontmatter
+    end = content.find('---', 3)
+    if end == -1:
+        sys.exit(1)
+
+    frontmatter = content[3:end]
+    body = content[end+3:]
+
+    # Check if key exists
+    lines = frontmatter.strip().split('\\n')
+    found = False
+    new_lines = []
+
+    for line in lines:
+        if line.startswith(f"{key}:"):
+            new_lines.append(f"{key}: {value}")
+            found = True
+        else:
+            new_lines.append(line)
+
+    if not found:
+        new_lines.append(f"{key}: {value}")
+
+    new_frontmatter = '\\n'.join(new_lines)
+    new_content = f"---\\n{new_frontmatter}\\n---{body}"
+
+with open(file_path, 'w') as f:
+    f.write(new_content)
+PYTHON
+}
+
+# Update nested frontmatter (e.g., progress.tasks_done)
+# Usage: update_frontmatter_nested <file> <parent_key> <child_key> <value>
+update_frontmatter_nested() {
+  local file="$1"
+  local parent="$2"
+  local child="$3"
+  local value="$4"
+
+  [[ ! -f "${file}" ]] && return 1
+
+  python3 << PYTHON
+import sys
+
+file_path = "${file}"
+parent = "${parent}"
+child = "${child}"
+value = "${value}"
+
+with open(file_path, 'r') as f:
+    content = f.read()
+
+if not content.startswith('---'):
+    sys.exit(1)
+
+end = content.find('---', 3)
+if end == -1:
+    sys.exit(1)
+
+frontmatter = content[3:end]
+body = content[end+3:]
+
+lines = frontmatter.strip().split('\\n')
+new_lines = []
+in_parent = False
+found_child = False
+
+for i, line in enumerate(lines):
+    if line.startswith(f"{parent}:"):
+        new_lines.append(line)
+        in_parent = True
+    elif in_parent and line.startswith("  "):
+        if line.strip().startswith(f"{child}:"):
+            new_lines.append(f"  {child}: {value}")
+            found_child = True
+        else:
+            new_lines.append(line)
+    else:
+        if in_parent and not found_child:
+            new_lines.append(f"  {child}: {value}")
+            found_child = True
+        in_parent = False
+        new_lines.append(line)
+
+if in_parent and not found_child:
+    new_lines.append(f"  {child}: {value}")
+
+new_frontmatter = '\\n'.join(new_lines)
+new_content = f"---\\n{new_frontmatter}\\n---{body}"
+
+with open(file_path, 'w') as f:
+    f.write(new_content)
+PYTHON
+}
+
+# Archive a completed feature
+# Usage: archive_feature <feature>
+archive_feature() {
+  local feature="$1"
+  local src="${SPEC_DIR}/features/${feature}"
+  local dst="${ARCHIVE_DIR}/${feature}"
+
+  if [[ ! -d "${src}" ]]; then
+    echo "Feature not found: ${feature}" >&2
+    return 1
   fi
 
-  # Refresh next-step cache
-  record_next_step >/dev/null 2>&1 || true
+  # Update frontmatter before archiving
+  local spec_file="${src}/spec.md"
+  if [[ -f "${spec_file}" ]]; then
+    update_frontmatter "${spec_file}" "status" "complete"
+    update_frontmatter "${spec_file}" "archived" "true"
+    update_frontmatter "${spec_file}" "archived_date" "$(date -u +%Y-%m-%d)"
+  fi
+
+  # Move to archive
+  mkdir -p "${ARCHIVE_DIR}"
+  mv "${src}" "${dst}"
+
+  # Clear session if this was current feature
+  local current
+  current=$(get_feature)
+  if [[ "${current}" == "${feature}" ]]; then
+    echo '{"feature": null}' > "${SESSION_FILE}"
+  fi
+
+  echo "Archived: ${feature} -> ${dst}"
 }
 
-mark_user_story_complete() {
-  local user_story="$1"
-  local feature="${2:-}"
-  ensure_directories
+# Search archive for related features
+# Usage: search_archive <query>
+search_archive() {
+  local query="$1"
 
-  # Log completion
-  append_log_line "${ACTIVITY_LOG}" "user_story_completed=${user_story} feature=${feature}"
+  if [[ ! -d "${ARCHIVE_DIR}" ]]; then
+    return
+  fi
 
-  # Refresh next-step cache
-  record_next_step >/dev/null 2>&1 || true
+  python3 << PYTHON
+import os
+import json
+
+archive_dir = "${ARCHIVE_DIR}"
+query = "${query}".lower()
+
+matches = []
+for name in os.listdir(archive_dir):
+    feature_dir = f"{archive_dir}/{name}"
+    if not os.path.isdir(feature_dir):
+        continue
+
+    # Check name match
+    if query in name.lower():
+        matches.append({"feature": name, "match": "name"})
+        continue
+
+    # Check spec.md content
+    spec_file = f"{feature_dir}/spec.md"
+    if os.path.exists(spec_file):
+        with open(spec_file) as f:
+            content = f.read().lower()
+        if query in content:
+            matches.append({"feature": name, "match": "content"})
+
+print(json.dumps(matches, indent=2))
+PYTHON
 }
 
-read_prompt_from_context() {
-  python3 <<'PY'
-import json, sys
-data = sys.stdin.read()
-if not data.strip():
-    print()
-    raise SystemExit
-ctx = json.loads(data)
-print(ctx.get("prompt",""))
-PY
+# Count tasks in tasks.md
+# Usage: count_tasks <feature>
+count_tasks() {
+  local feature="${1:-$(get_feature)}"
+  local tasks_file="${SPEC_DIR}/features/${feature}/tasks.md"
+
+  if [[ ! -f "${tasks_file}" ]]; then
+    echo '{"total": 0, "done": 0, "pending": 0}'
+    return
+  fi
+
+  local total done pending
+  total=$(grep -c '\- \[ \]\|\- \[x\]' "${tasks_file}" 2>/dev/null || echo 0)
+  done=$(grep -c '\- \[x\]' "${tasks_file}" 2>/dev/null || echo 0)
+  pending=$((total - done))
+
+  echo "{\"total\": ${total}, \"done\": ${done}, \"pending\": ${pending}}"
+}
+
+# Load context using context-loader.sh
+load_context() {
+  local loader="${PROJECT_DIR}/.claude/hooks/lib/context-loader.sh"
+  if [[ -f "${loader}" ]]; then
+    bash "${loader}"
+  else
+    echo '{"error": "context-loader.sh not found"}'
+  fi
+}
+
+# Output JSON for hook response
+hook_output() {
+  local message="$1"
+  echo "{\"message\": \"${message}\"}"
 }
