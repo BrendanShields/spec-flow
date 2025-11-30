@@ -25,7 +25,7 @@ Single skill for specification-driven development. **Artifacts are the source of
 Before any workflow action, load full context with a single Bash call:
 
 ```bash
-bash scripts/context-loader.sh
+node scripts/context-loader.js
 ```
 
 This returns JSON with:
@@ -79,7 +79,7 @@ On every phase transition, use the skill's built-in scripts:
 
 ```bash
 # Update status and timestamp
-bash scripts/update-status.sh \
+node scripts/update-status.js \
   ".spec/features/{feature}/spec.md" "planning"
 
 # Log activity with ISO timestamp
@@ -95,7 +95,7 @@ Or with Edit tool - update the status line in frontmatter.
 
 ```bash
 # REQUIRED before every phase change
-RESULT=$(bash scripts/validate-phase.sh \
+RESULT=$(node scripts/validate-phase.js \
   ".spec/features/{feature}" "{target-phase}")
 
 # Check result - DO NOT PROCEED if invalid
@@ -217,8 +217,10 @@ Note: All timestamps use ISO 8601 format: `2025-11-27T10:30:00Z`
 3. Ask user for feature requirements (use AskUserQuestion for scope/priority)
 4. Generate user stories with acceptance criteria
 5. Mark unclear items with `[CLARIFY]`
-6. Update frontmatter: `status: specification` or `status: clarification`
-7. Update metrics.md
+6. **Ask user to review `spec.md`**
+7. If approved:
+   - Update frontmatter: `status: specification` (or `clarification` if tags exist)
+   - Update metrics.md
 
 ### Clarify
 
@@ -226,7 +228,8 @@ Note: All timestamps use ISO 8601 format: `2025-11-27T10:30:00Z`
 2. Batch into groups of max 4 questions
 3. Use AskUserQuestion to resolve each batch
 4. Update spec.md with answers, remove `[CLARIFY]` tags
-5. When all resolved, update frontmatter: `status: specification`
+5. **Ask user to review changes**
+6. When all resolved and approved, update frontmatter: `status: specification`
 
 ### Create Plan
 
@@ -239,8 +242,10 @@ Note: All timestamps use ISO 8601 format: `2025-11-27T10:30:00Z`
    - API design (if applicable)
    - Integration points
 4. Write plan.md
-5. Update frontmatter: `status: planning`
-6. Update metrics.md
+5. **Ask user to review `plan.md`**
+6. If approved:
+   - Update frontmatter: `status: planning`
+   - Update metrics.md
 
 ### plan.md Template
 
@@ -293,9 +298,11 @@ Note: All timestamps use ISO 8601 format: `2025-11-27T10:30:00Z`
 
 3. Tag critical changes: `[critical:schema]`, `[critical:api]`, `[critical:types]`
 4. Write tasks.md
-5. Update frontmatter: `status: implementation`
-6. Update progress in frontmatter: `tasks_total: {count}`
-7. Update metrics.md
+5. **Ask user to review `tasks.md`**
+6. If approved:
+   - Update frontmatter: `status: implementation`
+   - Update progress in frontmatter: `tasks_total: {count}`
+   - Update metrics.md
 
 ### tasks.md Template
 
