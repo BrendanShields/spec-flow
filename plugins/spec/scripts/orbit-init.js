@@ -9,62 +9,84 @@ async function main() {
   try {
     const projectDir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
     const specDir = path.join(projectDir, '.spec');
+    
+    // Ensure scaffolding exists
+    // We check if specDir exists to decide if we are "initialized".
+    // But if the prompt asks to "ensure scaffolding", we should probably just do it if it's a SessionStart that implies initialization?
+    // No, `SessionStart` happens on every session. We shouldn't auto-create .spec if the user hasn't opted in via /orbit yet.
+    // Wait, the prompt says "orbit-init should ensure .spec directory scaffolding and seed session state". 
+    // AND "orbit-init.js ... currently exit immediately, so initialization safeguards ... never run."
+    // This suggests it *should* run safeguards. 
+    // IF the project is already using spec (has .spec), we ensure subdirs exist.
+    // IF not, we report not initialized.
+    
     let initialized = false;
-
     try {
       await fs.access(specDir);
       initialized = true;
     } catch {
-      const context = {
-        initialized: false,
-        features: [],
-        suggestion: "Run /orbit to initialize specification-driven development."
-      };
-      console.log(JSON.stringify({
-        hookSpecificOutput: {
-          hookEventName: "SessionStart",
-          additionalContext: JSON.stringify(context)
-        }
-      }));
-      process.exit(0);
+      // Not initialized, check if we should initialize? 
+      // The `orbit` command handles explicit initialization.
+      // But maybe we should report "not initialized" context so the model knows.
     }
 
+    if (initialized) {
+      // Ensure subdirectories exist (safeguard)
+      await fs.mkdir(path.join(specDir, 'features'), { recursive: true });
+      await fs.mkdir(path.join(specDir, 'architecture'), { recursive: true });
+      await fs.mkdir(path.join(specDir, 'archive'), { recursive: true });
+      await fs.mkdir(path.join(specDir, 'state'), { recursive: true });
+
+      // Seed session state if missing
+      const sessionPath = path.join(specDir, 'state', 'session.json');
+      try {
+        await fs.access(sessionPath);
+      } catch {
+        await fs.writeFile(sessionPath, JSON.stringify({ feature: null }, null, 2));
+      }
+    }
+
+    // Context gathering logic
     const featuresDir = path.join(specDir, 'features');
     const features = [];
     
-    try {
-      const entries = await fs.readdir(featuresDir, { withFileTypes: true });
-      for (const entry of entries) {
-        if (!entry.isDirectory()) continue;
-        
-        const featureDir = path.join(featuresDir, entry.name);
-        const specPath = await findSpecFile(featureDir);
-        const frontmatter = await getFrontmatter(specPath);
-        const status = frontmatter.status || 'initialize';
+    if (initialized) {
+      try {
+        const entries = await fs.readdir(featuresDir, { withFileTypes: true });
+        for (const entry of entries) {
+          if (!entry.isDirectory()) continue;
+          
+          const featureDir = path.join(featuresDir, entry.name);
+          const specPath = await findSpecFile(featureDir);
+          const frontmatter = await getFrontmatter(specPath);
+          const status = frontmatter.status || 'initialize';
 
-        if (["initialize", "specification", "clarification", "planning", "implementation", "complete"].includes(status)) {
-          const feature = {
-            id: entry.name,
-            title: frontmatter.title || entry.name,
-            status,
-            priority: frontmatter.priority || 'P2',
-            artifacts: await getArtifacts(featureDir)
-          };
+          if (["initialize", "specification", "clarification", "planning", "implementation", "complete"].includes(status)) {
+            const feature = {
+              id: entry.name,
+              title: frontmatter.title || entry.name,
+              status,
+              priority: frontmatter.priority || 'P2',
+              artifacts: await getArtifacts(featureDir)
+            };
 
-          if (status === 'implementation' || status === 'complete') {
-            const progress = await countTasks(featureDir);
-            if (progress) feature.progress = progress;
+            if (status === 'implementation' || status === 'complete') {
+              const progress = await countTasks(featureDir);
+              if (progress) feature.progress = progress;
+            }
+
+            features.push(feature);
           }
-
-          features.push(feature);
         }
+      } catch {
+        // Ignore
       }
-    } catch {
-      // Ignore
     }
 
     let suggestion = null;
-    if (features.length === 0) {
+    if (!initialized) {
+      suggestion = "Run /orbit to initialize specification-driven development.";
+    } else if (features.length === 0) {
       suggestion = "No active features. Start a new feature or analyze codebase for brownfield project.";
     } else {
       const priorityOrder = ["complete", "implementation", "planning", "clarification", "specification", "initialize"];
@@ -98,7 +120,7 @@ async function main() {
     }
 
     const context = {
-      initialized: true,
+      initialized,
       features,
       suggestion
     };
@@ -114,6 +136,7 @@ async function main() {
     console.log(JSON.stringify(output));
 
   } catch (error) {
+    // Safe exit without context if error
     process.exit(0);
   }
 }

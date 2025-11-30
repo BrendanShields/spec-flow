@@ -245,6 +245,33 @@ Example endpoint discovery patterns:
 - Spring: `@GetMapping|PostMapping|PutMapping|DeleteMapping`
 </api-contract-sync>
 
+<examples>
+## Example Invocation
+
+**Scenario 1: Quick Analysis**
+User: "What stack are we using?"
+Agent: `codebase-analyst`
+Action: Scans package.json, lists dependencies, detects Next.js + Tailwind.
+
+**Scenario 2: Brownfield Onboarding**
+User: "I'm new here, generate a PRD."
+Agent: `codebase-analyst`
+Action: 
+1. Scans src/ for features.
+2. Identifies auth in `lib/auth.ts`.
+3. Finds 3 API routes.
+4. Generates `.spec/architecture/product-requirements.md` with capabilities.
+
+**Scenario 3: Tooling Suggestion**
+User: "Any way to automate this?"
+Agent: `codebase-analyst` -> `suggesting-tooling`
+Action:
+1. Detects `prisma/schema.prisma`.
+2. Suggests `db-migrations` skill.
+3. User approves.
+4. Agent generates `db-migrations` skill using `creating-skills`.
+</examples>
+
 <output_template>
 ## Codebase Analysis Complete
 

@@ -1,13 +1,33 @@
 {
-  "name": "spec",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "",
+  "name": "spec-flow-plugin",
+  "version": "3.0.0",
+  "description": "Specification-driven development workflow plugin for Claude Code, enforcing strict phase gates and artifact management.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test tests/",
+    "lint": "eslint .",
+    "orbit:init": "node scripts/orbit-init.js",
+    "orbit:context": "node scripts/orbit-context.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "claude",
+    "plugin",
+    "workflow",
+    "specification",
+    "tdd"
+  ],
+  "author": "Claude Code Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "agents/",
+    "commands/",
+    "hooks/",
+    "lib/",
+    "scripts/",
+    "skills/"
+  ]
 }

@@ -6,6 +6,11 @@ export class Validator {
   parse(data) {
     const result = this.validate(data, this.schema);
     if (!result.valid) {
+      // Fail gracefully by returning data but logging warning? 
+      // Or throw? The prompt says "validate the shape ... before returning JSON".
+      // It implies we should probably throw or ensure data matches.
+      // "validate the shape ... before returning JSON ... without silent failures"
+      // So throwing is correct, but for the hook, we might want to catch and return a fallback.
       throw new Error(`Validation failed: ${result.errors.join(', ')}`);
     }
     return data;
@@ -121,7 +126,7 @@ export const HookOutputSchema = v.object({
   }),
 });
 
-export const FeatureSchema = { // Not a top-level validator, just a schema definition for reuse
+export const FeatureSchema = {
   type: 'object',
   properties: {
     id: v.string(),
@@ -137,12 +142,13 @@ export const FeatureSchema = { // Not a top-level validator, just a schema defin
 };
 
 export const ContextSchema = v.object({
+  initialized: v.optional(v.boolean()),
   features: Validator.array(FeatureSchema),
-  architecture: v.object({
+  architecture: v.optional(v.object({
     has_prd: v.boolean(),
     has_tdd: v.boolean(),
-  }),
-  suggestion: v.optional(v.string()), // nullable in zod is similar to optional here for our simple usage
+  })),
+  suggestion: v.optional(v.string()), 
 });
 
 export const ValidationResultSchema = v.object({

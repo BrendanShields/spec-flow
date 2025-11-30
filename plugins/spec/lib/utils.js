@@ -24,17 +24,68 @@ export async function getFrontmatter(specPath) {
     const end = content.indexOf('---', 3);
     if (end === -1) return {};
     
-    const frontmatter = {};
-    const lines = content.slice(3, end).split('\n');
+    const frontmatterBlock = content.slice(3, end);
+    const result = {};
+    
+    const lines = frontmatterBlock.split('\n');
+    let currentKey = null;
+    let currentObj = null; // For nested objects
+    let inArray = false;
+
     for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+
+      // Check for array item "- value"
+      if (trimmed.startsWith('- ')) {
+        if (currentKey && inArray) {
+          if (!Array.isArray(result[currentKey])) result[currentKey] = [];
+          result[currentKey].push(trimmed.slice(2).trim());
+        }
+        continue;
+      }
+
+      // Check for "key: value" or "key:"
       const colonIndex = line.indexOf(':');
       if (colonIndex !== -1) {
-        const key = line.slice(0, colonIndex).trim();
+        // Determine indentation to check for nesting
+        const indent = line.search(/\S/);
+        
+        const key = line.slice(indent, colonIndex).trim();
         const value = line.slice(colonIndex + 1).trim();
-        frontmatter[key] = value;
+
+        if (indent > 0 && currentKey) {
+          // Nested object property (e.g. progress: -> tasks_total:)
+          if (!result[currentKey]) result[currentKey] = {};
+          // If it was previously an array (ambiguous yaml), reset or handle?
+          // Assuming simple schema: progress is object, tags is array.
+          if (typeof result[currentKey] !== 'object') result[currentKey] = {};
+          
+          // Parse value (number check)
+          result[currentKey][key] = isNaN(Number(value)) || value === '' ? value : Number(value);
+        } else {
+          // Top level key
+          currentKey = key;
+          if (value === '') {
+            // Start of object or array
+            // We'll guess array if next line starts with dash, else object
+            // But we can't see next line easily here. 
+            // Let's assume object for now, and set inArray flag if we see dashes later?
+            // Actually, standard yaml parser would look ahead.
+            // Let's just set it as empty string or null, and refine if children appear.
+            result[key] = {}; // Default to object/container
+            inArray = true; // Allow array items to append
+          } else {
+            // Scalar
+            result[key] = isNaN(Number(value)) ? value : Number(value);
+            inArray = false;
+          }
+        }
       }
     }
-    return frontmatter;
+    
+    // Clean up empty objects if they were actually scalars? No, simpler to strict schema.
+    return result;
   } catch {
     return {};
   }
@@ -44,8 +95,8 @@ export async function countTasks(featureDir) {
   const tasksPath = path.join(featureDir, 'tasks.md');
   try {
     const content = await fs.readFile(tasksPath, 'utf-8');
-    const total = (content.match(/- \[ \]/g) || []).length + (content.match(/- \[x\]/g) || []).length;
-    const done = (content.match(/- \[x\]/g) || []).length;
+    const total = (content.match(/- [ ]/g) || []).length + (content.match(/- [x]/g) || []).length;
+    const done = (content.match(/- [x]/g) || []).length;
     return { total, done };
   } catch {
     return null;
