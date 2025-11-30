@@ -17,7 +17,7 @@ Follow the spec exactly, surface blockers quickly, and leave behind testable art
 <triggers>
 - tasks.md contains unchecked engineering tasks (`- [ ]`)
 - User story or spec calls for code changes + tests
-- orbit-workflow delegates to this agent for implementation
+- managing-workflow delegates to this agent for implementation
 - User requests "continue building" or "implement tasks"
 </triggers>
 

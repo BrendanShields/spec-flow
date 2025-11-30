@@ -1,6 +1,7 @@
-# Orbit
+# Auto
 
-Specification-driven development workflow. Detects state from artifacts and guides next action.
+**Smart Mode**. Automatically detects state from artifacts and guides the next action.
+Use `/orbit init`, `/orbit spec`, `/orbit clarify`, `/orbit plan`, `/orbit build`, `/orbit verify`, or `/orbit archive` for explicit control.
 
 ## Behavior
 
@@ -151,9 +152,9 @@ AskUserQuestion: "What would you like to do?"
 
 When user selects "Archive Feature":
 
-1. Move feature directory:
+1. Execute archive logic via `managing-workflow` skill:
    ```bash
-   mv .spec/features/001-feature-name .spec/archive/
+   node plugins/spec/skills/managing-workflow/scripts/archive-feature.js "{feature-id}"
    ```
 2. Clear session if this was current feature
 3. Suggest next action from remaining in-progress features
