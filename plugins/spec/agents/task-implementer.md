@@ -1,9 +1,9 @@
 ---
-name: implementing-tasks
+name: task-implementer
 description: |
   Executes implementation tasks from tasks.md with code edits and validation.
-  Use when tasks.md contains unchecked items, user requests code implementation,
-  or orbit-workflow delegates execution work. Supports parallel task groups.
+  Use this agent when tasks.md contains unchecked items, the user requests code implementation,
+  or when the managing-workflow skill delegates execution work. It supports parallel task groups.
 tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion
 model: sonnet
 ---

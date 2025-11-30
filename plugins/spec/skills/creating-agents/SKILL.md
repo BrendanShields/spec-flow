@@ -2,8 +2,8 @@
 name: creating-agents
 description: |
   Creates Claude Code subagents for task delegation. Guides through agent configuration,
-  tool selection, and system prompts. Use when user wants to create an agent, delegate
-  tasks to specialists, or asks about subagents.
+  tool selection, and system prompts. Use this skill when the user wants to create a new agent,
+  delegate tasks to specialists, or asks about subagents.
 ---
 
 # Creating Agents

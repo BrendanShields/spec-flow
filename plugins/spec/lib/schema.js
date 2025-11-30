@@ -1,35 +1,152 @@
-import { z } from 'zod';
+export class Validator {
+  constructor(schema) {
+    this.schema = schema;
+  }
 
-export const HookOutputSchema = z.object({
-  hookSpecificOutput: z.object({
-    hookEventName: z.string(),
-    additionalContext: z.string().optional(),
+  parse(data) {
+    const result = this.validate(data, this.schema);
+    if (!result.valid) {
+      throw new Error(`Validation failed: ${result.errors.join(', ')}`);
+    }
+    return data;
+  }
+
+  validate(data, schema, path = '') {
+    if (schema.type === 'object') {
+      if (typeof data !== 'object' || data === null) {
+        return { valid: false, errors: [`${path}: expected object, got ${typeof data}`] };
+      }
+      const errors = [];
+      for (const [key, subSchema] of Object.entries(schema.properties)) {
+        const subPath = path ? `${path}.${key}` : key;
+        if (data[key] === undefined) {
+          if (!subSchema.optional) {
+            errors.push(`${subPath}: required field missing`);
+          }
+          continue;
+        }
+        const result = this.validate(data[key], subSchema, subPath);
+        if (!result.valid) {
+          errors.push(...result.errors);
+        }
+      }
+      return { valid: errors.length === 0, errors };
+    }
+
+    if (schema.type === 'array') {
+      if (!Array.isArray(data)) {
+        return { valid: false, errors: [`${path}: expected array, got ${typeof data}`] };
+      }
+      const errors = [];
+      data.forEach((item, index) => {
+        const result = this.validate(item, schema.items, `${path}[${index}]`);
+        if (!result.valid) {
+          errors.push(...result.errors);
+        }
+      });
+      return { valid: errors.length === 0, errors };
+    }
+
+    if (schema.type === 'string') {
+      if (typeof data !== 'string') {
+        return { valid: false, errors: [`${path}: expected string, got ${typeof data}`] };
+      }
+      if (schema.enum && !schema.enum.includes(data)) {
+        return { valid: false, errors: [`${path}: invalid value '${data}', expected one of ${schema.enum.join(', ')}`] };
+      }
+      return { valid: true, errors: [] };
+    }
+
+    if (schema.type === 'number') {
+      if (typeof data !== 'number') {
+        return { valid: false, errors: [`${path}: expected number, got ${typeof data}`] };
+      }
+      return { valid: true, errors: [] };
+    }
+
+    if (schema.type === 'boolean') {
+      if (typeof data !== 'boolean') {
+        return { valid: false, errors: [`${path}: expected boolean, got ${typeof data}`] };
+      }
+      return { valid: true, errors: [] };
+    }
+
+    return { valid: true, errors: [] };
+  }
+
+  static object(properties) {
+    return { type: 'object', properties };
+  }
+
+  static array(items) {
+    return { type: 'array', items };
+  }
+
+  static string() {
+    return { type: 'string' };
+  }
+
+  static number() {
+    return { type: 'number' };
+  }
+
+  static boolean() {
+    return { type: 'boolean' };
+  }
+
+  static enum(values) {
+    return { type: 'string', enum: values };
+  }
+
+  static optional(schema) {
+    return { ...schema, optional: true };
+  }
+}
+
+// Helper to create a Validator instance
+const v = {
+  object: (props) => new Validator(Validator.object(props)),
+  string: () => Validator.string(),
+  number: () => Validator.number(),
+  boolean: () => Validator.boolean(),
+  enum: (values) => Validator.enum(values),
+  array: (items) => Validator.array(items),
+  optional: (schema) => Validator.optional(schema)
+};
+
+export const HookOutputSchema = v.object({
+  hookSpecificOutput: v.object({
+    hookEventName: v.string(),
+    additionalContext: v.optional(v.string()),
   }),
 });
 
-export const FeatureSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  status: z.enum(['initialize', 'specification', 'clarification', 'planning', 'implementation', 'complete']),
-  priority: z.string().optional(),
-  progress: z.object({
-    total: z.number(),
-    done: z.number(),
-  }).optional(),
-  artifacts: z.array(z.string()),
-});
+export const FeatureSchema = { // Not a top-level validator, just a schema definition for reuse
+  type: 'object',
+  properties: {
+    id: v.string(),
+    title: v.string(),
+    status: v.enum(['initialize', 'specification', 'clarification', 'planning', 'implementation', 'complete']),
+    priority: v.optional(v.string()),
+    progress: v.optional(Validator.object({
+      total: v.number(),
+      done: v.number(),
+    })),
+    artifacts: Validator.array(v.string()),
+  }
+};
 
-export const ContextSchema = z.object({
-  features: z.array(FeatureSchema),
-  architecture: z.object({
-    has_prd: z.boolean(),
-    has_tdd: z.boolean(),
+export const ContextSchema = v.object({
+  features: Validator.array(FeatureSchema),
+  architecture: v.object({
+    has_prd: v.boolean(),
+    has_tdd: v.boolean(),
   }),
-  suggestion: z.string().nullable(),
+  suggestion: v.optional(v.string()), // nullable in zod is similar to optional here for our simple usage
 });
 
-export const ValidationResultSchema = z.object({
-  valid: z.boolean(),
-  missing: z.array(z.string()).optional(),
-  suggestion: z.string().optional(),
+export const ValidationResultSchema = v.object({
+  valid: v.boolean(),
+  missing: v.optional(Validator.array(v.string())),
+  suggestion: v.optional(v.string()),
 });

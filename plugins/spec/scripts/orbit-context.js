@@ -2,7 +2,6 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { z } from 'zod';
 import { HookOutputSchema, ContextSchema } from '../lib/schema.js';
 import { findSpecFile, getFrontmatter, countTasks, getArtifacts } from '../lib/utils.js';
 

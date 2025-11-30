@@ -1,5 +1,5 @@
 ---
-name: analyzing-codebase
+name: codebase-analyst
 description: |
   Analyzes existing codebases to discover architecture, patterns, and integration points.
   Generates PRD and TDD for brownfield projects. Use before starting Orbit on existing

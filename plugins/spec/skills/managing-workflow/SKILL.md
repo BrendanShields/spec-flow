@@ -1,9 +1,9 @@
 ---
-name: orbit-workflow
+name: managing-workflow
 description: |
-  Manages specification-driven development workflow. Use when user runs /orbit,
-  says "define feature", "create plan", "implement", or needs workflow guidance.
-  Detects phase from artifacts and executes the appropriate action.
+  Manages the specification-driven development workflow. Use this skill when the user runs /orbit,
+  requests to "define feature", "create plan", "implement", or needs workflow guidance.
+  It detects the current phase from artifacts and executes the appropriate action.
 tools:
   - Read
   - Write
@@ -25,7 +25,7 @@ Single skill for specification-driven development. **Artifacts are the source of
 Before any workflow action, load full context with a single Bash call:
 
 ```bash
-node scripts/context-loader.js
+node plugins/spec/skills/managing-workflow/scripts/context-loader.js
 ```
 
 This returns JSON with:
@@ -79,11 +79,11 @@ On every phase transition, use the skill's built-in scripts:
 
 ```bash
 # Update status and timestamp
-node scripts/update-status.js \
+node plugins/spec/skills/managing-workflow/scripts/update-status.js \
   ".spec/features/{feature}/spec.md" "planning"
 
 # Log activity with ISO timestamp
-bash scripts/log-activity.sh \
+node plugins/spec/skills/managing-workflow/scripts/log-activity.js \
   ".spec/features/{feature}/metrics.md" "Plan created"
 ```
 
@@ -95,7 +95,7 @@ Or with Edit tool - update the status line in frontmatter.
 
 ```bash
 # REQUIRED before every phase change
-RESULT=$(node scripts/validate-phase.js \
+RESULT=$(node plugins/spec/skills/managing-workflow/scripts/validate-phase.js \
   ".spec/features/{feature}" "{target-phase}")
 
 # Check result - DO NOT PROCEED if invalid
@@ -120,13 +120,13 @@ fi
 1. **NEVER skip directly to implementation** - plan.md and tasks.md MUST exist
 2. **NEVER mark complete with unchecked tasks** - all `[ ]` must be `[x]`
 3. **If validation fails**: Create the missing artifact, don't proceed
-4. **For simple features**: Use quick-plan template (see templates/quick-plan.md)
+4. **For simple features**: Use quick-plan template (see plugins/spec/skills/managing-workflow/templates/quick-plan.md)
 
 ### Quick Planning Option
 
 For simple features (bug fixes, < 3 files), use streamlined templates:
-- `templates/quick-plan.md` - Combined plan with inline tasks
-- `templates/quick-tasks.md` - Minimal task list
+- `plugins/spec/skills/managing-workflow/templates/quick-plan.md` - Combined plan with inline tasks
+- `plugins/spec/skills/managing-workflow/templates/quick-tasks.md` - Minimal task list
 
 This ensures artifacts exist while reducing overhead for small changes.
 
@@ -339,7 +339,7 @@ Note: All timestamps use ISO 8601 format: `2025-11-27T10:30:00Z`
 
 ```bash
 # MANDATORY: Run this before any implementation
-RESULT=$(bash scripts/validate-phase.sh \
+RESULT=$(node plugins/spec/skills/managing-workflow/scripts/validate-phase.js \
   ".spec/features/{feature}" "implementation")
 
 # If not valid, STOP and create missing artifacts
@@ -350,10 +350,10 @@ if [[ $(echo "$RESULT" | jq -r '.valid') != "true" ]]; then
 fi
 ```
 
-**Only after validation passes**, delegate to `implementing-tasks` agent:
+**Only after validation passes**, delegate to `task-implementer` agent:
 
 ```
-Task: implementing-tasks agent
+Task: task-implementer agent
 
 Feature: {feature-path}
 Tasks file: .spec/features/{feature}/tasks.md
@@ -369,10 +369,10 @@ After implementation:
 
 ### Validate
 
-Delegate to `validating-artifacts` agent:
+Delegate to `artifact-validator` agent:
 
 ```
-Task: validating-artifacts agent
+Task: artifact-validator agent
 
 Feature: {feature-path}
 
@@ -390,10 +390,10 @@ When feature is complete:
 2. If yes:
    a. Check for repeatable patterns in completed work
    b. If patterns detected (2+ similar files/tasks), offer tooling suggestions
-   c. Run archive_feature
+3. Run archive_feature
 
 ```bash
-bash scripts/archive-feature.sh "{feature-id}"
+node plugins/spec/skills/managing-workflow/scripts/archive-feature.js "{feature-id}"
 ```
 
 3. If new skills/agents were created during the feature:

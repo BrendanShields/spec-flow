@@ -1,5 +1,5 @@
 ---
-name: validating-artifacts
+name: artifact-validator
 description: |
   Validates specification quality, spec-plan consistency, and contract alignment.
   Use when transitioning phases, before implementation, or when user requests validation.

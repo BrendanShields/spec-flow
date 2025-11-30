@@ -94,34 +94,34 @@ Features in Progress:
 - "Initialize" - Create `.spec/` directory structure
 
 **Ready (no feature):**
-- "New Feature" - `orbit-workflow` skill
-- "Analyze Codebase" - `analyzing-codebase` agent
+- "New Feature" - `managing-workflow` skill
+- "Analyze Codebase" - `codebase-analyst` agent
 
 **Multiple Features (show AskUserQuestion):**
 - List each in-progress feature with status
 - "New Feature" option
 
 **Clarification:**
-- "Resolve Clarifications" - `orbit-workflow` skill (clarify)
-- "Skip to Planning" - `orbit-workflow` skill (plan)
+- "Resolve Clarifications" - `managing-workflow` skill (clarify)
+- "Skip to Planning" - `managing-workflow` skill (plan)
 
 **Specification:**
-- "Create Plan" - `orbit-workflow` skill (plan)
-- "Validate Spec" - `validating-artifacts` agent
+- "Create Plan" - `managing-workflow` skill (plan)
+- "Validate Spec" - `artifact-validator` agent
 
 **Planning:**
-- "Create Tasks" - `orbit-workflow` skill (tasks)
-- "Validate Plan" - `validating-artifacts` agent
+- "Create Tasks" - `managing-workflow` skill (tasks)
+- "Validate Plan" - `artifact-validator` agent
 
 **Implementation:**
-- "Continue Building" - `implementing-tasks` agent
+- "Continue Building" - `task-implementer` agent
 - "Check Progress" - Show metrics summary
-- "Validate" - `validating-artifacts` agent
+- "Validate" - `artifact-validator` agent
 
 **Complete:**
 - "Archive Feature" - Move to `.spec/archive/`
-- "Start New Feature" - `orbit-workflow` skill
-- "Final Validation" - `validating-artifacts` agent
+- "Start New Feature" - `managing-workflow` skill
+- "Final Validation" - `artifact-validator` agent
 
 ## Example Flow
 
